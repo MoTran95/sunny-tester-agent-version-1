@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 19:00:22 (+07:00) (chỉ kiểm, chưa đổi mốc) |
+| Lần chạy gần nhất | 2026-11-18 19:04:01 (+07:00) (chốt mốc mới) |
 | Requirement | srs/banking-lite/khuyen-nghi-ltv-dsr.md (cập nhật 2026-11-17); bảng soát (cập nhật ?), câu trả lời đến TL-02 |
 | Test case (đã gồm checklist) | [test-case.md](test-case.md) |
-| Mốc đã chốt | 2026-11-18 18:59:51 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
+| Mốc đã chốt | 2026-11-18 19:04:01 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
 
 ## 1. Tóm tắt
 - Mã requirement: 61 trong SRS, 2 câu trả lời (TL). Test case: 38.
@@ -285,3 +285,4 @@ Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc b�
 | 2026-11-18 18:47:09 (+07:00) | `736f701` + sửa chưa commit | — | checklist, test-case | Hồ sơ nền định nghĩa một lần ở đầu file; Điều kiện trước còn 2 gạch chung + gạch riêng; nội dung điều kiện không đổi | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 18:51:05 (+07:00) | `736f701` + sửa chưa commit | — | checklist, test-case | Điều kiện trước chỉ ghi dữ kiện cần cho từng ca (bỏ đăng nhập, bỏ mục hồ sơ nền ở đầu file); bỏ chữ tự nhập mật khẩu ở bước 1 | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |
 | 2026-11-18 18:59:51 (+07:00) | `0534aba` + sửa chưa commit | — | checklist, test-case | Viết lại cột Nguồn thành câu thường + link tới dòng SRS (neo thêm vào SRS, truy-vet.py bỏ thẻ neo khi băm); mã và nội dung requirement không đổi | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |
+| 2026-11-18 19:04:01 (+07:00) | `a042890` + sửa chưa commit | — | checklist, test-case | Thêm điều kiện người vay Tester Mot cho ca tuổi lúc đáo hạn và tài sản chưa định giá cho các ca LTV; đối chiếu số liệu bằng script, khớp hết | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-011, TC-012, TC-013, TC-014, TC-016, TC-017, TC-020, TC-021, TC-025; bỏ 0 |

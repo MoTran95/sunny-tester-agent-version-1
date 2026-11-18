@@ -26,6 +26,7 @@
 - `testing/banking-lite/khuyen-nghi-ltv-dsr/test-case.md`: **38 TC** (Cao 22, TB 14, Thấp 2), chỉ viết dòng ✅ của bảng soát; 7 mã ❓ chưa có TC (S03-AC11, S04-AC01, S04-AC04, S05-AC02, R12, M09, M10) ở mục "Chưa đưa vào". Đã chạy thử trọn skill gộp 13 cột + bước duyệt trong chat: `kiem-tra-tc.py` 0 lỗi (dùng `--ma` loại 7 mã ❓), truy vết đã chốt mốc đầu. **Chưa chạy test.**
 - Kết quả mong đợi theo **TL-02** (làm tròn lên): 11 dòng ⚠️ ở Nguồn (hệ thống hiện làm tròn gần nhất → dự kiến Không đạt cho tới khi BA xác nhận).
 - Lương 100.000.000 là giá trị chọn ở các ca SRS không ghi lương (LTV khác, Niên kim, ân hạn, sản phẩm 36 tháng). TC tuổi 70/71 chỉ kiểm qua API, tuổi tính theo ngày chạy (A4).
+- Số liệu của 38 TC đã **đối chiếu bằng script** (2026-11-18): DSR/LTV làm tròn lên, thặng dư, chi phí, khoản trả mới Gốc đều/Niên kim/ân hạn 12 tháng/36 tháng đều khớp. Điều kiện trước đã bổ sung "Người vay Tester Mot (sinh 15/5/90)" cho ca tuổi 70/71 và "tài sản chưa định giá" cho ca LTV (lần rút gọn đầu làm sót). Vẫn **chưa chạy trên hệ thống**; ca tuổi và ca đọc API (assessmentRate) có thể lệch khi chạy.
 - SRS `RECO` đã có 68 thẻ neo `<a id="reco-…">` (tiêu chí, quy tắc, thông báo, câu hỏi) để Nguồn link tới đúng dòng; nội dung SRS không đổi, `check-srs.py` 0 lỗi. Link TL-02 tới mục 3 của bảng soát (`#3-câu-trả-lời-đã-nhận`, tiêu đề, không phải neo).
 - Bẫy khi gộp: Nguồn phải viết mã **không tiền tố** (`S01-AC03 (tên ngắn)`) thì `kiem-tra-tc.py` mới tính phủ; `--ma` chứa mã ❓ sẽ báo lỗi "chưa có dòng".
 

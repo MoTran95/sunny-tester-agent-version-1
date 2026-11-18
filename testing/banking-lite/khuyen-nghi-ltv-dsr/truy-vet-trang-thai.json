@@ -424,7 +424,7 @@
   "TC-011": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "605835a0bba7",
+   "row_hash": "212f2e94a06c",
    "ma": [
     "R01",
     "S02-AC01"
@@ -433,7 +433,7 @@
   "TC-012": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "ca5396dbcd9c",
+   "row_hash": "572fed0bfc56",
    "ma": [
     "R01",
     "S02-AC02",
@@ -443,7 +443,7 @@
   "TC-013": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "3bb16274c360",
+   "row_hash": "7bb1bac80f1e",
    "ma": [
     "R01",
     "S02-AC03"
@@ -452,7 +452,7 @@
   "TC-014": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "1314e620f452",
+   "row_hash": "d2a40c3c9ea1",
    "ma": [
     "M04",
     "S02-AC04"
@@ -470,7 +470,7 @@
   "TC-016": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "f5552e5864fd",
+   "row_hash": "cdfd8e8635dc",
    "ma": [
     "M04",
     "R01",
@@ -481,7 +481,7 @@
   "TC-017": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "2f8dfe509da8",
+   "row_hash": "5422187580e5",
    "ma": [
     "R01"
    ]
@@ -507,7 +507,7 @@
   "TC-020": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "39ebe040f76f",
+   "row_hash": "0de4346739c0",
    "ma": [
     "R04",
     "S04-AC02"
@@ -516,7 +516,7 @@
   "TC-021": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "a68a5fa7d2d7",
+   "row_hash": "b9a1ea99a32c",
    "ma": [
     "M08",
     "R04",
@@ -553,7 +553,7 @@
   "TC-025": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "a86af34445eb",
+   "row_hash": "0c28e8228531",
    "ma": [
     "R01"
    ]
@@ -1296,6 +1296,38 @@
     "TC-036",
     "TC-037",
     "TC-038"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T19:04:01+07:00",
+   "commit_goc": "a042890",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Thêm điều kiện người vay Tester Mot cho ca tuổi lúc đáo hạn và tài sản chưa định giá cho các ca LTV; đối chiếu số liệu bằng script, khớp hết",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-016",
+    "TC-017",
+    "TC-020",
+    "TC-021",
+    "TC-025"
    ],
    "tc_bo": []
   }
