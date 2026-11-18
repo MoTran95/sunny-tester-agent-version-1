@@ -72,7 +72,7 @@ Dòng `*Mã cũ: …*` chỉ để tra chéo với mã trong bảng soát. Khôn
 > **Hỏi:** Anh/chị cho mình hỏi: trường hợp này màn hình phải hiện gì ạ?
 
 ## 5. Bảng soát lấy câu hỏi từ đây
-Cột "Câu hỏi gửi BA" trong bảng soát chép đúng chữ của **Hỏi** và **Mình đang hiểu** từ file câu hỏi (phần C: **Cần xem**, **Mình đang hiểu**, **Nếu không tìm ra, hỏi BA**). Sửa câu chữ thì sửa ở file câu hỏi trước rồi chép lại; `kiem-tra.py` báo nếu hai nơi lệch nhau.
+Cột "Câu hỏi gửi BA" trong bảng soát chỉ ghi **số câu, tiêu đề và nhóm**, đúng chữ như tiêu đề `## A1. …` ở file câu hỏi. Không chép lại **Hỏi**, **Mình đang hiểu**, **Cần xem**, **Nếu không tìm ra, hỏi BA**: các phần đó chỉ nằm ở file câu hỏi. Vì vậy tiêu đề phải tự đọc là hiểu (một câu hỏi nói thường), vì người đọc bảng soát chỉ thấy tiêu đề. Đổi tiêu đề thì sửa ở file câu hỏi rồi sửa theo trong bảng soát; `kiem-tra.py` báo nếu lệch.
 
 ## 6. Tự kiểm trước khi giao
 - Đọc to ba bốn câu. Câu nào nghe lạ thì viết lại.

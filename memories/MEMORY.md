@@ -1,50 +1,44 @@
 # MEMORY.md — Bản đồ bộ nhớ của repo
 
-Đọc file này ngay sau `CLAUDE.md`. Mỗi dòng dưới đây trỏ tới một file bộ nhớ và nói file đó chứa gì / khi nào cần đọc.
-Khi thêm, đổi tên hoặc xóa file bộ nhớ, **phải cập nhật bản đồ này trong cùng lượt**.
-
-Cập nhật lần cuối: 2026-11-18 (ghi câu trả lời A1–A5 của `LOGIN` thành TL-01…05; trước đó 2026-11-17: sửa skill srs-from-website theo 4 gợi ý đã duyệt; trước đó: thêm trang Notion tổng hợp hành trình; trước đó: bảng soát + câu hỏi BA cho feature Đăng nhập `LOGIN`; Khuyến nghị LTV/DSR, SRS RECO tự lệch, prompt phân tích v2, khuôn bảng v3 TC/CH, luật viết test case)
-
-## Quy ước & cách dùng bộ nhớ
-- [conventions/memory-writing-rules.md](conventions/memory-writing-rules.md) — cách đặt tên, độ dài, khuôn mẫu, khi nào tách file. Đọc trước khi ghi/sửa bộ nhớ.
-
-- [conventions/ba-question-wording.md](conventions/ba-question-wording.md) — xưng hô và từ đã chốt cho câu hỏi gửi BA (“mình/anh-chị”, “mức tối đa”, “hết hạn vay”), khuôn câu hỏi. Skill `phan-tich-requirement` đọc file này. Đọc khi viết câu hỏi cho BA.
+Đọc ngay sau `CLAUDE.md`. Mỗi dòng: file nào, chứa gì, khi nào đọc. Chỉ hai file đánh dấu **luôn đọc** là đọc ở mọi yêu cầu; còn lại chỉ đọc khi việc liên quan.
+Thêm, đổi tên hoặc xóa file bộ nhớ thì sửa bản đồ trong cùng lượt. Mỗi dòng giữ ngắn; chi tiết để trong file. Không ghi nhật ký cập nhật ở đây.
 
 ## Người dùng
-- [user/working-preferences.md](user/working-preferences.md) — ngôn ngữ, cách người dùng muốn làm việc. Đọc ở mọi yêu cầu.
+- [user/working-preferences.md](user/working-preferences.md) — **luôn đọc**. Sở thích cốt lõi: tiếng Việt, từng bước nhỏ, không gõ mật khẩu, tối đa 3 lần, đọc là hiểu.
+- [user/document-preferences.md](user/document-preferences.md) — cách viết báo cáo, SRS, bảng soát, checklist mà người dùng muốn. Đọc khi viết tài liệu.
+- [user/connectors-and-plugins.md](user/connectors-and-plugins.md) — Notion, Claude Docs đã tắt; hỏi trước khi bật. Đọc khi việc cần connector/plugin.
 
-## Tổng quan dự án
-- [project/overview.md](project/overview.md) — dự án là gì, mục tiêu, trạng thái hiện tại, bối cảnh khám phá banking-lite (tester). Đọc ở mọi yêu cầu.
-- [project/git-remote.md](project/git-remote.md) — repo đã `git init` + push lên GitHub `MoTran95/sunny-tester-agent-version-1` (2026-11-18), `.env` được loại trừ. Đọc khi người dùng nhờ commit/push.
-- [project/architecture.md](project/architecture.md) — kiến trúc tổng thể, cấu trúc thư mục, công nghệ. Đọc khi thêm/sửa chức năng.
+## Quy ước
+- [conventions/memory-writing-rules.md](conventions/memory-writing-rules.md) — đặt tên, độ dài, khuôn file bộ nhớ. Đọc trước khi ghi/sửa bộ nhớ.
+- [conventions/ba-question-wording.md](conventions/ba-question-wording.md) — xưng hô, từ đã chốt, khuôn câu hỏi gửi BA. Đọc khi viết câu hỏi cho BA.
 
-- [project/skills.md](project/skills.md) — ba skill: `feature-exploration-report` (báo cáo khám phá HTML), `srs-from-website` (khám phá → SRS Markdown Story + AC, có script soát) và `phan-tich-requirement` (bảng soát + câu hỏi BA, có script kiểm). Nằm ở đâu, gồm gì. Đọc khi người dùng nhờ làm/sửa báo cáo khám phá, viết/cập nhật/soát SRS, phân tích requirement, hoặc đụng tới skill.
-
-- [project/notion-journey-page.md](project/notion-journey-page.md) — trang Notion tổng hợp hành trình 17/11 (3 database: nhật ký, feedback trước→sau, lỗi + cách giải quyết; trang hướng dẫn thực hành v2 có 30 quy tắc vàng và prompt chi tiết theo 6 chặng; bản v1 đã xóa), link, nguồn ngày giờ, bẫy khi tạo. Đọc khi người dùng nhắc Notion, tracking, hướng dẫn người mới, content quảng bá.
-- [project/srs-process.md](project/srs-process.md) — quy trình “khám phá → SRS” đang thử (khuôn v2 Story+AC `srs/_template.md`, quy tắc ID/nguồn `srs/id-and-source-rules.md`, sửa tại chỗ vs tạo mới, phạm vi khám phá, trạng thái). Đọc khi người dùng nhắc SRS/requirement/Sunny Ocean Testing.
-
-- [../testing/banking-lite/khuyen-nghi-ltv-dsr/phan-tich-requirement.md](../testing/banking-lite/khuyen-nghi-ltv-dsr/phan-tich-requirement.md) — (không phải bộ nhớ, là sản phẩm) file phân tích requirement `RECO`: checklist 62 TC có ưu tiên + lý do, 18 câu hỏi CH, 16 câu hỏi KN (kinh nghiệm), dữ liệu nền, luật viết test case. Đọc khi người dùng nhờ viết test case chi tiết cho `RECO`. Thư mục `testing/` mới, mỗi feature một thư mục con.
-
-- [../testing/banking-lite/khuyen-nghi-ltv-dsr/bang-soat-requirement.md](../testing/banking-lite/khuyen-nghi-ltv-dsr/bang-soat-requirement.md) — (sản phẩm) bảng soát 37 AC của `RECO` theo sách: ✅/❓, 3 nhóm câu hỏi (6 Hỏi ngay / 13 Gom hỏi sau / 15 Tự tìm trước), bản nháp câu gửi BA. Bước kế tiếp sau phân tích; đọc trước khi làm checklist/test case `RECO`.
-- [../testing/banking-lite/khuyen-nghi-ltv-dsr/cau-hoi-cho-ba.md](../testing/banking-lite/khuyen-nghi-ltv-dsr/cau-hoi-cho-ba.md) — (sản phẩm) bản câu hỏi gửi BA của `RECO` viết cho dễ đọc: Phần A 5 câu hỏi ngay (làm tròn TL-02, quá tuổi, tổ hợp nhãn, cách tính tuổi, tài liệu chính thức), Phần B 12 câu hỏi sau, Phần C 14 mục tự kiểm tra; mỗi câu có vấn đề, ví dụ, cách đang hiểu, lý do, ô trả lời. Dùng khi người dùng muốn hỏi BA.
-- [../testing/banking-lite/dang-nhap/bang-soat-requirement.md](../testing/banking-lite/dang-nhap/bang-soat-requirement.md) — (sản phẩm) bảng soát feature `LOGIN` (Đăng nhập): 39 đơn vị có mã + 6 mục không mã, 82 trích dẫn đã kiểm bằng script. Đã có TL-01…TL-10 (2026-11-18), 15 đơn vị khác hệ thống hiện tại. Đọc trước khi làm checklist/test case `LOGIN`.
-- [../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md](../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md) — (sản phẩm) câu hỏi BA của `LOGIN`: A 6 (đều đã trả lời), B 13 (B1, B3, B12, B13 đã trả lời), tất cả trả lời ngày 2026-11-18 (TL-01…11), C 9 tự kiểm tra (C6 bỏ; chỉ C1 còn có thể nhập sai). BA đã trả lời A1–A6, B1, B3, B12, B13; các câu còn lại chưa hỏi.
-- [../testing/chien-luoc-phan-tich-requirement.md](../testing/chien-luoc-phan-tich-requirement.md) — (sản phẩm, không phải bộ nhớ) chiến lược phân tích requirement rút từ sách Sunny: Tách–Xoay–Lọc, 3 nhóm câu hỏi, đối chiếu với `RECO`, chỗ cần người dùng quyết. Đọc khi người dùng nhờ phân tích requirement mới hoặc nhắc “sách”.
+## Dự án
+- [project/overview.md](project/overview.md) — **luôn đọc**. Dự án là gì, hệ thống đang test (Banking Lite), trạng thái.
+- [project/skills.md](project/skills.md) — ba skill của repo, thành phần, đã thử gì. Đọc khi dùng hoặc sửa skill.
+- [project/srs-process.md](project/srs-process.md) — quy trình khám phá → SRS, khuôn và quy tắc ID. Đọc khi làm SRS.
+- [project/session-speed.md](project/session-speed.md) — vì sao phiên chậm, số đo, hướng đã/chưa làm. Đọc khi người dùng than chậm hoặc khi sửa skill/khuôn.
+- [project/git-remote.md](project/git-remote.md) — remote GitHub, `.env` bị loại trừ. Đọc khi commit/push.
+- [project/architecture.md](project/architecture.md) — cấu trúc thư mục, công nghệ. Đọc khi thêm thư mục/chức năng.
+- [project/notion-journey-page.md](project/notion-journey-page.md) — trang Notion hành trình (3 database, hướng dẫn v2). Đọc khi người dùng nhắc Notion, hướng dẫn người mới, content.
 
 ## Quyết định
-- [decisions/decision-log.md](decisions/decision-log.md) — các quyết định thiết kế đã chốt và lý do. Đọc trước khi đề xuất đổi hướng.
+- [decisions/decision-log.md](decisions/decision-log.md) — quyết định đã chốt và lý do. Đọc trước khi đề xuất đổi hướng.
 
-## Module chức năng
-Mỗi module một thư mục con trong `modules/`, bắt đầu từ khuôn mẫu [modules/_template.md](modules/_template.md).
+## Module: Banking Lite
+| File | Nội dung |
+|---|---|
+| [modules/banking-lite/exploration-findings.md](modules/banking-lite/exploration-findings.md) | Luồng hồ sơ vay, vai trò, tích hợp, bẫy khi thao tác browser |
+| [modules/banking-lite/feature-dang-nhap.md](modules/banking-lite/feature-dang-nhap.md) | Đăng nhập (`LOGIN`): thông báo lỗi, link sâu, câu trả lời BA, điều chưa thử |
+| [modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md](modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md) | Khuyến nghị LTV/DSR (`RECO`): luật thẩm định, dữ liệu test, bẫy |
+| [modules/banking-lite/feature-gui-tham-dinh.md](modules/banking-lite/feature-gui-tham-dinh.md) | Nút Gửi thẩm định: điều kiện bật/tắt, dữ liệu test, việc còn lại |
+| [modules/banking-lite/report-v2-html.md](modules/banking-lite/report-v2-html.md) | Báo cáo HTML v2: cấu trúc, khoanh nút, cách xem thử |
 
-| Module | File | Nội dung |
-|---|---|---|
-| banking-lite (hệ thống đang test) | [modules/banking-lite/exploration-findings.md](modules/banking-lite/exploration-findings.md) | Kết quả khám phá: luồng hồ sơ vay, vai trò, tích hợp, bẫy khi thao tác browser |
-| banking-lite — feature “Gửi thẩm định” | [modules/banking-lite/feature-gui-tham-dinh.md](modules/banking-lite/feature-gui-tham-dinh.md) | Điều đã thấy về nút Gửi thẩm định (điều kiện bật/tắt, 12 mục, sau khi gửi), dữ liệu test HL-000022/23, việc còn lại |
-| banking-lite — báo cáo HTML v2 | [modules/banking-lite/report-v2-html.md](modules/banking-lite/report-v2-html.md) | Cấu trúc file `bao-cao-kham-pha-v2.html`, cách khoanh nút trên ảnh, cách xem thử, khoảng trống bằng chứng |
-| banking-lite — feature “Đăng nhập” | [modules/banking-lite/feature-dang-nhap.md](modules/banking-lite/feature-dang-nhap.md) | Thông báo lỗi đăng nhập, hành vi link sâu, ngôn ngữ, điều chưa thử, cách phối hợp khi cần gõ mật khẩu |
+Module mới: tạo thư mục con trong `modules/` từ [modules/_template.md](modules/_template.md).
 
-| banking-lite — feature “Khuyến nghị LTV/DSR” | [modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md](modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md) | Luật thẩm định xem trước (LTV 80/70, DSR 50/70, thặng dư 3 triệu, tuổi 70), điểm bất thường tuổi đáo hạn, dữ liệu test HL-000025, bẫy thao tác; SRS `RECO` |
+## Bẫy
+- [pitfalls/dont-trigger-lockouts.md](pitfalls/dont-trigger-lockouts.md) — từng tự kích hoạt chặn đăng nhập 5 phút. Đọc trước khi lặp thao tác có thể gây khóa.
 
-## Bẫy & bài học
-- [pitfalls/dont-trigger-lockouts.md](pitfalls/dont-trigger-lockouts.md) — sự cố tự kích hoạt chặn đăng nhập 5 phút khi test; vì sao sai và cách làm đúng. Đọc trước khi lặp bất kỳ thao tác nào có thể gây khóa/giới hạn.
+## Sản phẩm trong `testing/` (không phải bộ nhớ)
+- [../testing/chien-luoc-phan-tich-requirement.md](../testing/chien-luoc-phan-tich-requirement.md) — chiến lược Tách–Xoay–Lọc rút từ sách Sunny. Đọc khi phân tích requirement mới hoặc người dùng nhắc “sách”.
+- `LOGIN` — [bảng soát](../testing/banking-lite/dang-nhap/bang-soat-requirement.md) (TL-01…11) và [câu hỏi BA](../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md) (A1–A6, B1, B3, B12, B13 đã trả lời). Đọc trước khi làm checklist/test case `LOGIN`.
+- `RECO` — [bảng soát](../testing/banking-lite/khuyen-nghi-ltv-dsr/bang-soat-requirement.md), [câu hỏi BA](../testing/banking-lite/khuyen-nghi-ltv-dsr/cau-hoi-cho-ba.md), [phân tích cũ có 62 test case](../testing/banking-lite/khuyen-nghi-ltv-dsr/phan-tich-requirement.md). Đọc trước khi làm checklist/test case `RECO`.

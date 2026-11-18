@@ -24,4 +24,9 @@ Thêm dòng mới vào bảng khi người dùng chọn từ cho một khái ni�
 Tiêu đề là câu hỏi nói thường. Rồi: kể tình huống thật có số ("Mình thử …") → **Hỏi:** "Anh/chị cho mình hỏi: …" → **Mình đang hiểu:** … → **Vì sao hỏi:** … → ô chọn hoặc ô trả lời. Chi tiết và ví dụ trước/sau: `.claude/skills/phan-tich-requirement/references/viet-cau-hoi-de-doc.md`.
 
 ## Vì sao
-Người dùng chê bản đầu "tối nghĩa, máy móc như dịch từ tiếng Anh". Nguyên nhân mình đã xác định: trộn nhãn gốc của hệ thống với từ mình tự đặt nên thuật ngữ không nhất quán; câu dài và nhiều danh từ hóa; xưng hô lẫn lộn.
+Người dùng chê bản đầu "tối nghĩa, máy móc như dịch từ tiếng Anh" (2026-11-17), dù câu hỏi đã đủ ý. Nguyên nhân mình đã xác định:
+1. Trộn nhãn gốc của hệ thống (“đáo hạn”, “thặng dư hằng tháng”, “khoản trả mới theo lãi suất thẩm định”) với từ mình tự đặt (“hết hạn vay”, “hạn mức”, “ngưỡng”, “kết quả mong đợi”) nên thuật ngữ không nhất quán.
+2. Câu dài, nhiều danh từ hóa, bố cục kiểu tiếng Anh (“Vấn đề cần BA trả lời”, “Ví dụ cụ thể”).
+3. Xưng hô lẫn (“người test”, “mình”, “anh/chị”).
+
+Hướng sửa: chốt một từ cho mỗi khái niệm (hỏi người dùng team/BA hay dùng từ nào, hoặc xin 2–3 tin nhắn thật của BA làm mẫu giọng); câu ngắn nói như chat với đồng nghiệp, số liệu trước, câu hỏi sau; không tự đoán giọng. Người dùng đã duyệt giọng mẫu A1, A2 (“Ổn, viết hết”) → đã viết lại cả 31 câu của `RECO`.

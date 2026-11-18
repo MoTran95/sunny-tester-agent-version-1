@@ -5,13 +5,21 @@ Cách chạy:
     python -X utf8 kiem-tra.py --nguon <requirement.md> --bang-soat <bang-soat.md> \
         [--cau-hoi <cau-hoi-cho-ba.md>] [--ma "<regex mã>"] [--tu-cam "tiến hành,nhằm"]
 
+    Tìm nhanh các dòng cần sửa khi ghi câu trả lời (không cần đọc cả bảng):
+    python -X utf8 kiem-tra.py --nguon <requirement.md> --bang-soat <bang-soat.md> --tim A4,TL-04
+
 Kiểm:
   1. Mọi bảng Markdown: mỗi dòng có đúng số cột của dòng tiêu đề (bắt lỗi escape `|` sai).
   2. Cột cuối có tiêu đề chứa "Trích": mọi đoạn trong “…” phải có trong requirement, nguyên văn.
   3. --ma: mọi mã tìm thấy trong requirement phải có mặt trong bảng soát.
   4. File câu hỏi: mỗi khối `## A1.` có đủ trường (Hỏi, Mình đang hiểu; phần C: Cần xem/Cần làm, Mình đang hiểu).
-  5. Bảng soát khớp file câu hỏi: câu hỏi nhúng trong bảng soát phải đúng chữ như ở file câu hỏi.
-  6. Cảnh báo: từ dịch máy, mã nội bộ (CH-xx, KN-xx, Mxx, Rxx) lọt vào nội dung câu hỏi.
+  5. Bảng soát khớp file câu hỏi: bảng soát chỉ ghi `**A1. <tiêu đề>** (<nhóm>)`, cộng câu BA đã trả lời
+     (`**BA trả lời:** … (TL-xx)`) nếu có; tiêu đề phải đúng chữ như ở file câu hỏi, nhóm phải đúng phần
+     (A/B/C). Bảng soát chép lại nội dung câu hỏi (Hỏi, Mình đang hiểu, Cần xem, Nếu không tìm ra…) là lỗi:
+     nội dung đó chỉ nằm ở file câu hỏi. Câu BA trả lời thiếu mã TL: lỗi. Câu hỏi không có dòng nào trong
+     bảng soát: cảnh báo.
+  6. Mã TL-xx nhắc trong bảng soát phải có dòng ở bảng "Câu trả lời đã nhận".
+  7. Cảnh báo: từ dịch máy, mã nội bộ (CH-xx, KN-xx, Mxx, Rxx) lọt vào nội dung câu hỏi.
 Thoát mã 1 nếu có lỗi; cảnh báo không làm thất bại.
 """
 import argparse
@@ -23,6 +31,10 @@ SPLIT = re.compile(r"(?<!\\)\|")
 SEP = re.compile(r"^\|\s*:?-{2,}")
 DEFAULT_TU_CAM = ["tiến hành", "nhằm", "đối với", "dựa trên", "thực hiện việc", "kết quả mong đợi"]
 INTERNAL_CODE = re.compile(r"\b(?:CH|KN)-\d\d\b|\bM\d\d\b|\bR\d\d\b")
+NHOM = {"A": "🚨 Hỏi BA ngay", "B": "📋 Hỏi BA sau (gom lại)", "C": "🔍 Tự kiểm tra trên hệ thống trước"}
+TITLE_IN_CELL = re.compile(r"\*\*([ABC]\d+)\. (.+?)\*\* \(([^)]*\)?)\)")
+OLD_FIELDS = re.compile(r"\*\*(Hỏi|Mình đang hiểu|Cần xem|Cần làm|Nếu [^:*]*?hỏi BA):\*\*")
+BA_ANSWER = re.compile(r"\*\*BA trả lời[^*]*:\*\*(.*?)(?:<br>|$)")
 
 
 def read(path):
@@ -91,12 +103,24 @@ def main():
     ap.add_argument("--cau-hoi")
     ap.add_argument("--ma", help="regex của mã requirement cần phủ, ví dụ RECO-S\\d\\d-AC\\d\\d")
     ap.add_argument("--tu-cam", help="danh sách từ cảnh báo, cách nhau dấu phẩy (mặc định: từ dịch máy hay gặp)")
+    ap.add_argument("--tim", help="chỉ liệt kê các dòng bảng soát nhắc tới những mã này (ví dụ A4,TL-04,LOGIN-R06), rồi thoát")
     a = ap.parse_args()
 
     errors, warns = [], []
     src = read(a.nguon)
     bs = read(a.bang_soat)
     ch_text = read(a.cau_hoi) if a.cau_hoi else None
+
+    if a.tim:
+        keys = [k.strip() for k in a.tim.split(",") if k.strip()]
+        for line_no, header, rows in tables(bs):
+            for ln, row in rows:
+                line = " | ".join(row)
+                hit = [k for k in keys if re.search(r"(?<![\w-])" + re.escape(k) + r"(?![\w])", line)]
+                if hit:
+                    status = row[3] if len(row) > 3 else ""
+                    print(f"dòng {ln}: {row[0] if row else ''} | {status[:60]} | khớp: {', '.join(hit)}")
+        return 0
 
     # 1. bảng
     for name, txt in [("bảng soát", bs)] + ([("câu hỏi", ch_text)] if ch_text else []):
@@ -150,34 +174,46 @@ def main():
                     warns.append(f"[câu hỏi {nid}] chưa có **Mình đang hiểu:** (chấp nhận được nếu đây là việc mình tự làm, không cần đoán)")
         print(f"- câu hỏi: A {groups['A']}, B {groups['B']}, C {groups['C']}")
 
-        # 5. khớp bảng soát
+        # 5. khớp bảng soát: chỉ tiêu đề + nhóm, không chép nội dung câu hỏi
         seen = set()
         for line_no, header, rows in tables(bs):
             for ln, row in rows:
                 for cell in row:
-                    m = re.match(r"\*\*([ABC]\d+)\. ", cell)
-                    if not m:
+                    if not re.match(r"\*\*[ABC]\d+\. ", cell):
                         continue
-                    nid = m.group(1)
-                    seen.add(nid)
-                    if nid not in qs:
-                        errors.append(f"[bảng soát] dòng {ln}: câu {nid} không có trong file câu hỏi")
-                        continue
-                    d = qs[nid]
-                    pairs = []
-                    if nid[0] in "AB":
-                        pairs = [("Hỏi", r"\*\*Hỏi:\*\* (.*?)(?:<br>|$)", d["van"]),
-                                 ("Mình đang hiểu", r"\*\*Mình đang hiểu:\*\* (.*?)(?:<br>|$)", d["hieu"])]
-                    else:
-                        pairs = [("Cần xem", r"\*\*(?:Cần xem|Cần làm):\*\* (.*?)(?:<br>|$)", d["xem"]),
-                                 ("Mình đang hiểu", r"\*\*Mình đang hiểu:\*\* (.*?)(?:<br>|$)", d["hieu"]),
-                                 ("Hỏi BA", r"\*\*Nếu [^:*]*?hỏi BA:\*\* (.*?)(?:<br>|$)", d["hoi"])]
-                    for label, pat, want in pairs:
-                        mm = re.search(pat, cell)
-                        got = mm.group(1).strip() if mm else ""
-                        if want and got != want:
-                            errors.append(f"[bảng soát] dòng {ln}: câu {nid}, trường '{label}' lệch file câu hỏi")
-        print(f"- câu hỏi được nhúng trong bảng soát: {len(seen)}")
+                    if OLD_FIELDS.search(cell):
+                        errors.append(f"[bảng soát] dòng {ln}: chép lại nội dung câu hỏi ('{OLD_FIELDS.search(cell).group(1)}'); "
+                                      "chỉ ghi **<số câu>. <tiêu đề>** (<nhóm>), nội dung để ở file câu hỏi")
+                    for mm in BA_ANSWER.finditer(cell):
+                        if not re.search(r"TL-\d\d", mm.group(0)):
+                            errors.append(f"[bảng soát] dòng {ln}: câu BA trả lời thiếu mã TL-xx để tra về mục 'Câu trả lời đã nhận'")
+                    for m in TITLE_IN_CELL.finditer(cell):
+                        nid, title, nhom = m.group(1), m.group(2).strip(), m.group(3)
+                        seen.add(nid)
+                        if nid not in qs:
+                            errors.append(f"[bảng soát] dòng {ln}: câu {nid} không có trong file câu hỏi")
+                            continue
+                        if title != qs[nid]["title"]:
+                            errors.append(f"[bảng soát] dòng {ln}: tiêu đề câu {nid} lệch file câu hỏi: “{title[:60]}”")
+                        if nhom != NHOM[nid[0]]:
+                            errors.append(f"[bảng soát] dòng {ln}: câu {nid} ghi nhóm '{nhom}', đúng ra là '{NHOM[nid[0]]}'")
+        print(f"- câu hỏi có mặt trong bảng soát: {len(seen)}/{len(qs)}")
+        for nid in sorted(set(qs) - seen, key=lambda x: (x[0], int(x[1:]))):
+            warns.append(f"[bảng soát] câu {nid} không có dòng nào nhắc tới (bỏ qua nếu câu đã bỏ hoặc là câu chung)")
+
+    # 6. mã TL
+    defined = set()
+    for line_no, header, rows in tables(bs):
+        if header and header[0] == "Mã":
+            for ln, row in rows:
+                if row and re.fullmatch(r"TL-\d\d", row[0]):
+                    defined.add(row[0])
+    used = set(re.findall(r"TL-\d\d", bs))
+    for t in sorted(used - defined):
+        errors.append(f"[bảng soát] nhắc {t} nhưng bảng 'Câu trả lời đã nhận' không có dòng {t}")
+    print(f"- câu trả lời TL đã ghi: {len(defined)}")
+
+    if ch_text:
 
         # 6. cảnh báo giọng văn
         tu_cam = [t.strip() for t in a.tu_cam.split(",")] if a.tu_cam else DEFAULT_TU_CAM

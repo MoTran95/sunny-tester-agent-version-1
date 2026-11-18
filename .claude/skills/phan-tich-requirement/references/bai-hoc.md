@@ -3,7 +3,7 @@
 1. **Làm quá việc được giao.** Mình dựng checklist 62 test case, ưu tiên, lý do viết riêng khi người dùng chỉ cần phân tích và câu hỏi cho BA. Người dùng phải chặn lại. → Dừng đúng chỗ: bảng soát và câu hỏi.
 2. **Bảng quá cô đọng, nhiều mã nội bộ.** Dòng kiểu "Thiếu (Dữ liệu)", "KN-02", "thông báo M01" không ai hiểu. → Mỗi dòng có cột Tình huống, nội dung bằng câu đủ ý, chép nội dung thông báo thay vì mã.
 3. **Câu chữ như dịch máy.** Trộn nhãn gốc của hệ thống với từ tự đặt, câu dài, xưng hô lẫn. → Một từ một khái niệm, câu ngắn, xưng "mình", gọi BA "anh/chị"; xem `viet-cau-hoi-de-doc.md`.
-4. **Hai nơi chứa cùng một câu hỏi.** Người dùng phải kiểm hai chỗ. → Một nguồn: viết ở file câu hỏi, bảng soát chép lại, script kiểm khớp.
+4. **Hai nơi chứa cùng một câu hỏi.** Người dùng phải kiểm hai chỗ. → Một nguồn: viết ở file câu hỏi; bảng soát chỉ ghi số câu + tiêu đề, script kiểm khớp. *Lần đầu bảng soát chép lại cả "Hỏi" và "Mình đang hiểu" vào mỗi dòng: bảng `LOGIN` phình tới 84 KB, mỗi lần ghi câu trả lời phải đọc hai lần và mất nhiều phút. Đã bỏ phần chép ngày 2026-11-18 (còn 63 KB, không đổi trạng thái dòng nào).*
 5. **Escape `|` cả dòng làm hỏng bảng.** Escape cả dòng thì các dấu ngăn cột cũng bị escape và bảng không hiện. → Escape **từng ô**. Sau khi sinh file luôn chạy script đếm số cột từng dòng.
 6. **Heredoc `python -` qua công cụ làm méo regex.** → Viết script ra tệp rồi chạy tệp đó.
 7. **Đọc bằng mắt bỏ sót số lệch.** Hai chỗ tài liệu tự lệch chỉ lộ ra khi tính lại bằng script. → Luôn tính lại.

@@ -19,7 +19,7 @@ Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong s�
 6. **Câu hỏi phải đọc là hiểu**: kể tình huống thật có số, rồi hỏi, rồi nói mình đang hiểu thế nào. Một từ cho một khái niệm. Không để mã nội bộ (CH-02, M01) làm nội dung chính. Xem `references/viet-cau-hoi-de-doc.md`. *Bản đầu bị chê "không hiểu đang nói gì", rồi "máy móc như dịch từ tiếng Anh".*
 7. **Không tự trả lời thay BA.** "Mình đang hiểu" luôn nói rõ khi đó là đoán. Quyết định của người dùng (ví dụ chọn cách làm tròn) ghi là **câu trả lời có nguồn "người dùng chốt, chưa có BA xác nhận"**, không nâng thành sự thật.
 8. **Ghi hết vào bảng, nhưng hỏi có chọn lọc**: ba nhóm hỏi ngay / hỏi sau / tự kiểm tra trước. *Gửi BA mười mấy câu cùng lúc thì câu quan trọng bị chìm.*
-9. **Một nguồn câu chữ**: câu hỏi viết **một lần** ở file câu hỏi; bảng soát chép đúng từ đó. Script kiểm hai nơi khớp nhau.
+9. **Một nguồn câu chữ**: câu hỏi viết **một lần** ở file câu hỏi; bảng soát chỉ ghi số câu, tiêu đề và nhóm (cộng câu BA đã trả lời, nếu có), **không chép lại** phần Hỏi/Mình đang hiểu. Script kiểm tiêu đề khớp. *Chép lại làm bảng phình gấp rưỡi và mỗi lần sửa phải đọc lại cả bảng.*
 10. **Đừng làm quá việc được giao.** Chưa được yêu cầu thì không dựng checklist, test case, ưu tiên. *Lần `RECO` mình dựng 62 test case khi người dùng chỉ cần phân tích và hỏi BA.*
 11. **Làm từng bước nhỏ, hỏi khi chưa rõ** (tối đa 3 câu khi không làm tiếp được). Từ nghe lệch thì hỏi lại nghĩa.
 
@@ -31,7 +31,7 @@ Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong s�
 3. **Tính lại số liệu** bằng script nhỏ (để trong thư mục tạm, không lưu vào repo). Ghi các chỗ lệch.
 4. **Soát từng đơn vị**: Tách (một ý một mã) → Xoay (qua sáu nút, chỉ nút liên quan) → Lọc. Quyết ✅ đã rõ hay ❓ cần hỏi theo `references/quy-trinh-tach-xoay-loc.md`. Chỗ rõ một nửa thì tách hai dòng.
 5. **Soạn file câu hỏi** `testing/<hệ thống>/<feature>/cau-hoi-cho-ba.md` theo `assets/mau-cau-hoi-cho-ba.md` và `references/viet-cau-hoi-de-doc.md`. Chia Phần A (hỏi ngay), B (hỏi sau), C (tự kiểm tra trước).
-6. **Lập bảng soát** `testing/<hệ thống>/<feature>/bang-soat-requirement.md` theo `assets/mau-bang-soat.md`. Cột câu hỏi chép đúng chữ từ file câu hỏi.
+6. **Lập bảng soát** `testing/<hệ thống>/<feature>/bang-soat-requirement.md` theo `assets/mau-bang-soat.md`. Cột câu hỏi chỉ ghi `**A1. <tiêu đề>** (<nhóm>)`, tiêu đề đúng chữ như ở file câu hỏi.
 7. **Kiểm bằng script**, sửa hết lỗi:
    ```bash
    python -X utf8 .claude/skills/phan-tich-requirement/scripts/kiem-tra.py \
@@ -46,7 +46,7 @@ Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong s�
 
 ## Khi có câu trả lời (từ BA hoặc người dùng)
 
-Ghi mỗi câu trả lời thành `TL-xx` trong mục "Câu trả lời đã nhận" của bảng soát: nội dung, **nguồn** (ai nói, ngày, ở đâu), áp dụng cho mã nào, còn lại gì. Đổi các dòng ❓ liên quan thành ✅ "theo TL-xx". Nếu hệ thống hiện tại cho kết quả khác câu trả lời, ghi "khác hệ thống hiện tại" và **không tự kết luận lỗi** (chỉ là nghi lỗi nếu BA xác nhận). Nếu câu trả lời làm đổi số hiển thị, liệt kê số nào đổi. Hỏi **ai là người chốt**; quyết định của tester chưa có BA xác nhận thì nói rõ như vậy và đưa vào Phần A để BA xác nhận. Không sửa SRS tại chỗ khi chưa có BA hoặc team xác nhận. Chi tiết: `references/quy-tac-nguon-va-tra-loi.md`.
+**Không đọc lại cả bảng soát.** Chạy `kiem-tra.py … --tim A4,<mã requirement liên quan>` để lấy số dòng cần sửa, chỉ đọc các dòng đó (`Read` với `offset`/`limit`) và sửa bằng `Edit`. Ghi mỗi câu trả lời thành `TL-xx` trong mục "Câu trả lời đã nhận" của bảng soát: nội dung, **nguồn** (ai nói, ngày, ở đâu), áp dụng cho mã nào, còn lại gì. Đổi các dòng ❓ liên quan thành ✅ "theo TL-xx". Nếu hệ thống hiện tại cho kết quả khác câu trả lời, ghi "khác hệ thống hiện tại" và **không tự kết luận lỗi** (chỉ là nghi lỗi nếu BA xác nhận). Nếu câu trả lời làm đổi số hiển thị, liệt kê số nào đổi. Ở cột "Câu hỏi gửi BA" của các dòng liên quan, thêm dòng `**BA trả lời:** <nguyên văn> (TL-xx)` ngay sau tiêu đề câu hỏi (người dùng yêu cầu 2026-11-18). Hỏi **ai là người chốt**; quyết định của tester chưa có BA xác nhận thì nói rõ như vậy và đưa vào Phần A để BA xác nhận. Không sửa SRS tại chỗ khi chưa có BA hoặc team xác nhận. Chi tiết: `references/quy-tac-nguon-va-tra-loi.md`.
 
 ## Tệp trong skill
 - `references/quy-trinh-tach-xoay-loc.md` — năm câu tự hỏi, sáu dấu hiệu, sáu nút (chỉ chức năng), cách quyết ✅/❓, ba nhóm câu hỏi, cách tính lại số liệu.

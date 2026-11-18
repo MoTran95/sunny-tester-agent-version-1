@@ -1,7 +1,17 @@
 # Nhật ký quyết định
-Cập nhật: 2026-11-17
+Cập nhật: 2026-11-18
 
 Mỗi quyết định một mục, mới nhất ở trên. Khi file quá dài, tách theo năm/chủ đề.
+
+## 2026-11-18 — Bộ nhớ luôn đọc chỉ giữ phần cốt lõi
+- **Quyết định:** chỉ `user/working-preferences.md` và `project/overview.md` là luôn đọc. `working-preferences.md` giữ quy tắc cốt lõi mỗi ý một dòng; chi tiết về cách viết tài liệu sang `user/document-preferences.md`. `MEMORY.md` mỗi dòng một câu ngắn, không ghi nhật ký cập nhật, sản phẩm trong `testing/` gom một mục.
+- **Lý do:** người dùng duyệt "Làm gọn bộ nhớ" sau khi đo thấy phần luôn đọc dày và lặp ý ([../project/session-speed.md](../project/session-speed.md)).
+- **Phương án đã loại:** xóa bớt bài học (có thể mất điều người dùng đã dặn) — chỉ chuyển chỗ.
+
+## 2026-11-18 — Bảng soát không chép lại nội dung câu hỏi
+- **Quyết định:** cột "Câu hỏi gửi BA" chỉ ghi `**A1. <tiêu đề>** (<nhóm>)`, cộng `**BA trả lời:** <nguyên văn> (TL-xx)` khi đã có trả lời (người dùng yêu cầu ghi câu BA trả lời vào cột này, 2026-11-18). Bỏ phần chép Hỏi/Mình đang hiểu/Cần xem. Đã chuyển cả hai bảng `LOGIN` (84→63 KB) và `RECO` (67→48 KB), không đổi trạng thái dòng nào. `kiem-tra.py` kiểm tiêu đề + nhóm khớp, báo lỗi nếu chép lại, có `--tim` để tìm dòng cần sửa.
+- **Lý do:** người dùng duyệt "Làm gọn bảng soát" sau khi đo thấy phiên chậm vì bảng quá lớn ([../project/session-speed.md](../project/session-speed.md)).
+- **Phương án đã loại:** chỉ để mã câu hỏi trần (người dùng từng chê mã nội bộ); bỏ luôn câu BA trả lời khỏi cột (trái yêu cầu của người dùng); thêm thẻ neo `<a id>` vào file câu hỏi (file gửi BA, không chắc khung xem trước hiểu).
 
 ## 2026-11-17 — SRS dùng Story + AC, ID thống nhất, truy nguồn có liên kết
 - **Quyết định:** thân SRS = story + luồng + AC (cột Tình huống / Bối cảnh / Người dùng làm / Hệ thống phản hồi — bỏ tên cột Cho trước/Khi/Thì vì người dùng không hiểu); quy tắc dữ liệu và thông báo chỉ là bảng tra cứu phụ; ID `<FEATURE>-S01-AC01` / `-R` / `-M` / `-Q` / `-E`, mã feature tiếng Anh ngắn; bằng chứng có bảng riêng với liên kết tệp + cách kiểm lại. Chi tiết: `srs/id-and-source-rules.md`. Khám phá phải đầy đủ, chỉ tránh đổi dữ liệu người khác/khóa hệ thống.

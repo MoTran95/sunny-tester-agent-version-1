@@ -22,7 +22,7 @@
 - **📋 Hỏi BA sau (gom lại):** câu chữ, hiển thị, hoặc phần ngoài phần đang test.
 - **🔍 Tự kiểm tra trên hệ thống trước:** xem hệ thống đang chạy để tìm câu trả lời. Chỉ cho biết hệ thống đang làm gì, không chứng minh là đúng.
 
-**Cột "Câu hỏi gửi BA":** ghi số câu (A1, B3, C5…) trong `cau-hoi-cho-ba.md`, cách xử lý, câu hỏi và cách mình đang hiểu.
+**Cột "Câu hỏi gửi BA":** ghi số câu và tiêu đề câu hỏi (A1, B3, C5…) cùng cách xử lý, và câu BA đã trả lời nếu có (dòng "BA trả lời", kèm mã TL ở mục 3). Nội dung đầy đủ của câu hỏi (tình huống, hỏi gì, mình đang hiểu thế nào, vì sao hỏi) chỉ nằm ở [cau-hoi-cho-ba.md](cau-hoi-cho-ba.md), không chép lại ở đây.
 
 ## 2. Giải thích thuật ngữ (theo requirement)
 | Thuật ngữ | Nghĩa |
@@ -52,9 +52,9 @@
 | Mã | Tình huống (người dùng làm gì) | Requirement cho biết gì, hoặc chỗ chưa rõ | Trạng thái | Câu hỏi gửi BA | Trích nguyên văn |
 |---|---|---|---|---|---|
 | <MÃ-S01-AC01> | Ở hồ sơ nền, nhập lương 100.000.000 VND. | Nhãn là Phê duyệt. Mục Lý do ghi "Đáp ứng mọi quy tắc tín dụng." | ✅ Đã rõ | — | “<đoạn chép đúng nguyên văn từ requirement>” |
-| <MÃ-S01-AC02> | Ở hồ sơ nền, nhập lương 58.285.714 VND. | Requirement gọi đây là "DSR đúng 70,00%", nhưng tính lại ra hơn 70% một chút. | ❓ Số liệu không chính xác | **A1. <Tiêu đề>** (🚨 Hỏi BA ngay)<br>**Hỏi:** <chép đúng từ file câu hỏi><br>**Mình đang hiểu:** <chép đúng từ file câu hỏi> | “<đoạn chép đúng nguyên văn>” |
+| <MÃ-S01-AC02> | Ở hồ sơ nền, nhập lương 58.285.714 VND. | Requirement gọi đây là "DSR đúng 70,00%", nhưng tính lại ra hơn 70% một chút. | ❓ Số liệu không chính xác | **A1. <Tiêu đề, đúng chữ như ở file câu hỏi>** (🚨 Hỏi BA ngay) | “<đoạn chép đúng nguyên văn>” |
 
-Quy tắc chép vào cột câu hỏi: đúng khuôn `**<số câu>. <tiêu đề>** (<nhóm>)<br>**Hỏi:** …<br>**Mình đang hiểu:** …`. Câu phần C: `**C1. <tiêu đề>** (<nhóm>)<br>**Cần xem:** …<br>**Mình đang hiểu:** …<br>**Nếu không tìm ra, hỏi BA:** …`. Đơn vị rõ một nửa thì có một dòng ✅ và các dòng ❓ cùng mã.
+Quy tắc cột câu hỏi: khuôn `**<số câu>. <tiêu đề>** (<nhóm>)`; nhóm là `🚨 Hỏi BA ngay` (phần A), `📋 Hỏi BA sau (gom lại)` (phần B) hoặc `🔍 Tự kiểm tra trên hệ thống trước` (phần C). Nhiều câu thì nối bằng `<br>`. **Không** chép lại Hỏi, Mình đang hiểu, Cần xem: script báo lỗi. Khi đã có câu trả lời, thêm ngay sau tiêu đề: `<br>**BA trả lời:** <nguyên văn> (TL-xx)`. Ghi chú riêng của dòng (nếu cần) để sau cùng. Đơn vị rõ một nửa thì có một dòng ✅ và các dòng ❓ cùng mã.
 
 ## 6. Phụ lục: chủ đề chung, quy tắc và thông báo không gắn với một tiêu chí
 | Mã | Tình huống | Requirement cho biết gì, hoặc chỗ chưa rõ | Trạng thái | Câu hỏi gửi BA | Trích nguyên văn |

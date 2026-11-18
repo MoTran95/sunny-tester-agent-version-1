@@ -1,9 +1,9 @@
 # Tổng quan dự án
-Cập nhật: 2026-11-17
+Cập nhật: 2026-11-18
 
 - Tên thư mục dự án: `build-sunny-agent-version-1` (đường dẫn `D:\AI\build-sunny-agent-version-1`).
 - Nền tảng phát triển: Windows 11.
-- Trạng thái (2026-11-17): repo **mới khởi tạo, còn trống** — chưa có mã nguồn, chưa phải git repo.
+- Trạng thái (2026-11-18): git repo đã push lên GitHub ([git-remote.md](git-remote.md)); có 3 skill trong `.claude/skills/` ([skills.md](skills.md)), SRS ở `srs/`, bằng chứng ở `evidence/`, sản phẩm phân tích ở `testing/`.
 
 ## Mục tiêu
 _Chưa được người dùng mô tả đầy đủ._
