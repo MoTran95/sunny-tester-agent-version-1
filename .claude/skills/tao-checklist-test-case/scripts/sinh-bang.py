@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 """Sinh file checklist.md và test-case.md từ dữ liệu JSON, để không phải gõ tay bảng Markdown (hay vỡ cột).
 
-  python -X utf8 sinh-bang.py checklist --du-lieu <dl.json> --ra <checklist.md> [--ghi-de]
+  python -X utf8 sinh-bang.py gop --du-lieu <dl.json> --ra <test-case.md> [--nguoi-viet "Sunny Tran"] [--ghi-de]
+      (CÁCH MẶC ĐỊNH từ 2026-11-18: MỘT file, mỗi dòng gồm cả phần checklist và phần chi tiết test case)
+  python -X utf8 sinh-bang.py checklist --du-lieu <dl.json> --ra <checklist.md> [--ghi-de]      (cách cũ, hai file)
   python -X utf8 sinh-bang.py test-case --du-lieu <dl.json> --checklist <checklist.md> --ra <test-case.md>
                                         [--nguoi-viet "Sunny Tran"] [--ghi-de]
 
-Định dạng JSON xem assets/mau-du-lieu-checklist.json và assets/mau-du-lieu-test-case.json.
+Định dạng JSON xem assets/mau-du-lieu-gop.json (gop) và assets/mau-du-lieu-checklist.json, assets/mau-du-lieu-test-case.json (cách cũ).
+- gop: mã TC-001... đánh theo thứ tự sau khi xếp Cao, Trung bình, Thấp. Ca có sẵn "ma" thì giữ mã đó (dùng khi cập nhật);
+  ca chưa có "ma" lấy số kế tiếp. Bốn cột ghi khi chạy được GIỮ LẠI theo mã nếu file đã có.
 - checklist: mã TC-001... đánh theo thứ tự sau khi xếp Cao, Trung bình, Thấp (giữ thứ tự nhập trong cùng mức).
 - test-case: Tình huống, Ưu tiên, Nguồn lấy NGUYÊN VĂN từ checklist theo mã. Ba cột ghi khi chạy test
   (Kết quả thực tế, Trạng thái, Người viết, Tự động hóa) được GIỮ LẠI theo mã nếu file test-case đã có; không bao giờ ghi đè.
@@ -26,6 +30,8 @@ KT = ["EP", "BVA", "Bảng quyết định", "Chuyển trạng thái", "Use case
 START = "<!-- BANG-TC:BAT-DAU (bảng test case; tiêu đề cột là cố định để script đọc) -->"
 END = "<!-- BANG-TC:KET-THUC -->"
 CK_HEAD = ["Mã", "Tình huống", "Ưu tiên", "Kỹ thuật", "Nguồn"]
+GOP_HEAD = ["Mã", "Tình huống", "Ưu tiên", "Kỹ thuật", "Điều kiện trước", "Các bước", "Dữ liệu test", "Kết quả mong đợi",
+            "Nguồn", "Kết quả thực tế", "Trạng thái", "Người viết", "Tự động hóa"]
 TC_HEAD = ["Mã", "Tình huống", "Ưu tiên", "Điều kiện trước", "Các bước", "Dữ liệu test", "Kết quả mong đợi", "Nguồn",
            "Kết quả thực tế", "Trạng thái", "Người viết", "Tự động hóa"]
 
@@ -157,9 +163,66 @@ def lenh_test_case(a):
     print(write_file(a.ra, "\n".join(L), a.ghi_de, bang), f"({len(rows)} test case, giữ {len(keep)} bộ ba cột ghi khi chạy) → {a.ra}")
 
 
+def lenh_gop(a):
+    d = json.loads(Path(a.du_lieu).read_text(encoding="utf-8"))
+    ca = d["ca"]
+    for i, r in enumerate(ca, 1):
+        if r["uu_tien"] not in PRI:
+            sys.exit(f"ca {i}: ưu tiên '{r['uu_tien']}' không thuộc {PRI}")
+        if r["ky_thuat"] not in KT:
+            sys.exit(f"ca {i}: kỹ thuật '{r['ky_thuat']}' không thuộc {KT}")
+        if not r["nguon"].startswith(("Có trong tài liệu", "Suy luận")):
+            sys.exit(f"ca {i}: nguồn phải bắt đầu bằng 'Có trong tài liệu' hoặc 'Suy luận' (Giả định không vào bảng chính)")
+        for k in ("dieu_kien", "buoc", "du_lieu", "ket_qua"):
+            if not r.get(k):
+                sys.exit(f"ca {i}: thiếu '{k}'")
+    co_ma = [r for r in ca if r.get("ma")]
+    chua = sorted((r for r in ca if not r.get("ma")), key=lambda r: PRI.index(r["uu_tien"]))
+    nxt = max([int(r["ma"][3:]) for r in co_ma], default=0)
+    for r in chua:
+        nxt += 1
+        r["ma"] = f"TC-{nxt:03d}"
+    ma_list = [r["ma"] for r in ca]
+    if len(set(ma_list)) != len(ma_list):
+        sys.exit("Có mã test case trùng trong dữ liệu")
+    ca = sorted(ca, key=lambda r: int(r["ma"][3:]))
+    keep = {}
+    p = Path(a.ra)
+    if p.exists():
+        _, old = read_table(p.read_text(encoding="utf-8"))
+        keep = {m: (r.get("Kết quả thực tế", " "), r.get("Trạng thái", "Chưa chạy"), r.get("Người viết", a.nguoi_viet), r.get("Tự động hóa", "Chưa có")) for m, r in old.items()}
+    rows = []
+    for c in ca:
+        tt, tv, nv, au = keep.get(c["ma"], (" ", "Chưa chạy", a.nguoi_viet, "Chưa có"))
+        rows.append([c["ma"], esc(c["tinh_huong"]), c["uu_tien"], c["ky_thuat"], "<br>".join(esc(x) for x in c["dieu_kien"]),
+                     "<br>".join(f"{i}. {esc(x)}" for i, x in enumerate(c["buoc"], 1)),
+                     "<br>".join(esc(x) for x in c["du_lieu"]), "<br>".join(esc(x) for x in c["ket_qua"]),
+                     esc(c["nguon"]), tt or " ", tv, nv, au or "Chưa có"])
+    bang = table(GOP_HEAD, rows)
+    dem = {pr: sum(1 for r in rows if r[2] == pr) for pr in PRI}
+    L = [f"# Test case (gồm checklist) — {d['tieu_de']}", "", "| | |", "|---|---|",
+         f"| Ngày lập | {d.get('ngay') or datetime.date.today().isoformat()} |",
+         f"| Hệ thống | {esc(d['he_thong'])} |", f"| Nguồn | {esc(d['nguon_doc'])} |",
+         f"| Tình trạng | {esc(d.get('tinh_trang', 'Chưa chạy thử trên hệ thống'))} |", ""]
+    L += paragraphs(d.get("ghi_chu_dau"))
+    L += [START] + bang + [END, ""]
+    L += ["## Câu hỏi cho BA"] + ([f"{i}. {c}" for i, c in enumerate(d.get("cau_hoi", []), 1)] or ["Không có."]) + [""]
+    if d.get("chua_dua_vao"):
+        L += ["## Chưa đưa vào (phần chưa chốt, không viết theo yêu cầu)"] + [f"- {c}" for c in d["chua_dua_vao"]] + [""]
+    if d.get("ghi_nhan_rieng"):
+        L += ["## Ghi nhận riêng (không tự gộp, xóa hay thêm test case)"] + [f"- {c}" for c in d["ghi_nhan_rieng"]] + [""]
+    L += ["## Tự kiểm", f"- {len(rows)} test case: Cao {dem['Cao']}, Trung bình {dem['Trung bình']}, Thấp {dem['Thấp']}. Chạy `kiem-tra-tc.py` để kiểm đầy đủ.", ""]
+    print(write_file(a.ra, "\n".join(L), a.ghi_de, bang), f"({len(rows)} test case, giữ {len(keep)} bộ cột ghi khi chạy) → {a.ra}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="lenh", required=True)
+    g = sub.add_parser("gop")
+    g.add_argument("--du-lieu", required=True)
+    g.add_argument("--ra", required=True)
+    g.add_argument("--nguoi-viet", default="Sunny Tran")
+    g.add_argument("--ghi-de", action="store_true")
     c = sub.add_parser("checklist")
     c.add_argument("--du-lieu", required=True)
     c.add_argument("--ra", required=True)
@@ -171,7 +234,7 @@ def main():
     t.add_argument("--nguoi-viet", default="Sunny Tran")
     t.add_argument("--ghi-de", action="store_true")
     a = ap.parse_args()
-    (lenh_checklist if a.lenh == "checklist" else lenh_test_case)(a)
+    {"gop": lenh_gop, "checklist": lenh_checklist, "test-case": lenh_test_case}[a.lenh](a)
 
 
 if __name__ == "__main__":

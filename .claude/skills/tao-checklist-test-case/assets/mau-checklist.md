@@ -1,3 +1,4 @@
+<!-- Cách cũ (hai file). Mặc định từ 2026-11-18: một bảng gộp, xem assets/mau-du-lieu-gop.json -->
 # Checklist test — Đặt số lượng sản phẩm vào giỏ (ví dụ mẫu)
 
 | | |

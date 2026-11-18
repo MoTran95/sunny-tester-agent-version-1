@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 17:48:27 (+07:00) (chốt mốc mới) |
+| Lần chạy gần nhất | 2026-11-18 18:00:24 (+07:00) (chỉ kiểm, chưa đổi mốc) |
 | Requirement | srs/banking-lite/dang-nhap.md (cập nhật 2026-11-18); bảng soát (cập nhật 2026-11-18), câu trả lời đến TL-14 |
 | Checklist, test case | [checklist.md](checklist.md), [test-case.md](test-case.md) |
 | Mốc đã chốt | 2026-11-18 17:48:27 (+07:00) (khi đó: SRS 2026-11-18, bảng soát 2026-11-18, TL đến TL-14) |

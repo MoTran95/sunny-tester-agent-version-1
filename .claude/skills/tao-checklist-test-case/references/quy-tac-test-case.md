@@ -1,5 +1,7 @@
 # Quy tắc viết test case chi tiết
 
+> **Từ 2026-11-18 (file gộp):** bảng test case có thêm cột `Kỹ thuật` sau `Ưu tiên` (13 cột) và `Tình huống`, `Ưu tiên`, `Kỹ thuật`, `Nguồn` do **chính bạn viết** trong cùng một lượt, không lấy từ checklist riêng. Các quy tắc cho cột chi tiết bên dưới giữ nguyên. Cập nhật: dòng TC mới xếp cuối bảng (số kế tiếp), khai báo ở bảng đầu `test-case.md` bằng dòng `| Dòng thêm sau khi requirement đổi | TC-042, TC-043 (…) |`; `truy-vet-cau-hinh.json` bỏ khóa `checklist`.
+
 ## Khuôn bảng (12 cột, tiêu đề cố định để script đọc)
 `| Mã | Tình huống | Ưu tiên | Điều kiện trước | Các bước | Dữ liệu test | Kết quả mong đợi | Nguồn | Kết quả thực tế | Trạng thái | Người viết | Tự động hóa |`
 

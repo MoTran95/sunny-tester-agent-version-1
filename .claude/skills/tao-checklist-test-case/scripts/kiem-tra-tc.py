@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """Kiểm checklist và test case (đầu ra của skill tao-checklist-test-case).
 
-  python -X utf8 kiem-tra-tc.py --checklist <checklist.md> [--test-case <test-case.md>]
-                                [--nguon <requirement.md> --ma "<regex mã>" --tien-to LOGIN]
+  python -X utf8 kiem-tra-tc.py --test-case <test-case.md> [--nguon <requirement.md> --ma "<regex mã>" --tien-to LOGIN]
+      (FILE GỘP, cách mặc định từ 2026-11-18: một bảng 13 cột có cả Kỹ thuật; kiểm phần checklist và phần test case trong cùng file)
+  python -X utf8 kiem-tra-tc.py --checklist <checklist.md> [--test-case <test-case.md>] [...]   (cách cũ, hai file)
 
 Thoát mã 1 nếu có LỖI (cảnh báo thì không). Kiểm:
  Checklist : đủ 5 cột đúng tên; mã TC-001 liên tục, không trùng; Ưu tiên, Kỹ thuật thuộc danh sách; Nguồn bắt đầu bằng
@@ -21,6 +22,8 @@ from pathlib import Path
 PRI = ["Cao", "Trung bình", "Thấp"]
 KT = ["EP", "BVA", "Bảng quyết định", "Chuyển trạng thái", "Use case", "Đoán lỗi"]
 CK_HEAD = ["Mã", "Tình huống", "Ưu tiên", "Kỹ thuật", "Nguồn"]
+GOP_HEAD = ["Mã", "Tình huống", "Ưu tiên", "Kỹ thuật", "Điều kiện trước", "Các bước", "Dữ liệu test", "Kết quả mong đợi",
+            "Nguồn", "Kết quả thực tế", "Trạng thái", "Người viết", "Tự động hóa"]
 TC_HEAD = ["Mã", "Tình huống", "Ưu tiên", "Điều kiện trước", "Các bước", "Dữ liệu test", "Kết quả mong đợi", "Nguồn",
            "Kết quả thực tế", "Trạng thái", "Người viết", "Tự động hóa"]
 TRANG_THAI = ["Chưa chạy", "Đạt", "Không đạt", "Bị chặn", "Bỏ qua"]
@@ -65,11 +68,12 @@ def read_table(text, where):
     return names, rows, order
 
 
-def kiem_checklist(path, nguon, ma_re, tien_to):
+def kiem_checklist(path, nguon, ma_re, tien_to, gop=False):
     t = Path(path).read_text(encoding="utf-8")
-    names, rows, order = read_table(t, "Checklist")
-    if names is not None and names != CK_HEAD:
-        L(f"Checklist: cột phải đúng thứ tự {CK_HEAD}, hiện là {names}")
+    names, rows, order = read_table(t, "Test case (gộp)" if gop else "Checklist")
+    dau = GOP_HEAD if gop else CK_HEAD
+    if names is not None and names != dau:
+        L(f"{'File gộp' if gop else 'Checklist'}: cột phải đúng thứ tự {dau}, hiện là {names}")
     nums = [int(x[3:]) for x in order]
     if nums != list(range(1, len(nums) + 1)):
         L("Checklist: mã TC phải liên tục từ TC-001 theo đúng thứ tự dòng")
@@ -186,16 +190,22 @@ def kiem_test_case(path, ck_rows, ck_order):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--checklist", required=True)
+    ap.add_argument("--checklist", help="bỏ trống = file gộp (chỉ cần --test-case)")
     ap.add_argument("--test-case")
     ap.add_argument("--nguon")
     ap.add_argument("--ma", help="biểu thức chính quy của mã requirement trong file nguồn, ví dụ LOGIN-(?:S\\d\\d-AC\\d\\d|R\\d\\d|M\\d\\d)")
     ap.add_argument("--tien-to", default="", help="tiền tố mã bỏ đi trong cột Nguồn, ví dụ LOGIN")
     a = ap.parse_args()
     print("Kiểm checklist/test case")
-    ck_rows, ck_order = kiem_checklist(a.checklist, a.nguon, a.ma, a.tien_to)
-    if a.test_case:
-        kiem_test_case(a.test_case, ck_rows, ck_order)
+    if not a.checklist:
+        if not a.test_case:
+            sys.exit("Cần --test-case (file gộp) hoặc --checklist")
+        _, gop_order = kiem_checklist(a.test_case, a.nguon, a.ma, a.tien_to, gop=True)
+        kiem_test_case(a.test_case, None, gop_order)
+    else:
+        ck_rows, ck_order = kiem_checklist(a.checklist, a.nguon, a.ma, a.tien_to)
+        if a.test_case:
+            kiem_test_case(a.test_case, ck_rows, ck_order)
     for w in canh_bao:
         print("  CẢNH BÁO:", w)
     for e in loi:

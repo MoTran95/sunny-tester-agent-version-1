@@ -24,7 +24,7 @@ Bản đầu quá cô đọng ("thiếu (Dữ liệu)", "KN-02", "M01", "DSR" kh
 - Câu hỏi BA dựa kinh nghiệm (không dấu vết trong nguồn) → tách riêng, hỏi khi cần.
 - **Requirement ghi rõ thì suy luận tiếp, ghi chưa rõ thì hỏi** (chốt 2026-11-18 sau khi chê A7, A8, B14 là "vô tri"). Ghi "suy ra từ <mã/TL>" kèm lý do. Lý do bảo mật dùng để suy hành vi chức năng, không tự đặt ca test bảo mật. Không hỏi độ dài mã ở đăng nhập (chỉ báo đúng/sai) và A6 (suy từ "10 lần liên tiếp"; hệ thống làm khác = nghi lỗi). Skill `phan-tich-requirement` quy tắc 1b.
 - Có cột ưu tiên + lý do cần nhiều TC/câu hỏi.
-- Test case có cột ghi khi chạy: Ưu tiên, Kết quả thực tế, Trạng thái, Người viết (mặc định Sunny Tran), Tự động hóa (lưu script chạy lại cho đỡ token) — khuôn 12 cột của `tao-checklist-test-case`.
+- Test case có cột ghi khi chạy: Ưu tiên, Kết quả thực tế, Trạng thái, Người viết (mặc định Sunny Tran), Tự động hóa (lưu script chạy lại cho đỡ token) — khuôn của `tao-checklist-test-case`: từ 2026-11-18 **một bảng gộp 13 cột** (có cả Kỹ thuật, không `checklist.md` riêng) cho feature mới; `LOGIN` giữ hai file 12 cột.
 
 ## Câu hỏi BA
 Xưng hô, từ đã chốt, khuôn: `conventions/ba-question-wording.md` (bài học "câu chữ máy móc như dịch tiếng Anh").

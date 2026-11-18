@@ -1,5 +1,7 @@
 # Quy tắc viết checklist
 
+> **Từ 2026-11-18 (file gộp):** feature mới không có `checklist.md` riêng. Các quy tắc dưới đây vẫn áp dụng cho các cột `Tình huống`, `Ưu tiên`, `Kỹ thuật`, `Nguồn` của **bảng gộp 13 cột** trong `test-case.md` (`Mã | Tình huống | Ưu tiên | Kỹ thuật | Điều kiện trước | Các bước | Dữ liệu test | Kết quả mong đợi | Nguồn | Kết quả thực tế | Trạng thái | Người viết | Tự động hóa`). Mục "Chưa đưa vào" và "Câu hỏi cho BA" nằm cuối `test-case.md`. Bảng 5 cột dưới đây chỉ còn cho feature cũ có hai file (Đăng nhập).
+
 ## Khuôn bảng (5 cột, tiêu đề cố định để script đọc)
 `| Mã | Tình huống | Ưu tiên | Kỹ thuật | Nguồn |`
 - **Mã:** `TC-001`, `TC-002`… liên tục, không nhảy số, không dùng lại. Dòng **Cao xếp trước**, rồi Trung bình, rồi Thấp (script `sinh-bang.py` tự đánh mã sau khi xếp).

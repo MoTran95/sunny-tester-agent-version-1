@@ -273,7 +273,10 @@ def main():
         sys.exit(f"Chưa có {cfg_p}")
     cfg = json.loads(read(cfg_p))
     srs_t, bs_t = read(ROOT / cfg["srs"]), read(ROOT / cfg["bang_soat"])
-    ck_t, tc_t = read(ROOT / cfg["checklist"]), read(ROOT / cfg["test_case"])
+    # Cấu hình không có khóa "checklist" = file gộp (checklist nằm chung bảng test case, từ 2026-11-18)
+    gop = not cfg.get("checklist")
+    tc_t = read(ROOT / cfg["test_case"])
+    ck_t = tc_t if gop else read(ROOT / cfg["checklist"])
 
     cur = parse_srs(srs_t, cfg["tien_to"])
     tls = parse_tl(bs_t)
@@ -293,9 +296,9 @@ def main():
 
     problems = []
     # Checklist và test case phải khớp nhau
-    if set(ck) != set(tcs):
+    if not gop and set(ck) != set(tcs):
         problems.append(f"Checklist và test case lệch mã TC: chỉ ở checklist {sorted(set(ck)-set(tcs))}, chỉ ở test case {sorted(set(tcs)-set(ck))}")
-    for k in sorted(set(ck) & set(tcs)):
+    for k in ([] if gop else sorted(set(ck) & set(tcs))):
         if tcs[k]["uu_tien"] and ck[k]["uu_tien"] != tcs[k]["uu_tien"]:
             problems.append(f"{k}: ưu tiên ở checklist \"{ck[k]['uu_tien']}\" khác test case \"{tcs[k]['uu_tien']}\"")
         if ck[k]["ma"] != tcs[k]["ma"]:
@@ -408,7 +411,10 @@ def main():
     L.append("| | |\n|---|---|")
     L.append(f"| Lần chạy gần nhất | {fmt_dt(now_iso, today)} ({'chốt mốc mới' if a.lenh == 'chot' else 'chỉ kiểm, chưa đổi mốc'}) |")
     L.append(f"| Requirement | {cfg['srs']} (cập nhật {dua_tren['srs']}); bảng soát (cập nhật {dua_tren['bang_soat']}), câu trả lời đến {dua_tren['tl_cuoi']} |")
-    L.append(f"| Checklist, test case | [checklist.md]({rel(out_dir, ROOT / cfg['checklist'])}), [test-case.md]({rel(out_dir, ROOT / cfg['test_case'])}) |")
+    if gop:
+        L.append(f"| Test case (đã gồm checklist) | [test-case.md]({rel(out_dir, ROOT / cfg['test_case'])}) |")
+    else:
+        L.append(f"| Checklist, test case | [checklist.md]({rel(out_dir, ROOT / cfg['checklist'])}), [test-case.md]({rel(out_dir, ROOT / cfg['test_case'])}) |")
     nc = state.get("nguon_chot") or {}
     L.append(f"| Mốc đã chốt | {fmt_dt(state['lich_su'][-1].get('thoi_diem'), state['lich_su'][-1]['ngay']) if state['lich_su'] else 'chưa chốt lần nào'}" +
              (f" (khi đó: SRS {nc.get('srs')}, bảng soát {nc.get('bang_soat')}, TL đến {nc.get('tl_cuoi')})" if nc else "") + " |\n")
@@ -422,7 +428,7 @@ def main():
     L.append("## 2. Khi requirement đổi, làm gì")
     L.append(f"1. Sửa SRS hoặc ghi câu trả lời mới của BA vào bảng soát (như mọi lần).")
     L.append(f"2. Chạy `python -X utf8 scripts/truy-vet.py kiem {a.du_an} {a.tinh_nang}`. Script liệt kê mã đã đổi và các test case chuyển sang **Cần xem lại**.")
-    L.append("3. Mở từng test case đó (bảng 6 dưới đây), sửa checklist và test case cho khớp.")
+    L.append(("3. Mở từng test case đó (bảng 6 dưới đây), sửa test case cho khớp (checklist nằm chung bảng)." if gop else "3. Mở từng test case đó (bảng 6 dưới đây), sửa checklist và test case cho khớp."))
     L.append(f"4. Chạy `python -X utf8 scripts/truy-vet.py chot {a.du_an} {a.tinh_nang} -m \"đã làm gì, vì sao\"`. Script ghi một dòng lịch sử và chốt mốc mới.")
     L.append("5. Muốn xem từng chữ đã đổi, dùng lịch sử git (commit sau mỗi lần chốt).\n")
     L.append("## 3. Bảng tra mã")
@@ -493,6 +499,8 @@ def main():
 
     # ---------- chèn khối lịch sử vào checklist / test case ----------
     for kind, key in (("checklist", "checklist"), ("test-case", "test_case")):
+        if gop and kind == "checklist":
+            continue
         p = ROOT / cfg[key]
         t = read(p)
         B = [START, "## Lịch sử thay đổi",
