@@ -7,7 +7,7 @@ Dùng:
       So requirement hiện tại với mốc đã chốt lần trước, báo mã nào đổi và test case nào
       cần xem lại, ghi lại truy-vet.md và khối "Lịch sử thay đổi" trong checklist/test case.
       Không đổi mốc. Thoát mã 1 nếu có việc cần làm.
-  python -X utf8 scripts/truy-vet.py chot <dự-án> <tính-năng> -m "đã làm gì" [--doi checklist,test-case,requirement]
+  python -X utf8 scripts/truy-vet.py chot <dự-án> <tính-năng> -m "đã làm gì" [--doi checklist,test-case,requirement] [--ngay-ba YYYY-MM-DD]
       Chốt mốc mới: "test case hiện tại đã khớp requirement hiện tại". Ghi một dòng lịch sử.
 
 Ví dụ: python -X utf8 scripts/truy-vet.py kiem banking-lite dang-nhap
@@ -23,6 +23,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -31,6 +32,25 @@ CODE = r"(?:S\d\d-AC\d\d|R\d\d|M\d\d|TL-\d\d)"
 TOKEN = re.compile(r"(?<![\w-])(" + CODE + r")(?!\w)")
 START = "<!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet.py, không sửa tay) -->"
 END = "<!-- LICH-SU:KET-THUC -->"
+
+
+def git(*args):
+    r = subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True, encoding="utf-8")
+    return r.stdout.strip()
+
+
+def fmt_dt(iso, ngay=None):
+    """2026-11-18 14:32:05 (+07:00); mốc cũ chỉ có ngày thì ghi "không rõ giờ", không bịa giờ."""
+    if iso:
+        return datetime.datetime.fromisoformat(iso).strftime("%Y-%m-%d %H:%M:%S") + f" ({iso[-6:]})"
+    return f"{ngay} (không rõ giờ)"
+
+
+def fmt_commit(e):
+    c = e.get("commit_goc")
+    if not c:
+        return "—"
+    return f"`{c}`" + (" + sửa chưa commit" if e.get("chua_commit") else "")
 
 
 def cells(line):
@@ -139,7 +159,8 @@ def main():
     ap.add_argument("tinh_nang")
     ap.add_argument("-m", "--mo-ta", default="")
     ap.add_argument("--doi", default="checklist,test-case")
-    ap.add_argument("--ngay", default=datetime.date.today().isoformat())
+    ap.add_argument("--ngay", default=None, help="chỉ dùng khi thử: ép ngày, không ghi giờ")
+    ap.add_argument("--ngay-ba", default=None, help="ngày BA trả lời (YYYY-MM-DD), nếu biết")
     a = ap.parse_args()
 
     d = ROOT / "testing" / a.du_an / a.tinh_nang
@@ -228,7 +249,9 @@ def main():
     ma_doi = [c for c, v in ma_st.items() if v in ("Đã đổi", "Đã bỏ khỏi nguồn")]
     ma_moi = [c for c, v in ma_st.items() if v == "Mới"]
 
-    today = a.ngay
+    now = None if a.ngay else datetime.datetime.now().astimezone()
+    now_iso = now.isoformat(timespec="seconds") if now else None
+    today = a.ngay or now.date().isoformat()
     if a.lenh == "chot":
         if not a.mo_ta.strip():
             sys.exit('Cần -m "đã làm gì" để ghi vào lịch sử.')
@@ -253,7 +276,7 @@ def main():
                 state["tc"][t] = dict(tao=old["tao"], sua=today if old["row_hash"] != row_h(t) else old["sua"], row_hash=row_h(t), ma=tcs[t]["ma"])
         for t in tc_bo:
             state["tc"][t]["da_bo"] = today
-        state["lich_su"].append(dict(ngay=today, doi=[x.strip() for x in a.doi.split(",") if x.strip()], noi_dung=a.mo_ta.strip(),
+        state["lich_su"].append(dict(ngay=today, thoi_diem=now_iso, commit_goc=git("rev-parse", "--short", "HEAD") or None, chua_commit=bool(git("status", "--porcelain")), ngay_ba=a.ngay_ba, doi=[x.strip() for x in a.doi.split(",") if x.strip()], noi_dung=a.mo_ta.strip(),
                                      dua_tren=dua_tren, ma_doi=ma_doi, ma_moi=ma_moi, tc_moi=tc_moi, tc_sua=tc_sua, tc_bo=tc_bo))
         state["nguon_chot"] = dua_tren
         st_p.write_text(json.dumps(state, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -275,11 +298,11 @@ def main():
     L.append(f"# Truy vết — {cfg['ten_tinh_nang']}\n")
     L.append("*File này do `scripts/truy-vet.py` tự sinh, đừng sửa tay. Muốn đổi thì sửa nguồn rồi chạy lại script.*\n")
     L.append("| | |\n|---|---|")
-    L.append(f"| Lần chạy gần nhất | {today} ({'chốt mốc mới' if a.lenh == 'chot' else 'chỉ kiểm, chưa đổi mốc'}) |")
+    L.append(f"| Lần chạy gần nhất | {fmt_dt(now_iso, today)} ({'chốt mốc mới' if a.lenh == 'chot' else 'chỉ kiểm, chưa đổi mốc'}) |")
     L.append(f"| Requirement | {cfg['srs']} (cập nhật {dua_tren['srs']}); bảng soát (cập nhật {dua_tren['bang_soat']}), câu trả lời đến {dua_tren['tl_cuoi']} |")
     L.append(f"| Checklist, test case | [checklist.md]({rel(out_dir, ROOT / cfg['checklist'])}), [test-case.md]({rel(out_dir, ROOT / cfg['test_case'])}) |")
     nc = state.get("nguon_chot") or {}
-    L.append(f"| Mốc đã chốt | {state['lich_su'][-1]['ngay'] if state['lich_su'] else 'chưa chốt lần nào'}" +
+    L.append(f"| Mốc đã chốt | {fmt_dt(state['lich_su'][-1].get('thoi_diem'), state['lich_su'][-1]['ngay']) if state['lich_su'] else 'chưa chốt lần nào'}" +
              (f" (khi đó: SRS {nc.get('srs')}, bảng soát {nc.get('bang_soat')}, TL đến {nc.get('tl_cuoi')})" if nc else "") + " |\n")
     L.append("## 1. Tóm tắt")
     L.append(f"- Mã requirement: {len(srs_codes)} trong SRS, {len([c for c in cur if c.startswith('TL')])} câu trả lời (TL). Test case: {len(tcs)}.")
@@ -346,15 +369,15 @@ def main():
         L.append(f"| {t} | {cut(tcs[t]['tinh_huong'], 90)} | {ck.get(t, {}).get('uu_tien', '')} | {cut(ms, 400)} | {tc_st[t]} | {b.get('tao', '—') if not b.get('da_bo') else '—'} | {b.get('sua', '—') if not b.get('da_bo') else '—'} |")
     L.append("")
     L.append("## 7. Lịch sử thay đổi")
-    L.append("Ghi mỗi lần chạy `chot`. Cột \"Dựa trên\" là phiên bản requirement lúc chốt.\n")
-    L.append("| Ngày | Đối tượng | Nội dung | Dựa trên | Mã requirement đổi | Test case mới / sửa / bỏ |\n|---|---|---|---|---|---|")
+    L.append("Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc bấm chốt (kèm múi giờ), không phải giờ BA trả lời hay giờ requirement đổi; mốc cũ chỉ có ngày thì ghi \"không rõ giờ\". **Commit gốc** là commit đang đứng lúc chốt (\"+ sửa chưa commit\" nghĩa là còn thay đổi chưa commit); muốn xem từng chữ đã đổi, dùng git. **Ngày BA trả lời** chỉ ghi khi biết.\n")
+    L.append("| Thời điểm chốt (giờ máy) | Commit gốc | Ngày BA trả lời | Đối tượng | Nội dung | Dựa trên | Mã requirement đổi | Test case mới / sửa / bỏ |\n|---|---|---|---|---|---|---|---|")
     for e in state["lich_su"]:
         dt = e.get("dua_tren", {})
-        L.append(f"| {e['ngay']} | {', '.join(e['doi'])} | {cut(e['noi_dung'], 300)} | SRS {dt.get('srs')}; bảng soát {dt.get('bang_soat')}; TL đến {dt.get('tl_cuoi')} | "
+        L.append(f"| {fmt_dt(e.get('thoi_diem'), e['ngay'])} | {fmt_commit(e)} | {e.get('ngay_ba') or '—'} | {', '.join(e['doi'])} | {cut(e['noi_dung'], 300)} | SRS {dt.get('srs')}; bảng soát {dt.get('bang_soat')}; TL đến {dt.get('tl_cuoi')} | "
                  f"{', '.join(e.get('ma_doi', []) + [x + ' (mới)' for x in e.get('ma_moi', [])]) or '—'} | "
                  f"mới {len(e.get('tc_moi', []))}; sửa {', '.join(e.get('tc_sua', [])) or 0}; bỏ {', '.join(e.get('tc_bo', [])) or 0} |")
     if not state["lich_su"]:
-        L.append("| (chưa có) | | | | | |")
+        L.append("| (chưa có) | | | | | | | |")
     (d / "truy-vet.md").write_text("\n".join(L) + "\n", encoding="utf-8")
 
     # ---------- chèn khối lịch sử vào checklist / test case ----------
@@ -363,14 +386,14 @@ def main():
         t = read(p)
         B = [START, "## Lịch sử thay đổi",
              f"Dựa trên: SRS cập nhật {dua_tren['srs']}; bảng soát cập nhật {dua_tren['bang_soat']}; câu trả lời của BA đến {dua_tren['tl_cuoi']}. "
-             f"Trạng thái truy vết (chạy ngày {today}): " + (", ".join(f"{k} {v}" for k, v in sorted(cnt.items())) or "chưa có") +
+             f"Trạng thái truy vết (chạy {fmt_dt(now_iso, today)}): " + (", ".join(f"{k} {v}" for k, v in sorted(cnt.items())) or "chưa có") +
              ". Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).", "",
-             "| Ngày | Nội dung | Test case mới / sửa / bỏ |", "|---|---|---|"]
+             "| Thời điểm chốt (giờ máy) | Commit gốc | Nội dung | Test case mới / sửa / bỏ |", "|---|---|---|---|"]
         rows = [e for e in state["lich_su"] if kind in e["doi"] or "requirement" in e["doi"]]
         for e in rows:
-            B.append(f"| {e['ngay']} | {cut(e['noi_dung'], 300)} | mới {len(e.get('tc_moi', []))}; sửa {', '.join(e.get('tc_sua', [])) or 0}; bỏ {', '.join(e.get('tc_bo', [])) or 0} |")
+            B.append(f"| {fmt_dt(e.get('thoi_diem'), e['ngay'])} | {fmt_commit(e)} | {cut(e['noi_dung'], 300)} | mới {len(e.get('tc_moi', []))}; sửa {', '.join(e.get('tc_sua', [])) or 0}; bỏ {', '.join(e.get('tc_bo', [])) or 0} |")
         if not rows:
-            B.append("| (chưa có) | | |")
+            B.append("| (chưa có) | | | |")
         B.append(END)
         blk = "\n".join(B)
         if START in t and END in t:
@@ -380,7 +403,7 @@ def main():
         p.write_text(t, encoding="utf-8")
 
     # ---------- in ra console ----------
-    print(f"[{a.lenh}] {a.du_an}/{a.tinh_nang}  ngày {today}")
+    print(f"[{a.lenh}] {a.du_an}/{a.tinh_nang}  {fmt_dt(now_iso, today)}")
     print("  Trạng thái test case:", ", ".join(f"{k} {v}" for k, v in sorted(cnt.items())))
     if ma_doi:
         print("  Mã requirement đã đổi:", ", ".join(f"{c} ({'; '.join(why(c)) or 'đã bỏ khỏi nguồn'})" for c in ma_doi))

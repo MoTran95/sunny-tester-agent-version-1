@@ -13,10 +13,17 @@ Người dùng hỏi (2026-11-18): khi requirement đổi thì làm sao biết s
 ## Yêu cầu theo BA gắn với mã SRS (làm 2026-11-18, hướng "B")
 - Người dùng hỏi nên để mã TL thế nào; chọn **B**: không sửa SRS, `truy-vet.md` mục 4 gom từ bảng soát (mục 5, 6) cho từng mã SRS: "Theo BA (hoặc suy ra)", "Hệ thống 1.3.0 hiện tại", "Còn mở". Test case viết theo cột Theo BA.
 - Phần theo BA tính vào phát hiện thay đổi (băm riêng `ba_hash`): sửa dòng "theo TL"/"Suy ra" của một mã trong bảng soát thì TC dùng mã đó thành Cần xem lại. Đã thử: đổi TL-11 → S02-AC07 và TC-014, 015, 037 bị bắt.
-- Hướng **C** (sửa SRS cho khớp BA) **hoãn tới khi có ticket/BA xác nhận bằng văn bản**. Rủi ro đã nêu với người dùng: mất hồ sơ quan sát, TL-12/13 chỉ là suy ra, trích dẫn trong bảng soát không còn khớp SRS, mã bị bỏ (M03, M04, S03-AC02) phải giữ mã và đánh dấu "Đã bỏ theo BA", script báo nhiễu. Cần commit trước khi làm C.
+- Hướng **C** (sửa SRS cho khớp BA) **đã làm 2026-11-18** sau khi người dùng báo BA xác nhận đúng TL-01…TL-13 (chưa có ticket/link). Mốc trước khi sửa: commit `46feb45`. Cách làm: giữ ID; cột phản hồi → "Yêu cầu"; thêm cột "Hệ thống 1.3.0 hiện tại" (giữ nguyên chữ quan sát cũ, `Khớp yêu cầu`/`⚠️ Khác yêu cầu`); nhãn `đã xác nhận (BA, ngày, TL-xx)`; mục BA bỏ giữ dòng nhãn `đã bỏ` (S03-AC02, M02, M03, M04). Ghi thành quy tắc 2b trong `srs/id-and-source-rules.md`. Trích nguyên văn của bảng soát vẫn khớp SRS mới (83/83) nhờ giữ chữ cũ ở cột hiện tại; kiểm bằng script so chuỗi. TL-12, TL-13 chuyển từ "suy ra" sang BA xác nhận ở bảng soát và 3 TC (012, 013, 022). Vẫn mở: B4 (câu báo khi nhập lúc đang bị chặn), B8 (thời hạn phiên). Khi có ticket thì thêm link vào cột Nguồn của các TL.
 - Parser đọc bảng soát theo chuỗi trạng thái ("theo TL", "Suy ra", "hành vi hiện tại", ❓); đổi cách viết trạng thái thì phải sửa `parse_ba` trong script.
 
+## Thời điểm trong lịch sử (2026-11-18)
+Người dùng muốn lịch sử ghi tới giờ phút giây. `chot` ghi `thoi_diem` (giờ máy + múi giờ), `commit_goc` (HEAD lúc chốt), `chua_commit` (còn sửa chưa commit), `--ngay-ba` (ngày BA trả lời, nếu biết). Mốc cũ chỉ có ngày thì hiện "không rõ giờ", **không bịa giờ**. Giờ chốt ≠ giờ BA trả lời ≠ giờ requirement đổi; muốn trace từng chữ thì dùng commit (git giữ giờ thật). Sau `chot` nên commit ngay để commit gốc có nghĩa. Quy ước ghi ở `srs/id-and-source-rules.md` 2c.
+
+## Link từ SRS tới câu trả lời và câu hỏi BA (2026-11-18)
+Trong SRS mọi `TL-xx`, `B4`, `B8` là link bấm được tới điểm nhảy `<a id="tl-11">` (ô cuối dòng TL trong bảng soát) và `<a id="b4">` (trước mỗi tiêu đề câu hỏi trong `cau-hoi-cho-ba.md`, 24 câu A/B/C). Điểm nhảy đặt ở ô không bị băm nên không làm test case bị đánh dấu. Thêm TL mới hoặc câu hỏi mới thì thêm điểm nhảy tương ứng và link ở SRS; kiểm bằng script so link với điểm nhảy (62 link, 0 hỏng lúc làm). Không đặt điểm nhảy trong ô mã hoặc ô nội dung của dòng TL (script đọc `^| TL-xx |` và băm hai ô đầu).
+
 ## Bẫy
+- **Sửa script qua heredoc Bash/Python:** `\n` trong mã bị biến thành xuống dòng thật làm vỡ chuỗi (đã gặp 2026-11-18). Dùng công cụ Edit, hoặc viết `chr(92)+"n"`; sau khi sửa luôn chạy `ast.parse` kiểm cú pháp.
 - Tên ngắn nằm trong `truy-vet-cau-hinh.json`; thêm mã mới vào SRS thì thêm tên ngắn (không có thì script lấy 40 ký tự đầu).
 - Cột Nguồn của TC phải ghi đúng mã (`S02-AC07`, `R06`, `M05`, `TL-11`); script dò mã bằng regex trong cột đó. Mã nằm trong phần giải thích trong ngoặc cũng bị tính là nguồn.
 - Muốn thấy từng chữ đã đổi thì cần **commit** sau mỗi lần chốt (git giữ lịch sử); script chỉ ghi mã nào đổi, không ghi nội dung cũ. Commit chỉ khi người dùng nhờ.

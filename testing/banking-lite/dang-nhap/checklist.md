@@ -4,7 +4,7 @@
 |---|---|
 | Ngày lập | 2026-11-18 |
 | Hệ thống | Web, ngân hàng cho vay mua nhà (Banking Lite). Phạm vi: chỉ màn hình Đăng nhập, Đăng xuất, đổi ngôn ngữ và chặn khi sai nhiều lần. Chỉ test chức năng |
-| Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) (bản nháp tả lại hệ thống 1.3.0) và [bảng soát](bang-soat-requirement.md) (câu trả lời của BA: TL-01 đến TL-11; TL-12, TL-13 là điều suy ra, người dùng đã xác nhận) |
+| Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) (bản nháp có xác nhận của BA từ 2026-11-18: cột "Yêu cầu" theo BA, cột "Hệ thống 1.3.0 hiện tại" ghi hành vi quan sát) và [bảng soát](bang-soat-requirement.md) (câu trả lời của BA: TL-01 đến TL-13; TL-12, TL-13 ban đầu là điều suy ra, BA đã xác nhận 2026-11-18) |
 | Chỉ làm | Checklist. Chưa viết bước chi tiết |
 | Chỉ dùng phần đã chốt | Phần còn ❓ trong bảng soát chưa đưa vào (xem mục "Chưa đưa vào" cuối file) |
 
@@ -25,8 +25,8 @@
 | TC-009 | Để trống ô Mật khẩu (mã nhân viên đúng hoặc sai): ra câu chung; **không** còn câu "Một số giá trị không hợp lệ." và dòng mã kỹ thuật `validation.too_small (password)` | Cao | Bảng quyết định | Có trong tài liệu: S02-AC05 (Bỏ trống Mật khẩu), M02 (Câu chung dữ liệu không hợp lệ), M03 (Dòng mã lỗi khi mật khẩu trống), R04 (Hai ô bắt buộc), TL-03 (BA: mọi ca sai, trống, quá dài báo một câu chung) · ⚠️ hệ thống hiện khác (còn hai dòng đó) |
 | TC-010 | Để trống cả hai ô rồi bấm Đăng nhập: ra câu chung | Cao | Bảng quyết định | Suy luận: TL-03 (BA: mọi ca sai, trống, quá dài báo một câu chung) nói mọi ca ô trống đều báo câu chung; hai ô cùng trống cũng là ca ô trống · ⚠️ hệ thống hiện khác |
 | TC-011 | Nhập sai rồi nhìn lại form sau khi báo lỗi: ô Mật khẩu phải trống (mật khẩu đã gõ không để lại trên màn hình), ô Mã nhân viên giữ chữ đã gõ | Cao | Use case | Suy luận: đăng nhập báo lỗi chung vì bảo mật (TL-03 (BA: mọi ca sai, trống, quá dài báo một câu chung)) nên mật khẩu đã gõ không được giữ lại; người dùng xác nhận 2026-11-18 · ⚠️ hệ thống hiện khác (đang giữ lại) |
-| TC-012 | Mật khẩu đúng nhưng đổi một chữ hoa thành chữ thường: không đăng nhập, báo câu chung (mật khẩu phân biệt hoa/thường) | Cao | EP | Suy luận: TL-13 (mật khẩu phải khớp từng ký tự vì là bí mật; người dùng xác nhận), R08 (Thuộc tính ô nhập) |
-| TC-013 | Mật khẩu đúng nhưng thừa khoảng trắng ở cuối: không đăng nhập, báo câu chung (khác ô mã, mật khẩu không bị cắt khoảng trắng) | Cao | EP | Suy luận: TL-13 (mật khẩu không có khoảng trắng, không cắt bỏ; người dùng xác nhận) |
+| TC-012 | Mật khẩu đúng nhưng đổi một chữ hoa thành chữ thường: không đăng nhập, báo câu chung (mật khẩu phân biệt hoa/thường) | Cao | EP | Có trong tài liệu: TL-13 (Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường; BA xác nhận 2026-11-18), R08 (Thuộc tính ô nhập) |
+| TC-013 | Mật khẩu đúng nhưng thừa khoảng trắng ở cuối: không đăng nhập, báo câu chung (khác ô mã, mật khẩu không bị cắt khoảng trắng) | Cao | EP | Có trong tài liệu: TL-13 (mật khẩu không có khoảng trắng, không cắt bỏ; BA xác nhận 2026-11-18) |
 | TC-014 | Sai liên tiếp **9 lần** (cùng một tài khoản): lần thứ 9 vẫn báo câu chung "không đúng", chưa bị chặn | Cao | BVA | Có trong tài liệu: TL-02 (BA: 10 lần sai liên tiếp là chặn, mọi loại lỗi), TL-11 (BA: lần sai thứ 10 báo bị chặn), S02-AC07 (Sai liên tiếp thì bị chặn tạm), R06 (Giới hạn đăng nhập sai) |
 | TC-015 | Lần sai thứ **10**: báo bị chặn tạm, bản Tiếng Việt ghi "Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút." | Cao | BVA | Có trong tài liệu: TL-11 (BA: lần sai thứ 10 báo bị chặn), TL-02 (BA: 10 lần sai liên tiếp là chặn, mọi loại lỗi), S02-AC07 (Sai liên tiếp thì bị chặn tạm), M05 (Câu báo bị chặn) · ⚠️ hệ thống hiện khác (báo sai thông tin ở 10 lần đầu, lần 11 mới chặn) |
 | TC-016 | Đang bị chặn, nhập sai thêm lần thứ **11**: vẫn bị chặn, không tính thêm lần, thời gian chặn không bị kéo dài thêm | Cao | BVA | Có trong tài liệu: TL-09 (lúc bị chặn nhập thêm không tính). Suy luận: không tính nên không đổi mốc 5 phút tính từ lúc bị chặn (TL-01 (BA: đang bị chặn thì không vào được, 5 phút)) |
@@ -35,7 +35,7 @@
 | TC-019 | Ngay **sau** mốc 5 phút kể từ lúc bị chặn, nhập đúng: vào được Danh sách việc | Cao | Chuyển trạng thái | Có trong tài liệu: TL-01 (BA: đang bị chặn thì không vào được, 5 phút), TL-09 (BA: hết 5 phút hết chặn, nhập thêm lúc bị chặn không tính) |
 | TC-020 | Hết 5 phút, nhập **sai**: báo câu chung (không phải câu bị chặn) và số lần sai đếm lại từ đầu | Cao | Chuyển trạng thái | Có trong tài liệu: TL-09 (BA: hết 5 phút hết chặn, nhập thêm lúc bị chặn không tính) |
 | TC-021 | Sai 9 lần, đăng nhập đúng một lần, rồi sai tiếp: không bị chặn (số lần sai về 0 sau lần đúng, chỉ tính số lần, không tính thời gian) | Cao | Chuyển trạng thái | Có trong tài liệu: TL-06 (BA: đăng nhập đúng đưa số lần sai về 0), R06 (Giới hạn đăng nhập sai) |
-| TC-022 | Sai 9 lần với `P100001`, rồi sai một lần với `P200001`: `P200001` chưa bị chặn; `P100001` sai thêm một lần thì bị chặn (chặn theo từng tài khoản) | Cao | Bảng quyết định | Suy luận: TL-12 (chặn đúng tài khoản nhập sai; người dùng xác nhận, BA chưa xác nhận), R06 (Giới hạn đăng nhập sai) · có thể khác hệ thống hiện tại |
+| TC-022 | Sai 9 lần với `P100001`, rồi sai một lần với `P200001`: `P200001` chưa bị chặn; `P100001` sai thêm một lần thì bị chặn (chặn theo từng tài khoản) | Cao | Bảng quyết định | Có trong tài liệu: TL-12 (chặn đúng tài khoản nhập sai; BA xác nhận 2026-11-18), R06 (Giới hạn đăng nhập sai) · có thể khác hệ thống hiện tại |
 | TC-023 | Đăng xuất khi đang đăng nhập: về form đăng nhập, địa chỉ là `/`, ngôn ngữ đã chọn giữ nguyên | Cao | Chuyển trạng thái | Có trong tài liệu: S04-AC01 (Đăng xuất) |
 | TC-024 | Đăng xuất khi đang ở trang một hồ sơ, rồi bấm Back của trình duyệt: chỉ hiện form đăng nhập, dữ liệu hồ sơ không hiện | Cao | Chuyển trạng thái | Có trong tài liệu: S04-AC03 (Back sau khi đăng xuất) |
 | TC-025 | Hai tab cùng trình duyệt: đăng xuất ở tab 2, ở tab 1 thao tác cần tải dữ liệu (ví dụ bấm "Tất cả hồ sơ"): tab 1 chuyển về form đăng nhập | Cao | Chuyển trạng thái | Có trong tài liệu: S04-AC04 (Đăng xuất ở tab này, tab kia còn mở). Suy luận: bị đăng xuất thì về form để đăng nhập lại là đủ, không cần câu "Vui lòng đăng nhập." (M06 (Câu Vui lòng đăng nhập) chưa từng hiện trên màn hình) |
@@ -65,10 +65,13 @@ Các ca này còn ❓ trong [bảng soát](bang-soat-requirement.md) và [câu h
 
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet.py, không sửa tay) -->
 ## Lịch sử thay đổi
-Dựa trên: SRS cập nhật 2026-11-17; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-13. Trạng thái truy vết (chạy ngày 2026-11-18): Còn đúng 41. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
+Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-13. Trạng thái truy vết (chạy 2026-11-18 15:55:25 (+07:00)): Còn đúng 41. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
 
-| Ngày | Nội dung | Test case mới / sửa / bỏ |
-|---|---|---|
-| 2026-11-18 | Tạo lần đầu: checklist 41 dòng và test case chi tiết 41 case (TC-001 đến TC-041), dựa trên phần requirement đã chốt. Thêm tên ngắn vào cột Nguồn, bảng tra mã, ma trận truy vết hai chiều. | mới 41; sửa 0; bỏ 0 |
-| 2026-11-18 | Thêm phần Yêu cầu theo BA của từng mã SRS (mục 4 trong truy-vet.md), gom từ bảng soát; phần này được tính vào việc phát hiện thay đổi. Không sửa SRS. | mới 0; sửa 0; bỏ 0 |
+| Thời điểm chốt (giờ máy) | Commit gốc | Nội dung | Test case mới / sửa / bỏ |
+|---|---|---|---|
+| 2026-11-18 (không rõ giờ) | — | Tạo lần đầu: checklist 41 dòng và test case chi tiết 41 case (TC-001 đến TC-041), dựa trên phần requirement đã chốt. Thêm tên ngắn vào cột Nguồn, bảng tra mã, ma trận truy vết hai chiều. | mới 41; sửa 0; bỏ 0 |
+| 2026-11-18 (không rõ giờ) | — | Thêm phần Yêu cầu theo BA của từng mã SRS (mục 4 trong truy-vet.md), gom từ bảng soát; phần này được tính vào việc phát hiện thay đổi. Không sửa SRS. | mới 0; sửa 0; bỏ 0 |
+| 2026-11-18 (không rõ giờ) | — | BA xác nhận TL-01 đến TL-13; SRS ghi yêu cầu theo BA (thêm cột Hệ thống 1.3.0 hiện tại, bỏ S03-AC02, M02, M03, M04, sửa yêu cầu 18 mã khác). Đã rà 20 test case bị đánh dấu: nội dung vẫn khớp yêu cầu mới, chỉ cập nhật nhãn nguồn TC-012, TC-013, TC-022 (TL-12, TL-13 từ suy luận thành BA xác nhận). | mới 0; sửa TC-012, TC-013, TC-022; bỏ 0 |
+| 2026-11-18 15:48:00 (+07:00) | `46feb45` + sửa chưa commit | Lịch sử truy vết ghi thời điểm chốt chính xác (giờ phút giây, múi giờ), commit gốc, ngày BA trả lời. Không đổi nội dung test case. | mới 0; sửa 0; bỏ 0 |
+| 2026-11-18 15:55:25 (+07:00) | `46feb45` + sửa chưa commit | SRS: mọi TL-xx, B4, B8 thành link bấm được tới bảng soát và câu hỏi cho BA (62 link, 0 hỏng); thêm điểm nhảy cho 13 dòng TL và 24 câu hỏi. Không đổi nội dung yêu cầu hay test case. | mới 0; sửa 0; bỏ 0 |
 <!-- LICH-SU:KET-THUC -->

@@ -41,7 +41,7 @@ Chỉ đọc khi `.du-an-hien-tai` là `banking-lite`.
 | [modules/banking-lite/overview.md](modules/banking-lite/overview.md) | Hệ thống, tài khoản, bối cảnh, thư mục của dự án. Đọc đầu tiên khi làm Banking Lite |
 | [modules/banking-lite/tu-ngu-cau-hoi-ba.md](modules/banking-lite/tu-ngu-cau-hoi-ba.md) | Từ đã chốt với BA (mức tối đa, hết hạn vay, bị chặn…) |
 | [modules/banking-lite/exploration-findings.md](modules/banking-lite/exploration-findings.md) | Luồng hồ sơ vay, vai trò, tích hợp, bẫy khi thao tác browser |
-| [modules/banking-lite/feature-dang-nhap.md](modules/banking-lite/feature-dang-nhap.md) | Đăng nhập (`LOGIN`): thông báo lỗi, link sâu, câu trả lời BA, điều chưa thử |
+| [modules/banking-lite/feature-dang-nhap.md](modules/banking-lite/feature-dang-nhap.md) | Đăng nhập (`LOGIN`): thông báo lỗi, link sâu, câu trả lời BA, SRS đã ghi theo BA (2026-11-18), điều chưa thử |
 | [modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md](modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md) | Khuyến nghị LTV/DSR (`RECO`): luật thẩm định, dữ liệu test, bẫy |
 | [modules/banking-lite/feature-gui-tham-dinh.md](modules/banking-lite/feature-gui-tham-dinh.md) | Nút Gửi thẩm định: điều kiện bật/tắt, dữ liệu test, việc còn lại |
 | [modules/banking-lite/report-v2-html.md](modules/banking-lite/report-v2-html.md) | Báo cáo HTML v2: cấu trúc, khoanh nút, cách xem thử |

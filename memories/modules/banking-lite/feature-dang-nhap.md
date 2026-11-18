@@ -61,6 +61,9 @@ Người dùng xác nhận **BA trả lời** (chuyển lại trong chat, chưa 
 ## Truy vết (2026-11-18)
 `testing/banking-lite/dang-nhap/truy-vet.md` (tự sinh) + `truy-vet-cau-hinh.json` (tên ngắn 52 mã) + `truy-vet-trang-thai.json` (mốc đã chốt). Cột Nguồn của checklist/test case ghi `mã (tên ngắn)`. Mốc đầu chốt 2026-11-18: 41 TC "Còn đúng". Chi tiết cách dùng: [../../project/truy-vet-requirement.md](../../project/truy-vet-requirement.md).
 
+## SRS theo BA (2026-11-18, hướng C đã làm)
+BA xác nhận đúng TL-01…TL-13 (chưa có ticket). `srs/banking-lite/dang-nhap.md` nay có cột **"Yêu cầu: hệ thống phản hồi"** (theo BA) và cột **"Hệ thống 1.3.0 hiện tại"** (chữ quan sát cũ, `Khớp`/`⚠️ Khác` = nghi lỗi). **Từ nay SRS này là yêu cầu theo BA, không còn chỉ là bản quan sát** (các ghi chú cũ ở file này nói "SRS là bản nháp ghi hành vi hệ thống" chỉ đúng tới 2026-11-17). Đã bỏ: S03-AC02, M02, M03, M04. Còn mở: B4, B8. Chi tiết: [../../project/truy-vet-requirement.md](../../project/truy-vet-requirement.md). Mốc trước khi sửa: commit `46feb45`.
+
 ## Chưa thử
 Sai mật khẩu nhiều lần (nguy cơ khóa tài khoản test — hỏi người dùng trước), chữ P thường, khoảng trắng, hết hạn phiên, hai tab, đăng nhập P100002.
 

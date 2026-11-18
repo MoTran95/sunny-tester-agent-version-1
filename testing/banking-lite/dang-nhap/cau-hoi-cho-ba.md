@@ -6,12 +6,12 @@
 | Dùng để | Gửi BA. Mỗi câu có tình huống thật, câu hỏi, cách mình đang hiểu và lý do hỏi |
 | Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) và [bảng soát](bang-soat-requirement.md). Mã cũ ghi ở cuối mỗi câu để tra chéo |
 | Cách dùng | Gửi **Phần A** trước. **Phần B** gom hỏi một lần sau. **Phần C** là việc mình tự kiểm tra trên hệ thống, chưa cần hỏi BA |
-| Tình trạng | A1–A6, B1, B3, B12, B13 đã được BA trả lời ngày 2026-11-18 (người dùng chuyển lại trong chat). Soát lại 2026-11-18: A7, A8 **không gửi BA** (suy ra từ requirement, người dùng xác nhận, TL-12, TL-13), B2 gộp vào A7, B4 viết lại. B5, B6, B7, B9, B10, B11, B14 bỏ vì suy ra được Các câu còn lại chưa hỏi BA. C6 không cần làm nữa |
+| Tình trạng | A1–A6, B1, B3, B12, B13 đã được BA trả lời ngày 2026-11-18 (người dùng chuyển lại trong chat). Soát lại 2026-11-18: A7, A8 **không gửi BA** (suy ra từ requirement, người dùng xác nhận, sau đó BA xác nhận ngày 2026-11-18, TL-12, TL-13), B2 gộp vào A7, B4 viết lại. B5, B6, B7, B9, B10, B11, B14 bỏ vì suy ra được Các câu còn lại chưa hỏi BA. C6 không cần làm nữa |
 
 ## Đọc trước 1 phút
 Đăng nhập là cổng vào hệ thống: nhân viên nhập **Mã nhân viên** và **Mật khẩu** để vào "Danh sách việc". Phần này cũng có đăng xuất, đổi ngôn ngữ ngay ở màn hình đăng nhập, và chặn khi đăng nhập sai nhiều lần.
 
-**Một điều quan trọng:** SRS mình đang đọc là bản nháp, viết lại từ việc xem hệ thống banking-lite bản 1.3.0 đang chạy. Nó chưa phải tài liệu yêu cầu của BA. Nên mọi chỗ ghi "đã rõ" chỉ có nghĩa là "hệ thống đang làm vậy", chưa chắc là đúng. Nếu anh/chị có tài liệu yêu cầu chính thức của Đăng nhập, cho mình xin. Nhiều câu dưới đây sẽ tự có đáp án.
+**Một điều quan trọng (cập nhật 2026-11-18):** bản câu hỏi này viết khi SRS mới ghi lại hành vi hệ thống banking-lite bản 1.3.0 đang chạy. Nay BA đã trả lời và xác nhận (TL-01 đến TL-13), SRS đã ghi yêu cầu theo BA và có thêm cột "Hệ thống 1.3.0 hiện tại". Câu nào chưa có trả lời (B4, B8 và các mục còn lại) vẫn còn mở. Nếu anh/chị có tài liệu yêu cầu chính thức của Đăng nhập, cho mình xin.
 
 | Từ | Nghĩa trong file này |
 |---|---|
@@ -30,6 +30,7 @@
 
 Các câu này làm đổi kết quả đúng, nên cần trả lời sớm.
 
+<a id="a1"></a>
 ## A1. Đang bị chặn mà nhập đúng vẫn vào được, có đúng ý không?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -56,6 +57,7 @@ Mình đăng nhập sai liên tiếp cho tới khi màn hình báo "Too many fai
 
 ---
 
+<a id="a2"></a>
 ## A2. Mấy lần đăng nhập sai thì bị chặn, và lần nào được tính?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -92,6 +94,7 @@ Con số 10 chỉ đúng với một cách đếm. Cách đếm khác cho số k
 
 ---
 
+<a id="a3"></a>
 ## A3. Để trống một ô, hoặc nhập mã quá dài, màn hình phải báo câu gì?
 
 **Người trả lời gợi ý:** BA
@@ -124,6 +127,7 @@ Dòng thứ hai là mã kỹ thuật bằng tiếng Anh. Đổi sang Tiếng Vi�
 
 ---
 
+<a id="a4"></a>
 ## A4. Mã nhân viên hợp lệ gồm những gì: chữ thường, khoảng trắng, độ dài?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -158,6 +162,7 @@ Dòng gợi ý dưới ô ghi "Chữ P và 6 chữ số, ví dụ P100001." Mìn
 
 ---
 
+<a id="a5"></a>
 ## A5. "Mã không gian" trong câu báo sai thông tin là gì?
 
 **Người trả lời gợi ý:** BA
@@ -184,6 +189,7 @@ Khi nhập sai, màn hình báo "Mã không gian, mã nhân viên hoặc mật k
 
 ---
 
+<a id="a6"></a>
 ## A6. Đăng nhập đúng xen giữa các lần sai thì đếm sao, và lần sai thứ 10 báo gì?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -216,7 +222,10 @@ Câu trả lời của A2 là 10 lần sai liên tiếp thì bị chặn, và "�
 
 ---
 
+<a id="a7"></a>
 ## A7. Khi bị chặn, ai không đăng nhập được: chỉ người nhập sai, hay cả người khác?
+
+**Tình trạng (2026-11-18):** BA đã xác nhận: chặn theo từng tài khoản đã nhập sai (TL-12).
 
 **Người trả lời gợi ý:** BA và Dev
 
@@ -247,7 +256,10 @@ Ví dụ: người thứ nhất gõ nhầm mã 10 lần trên máy của mình. 
 
 ---
 
+<a id="a8"></a>
 ## A8. Ô Mật khẩu có cắt khoảng trắng và có phân biệt chữ hoa, chữ thường không?
+
+**Tình trạng (2026-11-18):** BA đã xác nhận: mật khẩu không cắt khoảng trắng, có phân biệt hoa/thường (TL-13).
 
 **Người trả lời gợi ý:** BA và Dev
 
@@ -278,6 +290,7 @@ Ví dụ: mật khẩu đúng là `Abc12345`. Người dùng gõ `Abc12345 ` (th
 
 Các câu này chủ yếu về hiển thị, câu chữ, hoặc phần mình chưa test được.
 
+<a id="b1"></a>
 ## B1. Mã không tồn tại và sai mật khẩu dùng chung một câu, có đúng ý không?
 
 **Người trả lời gợi ý:** BA
@@ -298,6 +311,7 @@ Mình thử `P100001` với mật khẩu sai, rồi `P999999` (mã không có th
 
 ---
 
+<a id="b2"></a>
 ## B2. Việc chặn tính theo cái gì: mã nhân viên, trình duyệt, hay cả hệ thống?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -325,6 +339,7 @@ Mình thử đăng nhập sai bằng các mã không có thật mà vẫn bị c
 
 ---
 
+<a id="b3"></a>
 ## B3. Hết 5 phút thì hết chặn chưa, và có luôn là 5 phút không?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -345,6 +360,7 @@ Màn hình báo "Try again in 5 minutes." Mình chưa chờ hết 5 phút để 
 
 ---
 
+<a id="b4"></a>
 ## B4. Lúc đang bị chặn, màn hình báo câu gì, và số phút có giảm dần không?
 
 **Người trả lời gợi ý:** BA
@@ -368,6 +384,7 @@ Theo câu trả lời A1, đang bị chặn thì nhập đúng cũng không vào
 
 ---
 
+<a id="b8"></a>
 ## B8. Phiên đăng nhập giữ được bao lâu, hết hạn thì màn hình làm gì?
 
 **Người trả lời gợi ý:** Dev
@@ -386,6 +403,7 @@ Mình tải lại trang (F5) thì vẫn đang đăng nhập. Mình chưa chờ �
 
 ---
 
+<a id="b12"></a>
 ## B12. Mã không gian đã bỏ, thanh trên còn hiện `DEFAULT` không?
 
 **Người trả lời gợi ý:** BA và Dev
@@ -406,6 +424,7 @@ Sau khi mình đăng nhập P100001, thanh trên hiện `P100001 · Chuyên viê
 
 ---
 
+<a id="b13"></a>
 ## B13. Câu báo sai thông tin viết nguyên văn thế nào, Tiếng Việt và English?
 
 **Người trả lời gợi ý:** BA
@@ -435,6 +454,7 @@ Hai điều cần nhớ:
 - Mình không tự gõ mật khẩu. Mình điền sẵn ô Mã nhân viên, mật khẩu do người giữ tài khoản gõ.
 - Mỗi lần nhập sai đều tính vào giới hạn (theo A2: 10 lần sai liên tiếp thì bị chặn 5 phút), và mình không biết số đếm hiện còn bao nhiêu. Mục C1 có thể có lần nhập sai (nếu hệ thống không cắt khoảng trắng). Chỉ làm khi đã báo trước, tối đa 3 lần.
 
+<a id="c1"></a>
 ## C1. Mã thật có khoảng trắng đầu hoặc cuối có đăng nhập được không?
 
 - **Cần làm:** gõ `P100001 ` (thừa khoảng trắng cuối), rồi ` P100001` (thừa khoảng trắng đầu), cùng mật khẩu đúng. Xem vào được hay bị từ chối.
@@ -444,6 +464,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: S02-AC04, Q04.*
 
+<a id="c2"></a>
 ## C2. Nhấn Enter ở ô Mật khẩu có gửi form không?
 
 - **Cần làm:** nhập mã và mật khẩu đúng, đặt con trỏ ở ô Mật khẩu, nhấn Enter (không bấm nút).
@@ -453,6 +474,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: S01-AC05.*
 
+<a id="c3"></a>
 ## C3. Mã chữ thường của P200001 và P300001 có đăng nhập được không?
 
 - **Cần làm:** gõ `p200001` rồi `p300001` (chữ p thường) cùng mật khẩu đúng của từng tài khoản. Xem vào được không, thanh trên hiện chữ gì.
@@ -462,6 +484,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: S01-AC04, R02.*
 
+<a id="c4"></a>
 ## C4. Tên vai trò bằng English của P200001 và P300001 là gì?
 
 - **Cần làm:** đăng nhập từng tài khoản, bấm English, đọc tên vai trò trên thanh trên.
@@ -470,6 +493,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: S03-AC04.*
 
+<a id="c5"></a>
 ## C5. P100002 là tài khoản gì?
 
 - **Cần làm:** đăng nhập P100002 (mật khẩu do người giữ tài khoản gõ). Xem thanh trên và Danh sách việc.
@@ -478,6 +502,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: tài khoản P100002 trong mục 1 của SRS.*
 
+<a id="c6"></a>
 ## C6. Mã quá dài ở bản English báo câu gì?
 
 - **Cần làm:** đổi sang English, gõ mã 210 ký tự, bấm Sign in, đọc khung lỗi. Đây là một lần nhập sai.
@@ -487,6 +512,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: M04, S03-AC02.*
 
+<a id="c7"></a>
 ## C7. Một tài khoản đăng nhập ở hai trình duyệt khác nhau thì sao?
 
 - **Cần làm:** đăng nhập P100001 ở trình duyệt thứ nhất, rồi đăng nhập cùng tài khoản ở trình duyệt thứ hai. Quay lại trình duyệt thứ nhất, bấm một tab cần tải dữ liệu.
@@ -495,6 +521,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: phần "chưa khám phá" trong mục 6.2 của SRS.*
 
+<a id="c8"></a>
 ## C8. Bấm nút Đăng nhập hai lần nhanh thì có gửi hai lần không?
 
 - **Cần làm:** nhập thông tin đúng, bấm nút hai lần thật nhanh. Xem nút có bị khóa lúc đang gửi không, và có vào được bình thường không.
@@ -503,6 +530,7 @@ Hai điều cần nhớ:
 
 *Mã cũ: phần "chưa khám phá" trong mục 6.2 của SRS.*
 
+<a id="c9"></a>
 ## C9. Khung lỗi đỏ biến mất vào lúc nào?
 
 - **Cần làm:** làm cùng lúc với C1 nếu C1 bị từ chối (không thêm lần nhập sai). Xem khung lỗi mất khi mình gõ lại, khi bấm gửi lần mới, hay khi vừa đổi ngôn ngữ.

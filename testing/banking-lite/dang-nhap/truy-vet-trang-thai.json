@@ -6,7 +6,7 @@
    "ngay_chot": "2026-11-18"
   },
   "S01-AC02": {
-   "hash": "552cc8923e6a",
+   "hash": "08ac33d9778f",
    "ba_hash": "77693246d074",
    "ngay_chot": "2026-11-18"
   },
@@ -16,12 +16,12 @@
    "ngay_chot": "2026-11-18"
   },
   "S01-AC04": {
-   "hash": "68ee99e32bb1",
+   "hash": "cdd1d1c4427c",
    "ba_hash": "93a771a47acd",
    "ngay_chot": "2026-11-18"
   },
   "S01-AC05": {
-   "hash": "fbd3b076eb7e",
+   "hash": "007b0c097666",
    "ba_hash": "02ce0b19b171",
    "ngay_chot": "2026-11-18"
   },
@@ -41,7 +41,7 @@
    "ngay_chot": "2026-11-18"
   },
   "S02-AC01": {
-   "hash": "f9828f398322",
+   "hash": "8425898928c3",
    "ba_hash": "294806a5dae5",
    "ngay_chot": "2026-11-18"
   },
@@ -56,37 +56,37 @@
    "ngay_chot": "2026-11-18"
   },
   "S02-AC04": {
-   "hash": "9b912a43783b",
+   "hash": "f6c5b04efd2c",
    "ba_hash": "f1d21c0f3285",
    "ngay_chot": "2026-11-18"
   },
   "S02-AC05": {
-   "hash": "a78344b98399",
+   "hash": "5f0ef1d5cf9c",
    "ba_hash": "6623978d6074",
    "ngay_chot": "2026-11-18"
   },
   "S02-AC06": {
-   "hash": "7608f0bbbf8e",
+   "hash": "d13c763957bb",
    "ba_hash": "bb60a136241d",
    "ngay_chot": "2026-11-18"
   },
   "S02-AC07": {
-   "hash": "c9c23b42b5cf",
+   "hash": "858ea3c7eac8",
    "ba_hash": "bc7a6816ed3a",
    "ngay_chot": "2026-11-18"
   },
   "S02-AC08": {
-   "hash": "1d0a5db26bd4",
-   "ba_hash": "86c38d72516c",
+   "hash": "6173e802e159",
+   "ba_hash": "579f73f9049b",
    "ngay_chot": "2026-11-18"
   },
   "S03-AC01": {
-   "hash": "8de3086b4621",
+   "hash": "deb5568c1b26",
    "ba_hash": "5c39622be091",
    "ngay_chot": "2026-11-18"
   },
   "S03-AC02": {
-   "hash": "bcb6a82bbdc4",
+   "hash": "65d70569a1ba",
    "ba_hash": "5738697ab3ba",
    "ngay_chot": "2026-11-18"
   },
@@ -126,28 +126,28 @@
    "ngay_chot": "2026-11-18"
   },
   "R02": {
-   "hash": "089ac9160be7",
+   "hash": "246044f43f5c",
    "ba_hash": "5d1e68d1b870",
    "ngay_chot": "2026-11-18"
   },
   "R03": {
-   "hash": "2b903a56f5b1",
+   "hash": "ba18cf284bd7",
    "ba_hash": "636e66de0395",
    "ngay_chot": "2026-11-18"
   },
   "R04": {
-   "hash": "3d15fab98f53",
+   "hash": "8e917842259b",
    "ba_hash": "8887dcd302f3",
    "ngay_chot": "2026-11-18"
   },
   "R05": {
-   "hash": "f41e1151a103",
+   "hash": "c6a67abebd4a",
    "ba_hash": "54252341552a",
    "ngay_chot": "2026-11-18"
   },
   "R06": {
-   "hash": "74b701b54296",
-   "ba_hash": "e0b98a443bb5",
+   "hash": "498567ed52d4",
+   "ba_hash": "4e5265b536f7",
    "ngay_chot": "2026-11-18"
   },
   "R07": {
@@ -161,22 +161,22 @@
    "ngay_chot": "2026-11-18"
   },
   "M01": {
-   "hash": "175c847c5db1",
+   "hash": "5f84bde19813",
    "ba_hash": "8acac8861d53",
    "ngay_chot": "2026-11-18"
   },
   "M02": {
-   "hash": "0e37e0454271",
+   "hash": "3b527b0ceb93",
    "ba_hash": "f06d0db5fa97",
    "ngay_chot": "2026-11-18"
   },
   "M03": {
-   "hash": "91198501d382",
+   "hash": "0b687c148713",
    "ba_hash": "f61fae739a46",
    "ngay_chot": "2026-11-18"
   },
   "M04": {
-   "hash": "b8a83acdd11f",
+   "hash": "ea52d05290e8",
    "ba_hash": "b572288ffbed",
    "ngay_chot": "2026-11-18"
   },
@@ -373,7 +373,7 @@
   "TC-012": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "2eded3fb1255",
+   "row_hash": "d0d609a34a26",
    "ma": [
     "R08",
     "TL-13"
@@ -382,7 +382,7 @@
   "TC-013": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "e998f2884edc",
+   "row_hash": "84c49c3ff7c7",
    "ma": [
     "TL-13"
    ]
@@ -466,7 +466,7 @@
   "TC-022": {
    "tao": "2026-11-18",
    "sua": "2026-11-18",
-   "row_hash": "b946eddf8dd3",
+   "row_hash": "33ffeb5bd54d",
    "ma": [
     "R06",
     "TL-12"
@@ -776,10 +776,97 @@
    "tc_moi": [],
    "tc_sua": [],
    "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "doi": [
+    "checklist",
+    "test-case",
+    "requirement"
+   ],
+   "noi_dung": "BA xác nhận TL-01 đến TL-13; SRS ghi yêu cầu theo BA (thêm cột Hệ thống 1.3.0 hiện tại, bỏ S03-AC02, M02, M03, M04, sửa yêu cầu 18 mã khác). Đã rà 20 test case bị đánh dấu: nội dung vẫn khớp yêu cầu mới, chỉ cập nhật nhãn nguồn TC-012, TC-013, TC-022 (TL-12, TL-13 từ suy luận thành BA xác nhận).",
+   "dua_tren": {
+    "srs": "2026-11-18",
+    "bang_soat": "2026-11-18",
+    "tl_cuoi": "TL-13"
+   },
+   "ma_doi": [
+    "M01",
+    "M02",
+    "M03",
+    "M04",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "S01-AC02",
+    "S01-AC04",
+    "S01-AC05",
+    "S02-AC01",
+    "S02-AC04",
+    "S02-AC05",
+    "S02-AC06",
+    "S02-AC07",
+    "S02-AC08",
+    "S03-AC01",
+    "S03-AC02"
+   ],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-012",
+    "TC-013",
+    "TC-022"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T15:48:00+07:00",
+   "commit_goc": "46feb45",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Lịch sử truy vết ghi thời điểm chốt chính xác (giờ phút giây, múi giờ), commit gốc, ngày BA trả lời. Không đổi nội dung test case.",
+   "dua_tren": {
+    "srs": "2026-11-18",
+    "bang_soat": "2026-11-18",
+    "tl_cuoi": "TL-13"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T15:55:25+07:00",
+   "commit_goc": "46feb45",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "requirement"
+   ],
+   "noi_dung": "SRS: mọi TL-xx, B4, B8 thành link bấm được tới bảng soát và câu hỏi cho BA (62 link, 0 hỏng); thêm điểm nhảy cho 13 dòng TL và 24 câu hỏi. Không đổi nội dung yêu cầu hay test case.",
+   "dua_tren": {
+    "srs": "2026-11-18",
+    "bang_soat": "2026-11-18",
+    "tl_cuoi": "TL-13"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [],
+   "tc_bo": []
   }
  ],
  "nguon_chot": {
-  "srs": "2026-11-17",
+  "srs": "2026-11-18",
   "bang_soat": "2026-11-18",
   "tl_cuoi": "TL-13"
  }

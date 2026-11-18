@@ -24,6 +24,15 @@ Dạng chung: `<FEATURE>-<LOẠI><số>`; riêng tiêu chí chấp nhận nằm 
 5. Nhãn của story/AC/quy tắc: `đã thấy` (có bằng chứng) · `chưa rõ` (thấy một phần hoặc mâu thuẫn, có Q) · `đã bỏ`. Sau này team xác nhận → thêm nhãn `đã xác nhận` (ghi ngày + người).
 6. Không ghi AC nào không có bằng chứng. Điều chưa thử → mục "Chưa khám phá", không phải AC.
 
+### 2b. Khi BA xác nhận yêu cầu thay cho bản quan sát (thêm 2026-11-18, `LOGIN`)
+SRS ghi hành vi quan sát có thể được thay bằng yêu cầu BA đã xác nhận. Cách làm: **giữ ID** (tình huống vẫn là tình huống đó, chỉ kết quả mong đợi đổi), cột phản hồi đổi thành **"Yêu cầu"**, thêm cột **"Hệ thống <phiên bản> hiện tại"** giữ nguyên chữ quan sát cũ (ghi `Khớp yêu cầu` hoặc `⚠️ Khác yêu cầu`); nhãn `đã xác nhận` kèm ngày, người, mã câu trả lời. Mục BA bỏ: giữ dòng, nhãn `đã bỏ`, ghi "thay bằng `<ID>`". Chỗ khác yêu cầu là nghi lỗi cho tới khi dev xác nhận. Lý do giữ ID dù ý nghĩa kết quả đổi: test case và truy vết gắn vào ID, đổi ID sẽ làm đứt (xem mục 4); script `scripts/truy-vet.py` báo test case cần xem lại khi nội dung mã đổi.
+
+### 2c. Ghi thời điểm trong lịch sử thay đổi (thêm 2026-11-18)
+Dòng lịch sử mới ghi `YYYY-MM-DD HH:MM:SS (+07:00)` theo đồng hồ máy lúc ghi, kèm mã commit gốc nếu có. Dòng cũ chỉ có ngày thì ghi "không rõ giờ", không bịa giờ. Giờ ghi khác giờ BA trả lời; ngày BA trả lời ghi riêng khi biết. Lịch sử truy vết của test case do `scripts/truy-vet.py chot` tự ghi giờ, commit gốc và cờ "sửa chưa commit".
+
+### 2d. Tham chiếu câu trả lời và câu hỏi của BA (thêm 2026-11-18)
+Mã câu trả lời (`TL-xx`) và câu hỏi (`B4`…) viết trong SRS phải là link bấm được tới điểm nhảy `<a id="tl-xx">` / `<a id="b4">` đặt ở file bảng soát và file câu hỏi BA. Thêm mã mới thì thêm điểm nhảy trước khi dùng.
+
 ## 3. Ghi nguồn (truy vết và kiểm chứng)
 - Mỗi AC/quy tắc/thông báo có cột **Bằng chứng** chứa ID `…-Exx`.
 - Mỗi bằng chứng nằm trong bảng **Bằng chứng** của SRS với đủ các cột: ID · Loại · Ngày/phiên bản/tài khoản · Thao tác đã làm · **Tệp (liên kết bấm được)** · **Cách kiểm lại**.
