@@ -129,17 +129,31 @@ def parse_ba(text, prefix):
     return out
 
 
-def parse_tc(text, ncols):
-    out = {}
+EXEC_COLS = {"Kết quả thực tế", "Trạng thái", "Người viết", "Tự động hóa"}  # người chạy test điền; không tính là "thay đổi thiết kế"
+
+
+def parse_tc(text):
+    """Đọc bảng đầu tiên có tiêu đề bắt đầu bằng "| Mã |", theo TÊN cột (không theo vị trí).
+    Ba cột ghi khi chạy (Kết quả thực tế, Trạng thái, Người viết) không vào dấu vết "row", để điền kết quả
+    không làm test case bị tính là đã sửa."""
+    out, names = {}, None
     for line in text.splitlines():
+        if names is None:
+            if line.startswith("| Mã |"):
+                names = cells(line)
+            continue
         m = re.match(r"^\| (TC-\d+) \|", line)
         if not m:
             continue
         c = cells(line)
-        if len(c) != ncols:
-            sys.exit(f"{m.group(1)}: số cột {len(c)}, cần {ncols}")
-        out[m.group(1)] = dict(tinh_huong=c[1], uu_tien=c[2] if ncols == 5 else "", nguon=c[-1],
-                               ma=sorted(set(TOKEN.findall(c[-1]))), row=norm(line))
+        if len(c) != len(names):
+            sys.exit(f"{m.group(1)}: có {len(c)} ô, tiêu đề bảng có {len(names)} cột")
+        d = dict(zip(names, c))
+        if "Nguồn" not in d:
+            sys.exit("Bảng không có cột Nguồn")
+        design = [v for k, v in d.items() if k not in EXEC_COLS]
+        out[m.group(1)] = dict(tinh_huong=d.get("Tình huống", ""), uu_tien=d.get("Ưu tiên", ""), nguon=d["Nguồn"], auto=d.get("Tự động hóa", ""),
+                               ma=sorted(set(TOKEN.findall(d["Nguồn"]))), row=norm("|".join(design)))
     return out
 
 
@@ -181,8 +195,8 @@ def main():
     cur.update(tls)
     for k, v in cur.items():
         v["ten"] = cfg["ten_ngan"].get(k) or cut(v["nghia"] or v["nguyen_van"], 40)
-    ck = parse_tc(ck_t, 5)
-    tcs = parse_tc(tc_t, 7)
+    ck = parse_tc(ck_t)
+    tcs = parse_tc(tc_t)
 
     state = json.loads(read(st_p)) if st_p.exists() else {"ma": {}, "tc": {}, "lich_su": [], "nguon_chot": {}}
     dua_tren = dict(srs=date_in(srs_t, "Cập nhật lần cuối"), bang_soat=date_in(bs_t, "Cập nhật gần nhất"),
@@ -193,6 +207,8 @@ def main():
     if set(ck) != set(tcs):
         problems.append(f"Checklist và test case lệch mã TC: chỉ ở checklist {sorted(set(ck)-set(tcs))}, chỉ ở test case {sorted(set(tcs)-set(ck))}")
     for k in sorted(set(ck) & set(tcs)):
+        if tcs[k]["uu_tien"] and ck[k]["uu_tien"] != tcs[k]["uu_tien"]:
+            problems.append(f"{k}: ưu tiên ở checklist \"{ck[k]['uu_tien']}\" khác test case \"{tcs[k]['uu_tien']}\"")
         if ck[k]["ma"] != tcs[k]["ma"]:
             problems.append(f"{k}: mã nguồn ở checklist {ck[k]['ma']} khác test case {tcs[k]['ma']}")
     # Mã requirement trạng thái
@@ -362,11 +378,14 @@ def main():
         L.append(f"| {c} | {tname} | {stt} | {tshow} |")
     L.append("")
     L.append("## 6. Từ test case tới requirement")
-    L.append("| Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối |\n|---|---|---|---|---|---|---|")
+    L.append("| Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối | Tự động hóa |\n|---|---|---|---|---|---|---|---|")
     for t in sorted(tcs):
         b = state["tc"].get(t, {})
+        au = (tcs[t].get("auto") or "—").replace("|", "¦")
+        if tc_st[t].startswith("Cần xem lại") and au.startswith("Có"):
+            au = "⚠️ script cần xem lại · " + au
         ms = ", ".join(f"{c} ({cur[c]['ten']})" if c in cur else c for c in tcs[t]["ma"]) or "—"
-        L.append(f"| {t} | {cut(tcs[t]['tinh_huong'], 90)} | {ck.get(t, {}).get('uu_tien', '')} | {cut(ms, 400)} | {tc_st[t]} | {b.get('tao', '—') if not b.get('da_bo') else '—'} | {b.get('sua', '—') if not b.get('da_bo') else '—'} |")
+        L.append(f"| {t} | {cut(tcs[t]['tinh_huong'], 90)} | {ck.get(t, {}).get('uu_tien', '')} | {cut(ms, 400)} | {tc_st[t]} | {b.get('tao', '—') if not b.get('da_bo') else '—'} | {b.get('sua', '—') if not b.get('da_bo') else '—'} | {au} |")
     L.append("")
     L.append("## 7. Lịch sử thay đổi")
     L.append("Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc bấm chốt (kèm múi giờ), không phải giờ BA trả lời hay giờ requirement đổi; mốc cũ chỉ có ngày thì ghi \"không rõ giờ\". **Commit gốc** là commit đang đứng lúc chốt (\"+ sửa chưa commit\" nghĩa là còn thay đổi chưa commit); muốn xem từng chữ đã đổi, dùng git. **Ngày BA trả lời** chỉ ghi khi biết.\n")

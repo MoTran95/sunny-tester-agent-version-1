@@ -18,7 +18,7 @@ Thêm, đổi tên hoặc xóa file bộ nhớ thì sửa bản đồ trong cùn
 
 ## Repo
 - [project/overview.md](project/overview.md) — **luôn đọc**. Repo là gì, danh sách dự án, thư mục theo dự án.
-- [project/skills.md](project/skills.md) — ba skill của repo, thành phần, đã thử gì. Đọc khi dùng hoặc sửa skill.
+- [project/skills.md](project/skills.md) — bốn skill của repo (có `tao-checklist-test-case`), thành phần, đã thử gì. Đọc khi dùng hoặc sửa skill.
 - [project/srs-process.md](project/srs-process.md) — quy trình khám phá → SRS, khuôn và quy tắc ID. Đọc khi làm SRS.
 - [project/truy-vet-requirement.md](project/truy-vet-requirement.md) — cách truy vết requirement ↔ test case, lịch sử, script `truy-vet.py`, làm cho tính năng mới. Đọc khi requirement đổi hoặc sửa checklist/test case.
 - [project/session-speed.md](project/session-speed.md) — vì sao phiên chậm, số đo, hướng đã/chưa làm. Đọc khi người dùng than chậm hoặc khi sửa skill/khuôn.

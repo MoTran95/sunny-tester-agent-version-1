@@ -6,7 +6,7 @@ Repo không có ứng dụng; là bộ tài liệu kiểm thử + skill + bộ n
 ## Thư mục
 | Thư mục | Vai trò |
 |---|---|
-| `.claude/skills/` | 3 skill của dự án, mỗi skill có `SKILL.md`, `references/`, `assets/`, `scripts/` |
+| `.claude/skills/` | 4 skill của dự án, mỗi skill có `SKILL.md`, `references/`, `assets/`, `scripts/` |
 | `.claude/settings.json` | Quyền cho phép sẵn (sửa file trong các thư mục dự án, chạy script soát, git đọc). Commit/push/xóa vẫn hỏi |
 | `memories/` | Bộ nhớ dự án, bản đồ ở `MEMORY.md` |
 | `srs/` | Khuôn, quy tắc ID và SRS theo feature |

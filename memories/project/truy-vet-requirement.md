@@ -22,6 +22,9 @@ Người dùng muốn lịch sử ghi tới giờ phút giây. `chot` ghi `thoi_
 ## Link từ SRS tới câu trả lời và câu hỏi BA (2026-11-18)
 Trong SRS mọi `TL-xx`, `B4`, `B8` là link bấm được tới điểm nhảy `<a id="tl-11">` (ô cuối dòng TL trong bảng soát) và `<a id="b4">` (trước mỗi tiêu đề câu hỏi trong `cau-hoi-cho-ba.md`, 24 câu A/B/C). Điểm nhảy đặt ở ô không bị băm nên không làm test case bị đánh dấu. Thêm TL mới hoặc câu hỏi mới thì thêm điểm nhảy tương ứng và link ở SRS; kiểm bằng script so link với điểm nhảy (62 link, 0 hỏng lúc làm). Không đặt điểm nhảy trong ô mã hoặc ô nội dung của dòng TL (script đọc `^| TL-xx |` và băm hai ô đầu).
 
+## Bảng test case nhiều cột, đọc theo tên (11 cột 2026-11-18, nay 12 cột)
+`truy-vet.py` đọc bảng checklist/test case **theo tên cột** (bảng đầu có tiêu đề bắt đầu `| Mã |`), cột `Nguồn` bất kỳ vị trí. Dấu vết `row` bỏ bốn cột `Kết quả thực tế`, `Trạng thái`, `Người viết`, `Tự động hóa`; mục 6 của `truy-vet.md` có cột Tự động hóa và báo "script cần xem lại" khi TC Cần xem lại mà đã có script (đã thử). Nếu test case có cột `Ưu tiên` mà khác checklist thì báo vấn đề. Đổi cấu trúc bảng làm `row_hash` đổi cho cả 41 TC → `chot` với mô tả "đổi cấu trúc bảng, nội dung không đổi" (đã làm 2026-11-18 16:09).
+
 ## Bẫy
 - **Sửa script qua heredoc Bash/Python:** `\n` trong mã bị biến thành xuống dòng thật làm vỡ chuỗi (đã gặp 2026-11-18). Dùng công cụ Edit, hoặc viết `chr(92)+"n"`; sau khi sửa luôn chạy `ast.parse` kiểm cú pháp.
 - Tên ngắn nằm trong `truy-vet-cau-hinh.json`; thêm mã mới vào SRS thì thêm tên ngắn (không có thì script lấy 40 ký tự đầu).

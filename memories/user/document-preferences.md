@@ -27,5 +27,7 @@ Bản đầu viết quá cô đọng (nội dung kiểu “thiếu (Dữ liệu)
 - **Requirement ghi rõ thì suy luận tiếp theo logic, ghi chưa rõ thì hỏi** (người dùng chốt 2026-11-18, sau khi chê A7, A8, B14 của `LOGIN` là "vô tri"). Ghi "suy ra từ <mã/TL>" kèm lý do. Lý do bảo mật được dùng để suy ra hành vi chức năng (ví dụ lỗi đăng nhập báo chung một câu), không tự đặt ca test bảo mật. A4 phần độ dài mã cũng **không cần hỏi**: đăng nhập vì bảo mật chỉ báo đúng hoặc sai, nên không test độ dài ở màn hình đăng nhập (người dùng chỉ ra 2026-11-18). A6 (lần sai thứ 10 hay 11 bị chặn, đăng nhập đúng có đếm lại) **không cần hỏi**: suy ra từ chữ "10 lần liên tiếp"; đi theo câu chữ, hệ thống làm khác thì là nghi lỗi (người dùng chỉ ra 2026-11-18). Chi tiết: skill `phan-tich-requirement`, quy tắc 1b.
 - Thêm cột ưu tiên và lý do vì sao cần nhiều test case/câu hỏi.
 
+- **Bảng test case có chỗ ghi khi chạy** (người dùng yêu cầu 2026-11-18): thêm cột Ưu tiên, Kết quả thực tế, Trạng thái, Người viết, rồi Tự động hóa (để lưu script chạy lại, đỡ token). Skill `tao-checklist-test-case` giữ khuôn 12 cột này. Tên người viết mặc định: Sunny Tran.
+
 ## Câu hỏi gửi BA
 Bài học “câu chữ máy móc, như dịch từ tiếng Anh” (2026-11-17), từ đã chốt, xưng hô và khuôn câu hỏi: [../conventions/ba-question-wording.md](../conventions/ba-question-wording.md).
