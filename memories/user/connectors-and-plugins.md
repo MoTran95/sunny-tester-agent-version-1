@@ -8,4 +8,5 @@
   - Thêm 23 `permissions.deny` `Skill(assp-…:assp-…)`, `Skill(data:…)`, kundalini, flipbook → vẫn 74,5 nghìn, danh sách skill không đổi.
   - Tài liệu Claude Code: `skillOverrides` không áp dụng cho skill của plugin; `enabledPlugins` cần tên marketplace (không xác định được). Không sửa dữ liệu app `%LOCALAPPDATA%\Claude-Data` (app cấm).
   - Script `gon-phien.py` (tat/bat các khóa trên) chạy đúng chức năng nhưng vô tác dụng với app desktop → đã xóa 2026-11-18. Đừng viết lại; chỉ thử lại nếu app/CLI đổi, bằng cách đo ctx đầu phiên mới.
+- **Tắt tay trong app CÓ tác dụng** (đo 2026-11-18, sau khi người dùng tắt `assp-*`, kundalini, flipbook): ctx đầu 74,4 → **71,2 nghìn token** (−3,2 nghìn, −4%), skill 57 → 46 (assp ×11 + kundalini + flipbook biến mất; `data:*` ×10 và `anthropic-skills:*` ×16 còn).
 - Tắt tay trong app chỉ đáng khoảng **2–5 nghìn token** (~3–6%): skill plugin tài khoản (assp 11 + data 10 + kundalini + flipbook) ≈ 9,1 nghìn ký tự ≈ 2,3 nghìn token; `anthropic-skills:*` ≈ 10 nghìn ký tự ≈ 2,5 nghìn. Phần lớn 74 nghìn là prompt hệ thống + schema công cụ của Claude Code (cache), không tắt được.

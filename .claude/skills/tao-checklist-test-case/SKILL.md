@@ -14,7 +14,7 @@ Biến requirement thành **checklist** (danh sách tình huống cần test, k�
 | "Tạo checklist" | Chỉ checklist, **chưa viết bước chi tiết** | `checklist.md` | Sau checklist. Đừng viết test case khi chưa được nhờ |
 | "Tạo test case" (chưa có checklist) | Lập checklist trước, rồi viết test case từ **chính checklist đó**, một mạch, không dừng chờ duyệt checklist | `checklist.md` + `test-case.md` (lưu **cả hai**, người dùng chốt 2026-11-18) | Sau test case. Nói rõ trong tóm tắt là đã có checklist đi kèm |
 | "Viết test case từ checklist" (đã có checklist đã xác nhận) | Giữ **nguyên mã và số lượng** TC của checklist; thấy trùng hoặc thiếu thông tin thì ghi riêng, không tự gộp, xóa, thêm | `test-case.md` | Sau test case |
-| "Requirement đổi, cập nhật" | Chạy `scripts/truy-vet.py kiem`, sửa test case ở trạng thái Cần xem lại; mã TC mới lấy số kế tiếp; bỏ test case thì hỏi trước | sửa file có sẵn | Sau khi chốt mốc truy vết |
+| "Requirement đổi, cập nhật" | Chạy `scripts/truy-vet.py kiem`, sửa test case ở trạng thái Cần xem lại; mã TC mới lấy số kế tiếp; bỏ test case thì hỏi trước. **Xem ngữ cảnh một vài mã/TC bằng `truy-vet.py tra <dự-án> <tính-năng> --ma S02-AC07,TC-014`** (SRS, theo BA, test case, trạng thái), **không đọc cả** `truy-vet.md`, bảng soát, SRS hay `test-case.md` | sửa file có sẵn | Sau khi chốt mốc truy vết |
 
 ## Quy tắc không được phá (và vì sao)
 

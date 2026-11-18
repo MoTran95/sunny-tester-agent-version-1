@@ -10,6 +10,10 @@
 - Đọc bảng checklist/test case **theo tên cột** (bảng đầu có tiêu đề bắt đầu `| Mã |`), `Nguồn` bất kỳ vị trí. Dấu vết `row` bỏ 4 cột `Kết quả thực tế`, `Trạng thái`, `Người viết`, `Tự động hóa`. Mục 6 `truy-vet.md` có cột Tự động hóa, báo "script cần xem lại" khi TC Cần xem lại mà đã có script. Test case có `Ưu tiên` khác checklist → báo vấn đề. Đổi cấu trúc bảng làm `row_hash` đổi cả 41 TC → `chot` mô tả "đổi cấu trúc bảng, nội dung không đổi" (đã làm 2026-11-18 16:09).
 - Mục 4 `truy-vet.md` gom từ bảng soát cho từng mã SRS: "Theo BA (hoặc suy ra)", "Hệ thống 1.3.0 hiện tại", "Còn mở". Parser đọc theo chuỗi trạng thái ("theo TL", "Suy ra", "hành vi hiện tại", ❓): đổi cách viết trạng thái thì sửa `parse_ba` trong script.
 
+## Lệnh `tra` (chỉ đọc, 2026-11-18)
+- `truy-vet.py tra <dự-án> <tính-năng> --ma S02-AC07,R06,TL-11,TC-014 [--day-du]`: in gọn SRS (theo tên cột), theo BA/hiện tại/còn mở, TL liên quan, TC + trạng thái. Thay cho đọc cả SRS + bảng soát + `test-case.md` (~190 KB LOGIN) bằng 1–7 KB. Không ghi file (khác `kiem`/`chot`). Nhận mã có tiền tố và `TC-14`. Đối chiếu 52 mã LOGIN: danh sách TC khớp đúng mục 5 của `truy-vet.md`.
+- Bẫy: chạy `kiem` để thử cũng **ghi lại** `truy-vet.md`, checklist, test case (giờ chạy) → `git checkout` các file đó nếu chỉ thử.
+
 ## Lịch sử có giờ
 - `chot` ghi `thoi_diem` (giờ máy + múi giờ), `commit_goc` (HEAD lúc chốt), `chua_commit`, `--ngay-ba` (nếu biết). Mốc cũ chỉ có ngày → "không rõ giờ", **không bịa giờ**. Giờ chốt ≠ giờ BA trả lời ≠ giờ requirement đổi. Muốn truy từng chữ thì dùng git; sau `chot` nên commit (chỉ khi người dùng nhờ). Quy ước: `srs/id-and-source-rules.md` 2c.
 

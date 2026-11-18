@@ -9,6 +9,10 @@ Dùng:
       Không đổi mốc. Thoát mã 1 nếu có việc cần làm.
   python -X utf8 scripts/truy-vet.py chot <dự-án> <tính-năng> -m "đã làm gì" [--doi checklist,test-case,requirement] [--ngay-ba YYYY-MM-DD]
       Chốt mốc mới: "test case hiện tại đã khớp requirement hiện tại". Ghi một dòng lịch sử.
+  python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma S02-AC07,R06,TL-11,TC-014 [--day-du]
+      Chỉ ĐỌC, không ghi file. In gọn mọi thứ về vài mã: dòng SRS (theo tên cột), điều BA trả lời, hành vi
+      hiện tại/chỗ còn mở, câu trả lời liên quan, test case và trạng thái truy vết. Dùng thay cho việc
+      đọc cả SRS, bảng soát, test-case.md. Mã nhận cả có tiền tố (LOGIN-R06) lẫn TC-14.
 
 Ví dụ: python -X utf8 scripts/truy-vet.py kiem banking-lite dang-nhap
 
@@ -153,8 +157,33 @@ def parse_tc(text):
             sys.exit("Bảng không có cột Nguồn")
         design = [v for k, v in d.items() if k not in EXEC_COLS]
         out[m.group(1)] = dict(tinh_huong=d.get("Tình huống", ""), uu_tien=d.get("Ưu tiên", ""), nguon=d["Nguồn"], auto=d.get("Tự động hóa", ""),
-                               ma=sorted(set(TOKEN.findall(d["Nguồn"]))), row=norm("|".join(design)))
+                               ma=sorted(set(TOKEN.findall(d["Nguồn"]))), row=norm("|".join(design)), cot=d)
     return out
+
+
+SEP = re.compile(r"^\|[\s\-:|]+\|$")
+
+
+def row_dict(text, n):
+    """Dòng số n (từ 1) của bảng Markdown -> {tên cột: nội dung}, tên cột lấy từ dòng tiêu đề của bảng đó."""
+    lines = text.splitlines()
+    i = n - 1
+    j = i
+    while j > 0 and not SEP.match(lines[j].strip()):
+        j -= 1
+    names = cells(lines[j - 1]) if j > 0 and SEP.match(lines[j].strip()) else []
+    c = cells(lines[i])
+    if len(names) != len(c):
+        names = [f"cột {k + 1}" for k in range(len(c))]
+    return dict(zip(names, c))
+
+
+def show_cells(d, n, skip=("Mã", "ID")):
+    for k, v in d.items():
+        if k in skip or not v.strip() or v.strip() in ("—", "-"):
+            continue
+        v = re.sub(r"<a id=\"[^\"]*\"></a>", "", v).replace("<br>", " / ")
+        print(f"    {k}: {norm(v) if n is None else cut(v, n)}")
 
 
 def date_in(text, label):
@@ -166,11 +195,71 @@ def rel(frm_dir, target):
     return os.path.relpath(target, frm_dir).replace("\\", "/")
 
 
+def tra(a, cfg, srs_t, bs_t, cur, ba, tcs, ma_st, tc_st, tc_of, problems):
+    """In gọn mọi thứ liên quan tới vài mã (SRS, theo BA, test case, trạng thái) để khỏi đọc cả file."""
+    n = None if a.day_du else 420
+    pre = cfg["tien_to"] + "-"
+    want = [x.strip() for x in a.ma.split(",") if x.strip()]
+    if not want:
+        sys.exit("Cần --ma, ví dụ: --ma S02-AC07,R06,TL-11,TC-014")
+    tl_refs = lambda c: [k for k, v in cur.items() if k.startswith("TL") and re.search(re.escape(pre + c) + r"(?!\w)", v["nguyen_van"] + " " + row_dict(bs_t, v["dong"]).get("Áp dụng cho", ""))]
+    for raw in want:
+        c = raw.upper().removeprefix(pre.upper())
+        mt = re.fullmatch(r"TC-?(\d+)", c)
+        if mt:
+            c = f"TC-{int(mt.group(1)):03d}"
+        print(f"\n=== {c} ===")
+        if c in tcs:
+            t = tcs[c]
+            print(f"  Test case — trạng thái truy vết: {tc_st.get(c)}")
+            show_cells(t["cot"], n)
+            for m in t["ma"]:
+                if m in cur:
+                    print(f"  → {m} ({cur[m]['ten']}): {ma_st.get(m)}")
+            continue
+        if c.startswith("TL-") and c in cur:
+            print(f"  Câu trả lời của BA (bảng soát dòng {cur[c]['dong']}):")
+            show_cells(row_dict(bs_t, cur[c]["dong"]), n)
+            ap_ = [m for m in cur if not m.startswith("TL") and re.search(re.escape(pre + m) + r"(?!\w)", row_dict(bs_t, cur[c]["dong"]).get("Áp dụng cho", ""))]
+        elif c in cur:
+            print(f"  {cur[c]['ten']} — trạng thái requirement: {ma_st.get(c)} (SRS dòng {cur[c]['dong']})")
+            show_cells(row_dict(srs_t, cur[c]["dong"]), n)
+            o = ba.get(c)
+            if o:
+                for e in o["ba"]:
+                    print(f"  Theo BA{' (suy ra)' if e['suy_ra'] else ''}: {cut(e['text'], n or 99999)} [{', '.join(e['refs']) or 'suy ra từ SRS'}]")
+                for x in o["hien_tai"]:
+                    print(f"  Hành vi hiện tại: {cut(x, n or 99999)}")
+                if o["khac"]:
+                    print("  ⚠️ Khác hệ thống hiện tại (nghi lỗi nếu BA xác nhận)")
+                if o["chua_chot"]:
+                    print(f"  Còn mở: {', '.join(sorted(set(o['chua_chot'])))}")
+            qua_tl = set()
+            for k in tl_refs(c):
+                print(f"  Câu trả lời liên quan {k}: {cut(row_dict(bs_t, cur[k]['dong']).get('Nội dung trả lời', ''), n or 99999)}")
+                qua_tl |= set(tc_of.get(k, []))
+            ap_ = []
+        else:
+            print("  Không có mã này trong SRS, bảng soát hay test case.")
+            continue
+        ts = tc_of.get(c, []) if c in cur and not c.startswith("TL") else sorted({t for m in ap_ for t in tc_of.get(m, [])} | set(tc_of.get(c, [])))
+        print(f"  Test case ({len(ts)}):" if ts else "  Test case: ⚠️ chưa có" if not c.startswith("TL") else "  Test case: —")
+        for t in ts:
+            print(f"    {t} [{tc_st.get(t)}] {cut(tcs[t]['tinh_huong'], 110)}")
+        if c in cur and not c.startswith("TL") and qua_tl - set(ts):
+            print("  Test case dùng câu trả lời liên quan (không ghi mã này): " + ", ".join(sorted(qua_tl - set(ts))))
+    for p in problems:
+        print("VẤN ĐỀ chung:", p)
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("lenh", choices=["kiem", "chot"])
+    ap.add_argument("lenh", choices=["kiem", "chot", "tra"])
     ap.add_argument("du_an")
     ap.add_argument("tinh_nang")
+    ap.add_argument("--ma", default="", help="với lệnh tra: các mã cần xem, cách nhau dấu phẩy (S02-AC07,R06,TL-11,TC-014)")
+    ap.add_argument("--day-du", action="store_true", help="với lệnh tra: không rút gọn nội dung ô")
     ap.add_argument("-m", "--mo-ta", default="")
     ap.add_argument("--doi", default="checklist,test-case")
     ap.add_argument("--ngay", default=None, help="chỉ dùng khi thử: ép ngày, không ghi giờ")
@@ -264,6 +353,9 @@ def main():
     tc_bo = sorted(t for t in state["tc"] if t not in tcs and not state["tc"][t].get("da_bo"))
     ma_doi = [c for c, v in ma_st.items() if v in ("Đã đổi", "Đã bỏ khỏi nguồn")]
     ma_moi = [c for c, v in ma_st.items() if v == "Mới"]
+
+    if a.lenh == "tra":
+        return tra(a, cfg, srs_t, bs_t, cur, ba, tcs, ma_st, tc_st, tc_of, problems)
 
     now = None if a.ngay else datetime.datetime.now().astimezone()
     now_iso = now.isoformat(timespec="seconds") if now else None

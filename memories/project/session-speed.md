@@ -18,6 +18,11 @@
 | Bộ nhớ chỉ cho AI đọc, viết ngắn, bản đồ dạng bảng | xem `memory-writing-rules.md` |
 | Script tắt plugin qua `.claude/settings.local.json` (`syncClaudeAiPlugins=false`, `disableClaudeAiConnectors=true`) | **Đã đo, vô tác dụng → đã xóa script**: phiên mới vẫn 74,4 nghìn token, đủ 57 skill. Thử thêm 23 deny `Skill(...)`: vẫn 74,5 nghìn. Chi tiết `user/connectors-and-plugins.md` |
 
+## Giảm đọc/viết lặp (2026-11-18, nhật ký 21 phiên)
+- Mô hình sinh ra 100–500 nghìn token/phiên nặng, ~60–75% là suy nghĩ (ước tính, nhật ký không lưu); phần nhìn thấy được chủ yếu là **script Python viết một lần rồi bỏ** (30–46 KB: `build_analysis.py`, `cap-nhat-tl.py`, `gen_tc.py`) và đọc lại file lớn (bảng soát 73 KB đọc 8 lần/phiên).
+- Đã làm: `truy-vet.py tra` (xem `project/truy-vet-requirement.md`) và `phan-tich-requirement/scripts/ghi-tl.py` (xem `project/skills.md`). **Chưa đo trên phiên thật**: mốc cũ phiên ghi 5 TL = 31 phút, 142 nghìn token sinh ra, 4 script viết mới (~86 KB).
+- Chưa làm (đề xuất): khám phá bằng văn bản thay ảnh; nguồn bảng soát dạng JSON (làm sau, cần round-trip).
+
 ## Rủi ro khi sửa
 - Bảng soát: đừng thay câu hỏi bằng mã trần (người dùng chê mã nội bộ); `kiem-tra.py` phải theo.
 - Gọn bộ nhớ: chuyển chỗ, không xóa quy tắc; sau sửa kiểm từng quy tắc còn đúng một nơi (`scripts/kiem-tra-bo-nho.py`).
