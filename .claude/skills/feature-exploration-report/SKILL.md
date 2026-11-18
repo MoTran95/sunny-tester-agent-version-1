@@ -17,7 +17,7 @@ Ngôn ngữ: **tiếng Việt**, dùng đúng thuật ngữ IT, dễ hiểu (xem
 4. **Hỏi trước khi tạo/sửa dữ liệu thật, tải file, gửi thứ có thể ra ngoài** (SMS, email…). Dữ liệu test do mình tạo thì ghi rõ mã để người dùng nhận ra.
 5. **Hỏi người dùng khi chưa rõ**, đừng tự quyết (xem mục 7 của báo cáo).
 6. **Giữ đúng giao diện đã chốt, ở mọi dự án:** không viết CSS, không đổi màu/font trong báo cáo, không vẽ SVG sơ đồ bằng tay. Font, màu, CSS do `build-embed.py` chèn từ `assets/`. Sơ đồ viết bằng JSON (`data-so-do`), `ve-so-do.py` vẽ. Cần kiểu sơ đồ mới thì hỏi người dùng trước. Chi tiết: `references/so-do.md`.
-7. **Đã khám phá rồi thì KHÔNG khám phá lại.** Nếu đã có `evidence/<hệ thống>/features/<feature>/bao-cao.md` (hoặc báo cáo tổng) và ảnh, dựng/sửa báo cáo HTML **từ đó**, không mở trình duyệt, không chụp lại. Chỉ khám phá lại khi **người dùng nói rõ** "khám phá lại" hoặc "feature đã đổi" (và phần nào đổi → chỉ làm phần đó). Thiếu bằng chứng → ghi "không có ảnh" và hỏi người dùng, không tự chụp bù. *Người dùng hết token để chạy lại.*
+7. **Đã khám phá rồi thì KHÔNG khám phá lại.** Nếu đã có `evidence/<hệ thống>/features/<feature>/bao-cao.md` (hoặc báo cáo tổng) và ảnh, và mục 0 "Bảng phủ" của nhật ký không còn ô trống (khuôn ở `srs-from-website/assets/exploration-log-template.md`), dựng/sửa báo cáo HTML **từ đó**, không mở trình duyệt, không chụp lại. Chỉ khám phá lại khi **người dùng nói rõ** "khám phá lại" hoặc "feature đã đổi" (và phần nào đổi → chỉ làm phần đó). Thiếu bằng chứng → ghi "không có ảnh" và hỏi người dùng, không tự chụp bù. *Người dùng hết token để chạy lại.*
 
 ## Đọc gì cho từng việc
 Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`, và `memories/modules/<slug>/overview.md` của **dự án hiện tại** (slug trong `.du-an-hien-tai`; chưa có thì hỏi người dùng trước, xem `CLAUDE.md` bước 0). `<hệ thống>` trong các đường dẫn dưới đây chính là slug đó. **Không mở file của dự án khác, kể cả để làm mẫu**: dùng khuôn trong `assets/` (và `srs/_template.md`). Thêm theo việc:
@@ -46,6 +46,13 @@ Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview
 ## Khi người dùng nhờ sửa báo cáo đã có
 
 Sửa **file nguồn `*.src.html`**, chạy lại build — không sửa file đã build. Lỗi hay gặp: khung vẽ sai ô (không phải chỉ chồng số) → soát bằng `--review`. Đổi từ ngữ → áp cho toàn bộ báo cáo, rồi grep lại các từ cũ.
+
+## Giữ ngữ cảnh gọn khi soát
+Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một lần `cat` dài bị trả tiền lại ở mọi lượt sau (nhật ký: các phiên nặng có 190–240 KB kết quả lệnh, phần lớn là `cat` bộ nhớ và `grep` dòng bảng soát dài 700 ký tự).
+- Script soát của skill chỉ in vài trăm byte kết luận. **Đạt (0 lỗi) thì không đọc lại file vừa sinh** để "soát cho chắc"; chỉ đọc đúng dòng script báo (`Read` với `offset`/`limit`).
+- Không `cat` file bằng Bash. Dùng `Read` đoạn cần, hoặc `Grep` kèm `| cut -c1-200`. Cần xem vài mã (SRS, bảng soát, test case): `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma ...`.
+- Lệnh có thể in nhiều: thêm `| head -40`.
+- Soát tay chỉ phần script không kiểm được (câu chữ đọc có hiểu không, ý nghĩa): lấy mẫu vài dòng, không đọc cả file.
 
 ## Tệp trong skill
 

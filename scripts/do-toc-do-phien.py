@@ -7,7 +7,9 @@ Chạy từ gốc repo (hoặc từ bản sao repo):
 
 Với mỗi phiên in: câu đầu của người dùng, số file đã đọc trước khi bắt tay làm (lần ghi/sửa file
 hoặc mở trình duyệt đầu tiên), số phút tới lúc đó, tổng phút mô hình suy nghĩ/viết, bước suy nghĩ
-dài nhất, và các file của dự án KHÁC dự án hiện tại đã bị mở (để kiểm "không lẫn dự án").
+dài nhất, số lượt gọi mô hình, token sinh ra (và phần chữ nhìn thấy được), token đọc lại từ cache
+(đã gộp theo mã tin nhắn nên không đếm đôi), và các file của dự án KHÁC dự án hiện tại đã bị mở
+(để kiểm "không lẫn dự án").
 Chỉ đọc nhật ký, không gửi gì ra ngoài.
 """
 import argparse
@@ -80,7 +82,30 @@ def analyse(path, slug, projects):
                     reads.append(os.path.basename(fp))
                 elif name in ("Bash", "PowerShell", "Grep", "Glob"):
                     bash += 1
+    # Tổng token theo từng lượt gọi mô hình. Nhật ký ghi mỗi khối nội dung (suy nghĩ, chữ, lệnh) thành
+    # một dòng riêng kèm cùng `usage`, nên phải gộp theo mã tin nhắn, nếu không số bị đếm đôi/đếm ba.
+    calls = {}
+    for r in rows:
+        if r["type"] != "assistant":
+            continue
+        m = r.get("message") or {}
+        u = m.get("usage") or {}
+        if not u:
+            continue
+        mid = m.get("id") or r.get("uuid")
+        c = calls.setdefault(mid, {"out": 0, "cr": 0, "cn": 0, "vis": 0})
+        c["out"] = max(c["out"], u.get("output_tokens") or 0)
+        c["cr"] = max(c["cr"], u.get("cache_read_input_tokens") or 0)
+        c["cn"] = max(c["cn"], u.get("cache_creation_input_tokens") or 0)
+        for b in m.get("content") or []:
+            if b.get("type") == "text":
+                c["vis"] += len(b.get("text", ""))
+            elif b.get("type") == "tool_use":
+                c["vis"] += len(json.dumps(b.get("input") or {}, ensure_ascii=False))
+    out = sum(c["out"] for c in calls.values())
     return {
+        "api": len(calls), "out": out, "vis": sum(c["vis"] for c in calls.values()) / 3.2,
+        "cr": sum(c["cr"] for c in calls.values()), "cn": sum(c["cn"] for c in calls.values()),
         "file": os.path.basename(path)[:8], "first": first or "?",
         "reads": reads, "bash": bash, "to_action": ((t_action - t0).total_seconds() / 60) if t_action and t0 else None,
         "gen": gen / 60, "longest": longest / 60, "other": sorted(other), "ctx0": ctx0,
@@ -116,6 +141,10 @@ def main():
             print(f"   ngữ cảnh ở lượt trả lời đầu: {s['ctx0']:.0f} nghìn token (phần nạp sẵn: plugin, skill, công cụ + CLAUDE.md)")
         print(f"   trước khi làm: đọc {len(s['reads'])} file, {s['bash']} lệnh tìm/đọc khác · tới lúc bắt tay làm: {to_a} phút · "
               f"mô hình suy nghĩ/viết: {s['gen']:.1f} phút · bước dài nhất: {s['longest']:.1f} phút")
+        if s["api"]:
+            pct = 100 * s["vis"] / s["out"] if s["out"] else 0
+            print(f"   lượt gọi mô hình: {s['api']} · token sinh ra: {s['out']/1000:.0f}k (chữ nhìn thấy ~{pct:.0f}%, còn lại là suy nghĩ ẩn) · "
+                  f"token đọc lại từ cache: {s['cr']/1e6:.1f}M (ngữ cảnh TB {(s['cr'] + s['cn'])/s['api']/1000:.0f}k/lượt)")
         if s["reads"]:
             print("   file đã đọc:", ", ".join(s["reads"][:15]) + (" …" if len(s["reads"]) > 15 else ""))
         print("   mở file của dự án khác:", ", ".join(s["other"]) if s["other"] else "không",

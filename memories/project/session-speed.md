@@ -19,9 +19,13 @@
 | Script tắt plugin qua `.claude/settings.local.json` (`syncClaudeAiPlugins=false`, `disableClaudeAiConnectors=true`) | **Đã đo, vô tác dụng → đã xóa script**: phiên mới vẫn 74,4 nghìn token, đủ 57 skill. Thử thêm 23 deny `Skill(...)`: vẫn 74,5 nghìn. Chi tiết `user/connectors-and-plugins.md` |
 
 ## Giảm đọc/viết lặp (2026-11-18, nhật ký 21 phiên)
-- Mô hình sinh ra 100–500 nghìn token/phiên nặng, ~60–75% là suy nghĩ (ước tính, nhật ký không lưu); phần nhìn thấy được chủ yếu là **script Python viết một lần rồi bỏ** (30–46 KB: `build_analysis.py`, `cap-nhat-tl.py`, `gen_tc.py`) và đọc lại file lớn (bảng soát 73 KB đọc 8 lần/phiên).
+- **Số đo đã loại trùng** (nhật ký ghi mỗi khối nội dung một dòng kèm cùng `usage`; gộp theo mã tin nhắn, `do-toc-do-phien.py` nay in sẵn): phiên skill = 90–200 lượt gọi mô hình, 110–500 nghìn token sinh ra (chữ nhìn thấy chỉ 23–37%, còn lại là suy nghĩ ẩn), **12–75 triệu token đọc lại từ cache** (ngữ cảnh TB 150–440 nghìn/lượt). Phần nạp sẵn ~70 nghìn × số lượt ≈ 7–14M; đọc skill ~15–20 nghìn × số lượt chỉ ~5–8%. Đòn bẩy thật: ít lượt hơn, ngữ cảnh nhỏ hơn, bớt suy nghĩ ở bước máy móc. Các số "300–700 nghìn token sinh ra" ghi trước đây bị đếm đôi.
+- Kết quả lệnh Bash phiên nặng 190–240 KB, phần lớn là `cat` bộ nhớ/file và `grep` dòng bảng soát 700 ký tự; script soát chỉ in 160–800 byte. → quy tắc "Giữ ngữ cảnh gọn khi soát" trong cả 4 `SKILL.md`.
+- Không chạy `truy-vet.py kiem` để "thử": nó **ghi** `truy-vet.md` và lịch sử vào checklist/test case (chỉ `tra` là chỉ đọc).
+- Mô hình sinh ra 100–500 nghìn token/phiên nặng (xem số đo loại trùng ở trên); phần nhìn thấy được chủ yếu là **script Python viết một lần rồi bỏ** (30–46 KB: `build_analysis.py`, `cap-nhat-tl.py`, `gen_tc.py`) và đọc lại file lớn (bảng soát 73 KB đọc 8 lần/phiên).
 - Đã làm: `truy-vet.py tra` (xem `project/truy-vet-requirement.md`) và `phan-tich-requirement/scripts/ghi-tl.py` (xem `project/skills.md`). **Chưa đo trên phiên thật**: mốc cũ phiên ghi 5 TL = 31 phút, 142 nghìn token sinh ra, 4 script viết mới (~86 KB).
-- Chưa làm (đề xuất): khám phá bằng văn bản thay ảnh; nguồn bảng soát dạng JSON (làm sau, cần round-trip).
+- Đã làm (2026-11-18, chưa đo trên phiên thật): **cổng khám phá** (đã có nhật ký thì không khám phá lại; xem `project/srs-process.md`) + **mục 0 "Bảng phủ"** trong nhật ký khám phá + `srs-from-website/scripts/kiem-tra-bang-phu.py` (ĐỦ / CÒN THIẾU / KHÔNG CÓ); dựng bảng phủ cho `LOGIN` (còn thiếu: vai trò) và `RECO` (còn thiếu 3 dòng); `gui-tham-dinh` chưa có. Quy tắc "Giữ ngữ cảnh gọn" ở 4 skill. `do-toc-do-phien.py` in lượt gọi/token sinh ra/token đọc lại đã loại trùng.
+- Chưa làm (đề xuất): đoạn JS dò trang + ngân sách ảnh khi khám phá feature mới; đặt `effort` thấp cho skill máy móc (tách skill nhỏ; `context: fork` chỉ cho việc thuần file, không cho khám phá vì cần người dùng gõ mật khẩu); nguồn JSON cho bảng soát + câu hỏi (cần round-trip).
 
 ## Rủi ro khi sửa
 - Bảng soát: đừng thay câu hỏi bằng mã trần (người dùng chê mã nội bộ); `kiem-tra.py` phải theo.

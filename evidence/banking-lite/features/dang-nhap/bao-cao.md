@@ -4,6 +4,23 @@ Ngày: 2026-11-17 · Hệ thống: https://banking-lite.vercel.app/ · Phiên b�
 Khung nhìn 606×845. Ảnh: `screenshots/NN-…jpg`. Ảnh nền cũ của màn hình đăng nhập: `../../screenshots/01-login-page-vi.jpg` (Tiếng Việt, chưa có lỗi) và `../../screenshots/33-…` (English, sau khi đăng nhập).
 Quy tắc: Claude **không tự gõ mật khẩu**. Các ca cần mật khẩu ở mục "Cần người dùng làm" bên dưới, chưa có kết quả.
 
+## 0. Bảng phủ (dựng 2026-11-18 từ các hàng sẵn có, không khám phá lại)
+| Nhóm ca | Trạng thái | Hàng nhật ký / lý do |
+|---|---|---|
+| Luồng chính thành công (đăng nhập đúng) | Đã làm | #12, #22, #26 |
+| Từng nhánh lỗi (để trống, sai định dạng, sai mật khẩu, mã không tồn tại, mã rất dài, bị chặn 429) | Đã làm | #5, #6, #10, #11, #18, #19, #20, #21 |
+| Từng vai trò | Chưa có trong nhật ký | Chỉ đăng nhập đúng bằng P100001; P100002 chưa thử (mục 3); P200001, P300001 chưa đăng nhập trong nhật ký này |
+| Đổi ngôn ngữ | Đã làm | #2, #3, #7; thông báo chặn 429 bản tiếng Việt chưa thấy (#21), chỉ đọc từ tệp giao diện (#23) |
+| Tải lại trang, nút Back, hai tab | Đã làm | #3, #25, #17 |
+| Link sâu khi chưa đăng nhập; địa chỉ không tồn tại | Đã làm | #1, #8, #9, #12, #16 |
+| Phản hồi mạng (mã trạng thái, `GET /api`) | Đã làm | #14, #15 |
+| Tệp giao diện (chuỗi thông báo) | Đã làm | #23, #24 |
+| Form: để trống, sai định dạng, khoảng trắng, hoa/thường, rất dài, Enter, thuộc tính HTML | Đã làm | #5, #6, #13, #19, #20, #26, #27 |
+| Form: độ dài/ký tự cho phép của mật khẩu; bấm hai lần liên tiếp | Chưa làm | Mục 3 (mật khẩu do người dùng gõ; thao tác lặp có thể kích hoạt chặn, xem ghi chú an toàn) |
+| Phiên: hết hạn phiên | Chưa làm | Mục 3 (cần chờ thời gian dài) |
+| Phiên: hai trình duyệt/máy khác nhau cùng tài khoản | Chưa làm | Mục 3 (cần trình duyệt/máy thứ hai) |
+| Danh sách/bảng; luồng nhiều bước | Không áp dụng | Đăng nhập không có danh sách hay bước riêng (Danh sách việc là màn sau đăng nhập, thuộc feature khác) |
+
 ## 1. Đã thấy (có thao tác thật)
 
 | # | Thao tác | Kết quả quan sát (nguyên văn khi có) | Ảnh |

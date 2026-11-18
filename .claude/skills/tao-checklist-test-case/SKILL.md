@@ -73,6 +73,13 @@ File trên ~30 KB mà chỉ cần một phần: Grep rồi đọc đoạn đó (
 8. **Cập nhật bộ nhớ**: `memories/modules/<slug>/feature-<tên>.md` (điều học được, bẫy, trạng thái), một dòng trong `MEMORY.md`.
 9. **Trả lời** bằng tóm tắt ngắn và link file (không dán bảng): số dòng/số case, chỗ `CẦN XÁC NHẬN`, câu hỏi cho BA, giá trị do mình chọn, việc ghi nhận riêng; nói rõ **chưa chạy test** và chế độ vừa làm. Commit chỉ khi người dùng nhờ.
 
+## Giữ ngữ cảnh gọn khi soát
+Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một lần `cat` dài bị trả tiền lại ở mọi lượt sau (nhật ký: các phiên nặng có 190–240 KB kết quả lệnh, phần lớn là `cat` bộ nhớ và `grep` dòng bảng soát dài 700 ký tự).
+- Script soát của skill chỉ in vài trăm byte kết luận. **Đạt (0 lỗi) thì không đọc lại file vừa sinh** để "soát cho chắc"; chỉ đọc đúng dòng script báo (`Read` với `offset`/`limit`).
+- Không `cat` file bằng Bash. Dùng `Read` đoạn cần, hoặc `Grep` kèm `| cut -c1-200`. Cần xem vài mã (SRS, bảng soát, test case): `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma ...`.
+- Lệnh có thể in nhiều: thêm `| head -40`.
+- Soát tay chỉ phần script không kiểm được (câu chữ đọc có hiểu không, ý nghĩa): lấy mẫu vài dòng, không đọc cả file.
+
 ## Tệp trong skill
 - `references/ky-thuat-thiet-ke.md` — dấu hiệu chọn kỹ thuật, cách làm từng kỹ thuật, bốn góc gợi ý, cách xếp ưu tiên.
 - `references/quy-tac-checklist.md` — khuôn bảng 5 cột, nhãn nguồn, cột Nguồn kèm tên ngắn, câu hỏi cho BA, "Chưa đưa vào", tự kiểm.

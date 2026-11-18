@@ -38,10 +38,10 @@ File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đ
 0. **Đọc đúng những file cần cho việc này** (bảng "Đọc gì cho từng việc" ngay dưới), sau `CLAUDE.md` và `memories/MEMORY.md`. Không đọc thêm cho chắc.
 1. **Chốt phạm vi** (hỏi nếu thiếu): feature; URL + phiên bản; tài khoản và vai trò đã biết; được phép tạo dữ liệu test không; tích hợp bên ngoài thật hay mô phỏng; **mã feature** (2–8 chữ HOA tiếng Anh, ví dụ `LOGIN`); đã có SRS cho feature này chưa → nếu có, xem "Cập nhật SRS".
 2. **Cổng khám phá — làm trước khi mở trình duyệt.** Tìm bằng Glob/Grep nhật ký đã có: `evidence/<hệ thống>/features/<feature>/bao-cao.md` và `evidence/<hệ thống>/bao-cao-kham-pha.md` (báo cáo tổng, dò theo tên feature).
-   - **Đã có và đủ:** dùng nhật ký + ảnh sẵn có làm nguồn, **không mở trình duyệt**, viết thẳng SRS (bước 4). Điều nhật ký không có → ghi `chưa rõ`/"Chưa khám phá" kèm lý do "chưa có trong nhật ký", rồi **hỏi người dùng** có muốn khám phá thêm phần đó không; không tự khám phá.
+   - **Đã có và đủ:** chạy `python -X utf8 .claude/skills/srs-from-website/scripts/kiem-tra-bang-phu.py <bao-cao.md>` (in vài dòng). "Đủ" = **mục 0 "Bảng phủ"** của nhật ký không có ô trống, mọi dòng là Đã làm / Không áp dụng / Chưa làm kèm lý do thật. Báo **ĐỦ** → dùng nhật ký + ảnh sẵn có làm nguồn, **không mở trình duyệt**, viết thẳng SRS (bước 4); ca "Chưa làm" đã có lý do thật thì đưa vào "Chưa khám phá" của SRS. Báo **KHÔNG CÓ** (nhật ký cũ chưa có bảng) → dựng bảng từ các hàng sẵn có, không mở trình duyệt. Báo **CÒN THIẾU** (dòng "Chưa có trong nhật ký", ô trống) → ghi `chưa rõ` kèm lý do, rồi **hỏi người dùng** có muốn khám phá thêm phần đó không; không tự khám phá.
    - **Người dùng nói feature đã đổi / yêu cầu khám phá lại:** chỉ khám phá **phần đổi** (hỏi nếu chưa rõ phần nào), lưu vào nhật ký/ảnh mới, không ghi đè bộ cũ.
    - **Chưa có gì (feature mới):** khám phá theo `references/exploration-checklist.md` — luồng chính, mọi nhánh lỗi, từng vai trò, biên, ngôn ngữ, phiên, Network, tệp giao diện. Ca cần mật khẩu → phối hợp theo `references/safety-and-collaboration.md`.
-3. **Ghi nhật ký gốc ngay trong lúc làm**: `evidence/<hệ thống>/features/<feature>/bao-cao.md` theo `assets/exploration-log-template.md`; copy ảnh sang `screenshots/` và đặt tên `NN-<tài-khoản>-<mô-tả>.jpg`. Nhật ký là nguồn sự thật; SRS dẫn tới nó.
+3. **Ghi nhật ký gốc ngay trong lúc làm**: `evidence/<hệ thống>/features/<feature>/bao-cao.md` theo `assets/exploration-log-template.md`, **điền mục 0 "Bảng phủ" khi xong** (cổng ở bước 2 đọc bảng này); copy ảnh sang `screenshots/` và đặt tên `NN-<tài-khoản>-<mô-tả>.jpg`. Nhật ký là nguồn sự thật; SRS dẫn tới nó.
 4. **Viết SRS** `srs/<hệ thống>/<feature>.md`: đọc `srs/_template.md` + `srs/id-and-source-rules.md` (nguồn chuẩn), rồi `references/srs-writing-guide.md`. Thứ tự gợi ý: bảng bằng chứng → story + AC → quy tắc dữ liệu/thông báo → câu hỏi cho team → chưa khám phá → lịch sử thay đổi.
 5. **Soát**:
    ```bash
@@ -53,6 +53,13 @@ File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đ
 
 ## Cập nhật SRS khi feature đổi
 Chỉ khi người dùng nói feature đã đổi. Sửa **tại chỗ**, giữ ID, thêm dòng ở "Lịch sử thay đổi"; khám phá lại **chỉ phần đổi** vào **bộ ảnh/nhật ký mới** (không ghi đè). Đổi ý nghĩa → ID mới, mục cũ `đã bỏ`. Chi tiết: `references/srs-writing-guide.md` mục 6.
+
+## Giữ ngữ cảnh gọn khi soát
+Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một lần `cat` dài bị trả tiền lại ở mọi lượt sau (nhật ký: các phiên nặng có 190–240 KB kết quả lệnh, phần lớn là `cat` bộ nhớ và `grep` dòng bảng soát dài 700 ký tự).
+- Script soát của skill chỉ in vài trăm byte kết luận. **Đạt (0 lỗi) thì không đọc lại file vừa sinh** để "soát cho chắc"; chỉ đọc đúng dòng script báo (`Read` với `offset`/`limit`).
+- Không `cat` file bằng Bash. Dùng `Read` đoạn cần, hoặc `Grep` kèm `| cut -c1-200`. Cần xem vài mã (SRS, bảng soát, test case): `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma ...`.
+- Lệnh có thể in nhiều: thêm `| head -40`.
+- Soát tay chỉ phần script không kiểm được (câu chữ đọc có hiểu không, ý nghĩa): lấy mẫu vài dòng, không đọc cả file.
 
 ## Tệp trong skill
 - `references/exploration-checklist.md` — ba loại bằng chứng, kỹ thuật dùng được (Network, tệp giao diện, DOM), ca cần phủ, khi nào được ghi "chưa khám phá".

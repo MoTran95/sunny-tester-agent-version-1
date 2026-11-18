@@ -24,6 +24,8 @@ Mục tiêu: **khám phá đủ để SRS không phải "bỏ ngõ"**. Chỉ b�
 - Giữ khung nhìn cố định (ví dụ 606×845) để ảnh cùng kích thước; nhớ `resize_window preset desktop` khi xong.
 
 ## 3. Ca phải phủ cho từng loại màn hình
+Mỗi nhóm dưới đây là một dòng trong **mục 0 "Bảng phủ"** của nhật ký (khuôn `assets/exploration-log-template.md`); khám phá xong phải không còn dòng trống.
+
 **Mọi feature:** luồng chính thành công; từng nhánh lỗi; từng vai trò/tài khoản (ai thấy gì, ai không có nút); đổi ngôn ngữ (nhãn, số, ngày, thông báo, mã lỗi chưa dịch); tải lại trang; nút Back; mở link sâu khi chưa đăng nhập / khi không đủ quyền; địa chỉ không tồn tại; hai tab; phản hồi mạng (mã trạng thái).
 
 **Form nhập liệu:** để trống từng ô và tất cả; một ô trống, ô khác có giá trị; sai định dạng; thiếu/thừa độ dài; rất dài (tìm giới hạn tối đa); khoảng trắng đầu/cuối; chữ hoa/thường; ký tự đặc biệt; biên trên/dưới của số; nhấn Enter; bấm hai lần; mã lỗi thô chưa dịch; ô giữ lại giá trị sau lỗi không; thuộc tính HTML (`required`, `novalidate`, `maxlength`, `autocomplete`).

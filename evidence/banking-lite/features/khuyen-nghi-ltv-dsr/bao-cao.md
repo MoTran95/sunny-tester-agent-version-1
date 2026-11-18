@@ -11,6 +11,25 @@ Quy tắc: không tự gõ mật khẩu; chỉ thao tác trên hồ sơ nháp do
 
 Cách đọc số liệu: phần lớn hàng dưới đây đọc bằng **công cụ đọc chữ trên trang** (không có ảnh) — mở lại bằng cách làm đúng thao tác ghi ở cột 2 rồi nhìn khung `Thẩm định` ở bước Tài chính.
 
+## 0. Bảng phủ (dựng 2026-11-18 từ các hàng sẵn có, không khám phá lại)
+| Nhóm ca | Trạng thái | Hàng nhật ký / lý do |
+|---|---|---|
+| Luồng chính thành công (nhập tài chính, xem khuyến nghị, lưu) | Đã làm | #3, #5, #17 |
+| Từng kết quả khuyến nghị và các biên (LTV, DSR, thặng dư, tuổi lúc đáo hạn) | Đã làm | #5–#11, #18–#22, #25, #26 |
+| Từng vai trò | Chưa làm | Mục 3 (khung Thẩm định với P200001/P300001: cần người dùng gõ mật khẩu từng tài khoản); chỉ khám phá bằng P100001 |
+| Đổi ngôn ngữ | Đã làm | #29 |
+| Tải lại trang, nút Back, hai tab | Chưa có trong nhật ký | Chỉ có #17 (mở lại bước Tài chính sau khi lưu) |
+| Link sâu tới bước chưa mở | Đã làm | #1 |
+| Link sâu khi thiếu quyền; địa chỉ không tồn tại | Không áp dụng | Khung Thẩm định không có địa chỉ riêng; địa chỉ không tồn tại đã kiểm ở nhật ký Đăng nhập (hàng 8, 9, 16) |
+| Phản hồi mạng (`GET /api/applications/<id>`, `/api/settings`) | Đã làm | #25, #26, #27, #31, #34–#37 |
+| Tệp giao diện (mã lý do, nhãn khuyến nghị) | Đã làm | #30 |
+| Form: để trống, chữ, số âm, số rất lớn, số người phụ thuộc | Đã làm | #4, #15, #16, #23, #24, #33 |
+| Form: khoảng trắng, nhấn Enter, bấm hai lần, thuộc tính HTML (`required`, `maxlength`) | Chưa có trong nhật ký | Không có hàng nào |
+| Danh sách/bảng | Không áp dụng | Khung Thẩm định không có danh sách hay bộ lọc |
+| Luồng nhiều bước/trạng thái (bước khóa, đổi mục đích/sản phẩm/phương thức trả nợ) | Đã làm | #1, #2, #25 (chân bước Lãi suất `Chưa mở`), #34–#38 |
+| Luồng nhiều bước: yêu cầu định giá, gửi thẩm định, nhiều người vay | Chưa làm | Mục 3 (#32 yêu cầu định giá bị công cụ chặn; `Gửi thẩm định` khóa hồ sơ nên cần hỏi người dùng trước; `Thêm người vay` cần nhập thêm danh tính) |
+| Ca riêng: sản phẩm lãi suất 24 tháng; `assessmentRate` của Xây/sửa nhà ở nhiều mức LTV | Chưa có trong nhật ký | Mục 3 ghi chưa chọn/chưa đo, không có lý do thật đi kèm |
+
 ## 1. Đã thấy (có thao tác thật)
 | # | Thao tác | Kết quả quan sát (nguyên văn khi có) | Ảnh |
 |---|---|---|---|
