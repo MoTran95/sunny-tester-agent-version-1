@@ -539,6 +539,9 @@ def main():
     for p in problems:
         print("  VẤN ĐỀ:", p)
     print("  Đã ghi:", (d / "truy-vet.md").relative_to(ROOT))
+    sm = ROOT / "testing" / a.du_an / "smoke-test.md"
+    if sm.exists() and f"{a.tinh_nang}/test-case.md#" in read(sm) and (a.lenh == "chot" or ma_doi or any(v != "Còn đúng" for v in tc_st.values())):
+        print(f"  Smoke test có dùng test case của tính năng này: chạy `python -X utf8 scripts/truy-vet-smoke.py kiem {a.du_an}` để xem smoke có cần cập nhật không.")
     bad = ma_doi or chua_co_tc or tc_bo or problems or any(v != "Còn đúng" for v in tc_st.values())
     sys.exit(1 if bad and a.lenh == "kiem" else 0)
 

@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 19:52:42 (+07:00) (chỉ kiểm, chưa đổi mốc) |
+| Lần chạy gần nhất | 2026-11-18 20:44:13 (+07:00) (chỉ kiểm, chưa đổi mốc) |
 | Requirement | srs/banking-lite/khuyen-nghi-ltv-dsr.md (cập nhật 2026-11-17); bảng soát (cập nhật ?), câu trả lời đến TL-02 |
 | Test case (đã gồm checklist) | [test-case.md](test-case.md) |
 | Mốc đã chốt | 2026-11-18 19:04:01 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
