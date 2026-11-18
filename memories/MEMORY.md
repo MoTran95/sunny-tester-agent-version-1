@@ -20,9 +20,11 @@ Thêm, đổi tên hoặc xóa file bộ nhớ thì sửa bản đồ trong cùn
 - [project/overview.md](project/overview.md) — **luôn đọc**. Repo là gì, danh sách dự án, thư mục theo dự án.
 - [project/skills.md](project/skills.md) — ba skill của repo, thành phần, đã thử gì. Đọc khi dùng hoặc sửa skill.
 - [project/srs-process.md](project/srs-process.md) — quy trình khám phá → SRS, khuôn và quy tắc ID. Đọc khi làm SRS.
+- [project/truy-vet-requirement.md](project/truy-vet-requirement.md) — cách truy vết requirement ↔ test case, lịch sử, script `truy-vet.py`, làm cho tính năng mới. Đọc khi requirement đổi hoặc sửa checklist/test case.
 - [project/session-speed.md](project/session-speed.md) — vì sao phiên chậm, số đo, hướng đã/chưa làm. Đọc khi người dùng than chậm hoặc khi sửa skill/khuôn.
 - [project/git-remote.md](project/git-remote.md) — remote GitHub, `.env` bị loại trừ. Đọc khi commit/push.
 - [project/architecture.md](project/architecture.md) — cấu trúc thư mục, quyền cho phép sẵn, cài đặt máy mới. Đọc khi thêm thư mục, đổi quyền, hoặc làm trên máy mới.
+- [project/cong-cu-markitdown.md](project/cong-cu-markitdown.md) — MarkItDown đã cài (venv ngoài repo), kết quả soát an toàn, cách dùng, bẫy tiếng Việt. Đọc khi cần đọc docx/pdf/xlsx/pptx hoặc cài máy mới.
 - [project/notion-journey-page.md](project/notion-journey-page.md) — trang Notion hành trình (3 database, hướng dẫn v2). Đọc khi người dùng nhắc Notion, hướng dẫn người mới, content.
 
 ## Quyết định và bẫy
@@ -47,4 +49,5 @@ Chỉ đọc khi `.du-an-hien-tai` là `banking-lite`.
 Sản phẩm trong `testing/` (không phải bộ nhớ):
 - [../testing/chien-luoc-phan-tich-requirement.md](../testing/chien-luoc-phan-tich-requirement.md) — chiến lược Tách–Xoay–Lọc rút từ sách Sunny, đối chiếu với `RECO`. Đọc khi người dùng nhắc “sách” (với dự án khác: chỉ dùng phần cách làm, bỏ phần đối chiếu `RECO`).
 - `LOGIN` — [bảng soát](../testing/banking-lite/dang-nhap/bang-soat-requirement.md) (TL-01…11) và [câu hỏi BA](../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md) (A1–A6, B1, B3, B12, B13 đã trả lời; A7, A8 suy ra TL-12, TL-13; B5–B7, B9–B11, B14 bỏ; còn hỏi B4, B8). Đọc trước khi làm checklist/test case `LOGIN`.
+- `LOGIN` — [checklist](../testing/banking-lite/dang-nhap/checklist.md) (41 dòng TC-001…041, chỉ phần đã chốt; chưa viết bước chi tiết). Đọc trước khi viết test case `LOGIN`; [test case chi tiết](../testing/banking-lite/dang-nhap/test-case.md) (41 TC, 3 câu hỏi BA mới, chưa chạy thử); [truy vết](../testing/banking-lite/dang-nhap/truy-vet.md) (bảng tra mã, hai ma trận, lịch sử; tự sinh).
 - `RECO` — [bảng soát](../testing/banking-lite/khuyen-nghi-ltv-dsr/bang-soat-requirement.md), [câu hỏi BA](../testing/banking-lite/khuyen-nghi-ltv-dsr/cau-hoi-cho-ba.md), [phân tích cũ có 62 test case](../testing/banking-lite/khuyen-nghi-ltv-dsr/phan-tich-requirement.md). Đọc trước khi làm checklist/test case `RECO`.

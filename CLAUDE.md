@@ -18,6 +18,12 @@ Nếu bản đồ và thực tế code mâu thuẫn, tin code, rồi sửa lại
 
 Máy mới hoặc người dùng nhờ "kiểm tra máy mới": xem `docs/cai-dat-may-moi.md`, chạy `python -X utf8 scripts/kiem-tra-may-moi.py`.
 
+## Quy tắc giảm token khi đọc file (MarkItDown)
+
+- Word, PowerPoint, HTML, PDF chữ, hoặc nhiều file cần đọc cùng lúc: đổi sang Markdown trước rồi mới đọc, bằng `C:\Users\Admin\.venvs\markitdown\Scripts\python.exe -m markitdown <file> -o <thư-mục-tạm>\<tên>.md` (`python` thường không có markitdown; máy khác xem `memories/project/cong-cu-markitdown.md`).
+- Ghi `.md` ra thư mục tạm, không để cạnh file gốc trong repo. Chỉ dùng với file/URL đã biết nguồn.
+- Không dùng cho: `.txt`/`.md`; Excel lớn (dùng pandas); PDF scan hoặc nhiều hình/biểu đồ (đọc trực tiếp trang ảnh); việc cần sửa file mà giữ định dạng (sửa file gốc).
+
 ## Quy tắc bộ nhớ trong repo (`memories/`)
 
 - Bộ nhớ lưu **trong chính repo này**, thư mục `memories/`, không lưu ở nơi khác.

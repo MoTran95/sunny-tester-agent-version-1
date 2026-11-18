@@ -17,6 +17,7 @@ Repo không có ứng dụng; là bộ tài liệu kiểm thử + skill + bộ n
 | `scripts/do-toc-do-phien.py` | Đo tốc độ các phiên gần nhất từ nhật ký trên máy (file đọc, phút tới lúc làm, có mở dự án khác không) |
 | `docs/kiem-thu-cac-thay-doi.md` | Kịch bản kiểm thử T1–T7 cho các thay đổi tốc độ và nhiều dự án, có bảng ghi kết quả |
 | `scripts/tao-du-an.py` | Tạo thư mục cho dự án mới (`memories/modules/<slug>/`, `srs/`, `testing/`, `evidence/`) |
+| `scripts/truy-vet.py` | Truy vết requirement ↔ checklist/test case (`kiem` / `chot`), sinh `truy-vet.md`, ghi lịch sử. Cần `testing/<dự-án>/<tính-năng>/truy-vet-cau-hinh.json` |
 | `.du-an-hien-tai` | Slug dự án đang làm trên máy này (không commit, mỗi máy một file) |
 | `.env` / `.env.example` | Tài khoản test (không commit, khóa có tiền tố theo dự án) / mẫu khóa để chép |
 

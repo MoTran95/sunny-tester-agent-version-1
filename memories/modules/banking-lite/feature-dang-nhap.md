@@ -52,6 +52,15 @@ Người dùng xác nhận **BA trả lời** (chuyển lại trong chat, chưa 
 - Bằng chứng nhật ký hàng 19: mỗi lần gõ một mã khác mà vẫn bị chặn → hệ thống hiện **không** đếm riêng từng mã. Đừng đoán "đếm theo mã" trong câu hỏi.
 - Bảng soát thiếu dòng "theo TL" cho M02, S03-AC01 (đã thêm); tổng kết cũ ghi 📋 còn mở 8, đúng là 9. Tổng kết nay tính bằng script đếm cột Trạng thái.
 
+## Checklist (2026-11-18)
+`testing/banking-lite/dang-nhap/checklist.md`: 41 dòng, 5 cột (Mã, Tình huống, Ưu tiên, Kỹ thuật, Nguồn). Người dùng yêu cầu **chỉ viết từ dòng đã rõ/đã chốt**, bỏ phần ❓ (B4, B8, C5, C7–C9, mã không có thật đếm thế nào, đúng giây thứ 5 phút) và không lập mục "Câu hỏi cho BA" mới. Mã nguồn dùng mã SRS (`S01-AC02`, `R06`, `TL-xx`), bỏ tiền tố `LOGIN-`. Ca chạm ngưỡng 10 lần (TC-014…022) chỉ chạy khi người dùng đồng ý (quy tắc tối đa 3 lần sai).
+
+## Test case chi tiết (2026-11-18)
+`testing/banking-lite/dang-nhap/test-case.md`: 41 TC khớp checklist, 7 cột. Quy tắc người dùng đặt: mỗi case đứng riêng (không "như TC-xxx"), mỗi case một giá trị không hợp lệ (checklist gộp nhiều giá trị thì dùng giá trị đầu và **ghi nhận riêng**, không tự thêm/gộp TC), không có mã R/TL trong cột Kết quả, nguồn thiếu thì ghi `CẦN XÁC NHẬN` + đưa vào "Câu hỏi cho BA". Câu hỏi mới: (1) câu báo/số phút khi nhập lúc đang bị chặn (= B4, TC-016…018); (2) lần sai của tài khoản khác xen giữa có làm gián đoạn chuỗi "liên tiếp" không (TC-022); (3) số tiền `2,000,000,000` hiện ở đâu (TC-039). Chưa chạy thử; mật khẩu đúng không ghi trong tài liệu. Bản gốc sinh bằng script ở scratchpad (không lưu trong repo).
+
+## Truy vết (2026-11-18)
+`testing/banking-lite/dang-nhap/truy-vet.md` (tự sinh) + `truy-vet-cau-hinh.json` (tên ngắn 52 mã) + `truy-vet-trang-thai.json` (mốc đã chốt). Cột Nguồn của checklist/test case ghi `mã (tên ngắn)`. Mốc đầu chốt 2026-11-18: 41 TC "Còn đúng". Chi tiết cách dùng: [../../project/truy-vet-requirement.md](../../project/truy-vet-requirement.md).
+
 ## Chưa thử
 Sai mật khẩu nhiều lần (nguy cơ khóa tài khoản test — hỏi người dùng trước), chữ P thường, khoảng trắng, hết hạn phiên, hai tab, đăng nhập P100002.
 

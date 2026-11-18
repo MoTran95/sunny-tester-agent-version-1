@@ -8,6 +8,7 @@ Cập nhật: 2026-11-18 · Chi tiết về cách viết tài liệu: [document-
 - **Nhiều dự án:** máy mới thì hỏi đang làm dự án nào (một lần mỗi máy, ghi ở `.du-an-hien-tai`); chỉ dùng kiến thức của dự án hiện tại, không lẫn sang dự án khác: [../conventions/nhieu-du-an.md](../conventions/nhieu-du-an.md).
 - **An toàn trên hệ thống đang test:** không khóa hệ thống/tài khoản, không đổi dữ liệu của người khác, không kích hoạt giới hạn. Thao tác có thể lặp gây khóa → tối đa **3 lần**, kiểm tra từng lần (không chạy lô), rồi **dừng và hỏi**; không tự nâng ngưỡng; dữ liệu giả không có nghĩa là an toàn. Lỡ kích hoạt thì báo ngay. Người dùng đã phải nhắc hai lần: [../pitfalls/dont-trigger-lockouts.md](../pitfalls/dont-trigger-lockouts.md).
 - **Commit/push chỉ khi người dùng nhờ**, kể cả sau khi tạo dự án mới hay sửa bộ nhớ (kiểm thử T6 2026-11-18: phiên trong bản sao tự commit khi tạo dự án).
+- **Giảm token khi đọc Word/PowerPoint/HTML/PDF chữ/nhiều file:** đổi sang Markdown bằng MarkItDown (venv riêng, ghi ra thư mục tạm) rồi đọc; không dùng cho .txt/.md, Excel lớn, PDF scan: [../project/cong-cu-markitdown.md](../project/cong-cu-markitdown.md).
 - Chỉ test **functional**, không tự suy diễn bảo mật/hiệu năng.
 - Tài liệu phải **đọc là hiểu**: tiếng Việt thường, câu đủ ý, thuật ngữ IT đúng ngữ cảnh; không dùng thuật ngữ kiểm thử/viết tắt khó (Given/When/Then, FR/BR, NK#…) hay mã nội bộ làm tên cột, nhãn, nội dung chính.
 - Kết quả dài thì **lưu thành file trong repo**, chat chỉ tóm tắt + link, không dán cả bảng vào chat.
