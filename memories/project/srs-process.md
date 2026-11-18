@@ -22,7 +22,8 @@
 ## Pilot
 - `LOGIN`: 18 ảnh, 4 story, 24 AC. `RECO`: khám phá 38 hàng/10 ảnh, SRS 37 AC, `check-srs.py` 0 lỗi. Chi tiết trong file feature của dự án.
 - Ứng viên feature chưa làm: trang Tích hợp `/integrations` (P300001, chỉ đọc, che CCCD/SĐT); đổi ngôn ngữ VI/EN.
-- Bài học: ghi nhớ khám phá cũ có thể thiếu luật (bản cũ 2 luật, thực tế ≥5) → luôn khám phá lại bằng thao tác thật + đọc API/tệp giao diện. Feature "nhỏ" có thể ra 37 AC.
+- Bài học: **trí nhớ** về khám phá cũ có thể thiếu luật (bản cũ 2 luật, thực tế ≥5) → lần khám phá ĐẦU phải làm bằng thao tác thật + đọc API/tệp giao diện cho đủ. Feature "nhỏ" có thể ra 37 AC.
+- **Từ 2026-11-18: đã khám phá (có `bao-cao.md` + ảnh) thì không khám phá lại**, trừ khi người dùng nói rõ "khám phá lại"/"feature đã đổi" (chỉ phần đổi). Thiếu gì trong nhật ký → ghi chưa rõ + hỏi người dùng, không tự mở trình duyệt. Lý do: người dùng hết token.
 - Phân tích `RECO` bằng script: kiểm mọi trích dẫn bằng `in` trên file SRS (74/74) và **tính lại số học từng AC** → lộ chỗ SRS tự lệch.
 - Cùng AC vừa đủ căn cứ vừa mơ hồ → **tách**: phần đủ vào bảng 1, phần mơ hồ vào bảng 2. Mã Req = AC + R + M (S là nhóm, Q/E không phải Req).
 - `RECO` bảng soát 37 AC: sau TL-02 17 AC chỉ ✅, 16 cả hai, 4 chỉ ❓. Câu hỏi: 3 đã trả lời, còn Hỏi ngay 4 / Gom sau 12 / Tự tìm 15. Chưa gửi BA.

@@ -6,6 +6,7 @@ Chi tiết viết tài liệu: `document-preferences.md`.
 - **Không gõ mật khẩu** (kể cả sai): mình điền ô tên đăng nhập, người dùng gõ. Tài khoản test ở `.env` gốc repo (`.gitignore`, khóa có tiền tố theo dự án); không chép mật khẩu ra nơi khác.
 - **Nhiều dự án:** máy mới hỏi dự án (ghi `.du-an-hien-tai`); chỉ dùng kiến thức dự án hiện tại: `conventions/nhieu-du-an.md`.
 - **An toàn hệ thống đang test:** không khóa hệ thống/tài khoản, không đổi dữ liệu người khác, không kích hoạt giới hạn. Thao tác có thể lặp gây khóa → tối đa **3 lần**, từng lần, rồi **dừng hỏi**; không tự nâng ngưỡng; dữ liệu giả không phải lý do an toàn; lỡ kích hoạt báo ngay (`pitfalls/dont-trigger-lockouts.md`, đã nhắc hai lần).
+- **Đã khám phá rồi thì không khám phá lại** (tốn token, người dùng không đủ chạy lại); chỉ khi người dùng nói rõ feature đã đổi/khám phá lại, và chỉ phần đổi: `project/srs-process.md`.
 - **Commit/push chỉ khi người dùng nhờ** (kể cả sau tạo dự án/sửa bộ nhớ).
 - Đọc Word/PPT/HTML/PDF chữ/nhiều file → đổi sang Markdown bằng MarkItDown (ra thư mục tạm) rồi đọc; không dùng cho .txt/.md, Excel lớn, PDF scan: `project/cong-cu-markitdown.md`.
 - Tài liệu **đọc là hiểu**: tiếng Việt thường, câu đủ ý, thuật ngữ IT đúng; không dùng Given/When/Then, FR/BR, NK#… hay mã nội bộ làm tên cột/nhãn/nội dung chính.
