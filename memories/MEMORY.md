@@ -18,7 +18,7 @@ Thêm, đổi tên hoặc xóa file bộ nhớ thì sửa bản đồ trong cùn
 - [project/srs-process.md](project/srs-process.md) — quy trình khám phá → SRS, khuôn và quy tắc ID. Đọc khi làm SRS.
 - [project/session-speed.md](project/session-speed.md) — vì sao phiên chậm, số đo, hướng đã/chưa làm. Đọc khi người dùng than chậm hoặc khi sửa skill/khuôn.
 - [project/git-remote.md](project/git-remote.md) — remote GitHub, `.env` bị loại trừ. Đọc khi commit/push.
-- [project/architecture.md](project/architecture.md) — cấu trúc thư mục, công nghệ. Đọc khi thêm thư mục/chức năng.
+- [project/architecture.md](project/architecture.md) — cấu trúc thư mục, quyền cho phép sẵn, cài đặt máy mới. Đọc khi thêm thư mục, đổi quyền, hoặc làm trên máy mới.
 - [project/notion-journey-page.md](project/notion-journey-page.md) — trang Notion hành trình (3 database, hướng dẫn v2). Đọc khi người dùng nhắc Notion, hướng dẫn người mới, content.
 
 ## Quyết định

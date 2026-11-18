@@ -20,9 +20,21 @@ Ngôn ngữ: **tiếng Việt**, câu đầy đủ, dễ hiểu. Mẫu đã ch�
 7. **Khám phá đầy đủ.** Mục "Chưa khám phá" chỉ chứa ca có **lý do thật** (cần người dùng gõ mật khẩu, chờ thời gian, thiếu tài khoản, có thể gây khóa, **bị công cụ chặn**). "Ngại rủi ro nhỏ / hơi lâu / giá trị thấp" không phải lý do. Thao tác bị công cụ chặn → **không đi đường vòng**, ghi vào "Chưa khám phá" kèm lý do (`references/safety-and-collaboration.md` mục 6).
 8. **Làm từng bước nhỏ, hỏi khi chưa rõ.** Từ nghe lệch (người dùng nói bằng giọng nói) → hỏi lại nghĩa, không đoán.
 
+## Đọc gì cho từng việc
+Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`. Thêm theo việc:
+
+| Việc | Đọc | Không cần đọc |
+|---|---|---|
+| Khám phá + viết SRS cho feature mới | Bộ nhớ: `memories/modules/<hệ thống>/exploration-findings.md`, `feature-<tên>.md` nếu có, `memories/pitfalls/dont-trigger-lockouts.md`. Khi khám phá: `references/exploration-checklist.md`, `references/safety-and-collaboration.md`, `assets/exploration-log-template.md`. Khi viết: `srs/_template.md`, `srs/id-and-source-rules.md`, `references/srs-writing-guide.md` | SRS và nhật ký của feature khác (chỉ mở một đoạn nếu cần xem mẫu); `scripts/check-srs.py` (chỉ chạy) |
+| Cập nhật SRS vì feature đổi | SRS hiện có, nhật ký gốc của feature, bộ nhớ của feature, `references/srs-writing-guide.md` mục 6, `references/safety-and-collaboration.md` | `srs/_template.md` (SRS đã theo khuôn), feature khác |
+| Soát một SRS có sẵn | Chạy `scripts/check-srs.py`; đọc SRS ở các dòng script báo. Sửa thì đọc thêm `references/srs-writing-guide.md` | Nhật ký và ảnh, trừ khi phải kiểm lại một nguyên văn |
+| Sửa chính skill này | `memories/project/skills.md`, `memories/project/srs-process.md`, file cần sửa | SRS và bằng chứng |
+
+File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đoạn đó (`offset`/`limit`), đừng đọc cả file.
+
 ## Quy trình
 
-0. **Theo quy trình của repo:** đọc `CLAUDE.md` → `memories/MEMORY.md` → các file bộ nhớ liên quan (đặc biệt module của hệ thống đang test và `pitfalls/`).
+0. **Đọc đúng những file cần cho việc này** (bảng "Đọc gì cho từng việc" ngay dưới), sau `CLAUDE.md` và `memories/MEMORY.md`. Không đọc thêm cho chắc.
 1. **Chốt phạm vi** (hỏi nếu thiếu): feature; URL + phiên bản; tài khoản và vai trò đã biết; được phép tạo dữ liệu test không; tích hợp bên ngoài thật hay mô phỏng; **mã feature** (2–8 chữ HOA tiếng Anh, ví dụ `LOGIN`); đã có SRS cho feature này chưa → nếu có, xem "Cập nhật SRS".
 2. **Khám phá** theo `references/exploration-checklist.md` — luồng chính, mọi nhánh lỗi, từng vai trò, biên, ngôn ngữ, phiên, Network, tệp giao diện. Ca cần mật khẩu → phối hợp theo `references/safety-and-collaboration.md`.
 3. **Ghi nhật ký gốc ngay trong lúc làm**: `evidence/<hệ thống>/features/<feature>/bao-cao.md` theo `assets/exploration-log-template.md`; copy ảnh sang `screenshots/` và đặt tên `NN-<tài-khoản>-<mô-tả>.jpg`. Nhật ký là nguồn sự thật; SRS dẫn tới nó.

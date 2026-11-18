@@ -6,11 +6,13 @@ File này được đọc ĐẦU TIÊN trong mọi phiên làm việc. Ngôn ng�
 
 1. Đọc `CLAUDE.md` (file này).
 2. Đọc `memories/MEMORY.md` — đây là **bản đồ**, chỉ cho biết file bộ nhớ nào chứa thông tin gì.
-3. Dựa vào bản đồ, đọc **các file bộ nhớ liên quan** đến yêu cầu (module sẽ đụng tới, quyết định liên quan, sở thích của người dùng). Không đọc tràn lan, nhưng không được bỏ sót file mà bản đồ chỉ ra là liên quan.
+3. Dựa vào bản đồ, đọc **các file bộ nhớ liên quan** đến yêu cầu (module sẽ đụng tới, quyết định liên quan, sở thích của người dùng). Không đọc tràn lan, nhưng không được bỏ sót file mà bản đồ chỉ ra là liên quan. Việc dùng skill: đọc theo bảng "Đọc gì cho từng việc" trong `SKILL.md` của skill đó.
 4. Thực hiện công việc.
 5. Cập nhật bộ nhớ (xem mục dưới) trước khi kết thúc lượt làm việc.
 
 Nếu bản đồ và thực tế code mâu thuẫn, tin code, rồi sửa lại bộ nhớ cho đúng.
+
+Máy mới hoặc người dùng nhờ "kiểm tra máy mới": xem `docs/cai-dat-may-moi.md`, chạy `python -X utf8 scripts/kiem-tra-may-moi.py`.
 
 ## Quy tắc bộ nhớ trong repo (`memories/`)
 

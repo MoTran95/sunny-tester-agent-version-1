@@ -3,6 +3,11 @@ Cập nhật: 2026-11-18
 
 Mỗi quyết định một mục, mới nhất ở trên. Khi file quá dài, tách theo năm/chủ đề.
 
+## 2026-11-18 — Skill ghi rõ file cần đọc; quyền cho phép sẵn cho máy mới
+- **Quyết định:** mỗi `SKILL.md` có bảng "Đọc gì cho từng việc" thay cho bước "đọc bộ nhớ liên quan" chung chung. `.claude/settings.json` (commit theo repo) cho phép sẵn: `Edit` trong `memories/`, `srs/`, `testing/`, `evidence/`, `docs/`, `.claude/skills/`, `CLAUDE.md`; chạy script trong `.claude/skills/` và `scripts/kiem-tra-may-moi.py`; `git status/diff/log/show`.
+- **Lý do:** người dùng nhờ (2026-11-18) để phiên đầu trên máy mới không mất ~30 phút.
+- **Phương án đã loại:** cho phép sẵn `git commit`/`git push`/xóa file (người dùng muốn commit/push chỉ khi được nhờ); cho phép sửa `.claude/settings.json` (tự nới quyền).
+
 ## 2026-11-18 — Bộ nhớ luôn đọc chỉ giữ phần cốt lõi
 - **Quyết định:** chỉ `user/working-preferences.md` và `project/overview.md` là luôn đọc. `working-preferences.md` giữ quy tắc cốt lõi mỗi ý một dòng; chi tiết về cách viết tài liệu sang `user/document-preferences.md`. `MEMORY.md` mỗi dòng một câu ngắn, không ghi nhật ký cập nhật, sản phẩm trong `testing/` gom một mục.
 - **Lý do:** người dùng duyệt "Làm gọn bộ nhớ" sau khi đo thấy phần luôn đọc dày và lặp ý ([../project/session-speed.md](../project/session-speed.md)).

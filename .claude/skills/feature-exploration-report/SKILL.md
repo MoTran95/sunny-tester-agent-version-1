@@ -17,9 +17,20 @@ Ngôn ngữ: **tiếng Việt**, dùng đúng thuật ngữ IT, dễ hiểu (xem
 4. **Hỏi trước khi tạo/sửa dữ liệu thật, tải file, gửi thứ có thể ra ngoài** (SMS, email…). Dữ liệu test do mình tạo thì ghi rõ mã để người dùng nhận ra.
 5. **Hỏi người dùng khi chưa rõ**, đừng tự quyết (xem mục 7 của báo cáo).
 
+## Đọc gì cho từng việc
+Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`. Thêm theo việc:
+
+| Việc | Đọc | Không cần đọc |
+|---|---|---|
+| Khám phá + làm báo cáo mới | `references/report-structure.md`, `references/evidence-and-build.md`, `assets/report-template.src.html`, `memories/user/document-preferences.md`, `memories/pitfalls/dont-trigger-lockouts.md`. Nếu là Banking Lite: thêm `references/banking-lite-context.md`, `memories/modules/banking-lite/exploration-findings.md` và bộ nhớ của feature nếu có | File HTML đã build (~500 KB, đọc vô ích); ảnh cũ trong `evidence/` trừ khi dùng lại; `scripts/build-embed.py` (chỉ chạy) |
+| Sửa báo cáo có sẵn | Phần cần sửa trong file `*.src.html` (tìm bằng Grep), `references/evidence-and-build.md` (mục build, soát), `memories/modules/banking-lite/report-v2-html.md` | File HTML đã build; cả file nguồn nếu chỉ sửa một mục |
+| Sửa chính skill này | `memories/project/skills.md`, file cần sửa | Báo cáo và ảnh |
+
+Ảnh: chỉ mở những ảnh cần khoanh nút hoặc cần kiểm, không mở hàng loạt (một phiên trước mở 41 ảnh trước khi viết dòng đầu tiên).
+
 ## Quy trình
 
-0. Theo quy trình của repo: đọc `CLAUDE.md` → `memories/MEMORY.md` → các file bộ nhớ liên quan trước khi làm.
+0. **Đọc đúng những file cần cho việc này** (bảng "Đọc gì cho từng việc" ngay dưới), sau `CLAUDE.md` và `memories/MEMORY.md`. Không đọc thêm cho chắc.
 1. **Chốt phạm vi** (hỏi nếu thiếu): tên feature, URL hệ thống/phiên bản, danh sách tài khoản + vai trò đã biết, được phép tạo dữ liệu test không, tích hợp bên ngoài (SMS/email/…) là thật hay mô phỏng. **Nếu là feature của Banking Lite** (https://banking-lite.vercel.app/): đọc `references/banking-lite-context.md` — có sẵn tài khoản, bản đồ feature, điều đã/chưa khám phá; chỉ khám phá thêm phần còn thiếu, phần đã có thì tham chiếu báo cáo v2.
 2. **Khám phá thật** bằng trình duyệt (xem `references/evidence-and-build.md` mục "Chụp ảnh"). Với mỗi vai trò: màn hình đầu, từng nút, trường nhập, thông báo (chép **nguyên văn**), trạng thái chuyển. Chạy hết luồng chính rồi các nhánh (thành công, từ chối, trả lại/hoàn tác, nhập sai).
 3. **Ghi nhật ký gốc bằng Markdown** (`evidence/<feature>/bao-cao-kham-pha.md`) ngay trong lúc khám phá: bảng thao tác → kết quả → số ảnh. Đây là nguồn sự thật để dựng HTML. Giữ mục “Chưa thử” và “Câu hỏi cho team”.

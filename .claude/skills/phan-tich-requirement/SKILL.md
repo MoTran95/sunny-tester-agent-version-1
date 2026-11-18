@@ -23,9 +23,21 @@ Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong s�
 10. **Đừng làm quá việc được giao.** Chưa được yêu cầu thì không dựng checklist, test case, ưu tiên. *Lần `RECO` mình dựng 62 test case khi người dùng chỉ cần phân tích và hỏi BA.*
 11. **Làm từng bước nhỏ, hỏi khi chưa rõ** (tối đa 3 câu khi không làm tiếp được). Từ nghe lệch thì hỏi lại nghĩa.
 
+## Đọc gì cho từng việc
+Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`. Thêm theo việc:
+
+| Việc | Đọc | Không cần đọc |
+|---|---|---|
+| Phân tích requirement mới | File requirement (cả file). Bộ nhớ: `memories/conventions/ba-question-wording.md`, `memories/modules/<hệ thống>/feature-<tên>.md` nếu có. Skill: `references/quy-trinh-tach-xoay-loc.md`, `quy-tac-nguon-va-tra-loi.md`, `viet-cau-hoi-de-doc.md`, `bai-hoc.md`, hai file trong `assets/` | Bảng soát, câu hỏi của feature khác; `scripts/kiem-tra.py` (chỉ chạy, không đọc) |
+| Ghi câu trả lời BA (`TL-xx`) | Bộ nhớ của feature. `references/quy-tac-nguon-va-tra-loi.md` mục 4. Trong bảng soát: chỉ mục 3 và các dòng `--tim` chỉ ra. Trong file câu hỏi: chỉ khối của câu được trả lời (tìm `## A4.`). Requirement: chỉ đoạn của mã liên quan | Cả bảng soát, cả file câu hỏi, cả requirement; các file references khác. Đọc thêm `viet-cau-hoi-de-doc.md` **chỉ khi** phải viết câu hỏi mới |
+| Sửa câu chữ một câu hỏi | Khối câu đó trong file câu hỏi, `memories/conventions/ba-question-wording.md`, `references/viet-cau-hoi-de-doc.md` | Bảng soát (chỉ sửa tiêu đề nếu tiêu đề đổi, dùng `--tim`) |
+| Sửa chính skill này | `memories/project/skills.md`, file cần sửa | Sản phẩm trong `testing/` |
+
+File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đoạn đó (`offset`/`limit`), đừng đọc cả file.
+
 ## Quy trình
 
-0. **Theo quy trình của repo:** đọc `CLAUDE.md` → `memories/MEMORY.md` → các file liên quan, đặc biệt `memories/conventions/ba-question-wording.md` (xưng hô, từ đã chốt) và bộ nhớ của feature nếu đã có.
+0. **Đọc đúng những file cần cho việc này** (bảng "Đọc gì cho từng việc" ngay dưới), sau `CLAUDE.md` và `memories/MEMORY.md`. Không đọc thêm cho chắc.
 1. **Chốt đầu vào** (hỏi nếu thiếu): đường dẫn requirement; hệ thống và feature; requirement đã có mã chưa; đã có bản phân tích trước chưa (có thì sang "Khi có câu trả lời"). Nếu `ba-question-wording.md` thiếu hoặc người dùng muốn đổi từ ngữ thì hỏi: xưng hô, từ team dùng cho các khái niệm chính, rồi cập nhật file đó.
 2. **Đọc để hiểu**, rồi liệt kê mọi đơn vị cần soát (mỗi AC, quy tắc, thông báo là một đơn vị). Dùng năm câu tự hỏi và sáu dấu hiệu lấn cấn trong `references/quy-trinh-tach-xoay-loc.md`.
 3. **Tính lại số liệu** bằng script nhỏ (để trong thư mục tạm, không lưu vào repo). Ghi các chỗ lệch.

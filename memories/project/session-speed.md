@@ -22,4 +22,7 @@ Cập nhật: 2026-11-18 · Liên quan: [skills.md](skills.md), [../user/working
 ## Trạng thái
 - Hướng 1 "làm gọn bảng soát": **đã làm 2026-11-18** (xem decision-log). Chưa đo lại thời gian trên một lần ghi câu trả lời thật.
 - Hướng 2 "làm gọn bộ nhớ luôn đọc": **đã làm 2026-11-18**. `MEMORY.md` 8,7→4,8 KB, `working-preferences.md` 7,4→2,6 KB (tổng phần luôn đọc kể cả `overview.md`: 17,4→8,9 KB). Chi tiết tài liệu chuyển sang `user/document-preferences.md`, bài học giọng văn sang `conventions/ba-question-wording.md`; đã kiểm bằng script: không mất cụm quy tắc nào, không liên kết gãy, mọi file có trong bản đồ.
-- Hướng 3–5 (skill chỉ rõ file cần đọc, phiên ngắn/effort, chuẩn bị máy mới): chưa làm.
+- Hướng 3 "skill chỉ rõ file cần đọc": **đã làm 2026-11-18**, mỗi `SKILL.md` có bảng "Đọc gì cho từng việc" (đọc / không cần đọc), `CLAUDE.md` trỏ tới bảng đó.
+- Hướng 5 "chuẩn bị máy mới": **đã làm 2026-11-18**: `.claude/settings.json` (13 quyền), `.env.example`, `scripts/kiem-tra-may-moi.py` (máy này: 0 thiếu), `docs/cai-dat-may-moi.md`. Chưa thử trên máy mới thật.
+- Hướng 4 (phiên ngắn, effort): là thói quen của người dùng, đã ghi trong `docs/cai-dat-may-moi.md` mục 6.
+- Còn lại người dùng tự làm: tắt plugin `data`, skill `assp-*`, `kundalini-yoga-translator`, `flipbook-builder` trong app.
