@@ -6,7 +6,7 @@
 | Dùng để | Gửi BA. Mỗi câu có tình huống thật, câu hỏi, cách mình đang hiểu và lý do hỏi |
 | Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) và [bảng soát](bang-soat-requirement.md). Mã cũ ghi ở cuối mỗi câu để tra chéo |
 | Cách dùng | Gửi **Phần A** trước. **Phần B** gom hỏi một lần sau. **Phần C** là việc mình tự kiểm tra trên hệ thống, chưa cần hỏi BA |
-| Tình trạng | A1–A6, B1, B3, B12, B13 đã được BA trả lời ngày 2026-11-18 (người dùng chuyển lại trong chat). Các câu còn lại chưa hỏi BA. C6 không cần làm nữa |
+| Tình trạng | A1–A6, B1, B3, B12, B13 đã được BA trả lời ngày 2026-11-18 (người dùng chuyển lại trong chat). Soát lại 2026-11-18: A7, A8 **không gửi BA** (suy ra từ requirement, người dùng xác nhận, TL-12, TL-13), B2 gộp vào A7, B4 viết lại. B5, B6, B7, B9, B10, B11, B14 bỏ vì suy ra được Các câu còn lại chưa hỏi BA. C6 không cần làm nữa |
 
 ## Đọc trước 1 phút
 Đăng nhập là cổng vào hệ thống: nhân viên nhập **Mã nhân viên** và **Mật khẩu** để vào "Danh sách việc". Phần này cũng có đăng xuất, đổi ngôn ngữ ngay ở màn hình đăng nhập, và chặn khi đăng nhập sai nhiều lần.
@@ -26,7 +26,7 @@
 
 ---
 
-# Phần A. Hỏi ngay (6 câu, đều đã có trả lời)
+# Phần A. Hỏi ngay (8 câu: A1–A6 đã có trả lời; A7, A8 không gửi BA, suy ra từ requirement)
 
 Các câu này làm đổi kết quả đúng, nên cần trả lời sớm.
 
@@ -152,6 +152,8 @@ Dòng gợi ý dưới ô ghi "Chữ P và 6 chữ số, ví dụ P100001." Mìn
 
 **So với hệ thống hiện tại:** khớp ở chữ thường, khác ở độ dài (hệ thống từ chối mã 210 ký tự). Khoảng trắng với mã thật chưa thử (mục C1). **Còn lại:** dòng gợi ý "Chữ P và 6 chữ số" còn giữ không.
 
+**Ghi chú 2026-11-18:** phần độ dài lẽ ra không cần hỏi. Vì bảo mật, màn hình đăng nhập chỉ báo đúng hoặc sai, không kiểm độ dài hay định dạng, nên không test độ dài ở đây. Phần chữ thường đã có trong SRS (`p100001` đăng nhập được).
+
 *Mã cũ: S01-AC04, S02-AC04, S02-AC06, R01, R02, R03, Q04.*
 
 ---
@@ -208,11 +210,71 @@ Câu trả lời của A2 là 10 lần sai liên tiếp thì bị chặn, và "�
 
 **So với hệ thống hiện tại:** đếm lại khi đăng nhập đúng khớp SRS. Lần sai thứ 10: khác. Hệ thống báo sai thông tin ở 10 lần đầu, lần thứ 11 mới báo bị chặn (lệch một lần). BA đã trả lời nên đây là nghi lỗi, chưa phải lỗi đã xác nhận.
 
+**Ghi chú 2026-11-18:** câu này lẽ ra không cần hỏi. Chữ "10 lần liên tiếp" đã đủ để suy ra: lần sai thứ 10 bị chặn, đăng nhập đúng xen giữa đếm lại từ 0, chỉ đếm số lần. Mình hỏi vì đi theo hệ thống (chặn ở lần thứ 11) thay vì theo câu chữ. Câu trả lời của BA khớp với điều suy ra.
+
 *Mã cũ: S02-AC07, R06 (nảy ra từ câu trả lời A2).*
 
 ---
 
-# Phần B. Hỏi sau, gom một lần (13 câu, B1, B3, B12, B13 đã có trả lời)
+## A7. Khi bị chặn, ai không đăng nhập được: chỉ người nhập sai, hay cả người khác?
+
+**Người trả lời gợi ý:** BA và Dev
+
+Câu này trước là B2. Mình chuyển lên hỏi ngay vì câu trả lời A1: đang bị chặn thì nhập đúng cũng không vào được.
+
+Mình nhập sai nhiều lần liên tiếp trên một trình duyệt, phần lớn bằng mã không có thật như `P999999`, `X999999`, `P99-999`. Tới lần sai thứ 11, hệ thống báo "Too many failed attempts. Try again in 5 minutes." Vậy mã không có thật vẫn bị đếm. Mình chưa biết hệ thống đếm theo cái gì.
+
+Ví dụ: người thứ nhất gõ nhầm mã 10 lần trên máy của mình. Ngay sau đó người thứ hai mở máy khác, nhập đúng `P100001` và mật khẩu đúng.
+
+**Hỏi:** Anh/chị cho mình hỏi: người thứ hai có bị chặn không? Và hệ thống đếm số lần sai theo mã nhân viên, theo trình duyệt, hay chung cả hệ thống?
+
+**Mình đang hiểu:** Mỗi lần mình gõ một mã khác nhau mà vẫn bị chặn. Nên mình đoán hệ thống hiện **không** đếm riêng từng mã, mà đếm theo trình duyệt (hoặc máy), hoặc chung cả hệ thống. Mình chưa thử đổi trình duyệt khi đang bị chặn, nên chưa biết người thứ hai có vào được không. Mình cũng chưa biết đó có phải ý của anh/chị không.
+
+**Vì sao hỏi:** Trước câu trả lời A1, người bị chặn vẫn vào được nếu nhập đúng, nên ai bị chặn không quan trọng lắm. Giờ người bị chặn không vào được 5 phút. Nếu đếm chung cả hệ thống, một người gõ nhầm có thể làm cả ngân hàng không đăng nhập được 5 phút. Câu trả lời cũng quyết định "đăng nhập đúng đưa số lần sai về 0" (câu A6) là đưa về 0 cho ai.
+
+**Anh/chị chọn:**
+
+- [ ] Theo mã nhân viên đã gõ (mã không có thật cũng đếm riêng)
+- [ ] Theo trình duyệt / máy
+- [ ] Chung cả hệ thống
+- [ ] Khác: ______
+
+**Câu trả lời của BA:** Không gửi BA. Suy ra từ requirement, người dùng xác nhận ngày 2026-11-18: chặn vì đăng nhập sai nhiều lần là để bảo vệ tài khoản bị nhập sai, nên bị chặn thì chặn đúng tài khoản đó, không chặn tài khoản khác. Chưa có BA xác nhận. (TL-12)
+
+**So với hệ thống hiện tại:** có thể khác, cần kiểm. Lúc khám phá, mình gõ nhiều mã khác nhau (phần lớn không có thật), mỗi mã một hai lần, mà cộng lại vẫn bị chặn ở lần thứ 11.
+
+*Mã cũ: R06, S02-AC08, Q06 (trước là B2, chuyển lên vì câu trả lời A1).*
+
+---
+
+## A8. Ô Mật khẩu có cắt khoảng trắng và có phân biệt chữ hoa, chữ thường không?
+
+**Người trả lời gợi ý:** BA và Dev
+
+Câu trả lời A4 nói ô Mã nhân viên tự cắt khoảng trắng đầu và cuối, và chữ p hoa hay thường đều được. Câu trả lời chưa nói gì về ô Mật khẩu. Mình chưa thử trên hệ thống, vì mỗi lần nhập sai đều tính vào 10 lần.
+
+Ví dụ: mật khẩu đúng là `Abc12345`. Người dùng gõ `Abc12345 ` (thừa một khoảng trắng cuối), hoặc gõ `abc12345` (chữ a thường).
+
+**Hỏi:** Anh/chị cho mình hỏi: hai lần gõ này có vào được không?
+
+**Mình đang hiểu:** Mình đoán ô Mật khẩu khác ô Mã nhân viên: giữ nguyên từng ký tự, không cắt khoảng trắng, phân biệt chữ hoa và chữ thường. Nên cả hai lần gõ đều bị báo "Mã nhân viên hoặc mật khẩu không đúng." Đó chỉ là đoán.
+
+**Vì sao hỏi:** Nếu Dev cắt khoảng trắng cho cả hai ô giống nhau thì kết quả đúng của hai ca trên đổi từ "không vào được" thành "vào được". Mỗi lần gõ sai còn tính vào 10 lần bị chặn.
+
+**Anh/chị chọn:**
+
+- Khoảng trắng đầu/cuối của mật khẩu: [ ] tự cắt bỏ  [ ] giữ nguyên, tính là một ký tự
+- Chữ hoa và chữ thường của mật khẩu: [ ] phân biệt  [ ] không phân biệt
+
+**Câu trả lời của BA:** Không gửi BA. Suy ra từ requirement, người dùng xác nhận ngày 2026-11-18: mật khẩu là bí mật nên phải khớp từng ký tự; mật khẩu không có khoảng trắng và phân biệt chữ hoa, chữ thường. Mình hiểu là không cắt khoảng trắng, nên cả hai lần gõ trong ví dụ đều bị báo "Mã nhân viên hoặc mật khẩu không đúng." Chưa có BA xác nhận. (TL-13)
+
+**So với hệ thống hiện tại:** chưa kiểm (mỗi lần gõ sai tính vào 10 lần).
+
+*Mã cũ: mục 6.2 của SRS (mật khẩu chưa khám phá), R02 (nảy ra từ câu trả lời A4).*
+
+---
+
+# Phần B. Hỏi sau, gom một lần (B1, B3, B12, B13 đã có trả lời; B2 gộp vào A7; B5, B6, B7, B9, B10, B11 bỏ vì suy ra được; còn hỏi B4, B8)
 
 Các câu này chủ yếu về hiển thị, câu chữ, hoặc phần mình chưa test được.
 
@@ -257,6 +319,8 @@ Mình thử đăng nhập sai bằng các mã không có thật mà vẫn bị c
 
 **Câu trả lời của BA:** ______
 
+**Cập nhật 2026-11-18:** gộp vào **A7**. Người dùng đã chốt: chặn đúng tài khoản nhập sai (TL-12). Không gửi BA câu này.
+
 *Mã cũ: R06, Q06.*
 
 ---
@@ -281,75 +345,26 @@ Màn hình báo "Try again in 5 minutes." Mình chưa chờ hết 5 phút để 
 
 ---
 
-## B4. Câu báo bị chặn bằng Tiếng Việt có đúng như trong tệp giao diện không?
+## B4. Lúc đang bị chặn, màn hình báo câu gì, và số phút có giảm dần không?
 
 **Người trả lời gợi ý:** BA
 
 Bản English hiện trên màn hình: "Too many failed attempts. Try again in 5 minutes." Bản Tiếng Việt mình chưa thấy hiện lần nào. Trong tệp giao diện có câu "Đăng nhập sai quá nhiều lần. Thử lại sau {minutes} phút."
 
-**Hỏi:** Anh/chị cho mình hỏi: bản Tiếng Việt có đúng là câu này không, và {minutes} có được thay bằng 5 không?
+Theo câu trả lời A1, đang bị chặn thì nhập đúng cũng không vào được, và hết chặn sau 5 phút tính từ lúc bị chặn. Ví dụ: bị chặn lúc 14:23. Lúc 14:25 người dùng nhập đúng mã và mật khẩu.
 
-**Mình đang hiểu:** Mình đoán là đúng, {minutes} thành 5.
+**Hỏi:** Anh/chị cho mình hỏi:
+- Bản Tiếng Việt có đúng là câu trên không?
+- Lúc 14:25, màn hình ghi "Thử lại sau 5 phút" hay "Thử lại sau 3 phút"?
+- Lần nhập đúng lúc 14:25 có hiện đúng câu bị chặn này không, hay hiện câu khác?
 
-**Vì sao hỏi:** Mình chưa tự thấy được câu này trên màn hình mà không cố ý làm mình bị chặn.
+**Mình đang hiểu:** Mình đoán bản Tiếng Việt đúng là câu trên. Mình đoán số phút luôn ghi 5, và nhập đúng hay sai lúc đang bị chặn đều hiện cùng câu bị chặn. Đó chỉ là đoán.
+
+**Vì sao hỏi:** Ca "đang bị chặn mà nhập đúng" mới có sau câu trả lời A1, nên cần biết màn hình phải ra câu gì. Nếu số phút giảm dần thì mỗi lần thử ra một số khác nhau. Mình chưa tự thấy được câu Tiếng Việt mà không cố ý làm mình bị chặn.
 
 **Câu trả lời của BA:** ______
 
 *Mã cũ: M05, S02-AC07.*
-
----
-
-## B5. Đăng nhập xong quay lại đúng link đã mở, áp dụng cho mọi link không?
-
-**Người trả lời gợi ý:** BA
-
-Mình mở link hồ sơ HL-000019 (hồ sơ do chính P100001 tạo) khi chưa đăng nhập. Hệ thống hiện form đăng nhập, giữ nguyên link. Đăng nhập đúng xong thì vào thẳng hồ sơ đó. Mình chưa thử link hồ sơ của người khác hay hồ sơ mà vai trò này không được xem.
-
-**Hỏi:** Anh/chị cho mình hỏi: cách quay lại link này áp dụng cho mọi link không, kể cả hồ sơ người khác tạo hoặc hồ sơ vai trò này không có quyền xem?
-
-**Mình đang hiểu:** Mình đoán mọi link đều quay lại, và quyền xem được kiểm khi hồ sơ mở ra. Mình chưa thử.
-
-**Vì sao hỏi:** Nếu link không có quyền xem phải về Danh sách việc thì kết quả đúng đổi.
-
-**Câu trả lời của BA:** ______
-
-*Mã cũ: S01-AC03, Q07.*
-
----
-
-## B6. Mở `/login` khi đã đăng nhập, hoặc mở địa chỉ không có thật, hệ thống làm vậy có đúng ý không?
-
-**Người trả lời gợi ý:** BA
-
-Khi đã đăng nhập: mở `/login` thì hiện Danh sách việc nhưng thanh địa chỉ vẫn là `/login`. Mở địa chỉ không có thật, ví dụ `/khong-ton-tai-xyz`, cũng hiện Danh sách việc, giữ nguyên địa chỉ, không có trang "không tìm thấy". Khi chưa đăng nhập: mở địa chỉ không có thật thì hiện form đăng nhập, cũng giữ nguyên địa chỉ.
-
-**Hỏi:** Anh/chị cho mình hỏi: đây có phải cách hệ thống phải làm không, hay cần chuyển sang trang chủ hoặc hiện trang "không tìm thấy"?
-
-**Mình đang hiểu:** Mình chưa chắc. Mình đoán đây là mặc định chưa ai chỉnh, không phải chủ ý.
-
-**Vì sao hỏi:** Nếu cần chuyển hướng hoặc trang "không tìm thấy" thì ba ca đều đổi.
-
-**Câu trả lời của BA:** ______
-
-*Mã cũ: S01-AC07, S01-AC08, S04-AC02, Q08.*
-
----
-
-## B7. Khi bị đăng xuất ở nơi khác, màn hình có phải báo "Vui lòng đăng nhập." không?
-
-**Người trả lời gợi ý:** BA
-
-Mình mở hai tab cùng một phiên và đăng xuất ở tab 2. Tab 1 vẫn hiện Danh sách việc cho tới khi mình bấm "Tất cả hồ sơ". Lúc đó tab 1 chuyển sang form đăng nhập, không có thông báo nào. Trong tệp giao diện có câu "Vui lòng đăng nhập." nhưng mình chưa thấy nó hiện lần nào.
-
-**Hỏi:** Anh/chị cho mình hỏi: lúc tab 1 bị đưa về form đăng nhập, màn hình có phải hiện câu "Vui lòng đăng nhập." không?
-
-**Mình đang hiểu:** Mình đoán là có, câu này sinh ra cho tình huống này. Mình chưa chắc.
-
-**Vì sao hỏi:** Nếu có thì ca này hiện đang thiếu thông báo.
-
-**Câu trả lời của BA:** ______
-
-*Mã cũ: S04-AC04, M06, Q09.*
 
 ---
 
@@ -368,60 +383,6 @@ Mình tải lại trang (F5) thì vẫn đang đăng nhập. Mình chưa chờ �
 **Câu trả lời của BA:** ______
 
 *Mã cũ: S01-AC06, Q10.*
-
----
-
-## B9. Sau khi báo lỗi, ô Mật khẩu nên giữ chữ đã gõ hay xóa?
-
-**Người trả lời gợi ý:** BA
-
-Mình gõ `P100001` và mật khẩu sai 3 ký tự, bấm Đăng nhập. Khung đỏ hiện. Ô Mã nhân viên giữ chữ đã gõ. Ô Mật khẩu cũng còn nguyên 3 ký tự. SRS chỉ ghi ô Mã nhân viên giữ chữ.
-
-**Hỏi:** Anh/chị cho mình hỏi: sau khi báo lỗi, ô Mật khẩu phải giữ chữ đã gõ hay phải xóa?
-
-**Mình đang hiểu:** Mình thấy hệ thống đang giữ. Mình chưa chắc đó là chủ ý.
-
-**Vì sao hỏi:** Chi tiết này không có trong SRS, nên mình cần BA nói là đúng hay sai.
-
-**Câu trả lời của BA:** ______
-
-*Mã cũ: S02 (luồng chung).*
-
----
-
-## B10. Các chức năng chưa thấy trên màn hình đăng nhập là chưa làm hay không làm?
-
-**Người trả lời gợi ý:** BA
-
-Màn hình đăng nhập chưa có "quên mật khẩu", "đổi mật khẩu", "đăng ký", "ghi nhớ đăng nhập", và ô chọn Workspace. SRS ghi các chức năng này là "chưa có" nên mình chưa soát chúng.
-
-**Hỏi:** Anh/chị cho mình hỏi: những chức năng này là chưa làm (sẽ có sau) hay không làm?
-
-**Mình đang hiểu:** Mình chưa chắc. Mình tạm xem đây là phần chưa cần test cho tới khi anh/chị trả lời.
-
-**Vì sao hỏi:** Nếu sẽ có thì mình cần biết sớm để không bỏ sót.
-
-**Câu trả lời của BA:** Một phần: ô chọn Workspace đã rõ ở A5 là bỏ. Các chức năng còn lại chưa trả lời. Lưu ý: câu trả lời A4 có nhắc "phần đăng ký", mình chưa biết nó nằm ở đâu.
-
-*Mã cũ: phạm vi trong mục 1 của SRS.*
-
----
-
-## B11. Mật khẩu hợp lệ dài bao nhiêu ký tự và gồm những gì?
-
-**Người trả lời gợi ý:** BA và Dev
-
-Mật khẩu để trống thì bị báo `validation.too_small (password)`, nên có mức tối thiểu. Mình gõ mật khẩu sai 3 ký tự thì chỉ bị báo "Mã không gian, mã nhân viên hoặc mật khẩu không đúng.", nên mức tối thiểu không quá 3. Mình chưa biết mức tối đa, và chưa thử ký tự đặc biệt hay khoảng trắng. Mỗi lần thử sai đều tính vào giới hạn đăng nhập sai (xem câu A2), nên mình chưa dám thử.
-
-**Hỏi:** Anh/chị cho mình hỏi: mật khẩu ít nhất và nhiều nhất bao nhiêu ký tự, và có cho khoảng trắng hay ký tự đặc biệt không?
-
-**Mình đang hiểu:** Mình đoán mức tối thiểu là 1 ký tự. Mình chưa biết mức tối đa.
-
-**Vì sao hỏi:** Cần biết mức này để dựng các ca sát biên.
-
-**Câu trả lời của BA:** Chưa trả lời. Gợi ý từ A3 và A4: ô mật khẩu trống chỉ báo câu chung, và độ dài mã nhân viên thuộc phần đăng ký. Chưa nói với độ dài mật khẩu.
-
-*Mã cũ: phần "chưa khám phá" trong mục 6.2 của SRS, M03.*
 
 ---
 
@@ -488,6 +449,7 @@ Hai điều cần nhớ:
 - **Cần làm:** nhập mã và mật khẩu đúng, đặt con trỏ ở ô Mật khẩu, nhấn Enter (không bấm nút).
 - **Mình đang hiểu:** Mình mới thử Enter ở ô Mã nhân viên khi mật khẩu trống. Mình đoán Enter ở ô Mật khẩu cũng gửi form và vào được.
 - **Nếu không tìm ra, hỏi BA:** Nhấn Enter ở ô nào cũng phải gửi form, đúng không?
+- **Cập nhật 2026-11-18:** suy ra từ SRS (Enter ở ô Mã nhân viên gửi form như bấm nút) là Enter ở ô nào cũng gửi form. Mục này chỉ còn là kiểm hệ thống, không cần hỏi BA.
 
 *Mã cũ: S01-AC05.*
 
@@ -560,17 +522,13 @@ Hai điều cần nhớ:
 | A4 | S01-AC04, S02-AC04, S02-AC06, R01, R02, R03, Q04 | Hỏi ngay |
 | A5 | S01-AC02, M01, R05, Q01 | Hỏi ngay |
 | A6 | S02-AC07, R06 (nảy ra từ A2) | Hỏi ngay |
+| A7 | R06, S02-AC08, Q06 (gộp B2) | Không gửi BA (suy ra, TL-12) |
+| A8 | mục 6.2, R02 (nảy ra từ A4) | Không gửi BA (suy ra, TL-13) |
 | B1 | S02-AC01, S02-AC02, Q02 | Hỏi sau |
-| B2 | R06, Q06 | Hỏi sau |
+| B2 | R06, Q06 | Gộp vào A7 |
 | B3 | R06, Q06 | Hỏi sau |
-| B4 | M05, S02-AC07 | Hỏi sau |
-| B5 | S01-AC03, Q07 | Hỏi sau |
-| B6 | S01-AC07, S01-AC08, S04-AC02, Q08 | Hỏi sau |
-| B7 | S04-AC04, M06, Q09 | Hỏi sau |
+| B4 | M05, S02-AC07, S02-AC08 | Hỏi sau |
 | B8 | S01-AC06, Q10 | Hỏi sau |
-| B9 | S02 (luồng chung) | Hỏi sau |
-| B10 | phạm vi (mục 1) | Hỏi sau |
-| B11 | mục 6.2, M03 | Hỏi sau |
 | B12 | S01-AC02, R05, M01 (nảy ra từ A5) | Hỏi sau |
 | B13 | S02-AC01, M01 (nảy ra từ A3 và A5) | Hỏi sau |
 | C1 | S02-AC04, Q04 | Tự kiểm tra |
@@ -592,3 +550,11 @@ Hai điều cần nhớ:
 | 2026-11-18 | Ghi nguồn: BA trả lời (người dùng chuyển lại) |
 | 2026-11-18 | Ghi câu trả lời B1 (TL-10) và B3 (TL-09) |
 | 2026-11-18 | Ghi câu trả lời phần cuối của A6 (TL-11): lần sai thứ 10 báo bị chặn |
+| 2026-11-18 | Soát lại sau các câu trả lời: thêm A7 (chuyển từ B2 lên hỏi ngay vì A1), A8 (mật khẩu cắt khoảng trắng, phân biệt hoa thường), B14 (dòng gợi ý và dấu `*`). Viết lại B4 (câu báo lúc bị chặn, số phút có giảm dần, nhập đúng lúc bị chặn) |
+| 2026-11-18 | Người dùng chốt A7 (chặn đúng tài khoản nhập sai, TL-12) và A8 (mật khẩu không có khoảng trắng, phân biệt hoa thường, TL-13) theo hiểu biết chung; không gửi BA. B2 gộp vào A7 |
+| 2026-11-18 | Bỏ B14 (dòng gợi ý và dấu `*`): tự suy luận ra được (dòng gợi ý vẫn là định dạng chuẩn, dấu `*` vẫn đúng nghĩa bắt buộc vì để trống bị từ chối), không cần hỏi BA |
+| 2026-11-18 | Áp quy tắc "requirement ghi rõ thì suy luận tiếp, ghi chưa rõ thì hỏi": bỏ B5 (quay lại đúng link áp dụng cho mọi link; quyền xem hồ sơ không thuộc Đăng nhập) và B6 (SRS ghi rõ hành vi `/login` và địa chỉ không có thật). C2 chỉ còn là kiểm hệ thống. A7, A8 ghi là suy ra, người dùng xác nhận |
+| 2026-11-18 | Bỏ B7 (bị đăng xuất thì về form đăng nhập lại là đủ) và B11 (quy tắc mật khẩu thuộc phần đăng ký, cùng lý do câu trả lời A4) |
+| 2026-11-18 | Ghi chú ở A6: câu này suy ra được từ "10 lần liên tiếp", lẽ ra không cần hỏi |
+| 2026-11-18 | Ghi chú ở A4: phần độ dài suy ra được từ lý do bảo mật của đăng nhập, lẽ ra không cần hỏi |
+| 2026-11-18 | Bỏ B9 (ô Mật khẩu phải bị xóa sau khi báo lỗi, suy ra từ lý do bảo mật) và B10 (không đổi kết quả test của Đăng nhập) |

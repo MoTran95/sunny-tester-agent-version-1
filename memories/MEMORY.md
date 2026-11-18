@@ -46,5 +46,5 @@ Chỉ đọc khi `.du-an-hien-tai` là `banking-lite`.
 
 Sản phẩm trong `testing/` (không phải bộ nhớ):
 - [../testing/chien-luoc-phan-tich-requirement.md](../testing/chien-luoc-phan-tich-requirement.md) — chiến lược Tách–Xoay–Lọc rút từ sách Sunny, đối chiếu với `RECO`. Đọc khi người dùng nhắc “sách” (với dự án khác: chỉ dùng phần cách làm, bỏ phần đối chiếu `RECO`).
-- `LOGIN` — [bảng soát](../testing/banking-lite/dang-nhap/bang-soat-requirement.md) (TL-01…11) và [câu hỏi BA](../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md) (A1–A6, B1, B3, B12, B13 đã trả lời). Đọc trước khi làm checklist/test case `LOGIN`.
+- `LOGIN` — [bảng soát](../testing/banking-lite/dang-nhap/bang-soat-requirement.md) (TL-01…11) và [câu hỏi BA](../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md) (A1–A6, B1, B3, B12, B13 đã trả lời; A7, A8 suy ra TL-12, TL-13; B5–B7, B9–B11, B14 bỏ; còn hỏi B4, B8). Đọc trước khi làm checklist/test case `LOGIN`.
 - `RECO` — [bảng soát](../testing/banking-lite/khuyen-nghi-ltv-dsr/bang-soat-requirement.md), [câu hỏi BA](../testing/banking-lite/khuyen-nghi-ltv-dsr/cau-hoi-cho-ba.md), [phân tích cũ có 62 test case](../testing/banking-lite/khuyen-nghi-ltv-dsr/phan-tich-requirement.md). Đọc trước khi làm checklist/test case `RECO`.

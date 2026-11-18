@@ -14,6 +14,8 @@ Repo không có ứng dụng; là bộ tài liệu kiểm thử + skill + bộ n
 | `evidence/` | Nhật ký khám phá, ảnh, báo cáo HTML |
 | `docs/cai-dat-may-moi.md` | Hướng dẫn cài đặt máy mới |
 | `scripts/kiem-tra-may-moi.py` | Kiểm máy mới (Python, Pillow, Git, dự án hiện tại, `.env` của dự án đó, skill, quyền, chạy thử script soát) |
+| `scripts/do-toc-do-phien.py` | Đo tốc độ các phiên gần nhất từ nhật ký trên máy (file đọc, phút tới lúc làm, có mở dự án khác không) |
+| `docs/kiem-thu-cac-thay-doi.md` | Kịch bản kiểm thử T1–T7 cho các thay đổi tốc độ và nhiều dự án, có bảng ghi kết quả |
 | `scripts/tao-du-an.py` | Tạo thư mục cho dự án mới (`memories/modules/<slug>/`, `srs/`, `testing/`, `evidence/`) |
 | `.du-an-hien-tai` | Slug dự án đang làm trên máy này (không commit, mỗi máy một file) |
 | `.env` / `.env.example` | Tài khoản test (không commit, khóa có tiền tố theo dự án) / mẫu khóa để chép |

@@ -12,7 +12,8 @@ Người dùng yêu cầu (2026-11-18): sang máy mới thì hỏi đang làm d�
 1. Hỏi: tên dự án, URL hệ thống (nếu có), slug ngắn (kebab-case, tiếng Anh không dấu, ví dụ `shop-online`). Không tự đặt khi người dùng chưa đồng ý.
 2. Chạy: `python -X utf8 scripts/tao-du-an.py <slug> "<Tên dự án>" [<URL>]`. Script tạo `memories/modules/<slug>/overview.md`, các thư mục `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/` (có `.gitkeep`), thêm dòng vào bảng dự án, ghi `.du-an-hien-tai`.
 3. Thêm dòng cho dự án vào `memories/MEMORY.md` (mục "Dự án").
-4. Tài khoản test: người dùng tự thêm vào `.env` với tiền tố `<SLUG_HOA>_` (ví dụ `SHOP_ONLINE_URL`), theo mẫu `.env.example`.
+4. Không tự commit; báo người dùng các file đã tạo, commit khi được nhờ.
+5. Tài khoản test: người dùng tự thêm vào `.env` với tiền tố `<SLUG_HOA>_` (ví dụ `SHOP_ONLINE_URL`), theo mẫu `.env.example`.
 
 ## Không lẫn kiến thức giữa các dự án
 - Chỉ đọc bộ nhớ, SRS, bảng soát, bằng chứng của **dự án hiện tại**. Thư mục của dự án khác: không mở, kể cả "để xem mẫu".

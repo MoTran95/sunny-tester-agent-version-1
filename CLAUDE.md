@@ -5,7 +5,7 @@ File này được đọc ĐẦU TIÊN trong mọi phiên làm việc. Ngôn ng�
 ## Quy trình bắt buộc khi nhận BẤT KỲ yêu cầu nào
 
 0. **Xác định dự án đang làm** (repo chứa nhiều dự án, mỗi dự án là một hệ thống đang test): đọc file `.du-an-hien-tai` ở gốc repo (một dòng slug, không commit, mỗi máy một file).
-   - **Chưa có file (máy mới):** hỏi người dùng đang làm dự án nào **trước khi làm bất cứ việc gì khác**, đưa danh sách dự án trong `memories/project/overview.md` và lựa chọn "dự án mới". Ghi slug vào `.du-an-hien-tai`. Dự án mới: làm theo `memories/conventions/nhieu-du-an.md` (có `scripts/tao-du-an.py`).
+   - **Chưa có file (máy mới):** hỏi người dùng đang làm dự án nào **trước khi làm bất cứ việc gì khác**, đưa danh sách dự án trong `memories/project/overview.md` và lựa chọn "dự án mới". Hỏi **riêng câu này**: chưa gộp câu hỏi khác, chưa đưa tài liệu hay feature của dự án nào làm lựa chọn khi người dùng chưa chọn dự án. Ghi slug vào `.du-an-hien-tai`. Dự án mới: làm theo `memories/conventions/nhieu-du-an.md` (có `scripts/tao-du-an.py`).
    - **Có file:** dùng luôn. Người dùng nhắc dự án khác → hỏi xác nhận đổi rồi ghi lại.
    - **Không dùng kiến thức của dự án khác** (quy tắc nghiệp vụ, tài khoản, dữ liệu test, từ ngữ, thông báo): chỉ đọc `memories/modules/<slug>/`, `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/` của dự án hiện tại.
 1. Đọc `CLAUDE.md` (file này).

@@ -36,9 +36,19 @@ Với mỗi đơn vị, hỏi "Nếu như…?" qua sáu nút. Nút nào không l
 
 **Giới hạn theo yêu cầu của người dùng:** bỏ các câu về bảo mật và hiệu năng (độ trễ, mạng chậm, dò dữ liệu) trừ khi requirement nói tới. Ghép với các góc hay dùng: người dùng và quyền (Người); dữ liệu đầu vào (Dữ liệu); quy tắc xử lý (Dữ liệu, Thời điểm); thông báo và hiển thị, dữ liệu lưu (Kết quả); trạng thái (Thời điểm, Đường đi); tích hợp (Môi trường).
 
-**Chỗ hay bị sót:** tổ hợp nhiều luật cùng vi phạm; ca sát ranh giới và cách làm tròn; màn hình khác dữ liệu hệ thống trả về; trạng thái sau khi lưu; quy tắc nhắc tới nhưng phần mô tả lại ghi "ngoài phạm vi" hay "chưa khám phá"; thông báo chỉ thấy trong mã nguồn chưa thấy trên màn hình.
+**Chỗ hay bị sót:** tổ hợp nhiều luật cùng vi phạm; ca sát ranh giới và cách làm tròn; màn hình khác dữ liệu hệ thống trả về; trạng thái sau khi lưu; quy tắc nhắc tới nhưng phần mô tả lại ghi "ngoài phạm vi" hay "chưa khám phá"; thông báo chỉ thấy trong mã nguồn chưa thấy trên màn hình (chỉ đáng hỏi khi hành vi trên màn hình chưa rõ, xem mục 5).
 
 ## 5. Quyết ✅ hay ❓
+**Bước đầu: requirement đã ghi rõ chưa?**
+- **Ghi rõ** (hoặc BA đã trả lời): suy ra hệ quả theo logic, kể cả từ lý do của tính năng (lý do bảo mật cũng được). Ghi ✅ "suy ra từ <mã hoặc TL>" kèm một câu lý do. Không hỏi. Ví dụ: requirement ghi đăng nhập sai nhiều lần thì bị chặn → chặn đúng tài khoản đó; mọi lỗi đăng nhập báo chung một câu để không lộ ô nào sai (lý do bảo mật) → để trống ô cũng báo câu chung.
+- **Chưa ghi hoặc ghi chưa rõ**: không lấp bằng kinh nghiệm hay thông lệ, đánh ❓ và hỏi. Ví dụ: phiên đăng nhập giữ được bao lâu (requirement không ghi con số); câu báo bị chặn ghi "5 phút" cố định hay số phút còn lại.
+- **Lý do bảo mật của màn hình đăng nhập:** chỉ báo đúng hoặc sai, không kiểm định dạng hay độ dài, không lộ ô nào sai. Nên không hỏi và không test độ dài, định dạng của mã hay mật khẩu ở màn hình đăng nhập (đó là việc của phần đăng ký).
+- **Đi theo câu chữ, không theo hệ thống.** Requirement ghi "10 lần sai liên tiếp thì bị chặn" → lần sai thứ 10 bị chặn; "liên tiếp" → đăng nhập đúng xen giữa đếm lại từ 0; không nhắc thời gian → chỉ đếm số lần. Hệ thống chặn ở lần thứ 11 thì là nghi lỗi, không phải lý do để hỏi BA.
+- **Hệ thống làm khác điều suy ra**: ghi "nghi lỗi, cần kiểm" kèm bằng chứng, không biến thành câu hỏi "quy tắc là gì".
+- **Áp lý do của câu trả lời cho mục cùng loại.** BA nói độ dài mã nhân viên thuộc phần đăng ký → độ dài, ký tự cho phép của mật khẩu cũng thuộc phần đăng ký; ở màn hình đăng nhập chỉ có đúng hoặc sai. Không hỏi lại.
+- **Câu chỉ có trong mã nguồn không làm hành vi thành chưa rõ.** Bị đăng xuất thì về form đăng nhập để đăng nhập lại: SRS ghi rõ, đủ. Không hỏi "có phải báo câu X (chỉ thấy trong tệp giao diện) không".
+- SRS là bản nháp ghi lại hệ thống thì chữ "chưa rõ" trong đó có thể chỉ là chỗ chưa khám phá. Xét mục đích đã ghi rõ trước khi coi là mơ hồ.
+
 - **✅ Đã rõ:** requirement trả lời đủ để biết thế nào là đúng (điều kiện, kết quả, và thông báo nguyên văn nếu có). Trong phạm vi hành vi đã quan sát nếu tài liệu là bản nháp ghi lại hệ thống, và nói rõ điều đó.
 - **❓ Cần hỏi:** requirement chưa nói, nói chưa rõ, nói hai kiểu, số liệu tự lệch, hoặc tài liệu ghi `chưa rõ` / `chưa kiểm`. Ý rút từ kinh nghiệm cũng đánh ❓.
 - Một đơn vị **rõ một nửa** thì tách hai dòng: dòng ✅ cho phần rõ, các dòng ❓ cho từng chỗ chưa rõ.
