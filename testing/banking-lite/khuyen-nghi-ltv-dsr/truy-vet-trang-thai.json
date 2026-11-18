@@ -1,0 +1,1246 @@
+{
+ "ma": {
+  "S01-AC01": {
+   "hash": "7690c3a8081b",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC02": {
+   "hash": "e3a41c4cc822",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC03": {
+   "hash": "cdd38ef22c13",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC04": {
+   "hash": "47b8787593b8",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC05": {
+   "hash": "1c70ad1ef7dc",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC06": {
+   "hash": "04bedc0878b2",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC07": {
+   "hash": "e3732d8a5468",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC08": {
+   "hash": "9e6991292e40",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC09": {
+   "hash": "dcdf8c8b87c7",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S01-AC10": {
+   "hash": "00d435d49859",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC01": {
+   "hash": "7ffe23a10216",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC02": {
+   "hash": "8b38dafbbe9d",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC03": {
+   "hash": "129c78bcd154",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC04": {
+   "hash": "e13afe559a1a",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC05": {
+   "hash": "081a41397c78",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC06": {
+   "hash": "2497d2000f94",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S02-AC07": {
+   "hash": "a12a6ede3b64",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC01": {
+   "hash": "dffce2b59092",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC02": {
+   "hash": "a14275a842c4",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC03": {
+   "hash": "d093b3b8a588",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC04": {
+   "hash": "97046c45b967",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC05": {
+   "hash": "a1a67c5ea6bf",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC06": {
+   "hash": "87015a935c6c",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC07": {
+   "hash": "e9c6d46a0fa1",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC08": {
+   "hash": "04b1ff67fb0d",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC09": {
+   "hash": "f9cfc65f7fc2",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC10": {
+   "hash": "10f13abb64cc",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S03-AC11": {
+   "hash": "fc33b55f54bc",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S04-AC01": {
+   "hash": "a6575f57097d",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S04-AC02": {
+   "hash": "214df1bd079d",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S04-AC03": {
+   "hash": "4fbb7ff5087d",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S04-AC04": {
+   "hash": "638a5a69fab4",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S05-AC01": {
+   "hash": "f36aa740a105",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S05-AC02": {
+   "hash": "26b62ac12c67",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S05-AC03": {
+   "hash": "6c40c94a675e",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S05-AC04": {
+   "hash": "c1aa65fcccc2",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "S06-AC01": {
+   "hash": "907896e159c3",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R01": {
+   "hash": "039a827115f3",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R02": {
+   "hash": "b9978d62c370",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R03": {
+   "hash": "5fcd2e15a9f3",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R04": {
+   "hash": "b540b7c7891d",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R05": {
+   "hash": "c85d90af8fca",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R06": {
+   "hash": "41e321b45a59",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R07": {
+   "hash": "0edf252f8d13",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R08": {
+   "hash": "d2ae0e20e9e6",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R09": {
+   "hash": "aa9394e9ff87",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R10": {
+   "hash": "f2e9c757fc85",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R11": {
+   "hash": "cfcafb665cf6",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "R12": {
+   "hash": "38622f405f88",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M01": {
+   "hash": "05f5be7b3f19",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M02": {
+   "hash": "a0cfc54cf81c",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M03": {
+   "hash": "03e173a7af08",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M04": {
+   "hash": "3e07a49b81bc",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M05": {
+   "hash": "f84fdb8d8364",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M06": {
+   "hash": "e4449992cfb8",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M07": {
+   "hash": "d015cb137888",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M08": {
+   "hash": "da436107def5",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M09": {
+   "hash": "67806e83da2b",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M10": {
+   "hash": "b93dfb936722",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M11": {
+   "hash": "b28f98ecb030",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "M12": {
+   "hash": "fff205fac987",
+   "ba_hash": "da39a3ee5e6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "TL-01": {
+   "hash": "1b41111103c4",
+   "ba_hash": null,
+   "ngay_chot": "2026-11-18"
+  },
+  "TL-02": {
+   "hash": "b4187b49969a",
+   "ba_hash": null,
+   "ngay_chot": "2026-11-18"
+  }
+ },
+ "tc": {
+  "TC-001": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "55253fe0fcc8",
+   "ma": [
+    "M01",
+    "R10",
+    "S01-AC01"
+   ]
+  },
+  "TC-002": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "cb0313921c72",
+   "ma": [
+    "M02",
+    "M03",
+    "S01-AC02",
+    "S03-AC01"
+   ]
+  },
+  "TC-003": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "1191e9c99090",
+   "ma": [
+    "R02",
+    "S01-AC05"
+   ]
+  },
+  "TC-004": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "cd2195f63d11",
+   "ma": [
+    "M06",
+    "R02",
+    "S01-AC03",
+    "TL-02"
+   ]
+  },
+  "TC-005": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "6e0e0f07053c",
+   "ma": [
+    "R02",
+    "S01-AC07",
+    "TL-02"
+   ]
+  },
+  "TC-006": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "044e427eca9e",
+   "ma": [
+    "R02",
+    "S01-AC06",
+    "TL-02"
+   ]
+  },
+  "TC-007": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "59107079a882",
+   "ma": [
+    "M05",
+    "R02",
+    "S01-AC04",
+    "TL-02"
+   ]
+  },
+  "TC-008": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "9622334bb785",
+   "ma": [
+    "R03",
+    "S01-AC08"
+   ]
+  },
+  "TC-009": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "f12b1755e17d",
+   "ma": [
+    "M07",
+    "R03",
+    "S01-AC09"
+   ]
+  },
+  "TC-010": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "98a89e7bc822",
+   "ma": [
+    "M04",
+    "M05",
+    "M07",
+    "S01-AC10",
+    "TL-02"
+   ]
+  },
+  "TC-011": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "d2cb4dbd3a85",
+   "ma": [
+    "R01",
+    "S02-AC01"
+   ]
+  },
+  "TC-012": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "96455eb67415",
+   "ma": [
+    "R01",
+    "S02-AC02",
+    "TL-02"
+   ]
+  },
+  "TC-013": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "597e02bcea8f",
+   "ma": [
+    "R01",
+    "S02-AC03"
+   ]
+  },
+  "TC-014": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "803d4775339f",
+   "ma": [
+    "M04",
+    "S02-AC04"
+   ]
+  },
+  "TC-015": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "ebc5b013f8ac",
+   "ma": [
+    "R05",
+    "S02-AC05"
+   ]
+  },
+  "TC-016": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "8d4e412d1fe5",
+   "ma": [
+    "M04",
+    "R01",
+    "S02-AC07",
+    "TL-02"
+   ]
+  },
+  "TC-017": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "8c86b4b92726",
+   "ma": [
+    "R01"
+   ]
+  },
+  "TC-018": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "3cfa367ee9e6",
+   "ma": [
+    "R06",
+    "S03-AC02"
+   ]
+  },
+  "TC-019": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "8df88d7c461a",
+   "ma": [
+    "R10",
+    "S03-AC03"
+   ]
+  },
+  "TC-020": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "546c3d194395",
+   "ma": [
+    "R04",
+    "S04-AC02"
+   ]
+  },
+  "TC-021": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "51d2510d4726",
+   "ma": [
+    "M08",
+    "R04",
+    "S04-AC03"
+   ]
+  },
+  "TC-022": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "9cece6609245",
+   "ma": [
+    "M11",
+    "S05-AC01"
+   ]
+  },
+  "TC-023": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "7738bdc672dc",
+   "ma": [
+    "R02",
+    "S01-AC03"
+   ]
+  },
+  "TC-024": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "fc2bcfe93580",
+   "ma": [
+    "R05",
+    "S02-AC05"
+   ]
+  },
+  "TC-025": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "cb38236c8e04",
+   "ma": [
+    "R01"
+   ]
+  },
+  "TC-026": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "ec894821c01a",
+   "ma": [
+    "R09",
+    "S02-AC06"
+   ]
+  },
+  "TC-027": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "4b725517d641",
+   "ma": [
+    "R07",
+    "S03-AC04"
+   ]
+  },
+  "TC-028": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "61ba5a4e7905",
+   "ma": [
+    "R07",
+    "S03-AC05"
+   ]
+  },
+  "TC-029": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "6dc7440ec4f5",
+   "ma": [
+    "R07",
+    "S03-AC06"
+   ]
+  },
+  "TC-030": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "8fa2fd0009c6",
+   "ma": [
+    "R07",
+    "S03-AC06"
+   ]
+  },
+  "TC-031": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "c35686adb528",
+   "ma": [
+    "R08",
+    "S03-AC07",
+    "TL-02"
+   ]
+  },
+  "TC-032": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "6a5f43d4fb27",
+   "ma": [
+    "R08",
+    "S03-AC08"
+   ]
+  },
+  "TC-033": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "265f099498c7",
+   "ma": [
+    "R08",
+    "S03-AC09",
+    "TL-02"
+   ]
+  },
+  "TC-034": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "72b337e4b968",
+   "ma": [
+    "R09",
+    "S03-AC10"
+   ]
+  },
+  "TC-035": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "09b9e5b61d65",
+   "ma": [
+    "M11",
+    "S05-AC03"
+   ]
+  },
+  "TC-036": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "c716df3984b3",
+   "ma": [
+    "M06",
+    "M12",
+    "S06-AC01",
+    "TL-02"
+   ]
+  },
+  "TC-037": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "5dba508f73a1",
+   "ma": [
+    "R11",
+    "S05-AC04"
+   ]
+  },
+  "TC-038": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "0640f1eb3e7d",
+   "ma": [
+    "R11",
+    "S05-AC04"
+   ]
+  }
+ },
+ "lich_su": [
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:35:05+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Lần đầu: 38 test case (file gộp), 7 mã SRS còn ❓ chưa có test case theo bảng soát",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [
+    "M01",
+    "M02",
+    "M03",
+    "M04",
+    "M05",
+    "M06",
+    "M07",
+    "M08",
+    "M09",
+    "M10",
+    "M11",
+    "M12",
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "S01-AC01",
+    "S01-AC02",
+    "S01-AC03",
+    "S01-AC04",
+    "S01-AC05",
+    "S01-AC06",
+    "S01-AC07",
+    "S01-AC08",
+    "S01-AC09",
+    "S01-AC10",
+    "S02-AC01",
+    "S02-AC02",
+    "S02-AC03",
+    "S02-AC04",
+    "S02-AC05",
+    "S02-AC06",
+    "S02-AC07",
+    "S03-AC01",
+    "S03-AC02",
+    "S03-AC03",
+    "S03-AC04",
+    "S03-AC05",
+    "S03-AC06",
+    "S03-AC07",
+    "S03-AC08",
+    "S03-AC09",
+    "S03-AC10",
+    "S03-AC11",
+    "S04-AC01",
+    "S04-AC02",
+    "S04-AC03",
+    "S04-AC04",
+    "S05-AC01",
+    "S05-AC02",
+    "S05-AC03",
+    "S05-AC04",
+    "S06-AC01",
+    "TL-01",
+    "TL-02"
+   ],
+   "tc_moi": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_sua": [],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:41:10+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Viết lại cột Tình huống thành tên test case ngắn (điều kiện: kết quả); nội dung bước và kết quả không đổi",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:43:00+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Viết lại tên test case (cột Tình huống) thành câu đầy đủ dạng: kết quả khi điều kiện; bước và kết quả không đổi",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:44:43+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Viết Điều kiện trước thành danh sách gạch đầu dòng ngắn; nội dung điều kiện không đổi",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:44:57+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Điều kiện trước còn 4 gạch đầu dòng ngắn; nội dung điều kiện không đổi",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:46:12+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Điều kiện trước rút còn 2 gạch + gạch riêng; hồ sơ nền định nghĩa một lần ở đầu file",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:46:31+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Điều kiện trước rút còn 2 gạch chung + gạch riêng của ca; hồ sơ nền định nghĩa một lần ở đầu file",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:46:48+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Điều kiện trước rút còn 2 gạch chung + gạch riêng của ca; hồ sơ nền định nghĩa một lần ở đầu file (hai lần chốt trước cùng lượt chưa đổi nội dung)",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:47:09+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Hồ sơ nền định nghĩa một lần ở đầu file; Điều kiện trước còn 2 gạch chung + gạch riêng; nội dung điều kiện không đổi",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [],
+   "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T18:51:05+07:00",
+   "commit_goc": "736f701",
+   "chua_commit": true,
+   "ngay_ba": null,
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Điều kiện trước chỉ ghi dữ kiện cần cho từng ca (bỏ đăng nhập, bỏ mục hồ sơ nền ở đầu file); bỏ chữ tự nhập mật khẩu ở bước 1",
+   "dua_tren": {
+    "srs": "2026-11-17",
+    "bang_soat": "?",
+    "tl_cuoi": "TL-02"
+   },
+   "ma_doi": [],
+   "ma_moi": [],
+   "tc_moi": [],
+   "tc_sua": [
+    "TC-001",
+    "TC-002",
+    "TC-003",
+    "TC-004",
+    "TC-005",
+    "TC-006",
+    "TC-007",
+    "TC-008",
+    "TC-009",
+    "TC-010",
+    "TC-011",
+    "TC-012",
+    "TC-013",
+    "TC-014",
+    "TC-015",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-019",
+    "TC-020",
+    "TC-021",
+    "TC-022",
+    "TC-023",
+    "TC-024",
+    "TC-025",
+    "TC-026",
+    "TC-027",
+    "TC-028",
+    "TC-029",
+    "TC-030",
+    "TC-031",
+    "TC-032",
+    "TC-033",
+    "TC-034",
+    "TC-035",
+    "TC-036",
+    "TC-037",
+    "TC-038"
+   ],
+   "tc_bo": []
+  }
+ ],
+ "nguon_chot": {
+  "srs": "2026-11-17",
+  "bang_soat": "?",
+  "tl_cuoi": "TL-02"
+ }
+}

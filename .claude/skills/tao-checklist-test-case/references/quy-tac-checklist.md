@@ -5,7 +5,7 @@
 ## Khuôn bảng (5 cột, tiêu đề cố định để script đọc)
 `| Mã | Tình huống | Ưu tiên | Kỹ thuật | Nguồn |`
 - **Mã:** `TC-001`, `TC-002`… liên tục, không nhảy số, không dùng lại. Dòng **Cao xếp trước**, rồi Trung bình, rồi Thấp (script `sinh-bang.py` tự đánh mã sau khi xếp).
-- **Tình huống:** câu đủ ý, nói người dùng làm gì, dữ liệu cụ thể và điều cần thấy (ngắn). Một mục tiêu một dòng, **một** giá trị không hợp lệ hoặc **một** đường không được phép.
+- **Tình huống (= tên test case):** câu đầy đủ rõ nghĩa dạng `<Hệ thống làm gì/hiển thị gì> khi <người dùng làm gì/điều kiện>`, ví dụ `Đăng nhập thành công khi nhập đúng tên và mật khẩu`. Không rút gọn kiểu `điều kiện: kết quả`, không dùng mã nội bộ; con số chi tiết để cột Dữ liệu test (trong tên chỉ giữ số làm nên ca, đặt trong ngoặc). Một mục tiêu một dòng, **một** giá trị không hợp lệ hoặc **một** đường không được phép.
 - **Ưu tiên:** `Cao`, `Trung bình`, `Thấp` (tiêu chí trong `ky-thuat-thiet-ke.md`).
 - **Kỹ thuật:** đúng một trong `EP`, `BVA`, `Bảng quyết định`, `Chuyển trạng thái`, `Use case`, `Đoán lỗi`.
 - **Nguồn:** bắt đầu bằng nhãn.

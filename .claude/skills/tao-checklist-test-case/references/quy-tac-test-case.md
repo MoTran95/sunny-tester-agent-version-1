@@ -6,8 +6,8 @@
 `| Mã | Tình huống | Ưu tiên | Điều kiện trước | Các bước | Dữ liệu test | Kết quả mong đợi | Nguồn | Kết quả thực tế | Trạng thái | Người viết | Tự động hóa |`
 
 - **Mã, Tình huống, Ưu tiên, Nguồn:** lấy **nguyên văn** từ checklist (script tự điền). Mỗi mã TC của checklist = một test case riêng.
-- **Điều kiện trước:** trạng thái hệ thống, tài khoản, dữ liệu cần có; trạng thái giao diện (ngôn ngữ, đã/chưa đăng nhập). Trạng thái phải **đạt được bằng cách làm** (nếu cần "đang bị chặn" thì ghi cách tạo trạng thái đó), để case chạy riêng được.
-- **Các bước:** mỗi bước **một thao tác**, đánh số 1, 2, 3 từ bước đầu tiên (mở đúng địa chỉ). Không "như TC-xxx", không bỏ bước đầu. Lặp lại thao tác thì viết rõ từng lần ("Lần sai thứ 3: …").
+- **Điều kiện trước (file gộp, từ 2026-11-18):** chỉ **dữ kiện quan trọng để vào kiểm tra ca này**, mỗi ý một gạch `- …` ngắn, thường 2–4 gạch: cách có hồ sơ/dữ liệu, trạng thái liên quan tới kết quả (số tiền, thời hạn, đang ở bước nào…), trạng thái đặc biệt nếu có. **Không** ghi "đã đăng nhập" hay "mở được trang" (đã nằm ở bước 1), **không** định nghĩa dữ liệu dùng chung ở đầu file rồi trỏ về. Trạng thái phải **đạt được bằng cách làm** (nếu cần "đang bị chặn" thì ghi cách tạo trạng thái đó), để case chạy riêng được. Feature hai file cũ (`LOGIN`) giữ cách viết cũ.
+- **Các bước:** mỗi bước **một thao tác**, đánh số 1, 2, 3 từ bước đầu tiên (mở đúng địa chỉ và đăng nhập tài khoản; không ghi mật khẩu). Không "như TC-xxx", không bỏ bước đầu. Lặp lại thao tác thì viết rõ từng lần ("Lần sai thứ 3: …").
 - **Dữ liệu test:** giá trị cụ thể từng lần nhập. Dữ liệu giả (email `@example.com`, chuỗi giả như `Sai@Matkhau1`). Tài khoản có thật của hệ thống đang test chỉ ghi mã; mật khẩu thật **không** ghi vào tài liệu ("do người dùng cung cấp, người kiểm thử tự nhập").
 - **Kết quả mong đợi:** viết thẳng câu chữ, con số, trạng thái cần thấy, **mở đầu bằng "Bước N:"** cho bước có kết quả. Mọi câu chữ và con số lấy từ nguồn (copy đúng dấu câu, dấu tiếng Việt). **Mã requirement/câu trả lời không viết trong cột này.**
 - **Nguồn:** như checklist.

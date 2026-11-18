@@ -34,4 +34,4 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `modules/banking-lite/feature-gui-tham-dinh.md` | nút Gửi thẩm định | điều kiện bật/tắt |
 | `modules/banking-lite/report-v2-html.md` | sửa báo cáo v2 | build, khoanh nút, bẫy |
 
-Sản phẩm cho người đọc (không phải memory): `testing/chien-luoc-phan-tich-requirement.md` (sách Sunny; đọc khi nhắc "sách"); `testing/banking-lite/<feature>/` gồm `bang-soat-requirement.md`, `cau-hoi-cho-ba.md`, `checklist.md`, `test-case.md`, `truy-vet.md` (`dang-nhap` = LOGIN, `khuyen-nghi-ltv-dsr` = RECO, có thêm `phan-tich-requirement.md` cũ). Đọc trước khi làm checklist/test case feature đó.
+Sản phẩm cho người đọc (không phải memory): `testing/chien-luoc-phan-tich-requirement.md` (sách Sunny; đọc khi nhắc "sách"); `testing/banking-lite/<feature>/` gồm `bang-soat-requirement.md`, `cau-hoi-cho-ba.md`, `checklist.md`, `test-case.md`, `truy-vet.md` (`dang-nhap` = LOGIN, `khuyen-nghi-ltv-dsr` = RECO: có `test-case.md` gộp 38 TC, không có `checklist.md`, thêm `phan-tich-requirement.md` cũ). Đọc trước khi làm checklist/test case feature đó.

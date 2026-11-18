@@ -22,6 +22,12 @@
 - Bảng soát 37 AC; câu hỏi BA: A hỏi ngay 5, B hỏi sau 12, C tự kiểm tra 14. Phân tích cũ 62 TC (Cao 22, TB 34, Thấp 6), 18 CH, 16 KN; 10 mã chỉ nằm ở câu hỏi (M09, M10, R12, S01-AC06/07, S02-AC02, S03-AC11, S04-AC01/04, S05-AC02). Có thể thêm 3 TC biên làm tròn (chưa thêm vì luật giữ số lượng).
 - Số liệu ví dụ trong câu hỏi đã tính lại bằng script (sai lệch <1 đồng).
 
+## Test case (2026-11-18, file gộp)
+- `testing/banking-lite/khuyen-nghi-ltv-dsr/test-case.md`: **38 TC** (Cao 22, TB 14, Thấp 2), chỉ viết dòng ✅ của bảng soát; 7 mã ❓ chưa có TC (S03-AC11, S04-AC01, S04-AC04, S05-AC02, R12, M09, M10) ở mục "Chưa đưa vào". Đã chạy thử trọn skill gộp 13 cột + bước duyệt trong chat: `kiem-tra-tc.py` 0 lỗi (dùng `--ma` loại 7 mã ❓), truy vết đã chốt mốc đầu. **Chưa chạy test.**
+- Kết quả mong đợi theo **TL-02** (làm tròn lên): 11 dòng ⚠️ ở Nguồn (hệ thống hiện làm tròn gần nhất → dự kiến Không đạt cho tới khi BA xác nhận).
+- Lương 100.000.000 là giá trị chọn ở các ca SRS không ghi lương (LTV khác, Niên kim, ân hạn, sản phẩm 36 tháng). TC tuổi 70/71 chỉ kiểm qua API, tuổi tính theo ngày chạy (A4).
+- Bẫy khi gộp: Nguồn phải viết mã **không tiền tố** (`S01-AC03 (tên ngắn)`) thì `kiem-tra-tc.py` mới tính phủ; `--ma` chứa mã ❓ sẽ báo lỗi "chưa có dòng".
+
 ## Dữ liệu test mình tạo
 - HL-000024 (`172396e6-7d1e-4579-9666-c9e057eb8a62`): nháp rỗng, bỏ.
 - HL-000025 (`38d4fdef-efd5-4f59-8c7e-6f29084975b0`): Nháp; vay 3,2 tỷ; Xây/sửa nhà · Niên kim · ân hạn 12 tháng · khai báo 4,2 tỷ; lương 100 triệu; chưa định giá/gửi; giao diện đã về Tiếng Việt.
