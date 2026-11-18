@@ -3,7 +3,7 @@
 
 | Đường dẫn | Vai trò |
 |---|---|
-| `.claude/skills/` | 4 skill (`SKILL.md`, `references/`, `assets/`, `scripts/`) |
+| `.claude/skills/` | 5 skill (`SKILL.md`, `references/`, `assets/`, `scripts/`) |
 | `.claude/settings.json` | Quyền cho phép sẵn (Edit trong thư mục dự án, chạy script soát, git đọc). Commit/push/xóa vẫn hỏi |
 | `memories/` | Bộ nhớ cho AI, bản đồ `MEMORY.md` |
 | `srs/` `testing/` `evidence/` | SRS; bảng soát/câu hỏi/checklist/test case/truy vết; khám phá + ảnh + báo cáo HTML (mỗi dự án có thư mục con `<slug>`) |
