@@ -6,7 +6,7 @@
 | Dùng để | Gửi BA. Mỗi câu có tình huống thật, câu hỏi, cách mình đang hiểu và lý do hỏi |
 | Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) và [bảng soát](bang-soat-requirement.md). Mã cũ ghi ở cuối mỗi câu để tra chéo |
 | Cách dùng | Gửi **Phần A** trước. **Phần B** gom hỏi một lần sau. **Phần C** là việc mình tự kiểm tra trên hệ thống, chưa cần hỏi BA |
-| Tình trạng | A1–A6, B1, B3, B12, B13 đã được BA trả lời ngày 2026-11-18 (người dùng chuyển lại trong chat). Soát lại 2026-11-18: A7, A8 **không gửi BA** (suy ra từ requirement, người dùng xác nhận, sau đó BA xác nhận ngày 2026-11-18, TL-12, TL-13), B2 gộp vào A7, B4 viết lại. B5, B6, B7, B9, B10, B11, B14 bỏ vì suy ra được Các câu còn lại chưa hỏi BA. C6 không cần làm nữa |
+| Tình trạng | A1–A6, B1, B3, B8, B12, B13 đã được BA trả lời ngày 2026-11-18 (người dùng chuyển lại trong chat). Soát lại 2026-11-18: A7, A8 **không gửi BA** (suy ra từ requirement, người dùng xác nhận, sau đó BA xác nhận ngày 2026-11-18, TL-12, TL-13), B2 gộp vào A7, B4 viết lại. B5, B6, B7, B9, B10, B11, B14 bỏ vì suy ra được Các câu còn lại chưa hỏi BA. C6 không cần làm nữa |
 
 ## Đọc trước 1 phút
 Đăng nhập là cổng vào hệ thống: nhân viên nhập **Mã nhân viên** và **Mật khẩu** để vào "Danh sách việc". Phần này cũng có đăng xuất, đổi ngôn ngữ ngay ở màn hình đăng nhập, và chặn khi đăng nhập sai nhiều lần.
@@ -286,7 +286,7 @@ Ví dụ: mật khẩu đúng là `Abc12345`. Người dùng gõ `Abc12345 ` (th
 
 ---
 
-# Phần B. Hỏi sau, gom một lần (B1, B3, B12, B13 đã có trả lời; B2 gộp vào A7; B5, B6, B7, B9, B10, B11 bỏ vì suy ra được; còn hỏi B4, B8)
+# Phần B. Hỏi sau, gom một lần (B1, B3, B8, B12, B13 đã có trả lời; B2 gộp vào A7; B5, B6, B7, B9, B10, B11 bỏ vì suy ra được; còn hỏi B4, B15)
 
 Các câu này chủ yếu về hiển thị, câu chữ, hoặc phần mình chưa test được.
 
@@ -397,9 +397,30 @@ Mình tải lại trang (F5) thì vẫn đang đăng nhập. Mình chưa chờ �
 
 **Vì sao hỏi:** Mình không chờ được vài giờ để thử, nên cần con số để biết khi nào kiểm.
 
-**Câu trả lời của BA:** ______
+**Câu trả lời của BA:** Thời hạn phiên là 10 phút. (TL-14, 2026-11-18)
+
+**So với hệ thống hiện tại:** chưa kiểm (cần chờ 10 phút). BA chưa nói 10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối, và khi hết hạn màn hình hiện gì; phần này chuyển sang câu B15.
 
 *Mã cũ: S01-AC06, Q10.*
+
+---
+
+<a id="b15"></a>
+## B15. Thời hạn phiên 10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối, hết hạn thì màn hình hiện gì?
+
+**Người trả lời gợi ý:** BA và Dev
+
+Nảy ra từ câu trả lời B8 (TL-14): phiên đăng nhập hết hạn sau 10 phút. Có hai cách hiểu cho "10 phút": (1) tính từ lúc đăng nhập, đủ 10 phút là bị đăng xuất dù đang thao tác; (2) tính từ lần thao tác cuối, 10 phút không làm gì mới bị đăng xuất. Hai cách này cho hai ca test khác nhau.
+
+**Hỏi:** Anh/chị cho mình hỏi: 10 phút tính theo cách nào, và khi hết hạn người dùng thấy gì (về form đăng nhập luôn, hay có thông báo như "Vui lòng đăng nhập.")?
+
+**Mình đang hiểu:** Mình chưa dám đoán cách tính. Khi hết hạn, mình đoán là về form đăng nhập để đăng nhập lại, giống tab bị đăng xuất ở nơi khác (Q09 trong SRS), nhưng đó chỉ là đoán.
+
+**Vì sao hỏi:** Cần biết đúng cách tính để viết ca kiểm: chờ 10 phút không làm gì, và vừa thao tác vừa chờ quá 10 phút.
+
+**Câu trả lời của BA:** ______
+
+*Mã cũ: S01-AC09 (nảy ra từ câu trả lời B8), M06, Q09.*
 
 ---
 
@@ -556,7 +577,8 @@ Hai điều cần nhớ:
 | B2 | R06, Q06 | Gộp vào A7 |
 | B3 | R06, Q06 | Hỏi sau |
 | B4 | M05, S02-AC07, S02-AC08 | Hỏi sau |
-| B8 | S01-AC06, Q10 | Hỏi sau |
+| B8 | S01-AC06, Q10 | Hỏi sau, đã trả lời (TL-14) |
+| B15 | S01-AC09, M06, Q09 (nảy ra từ B8) | Hỏi sau |
 | B12 | S01-AC02, R05, M01 (nảy ra từ A5) | Hỏi sau |
 | B13 | S02-AC01, M01 (nảy ra từ A3 và A5) | Hỏi sau |
 | C1 | S02-AC04, Q04 | Tự kiểm tra |
@@ -586,3 +608,4 @@ Hai điều cần nhớ:
 | 2026-11-18 | Ghi chú ở A6: câu này suy ra được từ "10 lần liên tiếp", lẽ ra không cần hỏi |
 | 2026-11-18 | Ghi chú ở A4: phần độ dài suy ra được từ lý do bảo mật của đăng nhập, lẽ ra không cần hỏi |
 | 2026-11-18 | Bỏ B9 (ô Mật khẩu phải bị xóa sau khi báo lỗi, suy ra từ lý do bảo mật) và B10 (không đổi kết quả test của Đăng nhập) |
+| 2026-11-18 17:30:08 (+07:00) · commit gốc `fd29e8e` (chưa commit) | Ghi câu trả lời B8 (TL-14: thời hạn phiên 10 phút). Thêm B15 (10 phút tính từ đâu, hết hạn hiện gì) |

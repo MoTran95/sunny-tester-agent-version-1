@@ -88,7 +88,7 @@ Chỉ những chỗ trong bảng ghi `CẦN XÁC NHẬN`.
 
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet.py, không sửa tay) -->
 ## Lịch sử thay đổi
-Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-13. Trạng thái truy vết (chạy 2026-11-18 16:20:27 (+07:00)): Còn đúng 41. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
+Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-18 17:42:31 (+07:00)): Còn đúng 41. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
 
 | Thời điểm chốt (giờ máy) | Commit gốc | Nội dung | Test case mới / sửa / bỏ |
 |---|---|---|---|

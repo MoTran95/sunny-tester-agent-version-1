@@ -3,7 +3,8 @@
 
 ## Trạng thái (2026-11-18)
 - BA xác nhận đúng TL-01…13 (chưa có ticket). **SRS `LOGIN` nay là yêu cầu theo BA**: cột "Yêu cầu: hệ thống phản hồi" + cột "Hệ thống 1.3.0 hiện tại" (`Khớp` / `⚠️ Khác` = nghi lỗi). Bỏ: S03-AC02, M02, M03, M04. Mốc trước khi sửa: commit `46feb45`. (Trước 2026-11-17 SRS chỉ là bản quan sát.)
-- Câu hỏi BA còn mở: **B4** (câu báo + số phút khi nhập lúc đang bị chặn), **B8** (thời hạn phiên) + 8 mục tự kiểm tra (C1–C3 chỉ còn kiểm hệ thống). Bỏ: B5–B7, B9–B11, B14, C6. A7, A8 không gửi BA (người dùng chốt TL-12, TL-13).
+- **TL-14 (2026-11-18, BA qua người dùng): B8 thời hạn phiên = 10 phút.** SRS thêm `S01-AC09` (chưa kiểm hệ thống, cần chờ 10 phút), Q10 trả lời một phần. Chưa có TC cho S01-AC09 (người dùng chưa nhờ viết; `truy-vet.py kiem` báo "SRS chưa có test case"; chưa `chot`).
+- Câu hỏi BA còn mở: **B4** (câu báo + số phút khi nhập lúc đang bị chặn), **B15** (10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối; màn hình khi hết hạn; nảy ra từ B8) + 8 mục tự kiểm tra (C1–C3 chỉ còn kiểm hệ thống). Bỏ: B5–B7, B9–B11, B14, C6. A7, A8 không gửi BA (người dùng chốt TL-12, TL-13).
 - Checklist 41 dòng (TC-001…041, chỉ phần đã chốt, mã nguồn bỏ tiền tố `LOGIN-`); test case 12 cột, 41 TC, **chưa chạy ca nào**, chưa ca có script `auto/`. Ca khóa tài khoản (TC-014, 015, 021, 022, 037) ghi Không tự động được. Ca chạm ngưỡng 10 lần (TC-014…022) chỉ chạy khi người dùng đồng ý (tối đa 3 lần sai).
 - 3 câu BA mới từ test case: (1) câu báo/số phút khi nhập lúc bị chặn (= B4, TC-016…018); (2) lần sai của tài khoản khác xen giữa có làm đứt chuỗi "liên tiếp" không (TC-022); (3) `2,000,000,000` hiện ở đâu (TC-039). Mật khẩu đúng không ghi trong tài liệu.
 - Truy vết: `truy-vet.md` (tự sinh) + `truy-vet-cau-hinh.json` (tên ngắn 52 mã) + `truy-vet-trang-thai.json`. Xem `project/truy-vet-requirement.md`.
@@ -34,6 +35,7 @@
 | 11 | Lần sai thứ 10 đã báo bị chặn | Khác 1 lần |
 | 12 | Chặn đúng tài khoản nhập sai (người dùng chốt) | |
 | 13 | Mật khẩu không có khoảng trắng, phân biệt hoa thường (người dùng chốt) | |
+| 14 | Thời hạn phiên 10 phút (chưa rõ tính từ đâu → B15) | chưa kiểm |
 - 13 đơn vị "khác" ≠ 13 lỗi (có thể chung nguyên nhân; chỉ là nghi lỗi tới khi BA xác nhận). Bảng soát có hai kiểu dòng cho cùng mã: dòng ✅ cũ "hành vi hiện tại, khác TL-xx" và dòng "theo TL-xx" là đúng. Nhãn "✅ Suy ra từ <mã>" (7 đơn vị). "Tự cắt bỏ" khoảng trắng: người dùng xác nhận 2026-11-18.
 
 ## Quy tắc người dùng đưa ra khi làm LOGIN
@@ -44,7 +46,7 @@
 - Mục C có lần nhập sai (C1 khoảng trắng với mã thật…) → có thể tính vào bộ đếm; chưa biết bộ đếm còn bao nhiêu → chỉ làm khi báo người dùng, tối đa 3 lần cộng cả hai (`pitfalls/dont-trigger-lockouts.md`). Chờ hết 5 phút để kiểm chặn tự hết cũng cần lần sai → hỏi BA thay vì tự thử.
 
 ## Chưa thử trên hệ thống
-Sai mật khẩu nhiều lần, hết hạn phiên, hai tab đầy đủ, đăng nhập P100002.
+Sai mật khẩu nhiều lần, hết hạn phiên (chờ 10 phút, không cần nhập sai), hai tab đầy đủ, đăng nhập P100002.
 
 ## Bẫy khi test
 - Không tự gõ mật khẩu **kể cả sai**. Cách tốt: mình điền Mã nhân viên bằng `form_input`, người dùng gõ mật khẩu + bấm, báo "xong", mình đọc kết quả + chụp ảnh.

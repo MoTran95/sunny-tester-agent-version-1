@@ -18,6 +18,7 @@ Bản đầu quá cô đọng ("thiếu (Dữ liệu)", "KN-02", "M01", "DSR" kh
 - Chép **nội dung thông báo** thay vì mã M01…; giải thích LTV/DSR/thặng dư/"hồ sơ nền" ở bảng thuật ngữ đầu file.
 - Mã nội bộ (KN-02, CH-03) chỉ để tra chéo, không làm nội dung chính; nhãn chữ thường ("Hỏi BA ngay", "Tự kiểm tra trên hệ thống trước") thay tên riêng của sách.
 - Gộp cột phụ cho gọn (6 cột). Cột "Câu hỏi gửi BA" ghi luôn câu BA đã trả lời.
+- **Một mã nhiều dòng thì không chép lại ô** (chốt 2026-11-18, người dùng chê "duplicate" ở AC09): dòng thứ hai trở đi ô Tình huống ghi ngắn "Phần … của dòng trên", ô trích ghi `—`; mã câu hỏi (B15…) kèm link "mở câu" tới file câu hỏi. `kiem-tra.py` mục 8 báo lỗi nếu chép lại. Khi thêm dòng mới vào bảng soát/SRS phải tự áp dụng, không đợi bị nhắc.
 
 ## Checklist / test case
 - Câu hỏi BA dựa kinh nghiệm (không dấu vết trong nguồn) → tách riêng, hỏi khi cần.

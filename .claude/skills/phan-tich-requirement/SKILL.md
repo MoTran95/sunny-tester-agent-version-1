@@ -43,6 +43,7 @@ File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đ
 2. **Đọc để hiểu**, rồi liệt kê mọi đơn vị cần soát (mỗi AC, quy tắc, thông báo là một đơn vị). Dùng năm câu tự hỏi và sáu dấu hiệu lấn cấn trong `references/quy-trinh-tach-xoay-loc.md`.
 3. **Tính lại số liệu** bằng script nhỏ (để trong thư mục tạm, không lưu vào repo). Ghi các chỗ lệch.
 4. **Soát từng đơn vị**: Tách (một ý một mã) → Xoay (qua sáu nút, chỉ nút liên quan) → Lọc. Quyết ✅ đã rõ hay ❓ cần hỏi theo `references/quy-trinh-tach-xoay-loc.md`. Chỗ rõ một nửa thì tách hai dòng.
+   - **Một mã nằm trên nhiều dòng** (phần ✅ và phần ❓, hoặc nhiều câu trả lời): chỉ dòng đầu ghi đủ ô Tình huống và ô trích; từ dòng thứ hai ghi ngắn kiểu `**Phần còn chưa rõ** của dòng trên` (hoặc `**Phần theo câu trả lời của BA (TL-xx)** của dòng trên`, thêm "ý thứ hai" nếu trùng nhãn) và ô trích ghi `—`. Không chép lại y nguyên: người đọc tưởng bị lặp (người dùng đã chê 2026-11-18). `kiem-tra.py` báo LỖI nếu chép lại.
 5. **Soạn file câu hỏi** `testing/<hệ thống>/<feature>/cau-hoi-cho-ba.md` theo `assets/mau-cau-hoi-cho-ba.md` và `references/viet-cau-hoi-de-doc.md`. Chia Phần A (hỏi ngay), B (hỏi sau), C (tự kiểm tra trước).
 6. **Lập bảng soát** `testing/<hệ thống>/<feature>/bang-soat-requirement.md` theo `assets/mau-bang-soat.md`. Cột câu hỏi chỉ ghi `**A1. <tiêu đề>** (<nhóm>)`, tiêu đề đúng chữ như ở file câu hỏi.
 7. **Kiểm bằng script**, sửa hết lỗi:

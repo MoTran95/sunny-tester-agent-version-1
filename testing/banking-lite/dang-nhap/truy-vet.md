@@ -4,16 +4,16 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 16:20:27 (+07:00) (chỉ kiểm, chưa đổi mốc) |
-| Requirement | srs/banking-lite/dang-nhap.md (cập nhật 2026-11-18); bảng soát (cập nhật 2026-11-18), câu trả lời đến TL-13 |
+| Lần chạy gần nhất | 2026-11-18 17:42:31 (+07:00) (chỉ kiểm, chưa đổi mốc) |
+| Requirement | srs/banking-lite/dang-nhap.md (cập nhật 2026-11-18); bảng soát (cập nhật 2026-11-18), câu trả lời đến TL-14 |
 | Checklist, test case | [checklist.md](checklist.md), [test-case.md](test-case.md) |
 | Mốc đã chốt | 2026-11-18 16:09:52 (+07:00) (khi đó: SRS 2026-11-18, bảng soát 2026-11-18, TL đến TL-13) |
 
 ## 1. Tóm tắt
-- Mã requirement: 39 trong SRS, 13 câu trả lời (TL). Test case: 41.
+- Mã requirement: 40 trong SRS, 14 câu trả lời (TL). Test case: 41.
 - Trạng thái test case: Còn đúng 41
-- Mã requirement đã đổi so với mốc đã chốt: không có; mã mới: không có.
-- Mã SRS chưa có test case nào: không có.
+- Mã requirement đã đổi so với mốc đã chốt: không có; mã mới: S01-AC09, TL-14.
+- Mã SRS chưa có test case nào: S01-AC09.
 - Test case đã bỏ khỏi file: không có.
 - Vấn đề khác: không có
 
@@ -29,21 +29,21 @@ Mã trong cột Nguồn của checklist và test case bỏ tiền tố `LOGIN-`.
 
 | Mã | Tên ngắn | Nguyên văn (rút gọn) | Mở ở đâu |
 |---|---|---|---|
-| M01 | Câu báo sai thông tin đăng nhập | `Mã nhân viên hoặc mật khẩu không đúng.` | [dang-nhap.md dòng 106](../../../srs/banking-lite/dang-nhap.md#L106) |
-| M02 | Câu chung dữ liệu không hợp lệ (đã bỏ theo BA) | — | [dang-nhap.md dòng 107](../../../srs/banking-lite/dang-nhap.md#L107) |
-| M03 | Dòng mã lỗi khi mật khẩu trống (đã bỏ theo BA) | — | [dang-nhap.md dòng 108](../../../srs/banking-lite/dang-nhap.md#L108) |
-| M04 | Dòng mã lỗi khi mã quá dài (đã bỏ theo BA) | — | [dang-nhap.md dòng 109](../../../srs/banking-lite/dang-nhap.md#L109) |
-| M05 | Câu báo bị chặn | `Đăng nhập sai quá nhiều lần. Thử lại sau {minutes} phút.` (**chỉ** thấy trong tệp giao diện) | [dang-nhap.md dòng 110](../../../srs/banking-lite/dang-nhap.md#L110) |
-| M06 | Câu Vui lòng đăng nhập | `Vui lòng đăng nhập.` (có trong tệp giao diện, **chưa từng thấy hiện**) | [dang-nhap.md dòng 111](../../../srs/banking-lite/dang-nhap.md#L111) |
-| M07 | Nhãn, nút, gợi ý, chân trang | `Đăng nhập` · `Mã nhân viên *` · `Mật khẩu *` · `Chữ P và 6 chữ số, ví dụ P100001.` · `Banking Lite · Phiên bản 1.3.0` · `Đăng xuất` | [dang-nhap.md dòng 112](../../../srs/banking-lite/dang-nhap.md#L112) |
-| R01 | Mã nhân viên: định dạng | Dòng gợi ý: `Chữ P và 6 chữ số, ví dụ P100001.` Máy chủ **không** báo lỗi định dạng riêng (mọi mã sai định dạng chỉ nhận `LOGIN-M01`). | [dang-nhap.md dòng 94](../../../srs/banking-lite/dang-nhap.md#L94) |
-| R02 | Mã nhân viên: hoa/thường | Chữ p thường hay chữ P hoa đều đăng nhập được, áp dụng cho mọi tài khoản. Khoảng trắng đầu và cuối mã được tự cắt bỏ. | [dang-nhap.md dòng 95](../../../srs/banking-lite/dang-nhap.md#L95) |
-| R03 | Mã nhân viên: độ dài tối đa | Màn hình đăng nhập không quy định độ dài tối đa của mã nhân viên (giới hạn thuộc phần đăng ký). Mã quá dài chỉ nhận câu chung `LOGIN-M01`. | [dang-nhap.md dòng 96](../../../srs/banking-lite/dang-nhap.md#L96) |
-| R04 | Hai ô bắt buộc | Cả hai ô đánh dấu `*`, thẻ form có `novalidate` (trình duyệt không chặn). Để trống ô nào (một hoặc cả hai) cũng chỉ báo câu chung `LOGIN-M01`; không… | [dang-nhap.md dòng 97](../../../srs/banking-lite/dang-nhap.md#L97) |
-| R05 | Hiển thị sau đăng nhập | `/api/me` trả `employeeId`, `role` (ví dụ `BANKER`), danh sách quyền; **không** còn `workspace`. Thanh trên hiện `<mã> · <vai trò>`, **không** còn `D… | [dang-nhap.md dòng 98](../../../srs/banking-lite/dang-nhap.md#L98) |
-| R06 | Giới hạn đăng nhập sai | Sai liên tiếp **10 lần** thì bị chặn tạm **5 phút** tính từ lúc bị chặn; lần sai thứ 10 là lần báo bị chặn. Mọi loại lỗi đều tính (sai mật khẩu, mã k… | [dang-nhap.md dòng 99](../../../srs/banking-lite/dang-nhap.md#L99) |
-| R07 | Ngôn ngữ | Lưu ở trình duyệt, khóa `bl.locale` ∈ {`vi`, `en`}; `<html lang>` đổi theo. | [dang-nhap.md dòng 100](../../../srs/banking-lite/dang-nhap.md#L100) |
-| R08 | Thuộc tính ô nhập | Mã nhân viên: `name=employeeId`, `autocomplete=username`. Mật khẩu: `type=password`, `autocomplete=current-password`. Không có `maxlength`/`pattern`… | [dang-nhap.md dòng 101](../../../srs/banking-lite/dang-nhap.md#L101) |
+| M01 | Câu báo sai thông tin đăng nhập | `Mã nhân viên hoặc mật khẩu không đúng.` | [dang-nhap.md dòng 107](../../../srs/banking-lite/dang-nhap.md#L107) |
+| M02 | Câu chung dữ liệu không hợp lệ (đã bỏ theo BA) | — | [dang-nhap.md dòng 108](../../../srs/banking-lite/dang-nhap.md#L108) |
+| M03 | Dòng mã lỗi khi mật khẩu trống (đã bỏ theo BA) | — | [dang-nhap.md dòng 109](../../../srs/banking-lite/dang-nhap.md#L109) |
+| M04 | Dòng mã lỗi khi mã quá dài (đã bỏ theo BA) | — | [dang-nhap.md dòng 110](../../../srs/banking-lite/dang-nhap.md#L110) |
+| M05 | Câu báo bị chặn | `Đăng nhập sai quá nhiều lần. Thử lại sau {minutes} phút.` (**chỉ** thấy trong tệp giao diện) | [dang-nhap.md dòng 111](../../../srs/banking-lite/dang-nhap.md#L111) |
+| M06 | Câu Vui lòng đăng nhập | `Vui lòng đăng nhập.` (có trong tệp giao diện, **chưa từng thấy hiện**) | [dang-nhap.md dòng 112](../../../srs/banking-lite/dang-nhap.md#L112) |
+| M07 | Nhãn, nút, gợi ý, chân trang | `Đăng nhập` · `Mã nhân viên *` · `Mật khẩu *` · `Chữ P và 6 chữ số, ví dụ P100001.` · `Banking Lite · Phiên bản 1.3.0` · `Đăng xuất` | [dang-nhap.md dòng 113](../../../srs/banking-lite/dang-nhap.md#L113) |
+| R01 | Mã nhân viên: định dạng | Dòng gợi ý: `Chữ P và 6 chữ số, ví dụ P100001.` Máy chủ **không** báo lỗi định dạng riêng (mọi mã sai định dạng chỉ nhận `LOGIN-M01`). | [dang-nhap.md dòng 95](../../../srs/banking-lite/dang-nhap.md#L95) |
+| R02 | Mã nhân viên: hoa/thường | Chữ p thường hay chữ P hoa đều đăng nhập được, áp dụng cho mọi tài khoản. Khoảng trắng đầu và cuối mã được tự cắt bỏ. | [dang-nhap.md dòng 96](../../../srs/banking-lite/dang-nhap.md#L96) |
+| R03 | Mã nhân viên: độ dài tối đa | Màn hình đăng nhập không quy định độ dài tối đa của mã nhân viên (giới hạn thuộc phần đăng ký). Mã quá dài chỉ nhận câu chung `LOGIN-M01`. | [dang-nhap.md dòng 97](../../../srs/banking-lite/dang-nhap.md#L97) |
+| R04 | Hai ô bắt buộc | Cả hai ô đánh dấu `*`, thẻ form có `novalidate` (trình duyệt không chặn). Để trống ô nào (một hoặc cả hai) cũng chỉ báo câu chung `LOGIN-M01`; không… | [dang-nhap.md dòng 98](../../../srs/banking-lite/dang-nhap.md#L98) |
+| R05 | Hiển thị sau đăng nhập | `/api/me` trả `employeeId`, `role` (ví dụ `BANKER`), danh sách quyền; **không** còn `workspace`. Thanh trên hiện `<mã> · <vai trò>`, **không** còn `D… | [dang-nhap.md dòng 99](../../../srs/banking-lite/dang-nhap.md#L99) |
+| R06 | Giới hạn đăng nhập sai | Sai liên tiếp **10 lần** thì bị chặn tạm **5 phút** tính từ lúc bị chặn; lần sai thứ 10 là lần báo bị chặn. Mọi loại lỗi đều tính (sai mật khẩu, mã k… | [dang-nhap.md dòng 100](../../../srs/banking-lite/dang-nhap.md#L100) |
+| R07 | Ngôn ngữ | Lưu ở trình duyệt, khóa `bl.locale` ∈ {`vi`, `en`}; `<html lang>` đổi theo. | [dang-nhap.md dòng 101](../../../srs/banking-lite/dang-nhap.md#L101) |
+| R08 | Thuộc tính ô nhập | Mã nhân viên: `name=employeeId`, `autocomplete=username`. Mật khẩu: `type=password`, `autocomplete=current-password`. Không có `maxlength`/`pattern`… | [dang-nhap.md dòng 102](../../../srs/banking-lite/dang-nhap.md#L102) |
 | S01-AC01 | Mở hệ thống khi chưa đăng nhập | Hiện form **Đăng nhập** gồm: ô `Mã nhân viên *` (gợi ý bên dưới: `Chữ P và 6 chữ số, ví dụ P100001.`), ô `Mật khẩu *` (chữ gõ hiện dạng chấm), nút `Đ… | [dang-nhap.md dòng 45](../../../srs/banking-lite/dang-nhap.md#L45) |
 | S01-AC02 | Đăng nhập đúng | Vào trang **Danh sách việc** của tài khoản đó. Thanh trên cùng hiện mã và vai trò, ví dụ `P100001 · Chuyên viên khách hàng`; **không** có chữ `DEFAUL… | [dang-nhap.md dòng 46](../../../srs/banking-lite/dang-nhap.md#L46) |
 | S01-AC03 | Đăng nhập khi đã mở link hồ sơ | Mở **thẳng hồ sơ đó**, không về Danh sách việc | [dang-nhap.md dòng 47](../../../srs/banking-lite/dang-nhap.md#L47) |
@@ -52,22 +52,23 @@ Mã trong cột Nguồn của checklist và test case bỏ tiền tố `LOGIN-`.
 | S01-AC06 | Tải lại trang khi đã đăng nhập | Vẫn đang đăng nhập, không phải nhập lại | [dang-nhap.md dòng 50](../../../srs/banking-lite/dang-nhap.md#L50) |
 | S01-AC07 | Mở /login khi đã đăng nhập | Hiện **Danh sách việc** (không hiện form đăng nhập); thanh địa chỉ vẫn là `/login` | [dang-nhap.md dòng 51](../../../srs/banking-lite/dang-nhap.md#L51) |
 | S01-AC08 | Mở địa chỉ không có thật khi đã đăng nhập | Hiện **Danh sách việc**; thanh địa chỉ giữ nguyên; **không** có trang "không tìm thấy" | [dang-nhap.md dòng 52](../../../srs/banking-lite/dang-nhap.md#L52) |
-| S02-AC01 | Sai mật khẩu | Không đăng nhập. Khung lỗi đỏ: `Mã nhân viên hoặc mật khẩu không đúng.` (English: `Employee ID or password is incorrect.`) (thông báo `LOGIN-M01`) | [dang-nhap.md dòng 61](../../../srs/banking-lite/dang-nhap.md#L61) |
-| S02-AC02 | Mã nhân viên không tồn tại | **Cùng khung lỗi y hệt AC01**: hệ thống không cho biết là mã sai hay mật khẩu sai | [dang-nhap.md dòng 62](../../../srs/banking-lite/dang-nhap.md#L62) |
-| S02-AC03 | Bỏ trống Mã nhân viên | Cùng khung lỗi `LOGIN-M01` như AC01. **Không** có câu "bắt buộc nhập mã" dù ô có dấu `*` | [dang-nhap.md dòng 63](../../../srs/banking-lite/dang-nhap.md#L63) |
-| S02-AC04 | Mã nhân viên sai dạng | **Mỗi kiểu đều nhận cùng khung lỗi `LOGIN-M01`**; không có thông báo riêng nói "mã sai định dạng". Riêng `p999999` chỉ là mã không có thật (chữ p thư… | [dang-nhap.md dòng 64](../../../srs/banking-lite/dang-nhap.md#L64) |
-| S02-AC05 | Bỏ trống Mật khẩu | Không đăng nhập. Khung lỗi đỏ chỉ ghi `Mã nhân viên hoặc mật khẩu không đúng.` (English: `Employee ID or password is incorrect.`); **không** hiện câu… | [dang-nhap.md dòng 65](../../../srs/banking-lite/dang-nhap.md#L65) |
-| S02-AC06 | Mã nhân viên quá dài | Không đăng nhập. Khung lỗi đỏ chỉ ghi `Mã nhân viên hoặc mật khẩu không đúng.`; **không** hiện câu `Một số giá trị không hợp lệ.` và **không** hiện d… | [dang-nhap.md dòng 66](../../../srs/banking-lite/dang-nhap.md#L66) |
-| S02-AC07 | Sai liên tiếp thì bị chặn tạm | Bị chặn tạm (lần sai thứ 10 là lần báo bị chặn). Tiếng Việt: `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`; English: `Too many failed attempts.… | [dang-nhap.md dòng 67](../../../srs/banking-lite/dang-nhap.md#L67) |
-| S02-AC08 | Đang bị chặn mà nhập đúng | **Không** đăng nhập được, kể cả khi nhập đúng. Chỉ vào được sau 5 phút kể từ lúc bị chặn. Nhập thêm lúc đang bị chặn không tính vào số lần. Chỉ tài k… | [dang-nhap.md dòng 68](../../../srs/banking-lite/dang-nhap.md#L68) |
-| S03-AC01 | Đổi ngôn ngữ ở màn hình đăng nhập | Mọi nhãn đổi **ngay** sang ngôn ngữ đã chọn; chữ đã gõ ở ô mã vẫn còn; khung lỗi vẫn hiện, câu lỗi được dịch qua lại (`Mã nhân viên hoặc mật khẩu khô… | [dang-nhap.md dòng 75](../../../srs/banking-lite/dang-nhap.md#L75) |
-| S03-AC02 | Mã lỗi kỹ thuật không được dịch (đã bỏ theo BA) | **Đã bỏ:** không còn dòng mã lỗi kỹ thuật nên không còn chuyện dịch hay không dịch dòng này. Thay bằng `LOGIN-S03-AC01` | [dang-nhap.md dòng 76](../../../srs/banking-lite/dang-nhap.md#L76) |
-| S03-AC03 | Nhớ ngôn ngữ đã chọn | Vẫn đúng ngôn ngữ đã chọn (trình duyệt lưu lại, khóa `bl.locale`, giá trị `vi` hoặc `en`) | [dang-nhap.md dòng 77](../../../srs/banking-lite/dang-nhap.md#L77) |
-| S03-AC04 | Tên vai trò và số đổi theo ngôn ngữ | Vai trò đổi từ `Chuyên viên khách hàng` thành `Banker`; số tiền hiện kiểu English (ví dụ `2,000,000,000`) | [dang-nhap.md dòng 78](../../../srs/banking-lite/dang-nhap.md#L78) |
-| S04-AC01 | Đăng xuất | Về form đăng nhập, thanh địa chỉ là `/`; ngôn ngữ giữ nguyên | [dang-nhap.md dòng 85](../../../srs/banking-lite/dang-nhap.md#L85) |
-| S04-AC02 | Mở trang khi chưa đăng nhập | Hiện **form đăng nhập**, thanh địa chỉ giữ nguyên. **Không** có thông báo "cần đăng nhập" và **không** có trang "không tìm thấy" | [dang-nhap.md dòng 86](../../../srs/banking-lite/dang-nhap.md#L86) |
-| S04-AC03 | Back sau khi đăng xuất | Địa chỉ quay về link hồ sơ nhưng chỉ hiện **form đăng nhập**; dữ liệu hồ sơ **không** hiện ra | [dang-nhap.md dòng 87](../../../srs/banking-lite/dang-nhap.md#L87) |
-| S04-AC04 | Đăng xuất ở tab này, tab kia còn mở | Tab 1 **không tự thay đổi** cho đến khi bạn thao tác; khi thao tác, tab 1 chuyển sang **form đăng nhập** (không có thông báo nào) | [dang-nhap.md dòng 88](../../../srs/banking-lite/dang-nhap.md#L88) |
+| S01-AC09 | Phiên hết hạn sau 10 phút | Phiên đăng nhập hết hạn sau 10 phút; người dùng không còn được coi là đã đăng nhập. 10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối, và màn hì… | [dang-nhap.md dòng 53](../../../srs/banking-lite/dang-nhap.md#L53) |
+| S02-AC01 | Sai mật khẩu | Không đăng nhập. Khung lỗi đỏ: `Mã nhân viên hoặc mật khẩu không đúng.` (English: `Employee ID or password is incorrect.`) (thông báo `LOGIN-M01`) | [dang-nhap.md dòng 62](../../../srs/banking-lite/dang-nhap.md#L62) |
+| S02-AC02 | Mã nhân viên không tồn tại | **Cùng khung lỗi y hệt AC01**: hệ thống không cho biết là mã sai hay mật khẩu sai | [dang-nhap.md dòng 63](../../../srs/banking-lite/dang-nhap.md#L63) |
+| S02-AC03 | Bỏ trống Mã nhân viên | Cùng khung lỗi `LOGIN-M01` như AC01. **Không** có câu "bắt buộc nhập mã" dù ô có dấu `*` | [dang-nhap.md dòng 64](../../../srs/banking-lite/dang-nhap.md#L64) |
+| S02-AC04 | Mã nhân viên sai dạng | **Mỗi kiểu đều nhận cùng khung lỗi `LOGIN-M01`**; không có thông báo riêng nói "mã sai định dạng". Riêng `p999999` chỉ là mã không có thật (chữ p thư… | [dang-nhap.md dòng 65](../../../srs/banking-lite/dang-nhap.md#L65) |
+| S02-AC05 | Bỏ trống Mật khẩu | Không đăng nhập. Khung lỗi đỏ chỉ ghi `Mã nhân viên hoặc mật khẩu không đúng.` (English: `Employee ID or password is incorrect.`); **không** hiện câu… | [dang-nhap.md dòng 66](../../../srs/banking-lite/dang-nhap.md#L66) |
+| S02-AC06 | Mã nhân viên quá dài | Không đăng nhập. Khung lỗi đỏ chỉ ghi `Mã nhân viên hoặc mật khẩu không đúng.`; **không** hiện câu `Một số giá trị không hợp lệ.` và **không** hiện d… | [dang-nhap.md dòng 67](../../../srs/banking-lite/dang-nhap.md#L67) |
+| S02-AC07 | Sai liên tiếp thì bị chặn tạm | Bị chặn tạm (lần sai thứ 10 là lần báo bị chặn). Tiếng Việt: `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`; English: `Too many failed attempts.… | [dang-nhap.md dòng 68](../../../srs/banking-lite/dang-nhap.md#L68) |
+| S02-AC08 | Đang bị chặn mà nhập đúng | **Không** đăng nhập được, kể cả khi nhập đúng. Chỉ vào được sau 5 phút kể từ lúc bị chặn. Nhập thêm lúc đang bị chặn không tính vào số lần. Chỉ tài k… | [dang-nhap.md dòng 69](../../../srs/banking-lite/dang-nhap.md#L69) |
+| S03-AC01 | Đổi ngôn ngữ ở màn hình đăng nhập | Mọi nhãn đổi **ngay** sang ngôn ngữ đã chọn; chữ đã gõ ở ô mã vẫn còn; khung lỗi vẫn hiện, câu lỗi được dịch qua lại (`Mã nhân viên hoặc mật khẩu khô… | [dang-nhap.md dòng 76](../../../srs/banking-lite/dang-nhap.md#L76) |
+| S03-AC02 | Mã lỗi kỹ thuật không được dịch (đã bỏ theo BA) | **Đã bỏ:** không còn dòng mã lỗi kỹ thuật nên không còn chuyện dịch hay không dịch dòng này. Thay bằng `LOGIN-S03-AC01` | [dang-nhap.md dòng 77](../../../srs/banking-lite/dang-nhap.md#L77) |
+| S03-AC03 | Nhớ ngôn ngữ đã chọn | Vẫn đúng ngôn ngữ đã chọn (trình duyệt lưu lại, khóa `bl.locale`, giá trị `vi` hoặc `en`) | [dang-nhap.md dòng 78](../../../srs/banking-lite/dang-nhap.md#L78) |
+| S03-AC04 | Tên vai trò và số đổi theo ngôn ngữ | Vai trò đổi từ `Chuyên viên khách hàng` thành `Banker`; số tiền hiện kiểu English (ví dụ `2,000,000,000`) | [dang-nhap.md dòng 79](../../../srs/banking-lite/dang-nhap.md#L79) |
+| S04-AC01 | Đăng xuất | Về form đăng nhập, thanh địa chỉ là `/`; ngôn ngữ giữ nguyên | [dang-nhap.md dòng 86](../../../srs/banking-lite/dang-nhap.md#L86) |
+| S04-AC02 | Mở trang khi chưa đăng nhập | Hiện **form đăng nhập**, thanh địa chỉ giữ nguyên. **Không** có thông báo "cần đăng nhập" và **không** có trang "không tìm thấy" | [dang-nhap.md dòng 87](../../../srs/banking-lite/dang-nhap.md#L87) |
+| S04-AC03 | Back sau khi đăng xuất | Địa chỉ quay về link hồ sơ nhưng chỉ hiện **form đăng nhập**; dữ liệu hồ sơ **không** hiện ra | [dang-nhap.md dòng 88](../../../srs/banking-lite/dang-nhap.md#L88) |
+| S04-AC04 | Đăng xuất ở tab này, tab kia còn mở | Tab 1 **không tự thay đổi** cho đến khi bạn thao tác; khi thao tác, tab 1 chuyển sang **form đăng nhập** (không có thông báo nào) | [dang-nhap.md dòng 89](../../../srs/banking-lite/dang-nhap.md#L89) |
 | TL-01 | BA: đang bị chặn thì không vào được, 5 phút | Đang bị chặn thì không được vào, kể cả nhập đúng. Sau 5 phút mới được vào, tính từ lúc bị chặn. | [bang-soat-requirement.md dòng 50](bang-soat-requirement.md#L50) |
 | TL-02 | BA: 10 lần sai liên tiếp là chặn, mọi loại lỗi | 10 lần liên tiếp là chặn, không phân biệt lỗi gì hết. Được tính từ lần nhập sai đầu tiên. | [bang-soat-requirement.md dòng 51](bang-soat-requirement.md#L51) |
 | TL-03 | BA: mọi ca sai, trống, quá dài báo một câu chung | Màn hình phải báo "mã nhân viên hoặc mật khẩu không đúng". Không báo những câu kia (người dùng nói về ô trống và mã quá dài; mình hiểu "những câu kia… | [bang-soat-requirement.md dòng 52](bang-soat-requirement.md#L52) |
@@ -81,6 +82,7 @@ Mã trong cột Nguồn của checklist và test case bỏ tiền tố `LOGIN-`.
 | TL-11 | BA: lần sai thứ 10 báo bị chặn | A6 (phần cuối): Lần sai thứ 10 thì báo bị chặn. | [bang-soat-requirement.md dòng 60](bang-soat-requirement.md#L60) |
 | TL-12 | Suy ra: chặn theo từng tài khoản | A7 (gộp B2): Bị chặn thì chặn đúng tài khoản đã nhập sai, không chặn tài khoản khác. | [bang-soat-requirement.md dòng 61](bang-soat-requirement.md#L61) |
 | TL-13 | Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường | A8: Mật khẩu không có khoảng trắng và phân biệt chữ hoa, chữ thường. Mình hiểu: không cắt khoảng trắng như ô mã; gõ thừa khoảng trắng hoặc sai hoa th… | [bang-soat-requirement.md dòng 62](bang-soat-requirement.md#L62) |
+| TL-14 | B8: Thời hạn phiên đăng nhập là 10 phút. | B8: Thời hạn phiên đăng nhập là 10 phút. | [bang-soat-requirement.md dòng 63](bang-soat-requirement.md#L63) |
 
 ## 4. Yêu cầu theo BA của từng mã SRS
 Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA trả lời, kể cả khi SRS (bản quan sát hệ thống 1.3.0) ghi khác. Test case viết theo cột "Theo BA"; chỗ có ⚠️ là nghi lỗi của hệ thống, chưa phải lỗi đã xác nhận. SRS không bị sửa.
@@ -107,9 +109,10 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | S01-AC03 | Đăng nhập khi đã mở link hồ sơ | Suy ra: Áp dụng cho mọi link: chưa đăng nhập thì mọi địa chỉ đều hiện form và giữ nguyên địa chỉ (S04-AC02), đăng nhập đúng thì mở đúng địa chỉ đó. Hồ sơ mà vai trò không được xem thì hiện gì là việc của phần quyền xem hồ sơ, không thuộc Đăng nhập. (suy ra từ SRS) | Không có điểm khác đã biết | — |
 | S01-AC04 | Gõ mã nhân viên bằng chữ thường | Chữ p thường hay hoa đều đăng nhập được (TL-04), áp dụng cho mọi tài khoản. Hệ thống: đã thấy với P100001, chưa thử với P200001 và P300001. Mục C3 chỉ còn là kiểm hệ thống có làm đúng. (TL-04) | Không có điểm khác đã biết | — |
 | S01-AC05 | Nhấn Enter thay vì bấm nút | Suy ra: Enter ở ô Mật khẩu, hay khi thông tin đúng, cũng gửi form như bấm nút: Enter ở ô nhập là cách gửi form, không phụ thuộc ô nào. Hệ thống: chưa thử, mục C2 chỉ còn là kiểm hệ thống. (suy ra từ SRS) | Không có điểm khác đã biết | — |
-| S01-AC06 | Tải lại trang khi đã đăng nhập | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | B8 |
+| S01-AC06 | Tải lại trang khi đã đăng nhập | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
 | S01-AC07 | Mở /login khi đã đăng nhập | Suy ra: SRS ghi rõ hành vi này, không có chỗ nào nói khác: đã đăng nhập thì mọi địa chỉ đều về Danh sách việc, kể cả `/login`. Không hỏi. (suy ra từ SRS) | Không có điểm khác đã biết | — |
 | S01-AC08 | Mở địa chỉ không có thật khi đã đăng nhập | Suy ra: SRS ghi rõ: địa chỉ không có thật cũng hiện Danh sách việc, không có trang "không tìm thấy". Không có chỗ nào nói khác. Không hỏi. (suy ra từ SRS) | Không có điểm khác đã biết | — |
+| S01-AC09 | Phiên hết hạn sau 10 phút | Phiên đăng nhập hết hạn sau 10 phút (TL-14); người dùng không còn được coi là đã đăng nhập. Hệ thống: chưa chờ để kiểm. (TL-14) | Không có điểm khác đã biết | B15 |
 | S02-AC01 | Sai mật khẩu | Kết quả đúng: không đăng nhập; khung lỗi ghi "Mã nhân viên hoặc mật khẩu không đúng." (English: "Employee ID or password is incorrect."), không có cụm "Mã không gian" (TL-03, TL-05, TL-08). Hệ thống hiện vẫn có cụm "Mã không gian". (TL-03, TL-05, TL-08) | ⚠️ Khác. Không đăng nhập. Khung lỗi đỏ ghi câu "Mã không gian, mã nhân viên hoặc mật khẩu không đúng." (chữ "mã không gian": xem dòng LOGIN-M01). | — |
 | S02-AC02 | Mã nhân viên không tồn tại | Mã không có thật và sai mật khẩu dùng chung một câu "mã nhân viên hoặc mật khẩu không đúng", vì câu này nói chung cả mã lẫn mật khẩu (TL-10). Khớp hệ thống hiện tại về việc dùng chung một câu. (TL-10) | Không có điểm khác đã biết | — |
 | S02-AC03 | Bỏ trống Mã nhân viên | Ô Mã nhân viên trống, có mật khẩu: báo "mã nhân viên hoặc mật khẩu không đúng", không có câu "bắt buộc nhập mã" riêng (TL-03). Hệ thống hiện báo câu còn cụm "Mã không gian" (xem dòng AC01). (TL-03) | ⚠️ Khác. Xem dòng theo BA ở cột bên cạnh | — |
@@ -153,6 +156,7 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | S01-AC06 | Tải lại trang khi đã đăng nhập | Không đổi | 1: TC-032 |
 | S01-AC07 | Mở /login khi đã đăng nhập | Không đổi | 1: TC-033 |
 | S01-AC08 | Mở địa chỉ không có thật khi đã đăng nhập | Không đổi | 1: TC-034 |
+| S01-AC09 | Phiên hết hạn sau 10 phút | Mới | ⚠️ chưa có test case |
 | S02-AC01 | Sai mật khẩu | Không đổi | 1: TC-006 |
 | S02-AC02 | Mã nhân viên không tồn tại | Không đổi | 1: TC-007 |
 | S02-AC03 | Bỏ trống Mã nhân viên | Không đổi | 1: TC-008 |
@@ -182,6 +186,7 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | TL-11 | BA: lần sai thứ 10 báo bị chặn | Không đổi | 2: TC-014, TC-015 |
 | TL-12 | Suy ra: chặn theo từng tài khoản | Không đổi | 1: TC-022 |
 | TL-13 | Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường | Không đổi | 2: TC-012, TC-013 |
+| TL-14 | B8: Thời hạn phiên đăng nhập là 10 phút. | Mới | — |
 
 ## 6. Từ test case tới requirement
 | Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối | Tự động hóa |

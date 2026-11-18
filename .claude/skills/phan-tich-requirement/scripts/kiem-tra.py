@@ -27,6 +27,7 @@ import io
 import re
 import sys
 
+BT = chr(96)
 SPLIT = re.compile(r"(?<!\\)\|")
 SEP = re.compile(r"^\|\s*:?-{2,}")
 DEFAULT_TU_CAM = ["tiến hành", "nhằm", "đối với", "dựa trên", "thực hiện việc", "kết quả mong đợi"]
@@ -212,6 +213,31 @@ def main():
     for t in sorted(used - defined):
         errors.append(f"[bảng soát] nhắc {t} nhưng bảng 'Câu trả lời đã nhận' không có dòng {t}")
     print(f"- câu trả lời TL đã ghi: {len(defined)}")
+
+    # 8. một mã nằm trên nhiều dòng: dòng thứ hai trở đi không được chép lại ô Tình huống (cột 2) hay ô trích (cột cuối)
+    n_dup = 0
+    for line_no, header, rows in tables(bs):
+        first = {}
+        for ln, row in rows:
+            if len(row) < 3 or not re.match(r"^%s[^%s]+%s$" % (BT, BT, BT), row[0]):
+                continue
+            cur = (row[1], row[-1])
+            if row[0] not in first:
+                first[row[0]] = [(ln, cur)]
+                continue
+            for pl, prev in first[row[0]]:
+                if row[1] and row[1] == prev[0]:
+                    errors.append(f"[bảng soát] dòng {ln}: {row[0]} chép lại ô Tình huống của dòng {pl}; "
+                                  "dòng thứ hai trở đi ghi ngắn, ví dụ '**Phần còn chưa rõ** của dòng trên'")
+                    n_dup += 1
+                    break
+            for pl, prev in first[row[0]]:
+                if row[-1] not in ("", "—") and row[-1] == prev[1]:
+                    errors.append(f"[bảng soát] dòng {ln}: {row[0]} chép lại ô trích của dòng {pl}; ghi '—' ở dòng thứ hai trở đi")
+                    n_dup += 1
+                    break
+            first[row[0]].append((ln, cur))
+    print(f"- ô chép lại giữa các dòng cùng mã: {n_dup}")
 
     if ch_text:
 
