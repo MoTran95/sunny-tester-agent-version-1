@@ -58,6 +58,7 @@
     "TL-10": "BA: mã không tồn tại dùng chung một câu",
     "TL-11": "BA: lần sai thứ 10 báo bị chặn",
     "TL-12": "Suy ra: chặn theo từng tài khoản",
-    "TL-13": "Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường"
+    "TL-13": "Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường",
+    "TL-14": "BA: thời hạn phiên 10 phút"
   }
 }

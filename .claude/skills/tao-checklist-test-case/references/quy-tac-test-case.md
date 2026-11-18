@@ -34,7 +34,7 @@ Ghi ở điều kiện trước: "Ca này cố ý nhập sai N lần: chỉ ch�
 ## Cập nhật khi requirement đổi
 1. Chạy `python -X utf8 scripts/truy-vet.py kiem <dự-án> <feature>`: liệt kê mã đã đổi và test case chuyển sang **Cần xem lại**.
 2. Chỉ đọc requirement phần mã đã đổi và các test case được báo. Sửa test case; mã TC giữ nguyên.
-3. Requirement thêm tình huống mới → TC mới lấy **số kế tiếp** trong checklist (hỏi người dùng trước khi thêm); bỏ tình huống → hỏi trước, **không xóa dòng**: ghi "Đã bỏ theo requirement mới" ở Kết quả thực tế và Trạng thái `Bỏ qua`.
+3. Requirement thêm tình huống mới → TC mới lấy **số kế tiếp** trong checklist (hỏi người dùng trước khi thêm); TC mới xếp **cuối bảng** (giữ nguyên mã cũ nên không theo thứ tự Cao/Trung bình/Thấp): khai báo ở bảng đầu `checklist.md` bằng dòng `| Dòng thêm sau khi requirement đổi | TC-042, TC-043 (…) |` để `kiem-tra-tc.py` bỏ qua các dòng này khi kiểm thứ tự; bỏ tình huống → hỏi trước, **không xóa dòng**: ghi "Đã bỏ theo requirement mới" ở Kết quả thực tế và Trạng thái `Bỏ qua`.
 4. `sinh-bang.py test-case` chạy lại sẽ **giữ** Kết quả thực tế, Trạng thái, Người viết theo mã; nhưng đã có file thì thường chỉ cần sửa dòng bằng Edit.
 5. Chạy `kiem-tra-tc.py`, rồi `truy-vet.py chot -m "<đã làm gì, vì sao>"`. Điền kết quả khi chạy test **không** làm test case bị tính là đã sửa (script bỏ qua bốn cột đó).
 

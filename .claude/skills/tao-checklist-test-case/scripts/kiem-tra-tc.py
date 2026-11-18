@@ -85,7 +85,13 @@ def kiem_checklist(path, nguon, ma_re, tien_to):
             W(f"Checklist {m}: dòng Suy luận nên có một câu lý do đủ rõ")
         if not r.get("Tình huống"):
             L(f"Checklist {m}: Tình huống trống")
-    pr = [PRI.index(r["Ưu tiên"]) for r in rows.values() if r.get("Ưu tiên") in PRI]
+    # Dòng thêm sau khi requirement đổi lấy số kế tiếp (không đổi mã cũ) nên xếp cuối bảng, không theo thứ tự ưu tiên.
+    # Khai báo ở bảng đầu file: "| Dòng thêm sau khi requirement đổi | TC-042, TC-043 (...) |"
+    them_sau = set()
+    mm = re.search(r"\|\s*Dòng thêm sau[^|]*\|([^|]*)\|", t)
+    if mm:
+        them_sau = set(re.findall(r"TC-\d+", mm.group(1)))
+    pr = [PRI.index(r["Ưu tiên"]) for k, r in rows.items() if r.get("Ưu tiên") in PRI and k not in them_sau]
     if pr != sorted(pr):
         L("Checklist: dòng Cao phải xếp trước, rồi Trung bình, rồi Thấp")
     if nguon and ma_re:

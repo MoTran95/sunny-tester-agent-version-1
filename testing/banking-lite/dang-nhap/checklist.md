@@ -4,8 +4,9 @@
 |---|---|
 | Ngày lập | 2026-11-18 |
 | Hệ thống | Web, ngân hàng cho vay mua nhà (Banking Lite). Phạm vi: chỉ màn hình Đăng nhập, Đăng xuất, đổi ngôn ngữ và chặn khi sai nhiều lần. Chỉ test chức năng |
-| Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) (bản nháp có xác nhận của BA từ 2026-11-18: cột "Yêu cầu" theo BA, cột "Hệ thống 1.3.0 hiện tại" ghi hành vi quan sát) và [bảng soát](bang-soat-requirement.md) (câu trả lời của BA: TL-01 đến TL-13; TL-12, TL-13 ban đầu là điều suy ra, BA đã xác nhận 2026-11-18) |
+| Nguồn | [SRS Đăng nhập](../../../srs/banking-lite/dang-nhap.md) (bản nháp có xác nhận của BA từ 2026-11-18: cột "Yêu cầu" theo BA, cột "Hệ thống 1.3.0 hiện tại" ghi hành vi quan sát) và [bảng soát](bang-soat-requirement.md) (câu trả lời của BA: TL-01 đến TL-14; TL-12, TL-13 ban đầu là điều suy ra, BA đã xác nhận 2026-11-18) |
 | Chỉ làm | Checklist. Chưa viết bước chi tiết |
+| Dòng thêm sau khi requirement đổi | TC-042, TC-043 (thêm sau câu trả lời TL-14; lấy số kế tiếp để giữ nguyên mã cũ nên xếp cuối bảng, không theo thứ tự ưu tiên) |
 | Chỉ dùng phần đã chốt | Phần còn ❓ trong bảng soát chưa đưa vào (xem mục "Chưa đưa vào" cuối file) |
 
 **Cách đọc cột Nguồn.** Mã bỏ tiền tố `LOGIN-` cho gọn: `S01-AC02` là `LOGIN-S01-AC02`; `R` là quy tắc, `M` là thông báo; `TL` là câu BA trả lời. Sau mỗi mã có tên ngắn trong ngoặc; nguyên văn và nơi mở trong SRS hoặc bảng soát nằm ở bảng tra mã trong [truy-vet.md](truy-vet.md). **Có trong tài liệu:** ghi mã. **Suy luận:** kèm một câu lý do. Chữ "⚠️ hệ thống hiện khác" nghĩa là bản 1.3.0 đang làm khác câu BA trả lời, nên nếu test ra khác thì là **nghi lỗi** (chưa phải lỗi đã xác nhận).
@@ -55,17 +56,19 @@
 | TC-039 | Đã đăng nhập `P100001`, bấm English: vai trò đổi từ "Chuyên viên khách hàng" thành "Banker", số tiền hiện kiểu English (ví dụ `2,000,000,000`) | Trung bình | EP | Có trong tài liệu: S03-AC04 (Tên vai trò và số đổi theo ngôn ngữ) |
 | TC-040 | Nhập mã nhân viên rất dài (ví dụ 210 ký tự) + mật khẩu bất kỳ: ra câu chung, không còn dòng `validation.too_big (employeeId)`. Không kiểm độ dài tối đa (BA: độ dài không quy định ở đăng nhập) | Thấp | EP | Có trong tài liệu: S02-AC06 (Mã nhân viên quá dài), R03 (Mã nhân viên: độ dài tối đa), M04 (Dòng mã lỗi khi mã quá dài), TL-03 (BA: mọi ca sai, trống, quá dài báo một câu chung), TL-04 (BA: tự cắt khoảng trắng, p hoa thường đều được) · ⚠️ hệ thống hiện khác (từ chối bằng `too_big`) |
 | TC-041 | Nhìn form đăng nhập: không có ô chọn Workspace, không có quên mật khẩu, đăng ký, "ghi nhớ đăng nhập" | Thấp | Use case | Suy luận: các chức năng này không thuộc màn hình đăng nhập (mục 1 của SRS, TL-04 (BA: tự cắt khoảng trắng, p hoa thường đều được), TL-05 (BA: bỏ mã không gian)) |
+| TC-042 | Đã đăng nhập, không thao tác gì khoảng 9 phút rồi tải lại trang (F5): vẫn đăng nhập (chưa đủ 10 phút nên phiên chưa hết hạn) | Trung bình | BVA | Có trong tài liệu: S01-AC09 (Phiên hết hạn sau 10 phút), TL-14 (BA: thời hạn phiên 10 phút). Suy luận: chưa đủ 10 phút thì phiên chưa hết hạn |
+| TC-043 | Đã đăng nhập, không thao tác gì hơn 10 phút (chọn 10 phút 30 giây) rồi tải lại trang (F5): phiên đã hết hạn, không còn đăng nhập. Màn hình hiện lúc này: CẦN XÁC NHẬN | Trung bình | BVA | Có trong tài liệu: S01-AC09 (Phiên hết hạn sau 10 phút), TL-14 (BA: thời hạn phiên 10 phút). Suy luận: đã quá 10 phút thì phiên hết hạn |
 
 ## Chưa đưa vào (phần chưa chốt, không viết theo yêu cầu)
-Các ca này còn ❓ trong [bảng soát](bang-soat-requirement.md) và [câu hỏi cho BA](cau-hoi-cho-ba.md) nên chưa có dòng nào ở trên: câu báo trên màn hình khi nhập lúc đang bị chặn và số phút có giảm dần không (B4); phiên giữ bao lâu, hết hạn thì sao (B8); tài khoản `P100002`; một tài khoản đăng nhập ở hai trình duyệt; bấm Đăng nhập hai lần nhanh; khi nào khung lỗi biến mất; mã không có thật được đếm thế nào vào chặn theo tài khoản; đúng giây thứ 5 phút của lúc hết chặn (BA nói "sau 5 phút" và "hết 5 phút" nên chưa biết giây thứ 5 tính bên nào).
+Các ca này còn ❓ trong [bảng soát](bang-soat-requirement.md) và [câu hỏi cho BA](cau-hoi-cho-ba.md) nên chưa có dòng nào ở trên: câu báo trên màn hình khi nhập lúc đang bị chặn và số phút có giảm dần không (B4); 10 phút của phiên tính từ lúc đăng nhập hay từ lần thao tác cuối, và màn hình hiện gì khi hết hạn (B15); ca vừa thao tác vừa chờ quá 10 phút; tài khoản `P100002`; một tài khoản đăng nhập ở hai trình duyệt; bấm Đăng nhập hai lần nhanh; khi nào khung lỗi biến mất; mã không có thật được đếm thế nào vào chặn theo tài khoản; đúng giây thứ 5 phút của lúc hết chặn (BA nói "sau 5 phút" và "hết 5 phút" nên chưa biết giây thứ 5 tính bên nào).
 
 ## Tự kiểm
-- Mỗi mã có trong SRS (24 tiêu chí, 8 quy tắc, 7 thông báo) có ít nhất một dòng ở cột Nguồn.
+- Mỗi mã có trong SRS (25 tiêu chí, 8 quy tắc, 7 thông báo) có ít nhất một dòng ở cột Nguồn.
 - Không trùng mã TC; mỗi dòng có nhãn nguồn; không có dòng "Giả định" trong bảng.
 
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet.py, không sửa tay) -->
 ## Lịch sử thay đổi
-Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-18 17:42:31 (+07:00)): Còn đúng 41. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
+Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-18 17:48:27 (+07:00)): Còn đúng 43. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
 
 | Thời điểm chốt (giờ máy) | Commit gốc | Nội dung | Test case mới / sửa / bỏ |
 |---|---|---|---|
@@ -74,4 +77,5 @@ Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; 
 | 2026-11-18 (không rõ giờ) | — | BA xác nhận TL-01 đến TL-13; SRS ghi yêu cầu theo BA (thêm cột Hệ thống 1.3.0 hiện tại, bỏ S03-AC02, M02, M03, M04, sửa yêu cầu 18 mã khác). Đã rà 20 test case bị đánh dấu: nội dung vẫn khớp yêu cầu mới, chỉ cập nhật nhãn nguồn TC-012, TC-013, TC-022 (TL-12, TL-13 từ suy luận thành BA xác nhận). | mới 0; sửa TC-012, TC-013, TC-022; bỏ 0 |
 | 2026-11-18 15:48:00 (+07:00) | `46feb45` + sửa chưa commit | Lịch sử truy vết ghi thời điểm chốt chính xác (giờ phút giây, múi giờ), commit gốc, ngày BA trả lời. Không đổi nội dung test case. | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 15:55:25 (+07:00) | `46feb45` + sửa chưa commit | SRS: mọi TL-xx, B4, B8 thành link bấm được tới bảng soát và câu hỏi cho BA (62 link, 0 hỏng); thêm điểm nhảy cho 13 dòng TL và 24 câu hỏi. Không đổi nội dung yêu cầu hay test case. | mới 0; sửa 0; bỏ 0 |
+| 2026-11-18 17:48:27 (+07:00) | `384d97b` + sửa chưa commit | Thêm TC-042, TC-043 cho LOGIN-S01-AC09 (phiên hết hạn sau 10 phút, TL-14); 41 test case cũ không đổi | mới 2; sửa 0; bỏ 0 |
 <!-- LICH-SU:KET-THUC -->

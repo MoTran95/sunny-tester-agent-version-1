@@ -4,16 +4,16 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 17:42:31 (+07:00) (chỉ kiểm, chưa đổi mốc) |
+| Lần chạy gần nhất | 2026-11-18 17:48:27 (+07:00) (chốt mốc mới) |
 | Requirement | srs/banking-lite/dang-nhap.md (cập nhật 2026-11-18); bảng soát (cập nhật 2026-11-18), câu trả lời đến TL-14 |
 | Checklist, test case | [checklist.md](checklist.md), [test-case.md](test-case.md) |
-| Mốc đã chốt | 2026-11-18 16:09:52 (+07:00) (khi đó: SRS 2026-11-18, bảng soát 2026-11-18, TL đến TL-13) |
+| Mốc đã chốt | 2026-11-18 17:48:27 (+07:00) (khi đó: SRS 2026-11-18, bảng soát 2026-11-18, TL đến TL-14) |
 
 ## 1. Tóm tắt
-- Mã requirement: 40 trong SRS, 14 câu trả lời (TL). Test case: 41.
-- Trạng thái test case: Còn đúng 41
-- Mã requirement đã đổi so với mốc đã chốt: không có; mã mới: S01-AC09, TL-14.
-- Mã SRS chưa có test case nào: S01-AC09.
+- Mã requirement: 40 trong SRS, 14 câu trả lời (TL). Test case: 43.
+- Trạng thái test case: Còn đúng 43
+- Mã requirement đã đổi so với mốc đã chốt: không có; mã mới: không có.
+- Mã SRS chưa có test case nào: không có.
 - Test case đã bỏ khỏi file: không có.
 - Vấn đề khác: không có
 
@@ -82,7 +82,7 @@ Mã trong cột Nguồn của checklist và test case bỏ tiền tố `LOGIN-`.
 | TL-11 | BA: lần sai thứ 10 báo bị chặn | A6 (phần cuối): Lần sai thứ 10 thì báo bị chặn. | [bang-soat-requirement.md dòng 60](bang-soat-requirement.md#L60) |
 | TL-12 | Suy ra: chặn theo từng tài khoản | A7 (gộp B2): Bị chặn thì chặn đúng tài khoản đã nhập sai, không chặn tài khoản khác. | [bang-soat-requirement.md dòng 61](bang-soat-requirement.md#L61) |
 | TL-13 | Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường | A8: Mật khẩu không có khoảng trắng và phân biệt chữ hoa, chữ thường. Mình hiểu: không cắt khoảng trắng như ô mã; gõ thừa khoảng trắng hoặc sai hoa th… | [bang-soat-requirement.md dòng 62](bang-soat-requirement.md#L62) |
-| TL-14 | B8: Thời hạn phiên đăng nhập là 10 phút. | B8: Thời hạn phiên đăng nhập là 10 phút. | [bang-soat-requirement.md dòng 63](bang-soat-requirement.md#L63) |
+| TL-14 | BA: thời hạn phiên 10 phút | B8: Thời hạn phiên đăng nhập là 10 phút. | [bang-soat-requirement.md dòng 63](bang-soat-requirement.md#L63) |
 
 ## 4. Yêu cầu theo BA của từng mã SRS
 Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA trả lời, kể cả khi SRS (bản quan sát hệ thống 1.3.0) ghi khác. Test case viết theo cột "Theo BA"; chỗ có ⚠️ là nghi lỗi của hệ thống, chưa phải lỗi đã xác nhận. SRS không bị sửa.
@@ -156,7 +156,7 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | S01-AC06 | Tải lại trang khi đã đăng nhập | Không đổi | 1: TC-032 |
 | S01-AC07 | Mở /login khi đã đăng nhập | Không đổi | 1: TC-033 |
 | S01-AC08 | Mở địa chỉ không có thật khi đã đăng nhập | Không đổi | 1: TC-034 |
-| S01-AC09 | Phiên hết hạn sau 10 phút | Mới | ⚠️ chưa có test case |
+| S01-AC09 | Phiên hết hạn sau 10 phút | Không đổi | 2: TC-042, TC-043 |
 | S02-AC01 | Sai mật khẩu | Không đổi | 1: TC-006 |
 | S02-AC02 | Mã nhân viên không tồn tại | Không đổi | 1: TC-007 |
 | S02-AC03 | Bỏ trống Mã nhân viên | Không đổi | 1: TC-008 |
@@ -186,7 +186,7 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | TL-11 | BA: lần sai thứ 10 báo bị chặn | Không đổi | 2: TC-014, TC-015 |
 | TL-12 | Suy ra: chặn theo từng tài khoản | Không đổi | 1: TC-022 |
 | TL-13 | Suy ra: mật khẩu không cắt khoảng trắng, phân biệt hoa thường | Không đổi | 2: TC-012, TC-013 |
-| TL-14 | B8: Thời hạn phiên đăng nhập là 10 phút. | Mới | — |
+| TL-14 | BA: thời hạn phiên 10 phút | Không đổi | 2: TC-042, TC-043 |
 
 ## 6. Từ test case tới requirement
 | Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối | Tự động hóa |
@@ -232,6 +232,8 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | TC-039 | Đã đăng nhập `P100001`, bấm English: vai trò đổi từ "Chuyên viên khách hàng" thành "Banke… | Trung bình | S03-AC04 (Tên vai trò và số đổi theo ngôn ngữ) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-040 | Nhập mã nhân viên rất dài (ví dụ 210 ký tự) + mật khẩu bất kỳ: ra câu chung, không còn dò… | Thấp | M04 (Dòng mã lỗi khi mã quá dài (đã bỏ theo BA)), R03 (Mã nhân viên: độ dài tối đa), S02-AC06 (Mã nhân viên quá dài), TL-03 (BA: mọi ca sai, trống, quá dài báo một câu chung), TL-04 (BA: tự cắt khoảng trắng, p hoa thường đều được) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-041 | Nhìn form đăng nhập: không có ô chọn Workspace, không có quên mật khẩu, đăng ký, "ghi nhớ… | Thấp | TL-04 (BA: tự cắt khoảng trắng, p hoa thường đều được), TL-05 (BA: bỏ mã không gian) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
+| TC-042 | Đã đăng nhập, không thao tác gì khoảng 9 phút rồi tải lại trang (F5): vẫn đăng nhập (chưa… | Trung bình | S01-AC09 (Phiên hết hạn sau 10 phút), TL-14 (BA: thời hạn phiên 10 phút) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
+| TC-043 | Đã đăng nhập, không thao tác gì hơn 10 phút (chọn 10 phút 30 giây) rồi tải lại trang (F5)… | Trung bình | S01-AC09 (Phiên hết hạn sau 10 phút), TL-14 (BA: thời hạn phiên 10 phút) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 
 ## 7. Lịch sử thay đổi
 Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc bấm chốt (kèm múi giờ), không phải giờ BA trả lời hay giờ requirement đổi; mốc cũ chỉ có ngày thì ghi "không rõ giờ". **Commit gốc** là commit đang đứng lúc chốt ("+ sửa chưa commit" nghĩa là còn thay đổi chưa commit); muốn xem từng chữ đã đổi, dùng git. **Ngày BA trả lời** chỉ ghi khi biết.
@@ -244,3 +246,4 @@ Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc b�
 | 2026-11-18 15:48:00 (+07:00) | `46feb45` + sửa chưa commit | — | checklist, test-case | Lịch sử truy vết ghi thời điểm chốt chính xác (giờ phút giây, múi giờ), commit gốc, ngày BA trả lời. Không đổi nội dung test case. | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-13 | — | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 15:55:25 (+07:00) | `46feb45` + sửa chưa commit | — | requirement | SRS: mọi TL-xx, B4, B8 thành link bấm được tới bảng soát và câu hỏi cho BA (62 link, 0 hỏng); thêm điểm nhảy cho 13 dòng TL và 24 câu hỏi. Không đổi nội dung yêu cầu hay test case. | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-13 | — | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 16:09:52 (+07:00) | `f396f56` + sửa chưa commit | — | test-case | Test case thêm 4 cột: Ưu tiên, Kết quả thực tế, Trạng thái, Người viết (bảng 11 cột, script đọc cột theo tên). Nội dung các test case không đổi. | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-13 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038, TC-039, TC-040, TC-041; bỏ 0 |
+| 2026-11-18 17:48:27 (+07:00) | `384d97b` + sửa chưa commit | 2026-11-18 | checklist, test-case | Thêm TC-042, TC-043 cho LOGIN-S01-AC09 (phiên hết hạn sau 10 phút, TL-14); 41 test case cũ không đổi | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-14 | S01-AC09 (mới), TL-14 (mới) | mới 2; sửa 0; bỏ 0 |

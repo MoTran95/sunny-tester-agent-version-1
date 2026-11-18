@@ -259,6 +259,16 @@
    "hash": "505f15abb4f0",
    "ba_hash": null,
    "ngay_chot": "2026-11-18"
+  },
+  "S01-AC09": {
+   "hash": "b0e506ae0183",
+   "ba_hash": "4dba75f94f6b",
+   "ngay_chot": "2026-11-18"
+  },
+  "TL-14": {
+   "hash": "090ead2da0c0",
+   "ba_hash": null,
+   "ngay_chot": "2026-11-18"
   }
  },
  "tc": {
@@ -643,6 +653,24 @@
     "TL-04",
     "TL-05"
    ]
+  },
+  "TC-042": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "ec078a08533d",
+   "ma": [
+    "S01-AC09",
+    "TL-14"
+   ]
+  },
+  "TC-043": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "ac4aaef15bcb",
+   "ma": [
+    "S01-AC09",
+    "TL-14"
+   ]
   }
  },
  "lich_su": [
@@ -926,11 +954,39 @@
     "TC-041"
    ],
    "tc_bo": []
+  },
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T17:48:27+07:00",
+   "commit_goc": "384d97b",
+   "chua_commit": true,
+   "ngay_ba": "2026-11-18",
+   "doi": [
+    "checklist",
+    "test-case"
+   ],
+   "noi_dung": "Thêm TC-042, TC-043 cho LOGIN-S01-AC09 (phiên hết hạn sau 10 phút, TL-14); 41 test case cũ không đổi",
+   "dua_tren": {
+    "srs": "2026-11-18",
+    "bang_soat": "2026-11-18",
+    "tl_cuoi": "TL-14"
+   },
+   "ma_doi": [],
+   "ma_moi": [
+    "S01-AC09",
+    "TL-14"
+   ],
+   "tc_moi": [
+    "TC-042",
+    "TC-043"
+   ],
+   "tc_sua": [],
+   "tc_bo": []
   }
  ],
  "nguon_chot": {
   "srs": "2026-11-18",
   "bang_soat": "2026-11-18",
-  "tl_cuoi": "TL-13"
+  "tl_cuoi": "TL-14"
  }
 }

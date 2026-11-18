@@ -24,6 +24,7 @@
 - Mọi `TL-xx`, `B4`, `B8` trong SRS là link tới điểm nhảy `<a id="tl-11">` (ô cuối dòng TL trong bảng soát) và `<a id="b4">` (trước tiêu đề câu hỏi trong `cau-hoi-cho-ba.md`, 24 câu). Điểm nhảy ở ô không bị băm nên không làm TC bị đánh dấu; **không** đặt trong ô mã/nội dung của dòng TL (script đọc `^| TL-xx |`, băm hai ô đầu). Thêm TL/câu hỏi mới → thêm điểm nhảy + link; kiểm bằng script so link với điểm nhảy (62 link, 0 hỏng).
 
 ## Bẫy
+- TC thêm sau khi requirement đổi lấy số kế tiếp nên xếp cuối bảng, trái luật "Cao trước": khai báo dòng `| Dòng thêm sau khi requirement đổi | TC-042, TC-043 (…) |` ở bảng đầu checklist để `kiem-tra-tc.py` bỏ qua khi kiểm thứ tự (làm 2026-11-18). Phải hỏi người dùng trước khi thêm TC mới.
 - Sửa script qua heredoc Bash/Python: `\n` thành xuống dòng thật làm vỡ chuỗi. Dùng Edit hoặc `chr(92)+"n"`; sau sửa chạy `ast.parse`.
 - Cột Nguồn của TC phải ghi đúng mã (`S02-AC07`, `R06`, `M05`, `TL-11`); mã trong giải thích ngoặc cũng bị tính là nguồn.
 - Script chỉ ghi mã nào đổi, không ghi nội dung cũ.
