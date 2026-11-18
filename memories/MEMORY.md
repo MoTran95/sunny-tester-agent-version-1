@@ -13,7 +13,7 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `conventions/ba-question-wording.md` | viết câu hỏi BA | xưng hô, từ chung, khuôn |
 | `project/skills.md` | dùng/sửa skill | 5 skill, script, trạng thái đã thử |
 | `project/srs-process.md` | làm SRS; hỏi vì sao khuôn thế | quyết định khuôn/ID, bẫy |
-| `project/truy-vet-requirement.md` | requirement đổi; sửa checklist/TC | `truy-vet.py`, lịch sử, bẫy |
+| `project/truy-vet-requirement.md` | requirement đổi; sửa checklist/TC; sửa smoke | `truy-vet.py`, `truy-vet-smoke.py`, neo TC, lịch sử, bẫy |
 | `project/session-speed.md` | than chậm/tốn token; sửa skill/khuôn | số đo, đã làm, rủi ro |
 | `project/git-remote.md` | commit/push | remote, `.env` loại trừ |
 | `project/architecture.md` | thêm thư mục, đổi quyền, máy mới | cấu trúc, script |
@@ -34,4 +34,4 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `modules/banking-lite/feature-gui-tham-dinh.md` | nút Gửi thẩm định | điều kiện bật/tắt |
 | `modules/banking-lite/report-v2-html.md` | sửa báo cáo v2 | build, khoanh nút, bẫy |
 
-Sản phẩm cho người đọc (không phải memory): `testing/chien-luoc-phan-tich-requirement.md` (sách Sunny; đọc khi nhắc "sách"); `testing/banking-lite/<feature>/` gồm `bang-soat-requirement.md`, `cau-hoi-cho-ba.md`, `checklist.md`, `test-case.md`, `truy-vet.md` (`dang-nhap` = LOGIN, `khuyen-nghi-ltv-dsr` = RECO: có `test-case.md` gộp 38 TC, không có `checklist.md`, thêm `phan-tich-requirement.md` cũ). Đọc trước khi làm checklist/test case feature đó.
+Sản phẩm cho người đọc (không phải memory): `testing/chien-luoc-phan-tich-requirement.md` (sách Sunny; đọc khi nhắc "sách"); `testing/banking-lite/<feature>/` gồm `bang-soat-requirement.md`, `cau-hoi-cho-ba.md`, `checklist.md`, `test-case.md`, `truy-vet.md` (`dang-nhap` = LOGIN, `khuyen-nghi-ltv-dsr` = RECO: có `test-case.md` gộp 38 TC, không có `checklist.md`, thêm `phan-tich-requirement.md` cũ). `testing/banking-lite/smoke-test.md` = bộ smoke 7 case chọn từ LOGIN+RECO (15 phút, người dùng chốt 2026-11-18; chưa release note nên chưa có phần "Theo build"; case LOGIN-TC-001 còn `DEFAULT`: đã chốt ghi "Đạt kèm lỗi đã biết", không dừng build). Đọc trước khi làm checklist/test case feature đó.

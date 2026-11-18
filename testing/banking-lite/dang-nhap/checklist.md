@@ -68,7 +68,7 @@ Các ca này còn ❓ trong [bảng soát](bang-soat-requirement.md) và [câu h
 
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet.py, không sửa tay) -->
 ## Lịch sử thay đổi
-Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-18 18:00:24 (+07:00)): Còn đúng 43. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
+Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-18 19:52:41 (+07:00)): Còn đúng 43. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
 
 | Thời điểm chốt (giờ máy) | Commit gốc | Nội dung | Test case mới / sửa / bỏ |
 |---|---|---|---|

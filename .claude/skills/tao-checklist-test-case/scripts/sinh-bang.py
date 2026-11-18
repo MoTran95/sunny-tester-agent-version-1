@@ -44,6 +44,11 @@ def cells(line):
     return [c.strip() for c in line.strip().strip("|").split("|")]
 
 
+def neo(ma):
+    """Ô Mã của test case: thẻ neo để link tới đúng dòng (smoke-test.md, truy vết), script truy vết không tính thẻ này là nội dung."""
+    return f'<a id="{ma.lower()}"></a>{ma}'
+
+
 def table(head, rows):
     out = ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
     out += ["| " + " | ".join(r) + " |" for r in rows]
@@ -58,7 +63,7 @@ def read_table(text):
             if line.startswith("| Mã |"):
                 names = cells(line)
             continue
-        m = re.match(r"^\| (TC-\d+) \|", line)
+        m = re.match(r'^\| (?:<a id="[^"]*"></a>)?(TC-\d+) \|', line)
         if m:
             c = cells(line)
             if len(c) == len(names):
@@ -145,7 +150,7 @@ def lenh_test_case(a):
     for ma in sorted(ck):
         c, k = ca[ma], ck[ma]
         tt, tv, nv, au = keep.get(ma, (" ", "Chưa chạy", a.nguoi_viet, "Chưa có"))
-        rows.append([ma, k["Tình huống"], k["Ưu tiên"], "<br>".join(esc(x) for x in c["dieu_kien"]),
+        rows.append([neo(ma), k["Tình huống"], k["Ưu tiên"], "<br>".join(esc(x) for x in c["dieu_kien"]),
                      "<br>".join(f"{i}. {esc(x)}" for i, x in enumerate(c["buoc"], 1)),
                      "<br>".join(esc(x) for x in c["du_lieu"]), "<br>".join(esc(x) for x in c["ket_qua"]),
                      k["Nguồn"], tt or " ", tv, nv, au or "Chưa có"])
@@ -194,7 +199,7 @@ def lenh_gop(a):
     rows = []
     for c in ca:
         tt, tv, nv, au = keep.get(c["ma"], (" ", "Chưa chạy", a.nguoi_viet, "Chưa có"))
-        rows.append([c["ma"], esc(c["tinh_huong"]), c["uu_tien"], c["ky_thuat"], "<br>".join(esc(x) for x in c["dieu_kien"]),
+        rows.append([neo(c["ma"]), esc(c["tinh_huong"]), c["uu_tien"], c["ky_thuat"], "<br>".join(esc(x) for x in c["dieu_kien"]),
                      "<br>".join(f"{i}. {esc(x)}" for i, x in enumerate(c["buoc"], 1)),
                      "<br>".join(esc(x) for x in c["du_lieu"]), "<br>".join(esc(x) for x in c["ket_qua"]),
                      esc(c["nguon"]), tt or " ", tv, nv, au or "Chưa có"])

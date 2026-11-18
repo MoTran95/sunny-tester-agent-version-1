@@ -85,4 +85,5 @@ Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một l
 - `assets/mau-du-lieu-checklist.json`, `assets/mau-du-lieu-test-case.json` — dữ liệu đầu vào cách cũ (hai file).
 - `scripts/sinh-bang.py` — lệnh `gop` (mặc định) sinh `test-case.md` gộp từ JSON; `checklist` + `test-case` là cách cũ. Giữ bốn cột ghi khi chạy.
 - `scripts/kiem-tra-tc.py` — kiểm đầu ra (chỉ `--test-case` = file gộp; có `--checklist` = cách cũ).
-- Ngoài skill: `scripts/truy-vet.py` (truy vết, dùng chung cho mọi feature), `memories/project/truy-vet-requirement.md`.
+- Ngoài skill: `scripts/truy-vet.py` (truy vết, dùng chung cho mọi feature), `scripts/truy-vet-smoke.py` (smoke test), `memories/project/truy-vet-requirement.md`.
+- Ô Mã của test case có thẻ neo `<a id="tc-005"></a>TC-005` để smoke và tài liệu khác link tới đúng dòng; `sinh-bang.py` tự ghi (không bỏ khi sửa tay). Sửa test case xong có smoke dùng nó thì chạy `truy-vet-smoke.py kiem <dự-án>`.

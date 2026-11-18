@@ -23,6 +23,13 @@
 ## Link từ SRS tới câu trả lời và câu hỏi BA
 - Mọi `TL-xx`, `B4`, `B8` trong SRS là link tới điểm nhảy `<a id="tl-11">` (ô cuối dòng TL trong bảng soát) và `<a id="b4">` (trước tiêu đề câu hỏi trong `cau-hoi-cho-ba.md`, 24 câu). Điểm nhảy ở ô không bị băm nên không làm TC bị đánh dấu; **không** đặt trong ô mã/nội dung của dòng TL (script đọc `^| TL-xx |`, băm hai ô đầu). Thêm TL/câu hỏi mới → thêm điểm nhảy + link; kiểm bằng script so link với điểm nhảy (62 link, 0 hỏng).
 
+## Smoke test truy vết (`scripts/truy-vet-smoke.py`, 2026-11-18)
+- Người dùng muốn smoke có **lịch sử tạo/cập nhật + link về test case** để requirement/TC đổi thì smoke được cập nhật theo. `smoke-test.md` (`testing/<dự-án>/`): cột "Mã case gốc" là link markdown tới `<thư-mục>/test-case.md#tc-005` (script đọc link để biết tính năng + TC), mốc ở `smoke-trang-thai.json` (script tự tạo). Ba khối tự sinh giữa dấu: `TRUY-VET`, `LICH-SU`, và dòng "Cập nhật lần cuối".
+- `kiem` báo từng smoke case: Còn đúng / Cần xem lại (mã requirement mà TC gốc dựa vào đã đổi so với lúc chốt smoke) / Test case đã sửa / Test case không còn; cũng kiểm tổng phút ≤ mức tối đa, TC trùng, link hỏng, cột Phần. `chot -m "…"` ghi lịch sử. Dùng lại hàm băm của `truy-vet.py` nên đồng nhất. Đã thử giả lập đổi hash → bắt đúng. Chốt smoke **sau** khi chốt truy vết tính năng.
+- **Neo dòng test case**: ô Mã của `test-case.md` là `<a id="tc-005"></a>TC-005` (id không có tiền tố, vì link kèm đường dẫn file). `truy-vet.py`, `kiem-tra-tc.py`, `sinh-bang.py` đã sửa regex chấp nhận neo; `sinh-bang.py` tự ghi neo khi sinh bảng `gop`/`test-case` (lệnh `checklist` chưa ghi neo). Đã thêm neo cho 43 TC LOGIN + 38 TC RECO; hash không đổi (81 TC vẫn "Còn đúng").
+- Case mới (chưa có TC gốc) chưa truy vết được bằng script: viết TC gốc trước rồi link. SRS LOGIN chưa có neo theo mã nên bảng truy vết chỉ link được mã RECO và TL của LOGIN.
+- Bài học: lệnh Bash gộp có `git checkout --` trên file tracked bị trình phân loại chặn cả lệnh; thử thay đổi giả lập bằng cách sửa file mốc của chính mình (sao lưu trước), không sửa SRS/TC.
+
 ## Bẫy
 - TC thêm sau khi requirement đổi lấy số kế tiếp nên xếp cuối bảng, trái luật "Cao trước": khai báo dòng `| Dòng thêm sau khi requirement đổi | TC-042, TC-043 (…) |` ở bảng đầu checklist để `kiem-tra-tc.py` bỏ qua khi kiểm thứ tự (làm 2026-11-18). Phải hỏi người dùng trước khi thêm TC mới.
 - Sửa script qua heredoc Bash/Python: `\n` thành xuống dòng thật làm vỡ chuỗi. Dùng Edit hoặc `chr(92)+"n"`; sau sửa chạy `ast.parse`.

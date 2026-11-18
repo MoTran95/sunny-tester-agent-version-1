@@ -1,0 +1,161 @@
+{
+ "case": {
+  "dang-nhap/TC-005": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "7b602cd913f0",
+   "ma": {
+    "M07": {
+     "hash": "d7c4552a3a88",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "R01": {
+     "hash": "0b762b63fb39",
+     "ba_hash": "e92d1ddc9d42"
+    },
+    "R08": {
+     "hash": "7bba4ba50532",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "S01-AC01": {
+     "hash": "d13831240388",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "TL-04": {
+     "hash": "872b30229470",
+     "ba_hash": null
+    }
+   }
+  },
+  "dang-nhap/TC-001": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "874bedfd980f",
+   "ma": {
+    "R05": {
+     "hash": "c6a67abebd4a",
+     "ba_hash": "54252341552a"
+    },
+    "S01-AC02": {
+     "hash": "08ac33d9778f",
+     "ba_hash": "77693246d074"
+    },
+    "TL-05": {
+     "hash": "42a89a86e071",
+     "ba_hash": null
+    },
+    "TL-07": {
+     "hash": "c738acb48580",
+     "ba_hash": null
+    }
+   }
+  },
+  "khuyen-nghi-ltv-dsr/TC-002": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "c6cdf480503e",
+   "ma": {
+    "M02": {
+     "hash": "a0cfc54cf81c",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "M03": {
+     "hash": "03e173a7af08",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "S01-AC02": {
+     "hash": "e3a41c4cc822",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "S03-AC01": {
+     "hash": "dffce2b59092",
+     "ba_hash": "da39a3ee5e6b"
+    }
+   }
+  },
+  "khuyen-nghi-ltv-dsr/TC-023": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "11b360a076f7",
+   "ma": {
+    "R02": {
+     "hash": "b9978d62c370",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "S01-AC03": {
+     "hash": "cdd38ef22c13",
+     "ba_hash": "da39a3ee5e6b"
+    }
+   }
+  },
+  "khuyen-nghi-ltv-dsr/TC-009": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "07f587002874",
+   "ma": {
+    "M07": {
+     "hash": "d015cb137888",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "R03": {
+     "hash": "5fcd2e15a9f3",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "S01-AC09": {
+     "hash": "dcdf8c8b87c7",
+     "ba_hash": "da39a3ee5e6b"
+    }
+   }
+  },
+  "khuyen-nghi-ltv-dsr/TC-022": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "a26e5e9923d6",
+   "ma": {
+    "M11": {
+     "hash": "b28f98ecb030",
+     "ba_hash": "da39a3ee5e6b"
+    },
+    "S05-AC01": {
+     "hash": "f36aa740a105",
+     "ba_hash": "da39a3ee5e6b"
+    }
+   }
+  },
+  "dang-nhap/TC-002": {
+   "tao": "2026-11-18",
+   "sua": "2026-11-18",
+   "row_hash": "e74cb91dcb47",
+   "ma": {
+    "S01-AC02": {
+     "hash": "08ac33d9778f",
+     "ba_hash": "77693246d074"
+    }
+   }
+  }
+ },
+ "lich_su": [
+  {
+   "ngay": "2026-11-18",
+   "thoi_diem": "2026-11-18T19:54:27+07:00",
+   "commit_goc": "cf37198",
+   "chua_commit": true,
+   "nguoi": "Sunny Tran",
+   "noi_dung": "Lập bộ smoke 7 case (15 phút) từ test case Đăng nhập và Khuyến nghị LTV/DSR; dòng 2 chấp nhận Đạt kèm lỗi đã biết (chữ DEFAULT)",
+   "loai": "Tạo",
+   "case_moi": [
+    "dang-nhap/TC-005",
+    "dang-nhap/TC-001",
+    "khuyen-nghi-ltv-dsr/TC-002",
+    "khuyen-nghi-ltv-dsr/TC-023",
+    "khuyen-nghi-ltv-dsr/TC-009",
+    "khuyen-nghi-ltv-dsr/TC-022",
+    "dang-nhap/TC-002"
+   ],
+   "case_xem_lai": [],
+   "case_bo": [],
+   "tong_phut": 10.5,
+   "so_case": 7
+  }
+ ]
+}

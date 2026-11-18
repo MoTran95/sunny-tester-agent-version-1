@@ -147,7 +147,7 @@ def parse_tc(text):
             if line.startswith("| Mã |"):
                 names = cells(line)
             continue
-        m = re.match(r"^\| (TC-\d+) \|", line)
+        m = re.match(r'^\| (?:<a id="[^"]*"></a>)?(TC-\d+) \|', line)
         if not m:
             continue
         c = cells(line)
