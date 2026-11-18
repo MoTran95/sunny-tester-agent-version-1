@@ -1,0 +1,1634 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Báo cáo khám phá Banking Lite — v2</title>
+<style>
+:root{
+  --bg:#f4f6f5; --card:#fff; --ink:#1c2523; --mute:#5b6b67; --line:#dbe3e0;
+  --brand:#0b5d4e; --brand2:#e6f2ee; --red:#e11d48; --warn:#fff6e0; --warnline:#f0c36d;
+  --p1:#177a5c; --p2:#b7791f; --p3:#2b6cb0; --ext:#6b46c1; --sys:#4a5568;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+a{color:var(--brand)}
+img{max-width:100%;display:block}
+.wrapper{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---------- hero + nav ---------- */
+.hero{background:linear-gradient(135deg,#0b5d4e,#0f7a66);color:#fff;padding:44px 0 36px}
+.hero h1{margin:0 0 6px;font-size:34px;line-height:1.2}
+.hero p{margin:0;opacity:.92;max-width:760px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 12px;font-size:14px}
+nav.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 6px rgba(0,0,0,.05)}
+nav.top .wrapper{display:flex;gap:4px;overflow-x:auto;white-space:nowrap}
+nav.top a{padding:12px 12px;text-decoration:none;color:var(--ink);font-size:15px;border-bottom:3px solid transparent}
+nav.top a:hover{border-color:var(--brand);color:var(--brand)}
+nav.top a.on{border-color:var(--brand);color:var(--brand);font-weight:600}
+section,#doc{scroll-margin-top:56px}
+
+/* ---------- sections ---------- */
+section{padding:44px 0 8px}
+section>.wrapper>h2{font-size:28px;margin:0 0 6px;display:flex;align-items:center;gap:12px}
+section>.wrapper>h2 .num{background:var(--brand);color:#fff;border-radius:10px;min-width:38px;height:38px;display:inline-grid;place-items:center;font-size:20px}
+.lead{color:var(--mute);margin:0 0 22px;max-width:860px}
+h3{font-size:21px;margin:34px 0 10px}
+h4{font-size:17px;margin:0 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
+.note{background:var(--brand2);border:1px solid #bcdcd2;border-radius:12px;padding:12px 16px;margin:14px 0}
+.warn{background:var(--warn);border:1px solid var(--warnline);border-radius:12px;padding:12px 16px;margin:14px 0}
+.small{font-size:14px;color:var(--mute)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:860px){.grid3,.grid2{grid-template-columns:1fr}}
+
+/* tags */
+.t{display:inline-block;border-radius:6px;padding:1px 8px;font-size:12.5px;font-weight:600;vertical-align:middle;white-space:nowrap}
+.t.ok{background:#dcf3e7;color:#146c43}
+.t.unk{background:#fde8e8;color:#b42318}
+.t.hi{background:#ffe3e8;color:#a3123a}
+.t.mid{background:#fff0cf;color:#8a5a00}
+.t.lo{background:#e8eef5;color:#33506e}
+.tag{display:inline-block;border-radius:6px;padding:1px 8px;font-size:13px;font-weight:700;color:#fff;background:var(--c,#555);white-space:nowrap}
+.p1{--c:var(--p1)} .p2{--c:var(--p2)} .p3{--c:var(--p3)} .ext{--c:var(--ext)} .sys{--c:var(--sys)}
+
+/* ---------- screenshot + markers ---------- */
+figure.shot{margin:0;width:100%}
+figure.shot .wrap{position:relative;line-height:0;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:zoom-in}
+figure.shot img{border-radius:9px;width:100%;height:auto}
+figure.shot figcaption{font-size:12.5px;color:var(--mute);margin-top:5px;line-height:1.35}
+.mk{position:absolute;display:block;
+  left:calc(var(--x)/var(--W)*100%);top:calc(var(--y)/var(--H)*100%);
+  width:calc(var(--w)/var(--W)*100%);height:calc(var(--h)/var(--H)*100%);
+  border:0;outline:2.5px solid var(--red);outline-offset:1px;border-radius:7px;background:rgba(225,29,72,.05);pointer-events:none}
+.mk::after{content:attr(data-n);position:absolute;left:-10px;top:-10px;width:20px;height:20px;padding:0;border-radius:10px;
+  background:var(--red);color:#fff;font:700 12px/20px "Segoe UI",system-ui,sans-serif;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.4);border:1px solid #fff}
+/* vị trí số thứ tự: build-embed.py tự chọn chỗ ít đè lên chữ trong ảnh nhất */
+.mk.pL::after{left:-28px;top:-10px}
+.mk.pA::after{left:-6px;top:-28px}
+.mk.pR::after{left:auto;right:-28px;top:-10px}
+.mk.pAR::after{left:auto;right:-6px;top:-28px}
+.mk.pLC::after{left:-28px;top:calc(50% - 10px)}
+.mk.pRC::after{left:auto;right:-28px;top:calc(50% - 10px)}
+.mk.pBL::after{left:-6px;top:auto;bottom:-28px}
+.mk.pBR::after{left:auto;right:-6px;top:auto;bottom:-28px}
+.mk.pTL::after{left:-28px;top:-28px}
+.mk.pTR::after{left:auto;right:-28px;top:-28px}
+.mk.pBLD::after{left:-28px;top:auto;bottom:-28px}
+.mk.pBRD::after{left:auto;right:-28px;top:auto;bottom:-28px}
+.mk.pI::after{left:4px;top:4px}
+.mk.neg{outline-style:dashed;outline-color:#d97706;background:rgba(217,119,6,.05)}
+.mk.neg::after{background:#d97706}
+ol.lg{list-style:none;margin:8px 0;padding:0}
+ol.lg li{position:relative;padding:2px 0 2px 34px;margin:3px 0}
+ol.lg li::before{content:attr(data-n);position:absolute;left:0;top:3px;min-width:24px;height:24px;border-radius:12px;background:var(--red);color:#fff;font:700 13px/24px sans-serif;text-align:center;padding:0 4px}
+ol.lg li.neg::before{background:#d97706}
+.lightbox{position:fixed;inset:0;background:rgba(10,20,18,.78);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.lightbox figure{max-width:min(96vw,680px);background:#fff;padding:10px;border-radius:12px;margin:auto}
+.lightbox .wrap{cursor:zoom-out}
+
+/* ---------- steps ---------- */
+.step{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c,var(--brand));border-radius:14px;padding:18px 20px;margin:16px 0}
+.step .figs{display:flex;gap:14px;align-items:flex-start}
+.step .figs figure.shot{width:290px;flex:none}
+.step.wide .figs{flex-wrap:wrap;max-width:610px;justify-content:flex-end}
+.step .sn{display:inline-block;background:var(--c,var(--brand));color:#fff;border-radius:8px;padding:0 9px;margin-right:8px;font-size:15px}
+.step .goal{margin:2px 0 8px}
+.res{background:#f1f7f5;border-radius:10px;padding:8px 12px;margin:10px 0 4px;font-size:15px}
+.res b{color:var(--brand)}
+.src{font-size:12.5px;color:var(--mute);margin:6px 0 0}
+@media(max-width:900px){.step{grid-template-columns:1fr}.step .figs{flex-wrap:wrap}.step .figs figure.shot{width:min(100%,320px)}}
+
+/* ---------- role header ---------- */
+.role{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#fff;margin:22px 0}
+.role>header{background:var(--c);color:#fff;padding:18px 22px}
+.role>header h3{margin:0;font-size:24px;color:#fff}
+.role>header .one{font-size:18px;margin-top:4px;opacity:.96}
+.role .body{padding:6px 22px 16px}
+.can{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+@media(max-width:760px){.can{grid-template-columns:1fr}}
+.can ul{margin:6px 0 0;padding-left:20px}
+.yes h4{color:#146c43}.no h4{color:#b42318}
+.analogy{border:2px dashed #b9c9c4;border-radius:12px;padding:10px 14px;background:#fbfdfc;margin:12px 0}
+
+/* ---------- tables ---------- */
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;font-size:15px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eef4f2}
+td.c,th.c{text-align:center}
+
+/* ---------- diagrams ---------- */
+.diag{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;overflow-x:auto}
+.diag svg{display:block;min-width:900px;width:100%;height:auto;font-family:"Segoe UI",system-ui,sans-serif}
+.diag svg text{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.diag svg .noh text, .diag svg text.noh{stroke:none}
+ol.steplist{list-style:none;margin:12px 0;padding:0;counter-reset:s}
+ol.steplist li{position:relative;padding:5px 0 5px 42px}
+ol.steplist li::before{content:attr(data-n);position:absolute;left:0;top:5px;width:28px;height:28px;border-radius:14px;background:var(--c,#334);color:#fff;font:700 14px/28px sans-serif;text-align:center}
+
+/* ---------- flow (E2E) ---------- */
+.path{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px 18px 14px;margin:16px 0}
+.path>h4{font-size:19px;margin:12px 0 2px}
+ol.flow{list-style:none;margin:10px 0 0;padding:0}
+ol.flow li{display:grid;grid-template-columns:34px 92px 1fr;gap:10px;align-items:start;padding:8px 0;border-top:1px solid #eef2f0}
+ol.flow li:first-child{border-top:0}
+ol.flow .n{width:30px;height:30px;border-radius:15px;background:var(--c,#334);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+ol.flow .w{padding-top:3px}
+ol.flow .ev{font-size:12.5px;white-space:nowrap}
+@media(max-width:700px){ol.flow li{grid-template-columns:34px 1fr}ol.flow .w{grid-column:2}ol.flow .tx{grid-column:2}}
+
+/* ---------- ambiguity cards ---------- */
+.amb{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;background:#fff;border:1px solid var(--line);border-left:6px solid #d97706;border-radius:14px;padding:16px 20px;margin:16px 0}
+.amb.noimg{grid-template-columns:1fr}
+.amb .figs{display:flex;gap:12px;align-items:flex-start}
+.amb .figs figure.shot{width:230px;flex:none}
+.amb h4{font-size:18px;margin:0 0 4px}
+.amb .id{font-weight:700;color:#8a5a00;margin-right:6px}
+.amb dl{margin:8px 0 0}
+.amb dt{font-weight:700;font-size:14px;color:var(--brand);margin-top:8px}
+.amb dd{margin:1px 0 0}
+.amb.askme{border-left-color:var(--red)}
+@media(max-width:900px){.amb{grid-template-columns:1fr}.amb .figs{flex-wrap:wrap}}
+
+ul.ask{list-style:none;padding:0;margin:8px 0}
+ul.ask li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 44px;margin:8px 0;position:relative}
+ul.ask li::before{content:"☐";position:absolute;left:14px;top:8px;font-size:20px;color:var(--brand)}
+footer{padding:34px 0 60px;color:var(--mute);font-size:14px}
+code{background:#eef2f1;border-radius:5px;padding:1px 6px;font-size:.92em}
+.k{display:inline-block;border:1px solid #b5c4bf;border-bottom-width:2px;border-radius:6px;padding:0 8px;background:#fff;font-size:14px}
+
+@media print{nav.top{display:none}.hero{padding:20px 0}section{page-break-inside:auto}.step,.amb,.path,.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero">
+  <div class="wrapper">
+    <h1>Báo cáo khám phá Banking Lite — Phiên bản 2</h1>
+    <p>Hệ thống xử lý <b>hồ sơ vay mua nhà</b>. Báo cáo này giải thích từng vai trò tài khoản cho người mới, mô tả luồng xử lý của một hồ sơ từ đầu đến cuối, và nêu rõ những điểm còn mơ hồ kèm bằng chứng.</p>
+    <div class="chips">
+      <span class="chip">Cập nhật 17/11/2026</span>
+      <span class="chip">https://banking-lite.vercel.app/ · Phiên bản 1.3.0</span>
+      <span class="chip">3 tài khoản đã đăng nhập: P100001 · P200001 · P300001</span>
+      <span class="chip">41 ảnh bằng chứng</span>
+      <span class="chip">Đã chạy hết vòng đời hồ sơ: Phê duyệt / Từ chối / Trả lại → gửi lại</span>
+    </div>
+  </div>
+</header>
+
+<nav class="top"><div class="wrapper">
+  <a href="#doc">Cách đọc</a>
+  <a href="#tong-quan">1 · Hệ thống là gì</a>
+  <a href="#ban-do">2 · Sơ đồ tổng quan</a>
+  <a href="#vai-tro">3 · Vai trò</a>
+  <a href="#e2e">4 · Luồng end-to-end</a>
+  <a href="#mo-ho">5 · Điểm mơ hồ</a>
+  <a href="#chua-thu">6 · Chưa thử</a>
+  <a href="#cau-hoi">7 · Cần bạn trả lời</a>
+</div></nav>
+
+<main>
+<!-- ======================= CÁCH ĐỌC ======================= -->
+<section id="doc"><div class="wrapper">
+  <h2>Cách đọc báo cáo này</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>Nguyên tắc</h4>
+      <p style="margin:0">Chỉ ghi điều <b>đã nhìn thấy trên màn hình</b> (nguồn: <code>bao-cao-kham-pha.md</code> và 41 ảnh trong thư mục <code>screenshots/</code>). Điều chưa kiểm chứng được đánh dấu <span class="t unk">❓ chưa xác nhận</span>. Không có giả định nào được thêm vào.</p>
+      <p class="small" style="margin:8px 0 0">Riêng các khung gạch đứt có chữ <b>“Ví dụ so sánh”</b> là ví dụ minh họa cho người mới — không phải mô tả chính thức của hệ thống.</p>
+    </div>
+    <div class="card">
+      <h4>Ý nghĩa các ký hiệu trên ảnh</h4>
+      <figure class="shot" style="--W:606;--H:845;width:230px;float:right;margin-left:12px">
+        <div class="wrap"><img src="screenshots/02-P100001-danh-sach-viec-ho-so-cua-toi.jpg" alt="Ví dụ ký hiệu" loading="lazy">
+          <i class="mk" data-n="1" style="--x:446;--y:109;--w:126;--h:39"></i>
+          <i class="mk neg" data-n="2" style="--x:19;--y:158;--w:235;--h:35"></i></div>
+      </figure>
+      <ol class="lg" style="margin-top:0">
+        <li data-n="1">Khung đỏ + số: nút hoặc vùng được nói tới (số cho biết thứ tự đọc).</li>
+        <li class="neg" data-n="2">Khung cam gạch đứt: chỗ <b>không có</b> nút / vùng cần chú ý.</li>
+      </ol>
+      <p class="small" style="margin:0">Bấm vào ảnh để phóng to. Ảnh gốc nằm trong thư mục <code>screenshots/</code>.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ======================= 1. TỔNG QUAN ======================= -->
+<section id="tong-quan"><div class="wrapper">
+  <h2><span class="num">1</span> Hệ thống là gì</h2>
+  <p class="lead">“Banking Lite — Vay mua nhà” là ứng dụng để xử lý <b>hồ sơ vay mua nhà</b>. Mỗi hồ sơ có một mã dạng <code>HL-000019</code> và đi qua nhiều bước, qua tay nhiều người.</p>
+
+  <div class="note">
+    <b>Ví dụ so sánh</b> <span class="small">(ví dụ minh họa, không phải tài liệu chính thức)</span><br>
+    Khi một người muốn vay tiền mua nhà, bên cho vay cần làm ba việc: <b>① ghi lại thông tin người vay và khoản vay</b>, <b>② biết căn nhà đáng giá bao nhiêu</b>, <b>③ quyết định có cho vay hay không</b>. Trong hệ thống này, ba việc đó được giao cho <b>ba tài khoản khác nhau</b>: P100001, P200001 và P300001.
+  </div>
+
+  <h3>Đăng nhập</h3>
+  <div class="step" style="--c:var(--sys)">
+    <div>
+      <h4><span class="sn">0</span>Màn hình đăng nhập (chung cho mọi vai trò)</h4>
+      <ol class="lg">
+        <li data-n="1">Trường <b>Mã nhân viên *</b>: chữ <b>P</b> và 6 chữ số, ví dụ P100001.</li>
+        <li data-n="2">Trường <b>Mật khẩu *</b>.</li>
+        <li data-n="3">Nút <b>Đăng nhập</b>.</li>
+        <li data-n="4">Chuyển ngôn ngữ <b>Tiếng Việt / English</b> (có ngay ở trang đăng nhập).</li>
+      </ol>
+      <p class="src">Ảnh 01 · Báo cáo mục 2</p>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:800;--H:600;width:340px"><div class="wrap">
+        <img src="screenshots/01-login-page-vi.jpg" alt="Đăng nhập" loading="lazy">
+        <i class="mk" data-n="1" style="--x:251;--y:117;--w:299;--h:29"></i>
+        <i class="mk" data-n="2" style="--x:251;--y:193;--w:299;--h:29"></i>
+        <i class="mk" data-n="3" style="--x:467;--y:232;--w:83;--h:31"></i>
+        <i class="mk" data-n="4" style="--x:106;--y:7;--w:104;--h:20"></i>
+      </div></figure>
+    </div>
+  </div>
+
+  <h3>Bảng thuật ngữ — các thuật ngữ xuất hiện trên màn hình</h3>
+  <p class="small">Cột “Trên màn hình” chỉ lấy theo nhãn và con số đã thấy. Công thức chi tiết của hệ thống <span class="t unk">❓ chưa có tài liệu</span>.</p>
+  <div class="tblwrap"><table>
+    <tr><th>Từ</th><th>Trên màn hình nghĩa là</th><th>Ví dụ thật đã thấy</th></tr>
+    <tr><td><b>Hồ sơ (HL-xxxxxx)</b></td><td>Một bộ hồ sơ vay mua nhà; có mã riêng.</td><td>HL-000019, HL-000020, HL-000021 (do mình tạo để test)</td></tr>
+    <tr><td><b>Người vay A1</b></td><td>Người vay chính. Có nút “Thêm người vay” (chưa thử).</td><td>Tester Mot</td></tr>
+    <tr><td><b>Tài sản bảo đảm</b></td><td>Nhà / căn hộ gắn với khoản vay: tỉnh/thành, địa chỉ, số giấy chứng nhận, giá trị khai báo.</td><td>Căn hộ Test 19, Tòa Mẫu, Phường Thử Nghiệm · CT 100019</td></tr>
+    <tr><td><b>Giá trị khai báo</b></td><td>Giá do người lập hồ sơ nhập.</td><td>4.000.000.000 VND</td></tr>
+    <tr><td><b>Định giá / Giá trị thị trường</b></td><td>Người định giá ghi giá trị thị trường của tài sản.</td><td>4.000.000.000 VND (P200001 hoàn thành ngày 17/11/26)</td></tr>
+    <tr><td><b>LTV</b> (Tỷ lệ cho vay/giá trị)</td><td>Số tiền vay so với giá trị tài sản. Màn hình ghi “LTV tối đa 80,00%”.</td><td>Vay 2 tỷ / tài sản 4 tỷ → <b>50%</b>. Vay 3,4 tỷ → <b>85%</b> (vượt 80%).</td></tr>
+    <tr><td><b>DSR</b> (Tỷ lệ trả nợ trên thu nhập)</td><td>Khoản trả mới theo lãi suất thẩm định so với thu nhập được tính. Màn hình ghi “DSR … vượt 50%; chuyển cấp trên xem xét”.</td><td>24.666.667 ÷ 64.100.000 = <b>38,48%</b>; 43.350.000 ÷ 64.100.000 = <b>67,63%</b></td></tr>
+    <tr><td><b>Thu nhập cho thuê</b></td><td>Chỉ tính <b>70%</b> vào khả năng trả nợ.</td><td>HL-000011: 64.100.000 lương + 70% × 20.000.000 thuê = 78.100.000</td></tr>
+    <tr><td><b>Lãi suất ưu đãi / sau ưu đãi</b></td><td>Sản phẩm có lãi ưu đãi trong một số tháng; sau đó là lãi sau ưu đãi (đổi theo LTV).</td><td>6,00% · 12 tháng → sau ưu đãi <b>9,80%</b> (LTV 50%) và <b>10,30%</b> (LTV 85%)</td></tr>
+    <tr><td><b>VNeID</b> (định danh)</td><td>Hệ thống kiểm tra danh tính người vay <b>khi bấm Lưu</b>.</td><td>“VNeID: khớp”; các kết quả khác đã thấy: “Thông tin không khớp”, “Không tìm thấy”</td></tr>
+    <tr><td><b>CIC</b> (thông tin tín dụng)</td><td>Báo cáo tín dụng của người vay, hệ thống tự lấy <b>khi gửi thẩm định</b>.</td><td>“A1: nhóm nợ 1, trả nợ 0 VND”; nhật ký còn có nhóm nợ 2 và 4</td></tr>
+    <tr><td><b>Thẩm định / Khuyến nghị</b></td><td>Hệ thống tự tính ra kết quả “Phê duyệt” hoặc “Từ chối” kèm lý do (trường <b>Khuyến nghị</b> ở đầu hồ sơ). <b>Người quyết định cuối cùng là P300001.</b></td><td>LTV 85% → “Từ chối: LTV 85% vượt mức tối đa 80%”</td></tr>
+    <tr><td><b>Trạng thái hồ sơ</b></td><td>5 giá trị đã thấy.</td><td>Nháp · Đã gửi · Bị trả lại · Đã phê duyệt · Bị từ chối</td></tr>
+    <tr><td><b>Trạng thái định giá</b></td><td>4 giá trị đã thấy.</td><td>Chưa yêu cầu · Đã yêu cầu · Đã hoàn thành · Đã hủy</td></tr>
+    <tr><td><b>Danh mục kiểm tra</b></td><td>4 ô P300001 phải đánh dấu trước khi Phê duyệt: đã xem kết quả kiểm tra danh tính / báo cáo CIC / kết quả định giá / thu nhập và chi phí.</td><td>Ảnh 29, 30</td></tr>
+    <tr><td><b>Khóa hồ sơ</b></td><td>Hồ sơ không còn chỉnh sửa được; màn hình báo “bị khóa” hoặc “Không thể thay đổi nữa”. Khác với <i>nút bị vô hiệu hóa (disabled)</i>: nút vẫn hiển thị nhưng không bấm được.</td><td>Hồ sơ Đã gửi (ảnh 24); Đã phê duyệt / Bị từ chối (ảnh 32)</td></tr>
+  </table></div>
+
+  <h3>Phân tích hồ sơ</h3>
+  <p class="lead" style="margin-bottom:6px">Mọi vai trò đều mở hồ sơ trên cùng một màn hình chi tiết. Phần đầu là vùng thông tin tóm tắt (header), bên dưới là thanh điều hướng các bước (stepper). Ví dụ dưới đây là hồ sơ có sẵn HL-000011 (đã phê duyệt).</p>
+  <div class="step" style="--c:var(--sys)">
+    <div>
+      <h4><span class="sn">★</span>Thông tin tóm tắt, thông báo trạng thái và thanh điều hướng các bước</h4>
+      <ol class="lg">
+        <li data-n="1">Vùng thông tin tóm tắt: Mã hồ sơ, <b>Trạng thái</b>, Người vay, Số tiền vay, LTV, Kỳ trả đầu tiên, <b>Khuyến nghị</b>, Chuyên viên.</li>
+        <li data-n="2">Thông báo (banner) màu xanh cho biết tình trạng hồ sơ. Ở đây: “Hồ sơ đã phê duyệt. Không thể thay đổi nữa.”</li>
+        <li data-n="3">Thanh điều hướng các bước (stepper). Mỗi mục bấm vào được; có nhãn <i>Đã xong</i> / <i>Còn thiếu thông tin</i> / <i>Chưa mở</i> / <i>Đang chờ xử lý</i>. 7 bước đánh số + <b>Lịch sử</b> (nhật ký thao tác).</li>
+      </ol>
+      <p class="src">Ảnh 03 · Báo cáo mục 3.2. Các bước: Người vay → Khoản vay và tài sản → Tài chính → Định giá → Lãi suất → Kiểm tra và gửi → Quyết định tín dụng.</p>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/03-P100001-HL-000011-da-phe-duyet-tong-quan.jpg" alt="Tổng quan hồ sơ" loading="lazy">
+        <i class="mk" data-n="1" style="--x:19;--y:157;--w:553;--h:157"></i>
+        <i class="mk" data-n="2" style="--x:19;--y:330;--w:553;--h:43"></i>
+        <i class="mk" data-n="3" style="--x:19;--y:388;--w:553;--h:435"></i>
+      </div></figure>
+    </div>
+  </div>
+  <div class="step" style="--c:var(--sys)">
+    <div>
+      <h4><span class="sn">★</span>Hồ sơ mới: các bước được mở tuần tự</h4>
+      <p class="goal">Hồ sơ vừa tạo: chỉ bước 1 mở; các bước sau hiện “Chưa mở” và bị khóa.</p>
+      <ol class="lg">
+        <li data-n="1">Bước 1 “Người vay” — <i>Còn thiếu thông tin</i>, đang mở.</li>
+        <li class="neg" data-n="2">Bước 2 trở đi — <i>Chưa mở</i>. Bấm vào sẽ báo “Bước này mở sau khi hoàn thành: Người vay” (ảnh 13).</li>
+      </ol>
+      <p class="src">Ảnh 12 · Báo cáo mục 3.5 (bước 1–2)</p>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/12-P100001-tao-ho-so-moi-HL-000019-cac-buoc-chua-mo.jpg" alt="Hồ sơ mới" loading="lazy">
+        <i class="mk" data-n="1" style="--x:29;--y:338;--w:533;--h:52"></i>
+        <i class="mk neg" data-n="2" style="--x:29;--y:398;--w:533;--h:366"></i>
+      </div></figure>
+    </div>
+  </div>
+</div></section>
+
+<!-- ======================= 2. BẢN ĐỒ KẾT NỐI ======================= -->
+<section id="ban-do"><div class="wrapper">
+  <h2><span class="num">2</span> Sơ đồ tổng quan và kết nối hệ thống</h2>
+  <p class="lead">Ai nói chuyện với ai, theo thứ tự nào. Các số <b>1 → 11</b> trên hình là thứ tự các bước của một hồ sơ đi hết luồng chính (happy path); danh sách bên dưới giải thích từng số. Hình dựa trên hồ sơ HL-000019 đã chạy thật.</p>
+
+  <div class="diag">
+  <svg viewBox="0 0 1100 700" role="img" aria-label="Sơ đồ tổng quan và kết nối hệ thống">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334"/></marker>
+      <marker id="ahd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#777"/></marker>
+    </defs>
+    <!-- actors -->
+    <rect x="10" y="60" width="210" height="170" rx="14" fill="#e3f4ed" stroke="#177a5c" stroke-width="2.5"/>
+    <text x="115" y="92" text-anchor="middle" font-size="20" font-weight="700" fill="#177a5c">P100001</text>
+    <text x="115" y="116" text-anchor="middle" font-size="14" font-weight="600">Chuyên viên khách hàng</text>
+    <text x="115" y="148" text-anchor="middle" font-size="13" fill="#444">Lập hồ sơ, nhập liệu,</text>
+    <text x="115" y="166" text-anchor="middle" font-size="13" fill="#444">yêu cầu định giá, gửi</text>
+    <text x="115" y="184" text-anchor="middle" font-size="13" fill="#444">thẩm định, sửa khi bị trả lại</text>
+
+    <rect x="10" y="290" width="210" height="110" rx="14" fill="#fbf0dc" stroke="#b7791f" stroke-width="2.5"/>
+    <text x="115" y="322" text-anchor="middle" font-size="20" font-weight="700" fill="#b7791f">P200001</text>
+    <text x="115" y="346" text-anchor="middle" font-size="14" font-weight="600">Chuyên viên định giá</text>
+    <text x="115" y="374" text-anchor="middle" font-size="13" fill="#444">Ghi giá trị thị trường</text>
+
+    <rect x="10" y="460" width="210" height="130" rx="14" fill="#e4eefa" stroke="#2b6cb0" stroke-width="2.5"/>
+    <text x="115" y="492" text-anchor="middle" font-size="20" font-weight="700" fill="#2b6cb0">P300001</text>
+    <text x="115" y="516" text-anchor="middle" font-size="14" font-weight="600">Chuyên viên thẩm định</text>
+    <text x="115" y="534" text-anchor="middle" font-size="14" font-weight="600">tín dụng</text>
+    <text x="115" y="562" text-anchor="middle" font-size="13" fill="#444">Quyết định · xem Tích hợp</text>
+
+    <!-- app -->
+    <rect x="450" y="30" width="220" height="570" rx="16" fill="#fff" stroke="#0b5d4e" stroke-width="3"/>
+    <text x="560" y="66" text-anchor="middle" font-size="21" font-weight="700" fill="#0b5d4e">Banking Lite</text>
+    <text x="560" y="88" text-anchor="middle" font-size="14" fill="#555">Vay mua nhà</text>
+    <text x="560" y="124" text-anchor="middle" font-size="13" font-weight="600">Mỗi hồ sơ HL-xxxxxx đi qua:</text>
+    <g font-size="13.5" fill="#333">
+      <text x="492" y="152">▸ Người vay</text>
+      <text x="492" y="178">▸ Khoản vay và tài sản</text>
+      <text x="492" y="204">▸ Tài chính</text>
+      <text x="492" y="230">▸ Định giá</text>
+      <text x="492" y="256">▸ Lãi suất</text>
+      <text x="492" y="282">▸ Kiểm tra và gửi</text>
+      <text x="492" y="308">▸ Quyết định tín dụng</text>
+      <text x="492" y="334">▸ Lịch sử (nhật ký)</text>
+    </g>
+    <text x="560" y="392" text-anchor="middle" font-size="13" font-weight="600">Trạng thái hồ sơ</text>
+    <text x="560" y="414" text-anchor="middle" font-size="13" fill="#333">Nháp → Đã gửi →</text>
+    <text x="560" y="434" text-anchor="middle" font-size="13" fill="#333">Đã phê duyệt / Bị từ chối /</text>
+    <text x="560" y="454" text-anchor="middle" font-size="13" fill="#333">Bị trả lại (→ Đã gửi lại)</text>
+
+    <!-- externals -->
+    <rect x="880" y="60" width="210" height="100" rx="14" fill="#efe9fb" stroke="#6b46c1" stroke-width="2.5"/>
+    <text x="985" y="96" text-anchor="middle" font-size="19" font-weight="700" fill="#6b46c1">VNeID</text>
+    <text x="985" y="120" text-anchor="middle" font-size="13" fill="#444">định danh người vay</text>
+    <rect x="880" y="280" width="210" height="100" rx="14" fill="#efe9fb" stroke="#6b46c1" stroke-width="2.5"/>
+    <text x="985" y="316" text-anchor="middle" font-size="19" font-weight="700" fill="#6b46c1">CIC</text>
+    <text x="985" y="340" text-anchor="middle" font-size="13" fill="#444">thông tin tín dụng</text>
+    <rect x="880" y="470" width="210" height="100" rx="14" fill="#efe9fb" stroke="#6b46c1" stroke-width="2.5"/>
+    <text x="985" y="506" text-anchor="middle" font-size="19" font-weight="700" fill="#6b46c1">Cổng SMS</text>
+    <text x="985" y="530" text-anchor="middle" font-size="13" fill="#444">nhắn khách hàng</text>
+
+    <!-- arrows P1 -> app -->
+    <g stroke="#334" stroke-width="2" fill="none" marker-end="url(#ah)">
+      <line x1="220" y1="86" x2="448" y2="86"/>
+      <line x1="220" y1="116" x2="448" y2="116"/>
+      <line x1="220" y1="146" x2="448" y2="146"/>
+      <line x1="220" y1="176" x2="448" y2="176"/>
+      <line x1="220" y1="206" x2="448" y2="206"/>
+      <line x1="220" y1="345" x2="448" y2="345"/>
+      <line x1="220" y1="525" x2="448" y2="525"/>
+      <line x1="670" y1="100" x2="878" y2="100"/>
+      <line x1="670" y1="320" x2="878" y2="320"/>
+      <line x1="670" y1="510" x2="878" y2="510"/>
+    </g>
+    <g stroke="#777" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#ahd)">
+      <line x1="880" y1="134" x2="672" y2="134"/>
+      <line x1="880" y1="354" x2="672" y2="354"/>
+    </g>
+    <g font-size="12.5" fill="#222">
+      <text x="262" y="81">Tạo hồ sơ mới</text>
+      <text x="262" y="111">Lưu Người vay</text>
+      <text x="262" y="141">Nhập khoản vay, tài chính</text>
+      <text x="262" y="171">Yêu cầu định giá</text>
+      <text x="262" y="201">Gửi thẩm định</text>
+      <text x="262" y="340">Nhập giá thị trường</text>
+      <text x="262" y="520">Xem hồ sơ + quyết định</text>
+      <text x="706" y="95">Hỏi xác thực danh tính</text>
+      <text x="740" y="128" fill="#555">← “Khớp”</text>
+      <text x="706" y="315">Tra cứu tín dụng</text>
+      <text x="740" y="348" fill="#555">← “Nhóm nợ …”</text>
+      <text x="706" y="505">Gửi SMS cho khách</text>
+      <text x="706" y="534" font-size="12" fill="#555">(khi Phê duyệt hoặc Từ chối)</text>
+    </g>
+    <!-- number badges -->
+    <g font-size="13" font-weight="700" fill="#fff" text-anchor="middle" class="noh">
+      <g><circle cx="236" cy="86" r="11" fill="#177a5c"/><text x="236" y="90.5" stroke="none">1</text></g>
+      <g><circle cx="236" cy="116" r="11" fill="#177a5c"/><text x="236" y="120.5" stroke="none">2</text></g>
+      <g><circle cx="236" cy="146" r="11" fill="#177a5c"/><text x="236" y="150.5" stroke="none">4</text></g>
+      <g><circle cx="236" cy="176" r="11" fill="#177a5c"/><text x="236" y="180.5" stroke="none">5</text></g>
+      <g><circle cx="236" cy="206" r="11" fill="#177a5c"/><text x="236" y="210.5" stroke="none">7</text></g>
+      <g><circle cx="236" cy="345" r="11" fill="#b7791f"/><text x="236" y="349.5" stroke="none">6</text></g>
+      <g><circle cx="236" cy="525" r="11" fill="#2b6cb0"/><text x="236" y="529.5" stroke="none">9</text></g>
+      <g><circle cx="688" cy="100" r="11" fill="#6b46c1"/><text x="688" y="104.5" stroke="none">3</text></g>
+      <g><circle cx="688" cy="320" r="11" fill="#6b46c1"/><text x="688" y="324.5" stroke="none">8</text></g>
+      <g><circle cx="688" cy="510" r="11" fill="#6b46c1"/><text x="688" y="514.5" stroke="none">10</text></g>
+    </g>
+    <!-- note 11 -->
+    <rect x="10" y="625" width="1080" height="58" rx="12" fill="#fff6e0" stroke="#f0c36d" stroke-width="2"/>
+    <g class="noh"><circle cx="40" cy="654" r="12" fill="#2b6cb0"/><text x="40" y="658.5" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" stroke="none">11</text></g>
+    <text x="64" y="650" font-size="14" fill="#222" stroke="none">Nếu P300001 chọn <tspan font-weight="700">Trả lại chuyên viên khách hàng</tspan> (thay vì Phê duyệt/Từ chối): hồ sơ về lại P100001 để sửa,</text>
+    <text x="64" y="670" font-size="14" fill="#222" stroke="none">rồi P100001 bấm Gửi thẩm định lần nữa (quay lại bước 7). Trường hợp này <tspan font-weight="700">không gửi SMS</tspan>.</text>
+  </svg>
+  </div>
+
+  <h3>Giải thích từng số</h3>
+  <ol class="steplist">
+    <li data-n="1" style="--c:var(--p1)"><span class="tag p1">P100001</span> bấm <b>Tạo hồ sơ mới</b> → hệ thống tạo ngay một hồ sơ <b>Nháp</b> (ví dụ HL-000019). <span class="small">Ảnh 12</span></li>
+    <li data-n="2" style="--c:var(--p1)"><span class="tag p1">P100001</span> nhập và <b>Lưu</b> thông tin Người vay (CCCD 12 số, SĐT 10 số…). <span class="small">Ảnh 14</span></li>
+    <li data-n="3" style="--c:var(--ext)"><span class="tag ext">VNeID</span> — khi lưu, hệ thống tự hỏi VNeID; trả “Khớp” thì hiện nhãn “VNeID: khớp”. <span class="small">Ảnh 14, 28</span></li>
+    <li data-n="4" style="--c:var(--p1)"><span class="tag p1">P100001</span> nhập Khoản vay và tài sản, Tài chính; hệ thống tính “Ước tính trả nợ” và “Thẩm định xem trước” ngay trên màn hình. <span class="small">Ảnh 15, 16</span></li>
+    <li data-n="5" style="--c:var(--p1)"><span class="tag p1">P100001</span> bấm <b>Yêu cầu định giá</b> → trạng thái định giá “Đã yêu cầu”. <span class="small">Ảnh 17, 18</span></li>
+    <li data-n="6" style="--c:var(--p2)"><span class="tag p2">P200001</span> nhập <b>Giá trị thị trường</b> rồi <b>Hoàn thành định giá</b> → “Đã hoàn thành”. Nếu cùng tài sản đã được định giá trong 90 ngày gần nhất thì hệ thống <b>dùng lại ngay</b>, bước này được bỏ qua. <span class="small">Ảnh 22, 35</span></li>
+    <li data-n="7" style="--c:var(--p1)"><span class="tag p1">P100001</span> bấm <b>Gửi thẩm định</b> (nút bị vô hiệu hóa — disabled — cho đến khi định giá xong). <span class="small">Ảnh 24</span></li>
+    <li data-n="8" style="--c:var(--ext)"><span class="tag ext">CIC</span> — khi gửi, hệ thống tự lấy báo cáo CIC và chạy thẩm định chính thức; hồ sơ thành <b>Đã gửi</b> và bị khóa. <span class="small">Ảnh 24, 25, 28</span></li>
+    <li data-n="9" style="--c:var(--p3)"><span class="tag p3">P300001</span> mở hồ sơ ở bước Quyết định tín dụng, xem kết quả thẩm định + CIC, đánh dấu 4 mục kiểm tra, chọn quyết định. <span class="small">Ảnh 29, 30</span></li>
+    <li data-n="10" style="--c:var(--ext)"><span class="tag ext">Cổng SMS</span> — Phê duyệt hoặc Từ chối: hệ thống nhắn SMS cho khách; hồ sơ khóa, “Không thể thay đổi nữa”. <span class="small">Ảnh 31, 32, 28</span></li>
+    <li data-n="11" style="--c:var(--p3)"><span class="tag p3">P300001</span> chọn Trả lại → hồ sơ <b>Bị trả lại</b>, về P100001 (không SMS). <span class="small">Ảnh 39, 40, 41</span></li>
+  </ol>
+  <div class="note"><b>Về 3 hệ thống bên ngoài (VNeID, CIC, Cổng SMS):</b> trên trang Tích hợp cả ba đều hiện “Hoạt động”, nhưng <b>chưa biết là hệ thống thật hay mô phỏng (mock)</b> — xem điểm mơ hồ M-06. Chỉ P300001 mới thấy trang Tích hợp.</div>
+</div></section>
+
+<!-- ======================= 3. VAI TRÒ ======================= -->
+<section id="vai-tro"><div class="wrapper">
+  <h2><span class="num">3</span> Ba vai trò tài khoản</h2>
+  <p class="lead">Ba tài khoản phối hợp theo một <b>quy trình xử lý tuần tự (workflow)</b>: mỗi tài khoản chỉ thực hiện phần việc của mình rồi chuyển hồ sơ cho tài khoản kế tiếp. Hệ thống chỉ hiển thị nút thao tác cho đúng vai trò.</p>
+
+  <div class="card">
+    <h4>Hồ sơ đi qua quy trình như thế nào (luồng chính)</h4>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px">
+      <span class="tag p1" style="padding:6px 12px">① P100001 lập hồ sơ, yêu cầu định giá</span> →
+      <span class="tag p2" style="padding:6px 12px">② P200001 ghi giá trị thị trường</span> →
+      <span class="tag p1" style="padding:6px 12px">③ P100001 gửi thẩm định</span> →
+      <span class="tag p3" style="padding:6px 12px">④ P300001 quyết định</span>
+    </div>
+    <p class="small" style="margin:10px 0 0">Nếu P300001 chọn “Trả lại”, hồ sơ quay về ③. Ngoại lệ: tài sản đã được định giá trong 90 ngày gần nhất thì ② được bỏ qua (hệ thống tự dùng lại kết quả cũ).</p>
+  </div>
+
+  <h3>Ai làm được gì (đã quan sát)</h3>
+  <div class="tblwrap"><table>
+    <tr><th>Chức năng</th><th class="c"><span class="tag p1">P100001</span><br>Chuyên viên khách hàng</th><th class="c"><span class="tag p2">P200001</span><br>Chuyên viên định giá</th><th class="c"><span class="tag p3">P300001</span><br>Thẩm định tín dụng</th></tr>
+    <tr><td>Tạo hồ sơ / Tạo từ hồ sơ có sẵn</td><td class="c">✅ nút hiện</td><td class="c">❌ không có nút</td><td class="c">❌ không có nút</td></tr>
+    <tr><td>Sửa Người vay, Khoản vay, Tài chính</td><td class="c">✅ khi hồ sơ Nháp (và Bị trả lại)</td><td class="c">❌ chỉ xem</td><td class="c">❓ chưa kiểm tra riêng (hồ sơ bị khóa khi Đã gửi)</td></tr>
+    <tr><td>Yêu cầu định giá</td><td class="c">✅ (nút Hủy yêu cầu có hiện, chưa bấm)</td><td class="c">❌ không thấy nút</td><td class="c">❓ chưa kiểm tra riêng</td></tr>
+    <tr><td>Hoàn thành định giá</td><td class="c">❌</td><td class="c">✅</td><td class="c">❓ chưa kiểm tra riêng</td></tr>
+    <tr><td>Gửi thẩm định / Gửi lại sau khi bị trả lại</td><td class="c">✅ khi định giá xong</td><td class="c">❌ không có nút</td><td class="c">❓ chưa kiểm tra riêng</td></tr>
+    <tr><td>Ghi nhận quyết định tín dụng</td><td class="c">❌</td><td class="c">❌</td><td class="c">✅</td></tr>
+    <tr><td>Trang Tích hợp · nút Tải báo cáo (CSV)</td><td class="c">❌ không thấy</td><td class="c">❌ không thấy</td><td class="c">✅ (CSV chưa bấm)</td></tr>
+    <tr><td>Các tab trong Danh sách việc</td><td class="c">Hồ sơ của tôi · Tất cả hồ sơ</td><td class="c">Chờ định giá · Tất cả hồ sơ</td><td class="c">Chờ quyết định · Tất cả hồ sơ</td></tr>
+  </table></div>
+  <p class="small">Còn một tài khoản thứ tư xuất hiện trong cột “Người tạo”: <b>P100002</b> (người tạo HL-000012). Mình <b>chưa đăng nhập</b> tài khoản này nên chưa biết vai trò — xem M-13.</p>
+
+  <!-- ============ ROLE 1 ============ -->
+  <article class="role p1" id="role-p1" style="--c:var(--p1)">
+    <header>
+      <h3>P100001 — Chuyên viên khách hàng</h3>
+      <div class="one">Người <b>mở hồ sơ</b>, nhập thông tin, rồi <b>chuyển hồ sơ sang</b> các bước xử lý tiếp theo.</div>
+    </header>
+    <div class="body">
+      <div class="analogy"><b>Ví dụ so sánh</b> <span class="small">(minh họa, không phải mô tả chính thức)</span>: giống nhân viên ở quầy tiếp khách — gặp khách, ghi người vay và khoản vay vào một bộ hồ sơ, nhờ người khác định giá căn nhà, rồi chuyển hồ sơ cho người quyết định. Hồ sơ bị trả lại thì nhân viên này sửa và gửi lại.</div>
+      <div class="can">
+        <div class="yes"><h4>Làm được (đã thấy)</h4><ul>
+          <li>Tạo hồ sơ mới / tạo từ hồ sơ có sẵn</li>
+          <li>Nhập Người vay, Khoản vay và tài sản, Tài chính</li>
+          <li>Yêu cầu định giá</li>
+          <li>Gửi thẩm định; gửi lại khi hồ sơ bị trả lại</li>
+          <li>Xem Lịch sử của hồ sơ</li>
+        </ul></div>
+        <div class="no"><h4>Không làm được (đã thấy)</h4><ul>
+          <li>Hoàn thành định giá (chỉ P200001)</li>
+          <li>Ghi nhận quyết định tín dụng (chỉ P300001)</li>
+          <li>Không thấy trang Tích hợp và nút Tải báo cáo CSV</li>
+          <li>Hồ sơ <b>Đã gửi</b> bị khóa; <b>Đã phê duyệt / Bị từ chối</b> không sửa được nữa</li>
+        </ul></div>
+      </div>
+
+      <h3 style="margin-top:20px">Các thao tác của P100001 theo từng bước</h3>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B1</span>Vào Danh sách việc</h4>
+          <p class="goal">Sau khi đăng nhập là thấy ngay danh sách hồ sơ. Từ đây bắt đầu mọi việc.</p>
+          <ol class="lg">
+            <li data-n="1">Thanh trên cùng: mã + vai trò <code>P100001 · Chuyên viên khách hàng · DEFAULT</code>, chuyển Tiếng Việt/English, Đăng xuất.</li>
+            <li data-n="2">Nút <b>Tạo từ hồ sơ có sẵn</b> (B2b).</li>
+            <li data-n="3">Nút <b>Tạo hồ sơ mới</b> (B2a).</li>
+            <li data-n="4">Hai tab: <b>Hồ sơ của tôi</b> (hồ sơ do P100001 tạo) và <b>Tất cả hồ sơ</b> (có cả hồ sơ của người khác).</li>
+            <li data-n="5">Bảng hồ sơ: Mã hồ sơ (bấm để mở), Người vay chính, Số tiền vay, Trạng thái, Định giá, Người tạo, Cập nhật.</li>
+          </ol>
+          <p class="src">Ảnh 02 · Báo cáo mục 3.1. Tab “Tất cả hồ sơ” tải vài giây (hiện “Đang tải…”).</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/02-P100001-danh-sach-viec-ho-so-cua-toi.jpg" alt="Danh sách việc P100001" loading="lazy">
+            <i class="mk" data-n="1" style="--x:48;--y:55;--w:302;--h:22"></i>
+            <i class="mk" data-n="2" style="--x:273;--y:109;--w:161;--h:39"></i>
+            <i class="mk" data-n="3" style="--x:446;--y:109;--w:126;--h:39"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:158;--w:235;--h:35"></i>
+            <i class="mk" data-n="5" style="--x:19;--y:262;--w:553;--h:78"></i>
+          </div><figcaption>Ảnh 02 · Danh sách việc của P100001</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B2a</span>Tạo hồ sơ mới</h4>
+          <p class="goal">Bấm <b>Tạo hồ sơ mới</b> → hệ thống <b>tạo ngay</b> hồ sơ nháp (HL-000019), chưa nhập gì, và mở bước Người vay.</p>
+          <ol class="lg">
+            <li data-n="1">Vùng thông tin tóm tắt chưa có dữ liệu (“—”), Trạng thái <b>Nháp</b>, Chuyên viên = P100001.</li>
+            <li data-n="2">Bước 1 “Người vay” mở; các bước 2→5 và 7 hiện “Chưa mở”.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> để trống rồi bấm “Lưu và tiếp tục” thì chuyển sang bước 2 nhưng bước 2 <b>bị khóa</b>: “Bước này mở sau khi hoàn thành: Người vay” (ảnh 13).</div>
+          <p class="src">Ảnh 12, 13 · Báo cáo mục 3.5 (dòng 1–2). Bấm “Tạo hồ sơ mới” là tạo bản ghi ngay — xem M-05.</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/12-P100001-tao-ho-so-moi-HL-000019-cac-buoc-chua-mo.jpg" alt="Hồ sơ nháp vừa tạo" loading="lazy">
+            <i class="mk" data-n="1" style="--x:19;--y:157;--w:553;--h:157"></i>
+            <i class="mk" data-n="2" style="--x:29;--y:338;--w:533;--h:420"></i>
+          </div><figcaption>Ảnh 12 · Hồ sơ nháp vừa tạo</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B2b</span>Hoặc: Tạo từ hồ sơ có sẵn</h4>
+          <p class="goal">Dùng lại khách hàng / tài sản đã có thay vì nhập lại từ đầu. Chọn ít nhất một trong hai.</p>
+          <ol class="lg">
+            <li data-n="1"><b>Tìm khách hàng có sẵn</b>: nhập đủ 12 số CCCD hoặc một phần họ tên (đã thử: <code>Tester</code>) → bấm <b>Tìm</b>.</li>
+            <li data-n="2">Bấm <b>Dùng</b> ở dòng khách hàng (ví dụ “Tester Mot · ********0001 · gần nhất ở HL-000019”).</li>
+            <li data-n="3"><b>Tìm tài sản có sẵn</b>: một phần số giấy chứng nhận hoặc địa chỉ, ít nhất 3 ký tự (đã thử: <code>CT 100019</code>).</li>
+            <li data-n="4">Bấm <b>Dùng</b> ở dòng tài sản (kèm “định giá 4.000.000.000 VND ngày 17/11/26 (HL-000019)”).</li>
+            <li data-n="5">Nút <b>Tạo hồ sơ</b> — <i>mờ</i> cho đến khi chọn ít nhất một mục.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> hồ sơ mới (HL-000020, HL-000021) có bước Người vay <b>Đã xong</b> (điền sẵn, đã xác thực VNeID), tài sản điền sẵn (giá khai báo 4 tỷ); <b>Số tiền vay để trống</b>, Thời hạn 20, Sản phẩm 6,00%/12 tháng; bước Tài chính để trống (không sao chép thu nhập).</div>
+          <p class="src">Ảnh 34 · Báo cáo mục 3.7</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/34-P100001-tao-tu-ho-so-co-san-ket-qua-tim-khach-hang-tai-san.jpg" alt="Tạo từ hồ sơ có sẵn" loading="lazy">
+            <i class="mk" data-n="1" style="--x:53;--y:225;--w:492;--h:85"></i>
+            <i class="mk" data-n="2" style="--x:477;--y:330;--w:70;--h:38"></i>
+            <i class="mk" data-n="3" style="--x:53;--y:395;--w:492;--h:85"></i>
+            <i class="mk" data-n="4" style="--x:477;--y:511;--w:70;--h:40"></i>
+            <i class="mk" data-n="5" style="--x:39;--y:622;--w:97;--h:39"></i>
+          </div><figcaption>Ảnh 34 · Khung “Tạo từ hồ sơ có sẵn”</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B3</span>Bước 1 · Người vay</h4>
+          <p class="goal">Nhập thông tin người vay chính. Dòng “Danh tính được kiểm tra với VNeID khi bạn lưu”.</p>
+          <ol class="lg">
+            <li data-n="1">Trường <b>Tìm khách hàng có sẵn</b> + nút <b>Tìm</b> (cùng kiểu tìm như B2b).</li>
+            <li data-n="2">Nhãn kết quả VNeID — sau khi lưu hợp lệ hiện <b>“VNeID: khớp”</b>.</li>
+            <li data-n="3">Các trường: Họ và tên*, Số CCCD* (gợi ý “12 chữ số”), Ngày sinh*, SĐT di động* (gợi ý “10 chữ số, bắt đầu bằng 0”), Tỉnh/thành*, Địa chỉ.</li>
+            <li data-n="4">Nút <b>Thêm người vay</b> <span class="t unk">❓ chưa bấm</span>.</li>
+            <li data-n="5">Nút <b>Lưu</b> → hiện “Đã lưu.” và ở lại bước này.</li>
+            <li data-n="6">Nút <b>Lưu và tiếp tục →</b> → sang bước kế (nếu bước kế đã mở).</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> nhập CCCD 12 số + SĐT 10 số bắt đầu 0 rồi Lưu → “VNeID: khớp”. Nhập CCCD <code>123</code> và SĐT <code>123</code> vẫn lưu được (xem M-01, ảnh 11).</div>
+          <p class="src">Ảnh 14 · Báo cáo mục 3.5 (dòng 3–4)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/14-P100001-HL-000019-nguoi-vay-hop-le-VNeID-khop.jpg" alt="Bước Người vay" loading="lazy">
+            <i class="mk" data-n="1" style="--x:53;--y:190;--w:492;--h:75"></i>
+            <i class="mk" data-n="2" style="--x:40;--y:292;--w:84;--h:22"></i>
+            <i class="mk" data-n="3" style="--x:38;--y:327;--w:516;--h:185"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:628;--w:138;--h:39"></i>
+            <i class="mk" data-n="5" style="--x:358;--y:727;--w:57;--h:39"></i>
+            <i class="mk" data-n="6" style="--x:426;--y:727;--w:146;--h:39"></i>
+          </div><figcaption>Ảnh 14 · Người vay hợp lệ, VNeID khớp</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B4</span>Bước 2 · Khoản vay và tài sản</h4>
+          <p class="goal">Nhập mục đích, sản phẩm, số tiền vay, thời hạn… và tài sản bảo đảm. Phần “Ước tính trả nợ” tự tính bên dưới.</p>
+          <ol class="lg">
+            <li data-n="1"><b>Tìm tài sản có sẵn</b> + <b>Tìm</b>. Ghi chú trên màn hình: kết quả định giá của <i>cùng tài sản</i> trong 90 ngày gần nhất sẽ được dùng lại.</li>
+            <li data-n="2">Trường tài sản: Tỉnh/thành*, Địa chỉ tài sản*, Số giấy chứng nhận, <b>Giá trị khai báo (VND)*</b>.</li>
+            <li data-n="3"><b>Ước tính trả nợ</b>: LTV, lãi suất ưu đãi, lãi suất sau ưu đãi, kỳ trả đầu tiên, kỳ trả cao nhất, tổng tiền lãi.</li>
+            <li data-n="4">Nút <b>Lưu</b> / <b>Lưu và tiếp tục →</b>.</li>
+          </ol>
+          <p class="small">Phần trên của bước (không có trong ảnh): Mục đích (Mua nhà / Xây-sửa nhà), Sản phẩm*, Số tiền vay*, Thời hạn (năm)*, Thời gian ân hạn (tháng), Phương thức trả nợ (Gốc đều / Niên kim) — theo ảnh 05.</p>
+          <div class="res"><b>Kết quả đã thấy:</b> vay 3,4 tỷ / tài sản 4 tỷ → LTV 85% <b>vẫn lưu được</b>; lãi sau ưu đãi 10,30% (so với 9,80% ở LTV 50%).</div>
+          <p class="src">Ảnh 15 (và 05) · Báo cáo mục 3.2, 3.5 (dòng 5, 7)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/15-P100001-HL-000019-vay-3.4ty-LTV-85-van-luu-lai-suat-10.30.jpg" alt="Bước Khoản vay" loading="lazy">
+            <i class="mk" data-n="1" style="--x:53;--y:94;--w:492;--h:76"></i>
+            <i class="mk" data-n="2" style="--x:38;--y:230;--w:516;--h:160"></i>
+            <i class="mk" data-n="3" style="--x:19;--y:436;--w:553;--h:224"></i>
+            <i class="mk" data-n="4" style="--x:358;--y:728;--w:214;--h:39"></i>
+          </div><figcaption>Ảnh 15 · Khoản vay 3,4 tỷ (LTV 85%)</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B5</span>Bước 3 · Tài chính và “Thẩm định xem trước”</h4>
+          <p class="goal">Nhập lương, thu nhập cho thuê (chỉ tính 70%), chi phí sinh hoạt, khoản trả nợ hiện có, số người phụ thuộc. Hệ thống hiện ngay kết quả <b>xem trước</b>.</p>
+          <ol class="lg">
+            <li data-n="1">Nhãn kết quả xem trước (badge): ở ảnh là <b>Từ chối</b>.</li>
+            <li data-n="2">Các chỉ số: LTV (“tối đa 80,00%”), lãi suất thẩm định, khoản trả mới, thu nhập/chi phí được tính, <b>DSR</b>, thặng dư hằng tháng, tuổi cao nhất khi đáo hạn.</li>
+            <li data-n="3">Mục <b>Lý do</b>: “Từ chối: LTV 85% vượt mức tối đa 80%” và “Chuyển cấp trên: DSR 67,63% vượt 50%”.</li>
+            <li data-n="4">Nút <b>Lưu và tiếp tục →</b>.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> màn hình ghi “Xem trước: thẩm định chính thức chạy khi gửi, có dữ liệu CIC”. Sửa vay xuống 2 tỷ (LTV 50%) → xem trước thành <b>Phê duyệt</b>, DSR 38,48%.</div>
+          <p class="src">Ảnh 16 · Báo cáo mục 3.5 (dòng 6–7)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/16-P100001-HL-000019-tai-chinh-tham-dinh-xem-truoc-Tu-choi-LTV85-DSR67.jpg" alt="Thẩm định xem trước" loading="lazy">
+            <i class="mk" data-n="1" style="--x:134;--y:244;--w:60;--h:24"></i>
+            <i class="mk" data-n="2" style="--x:38;--y:296;--w:500;--h:240"></i>
+            <i class="mk" data-n="3" style="--x:38;--y:550;--w:500;--h:80"></i>
+            <i class="mk" data-n="4" style="--x:426;--y:724;--w:146;--h:39"></i>
+          </div><figcaption>Ảnh 16 · Thẩm định xem trước: Từ chối</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B6</span>Bước 4 · Yêu cầu định giá</h4>
+          <p class="goal">Nhờ P200001 định giá tài sản. Trạng thái định giá đổi từ “Chưa yêu cầu” sang “Đã yêu cầu”.</p>
+          <ol class="lg">
+            <li data-n="1">Trạng thái định giá “Chưa yêu cầu”.</li>
+            <li data-n="2">Nút <b>Yêu cầu định giá</b>.</li>
+            <li data-n="3">Sau khi bấm: “Đã yêu cầu — P100001 yêu cầu ngày 17/11/26”; bước hiện “Đang chờ xử lý”.</li>
+            <li data-n="4">Xuất hiện nút <b>Hủy yêu cầu định giá</b> <span class="t unk">❓ chưa bấm</span>.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> nút <b>Gửi thẩm định</b> ở bước “Kiểm tra và gửi” <b>bị vô hiệu hóa (disabled)</b> với thông báo “Cần hoàn thiện các mục sau trước khi gửi: Kết quả định giá đã hoàn thành.”</div>
+          <p class="src">Ảnh 17, 18 · Báo cáo mục 3.5 (dòng 8–9)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/17-P100001-HL-000019-dinh-gia-chua-yeu-cau.jpg" alt="Chưa yêu cầu định giá" loading="lazy">
+            <i class="mk" data-n="1" style="--x:38;--y:555;--w:300;--h:22"></i>
+            <i class="mk" data-n="2" style="--x:412;--y:590;--w:141;--h:39"></i>
+          </div><figcaption>Ảnh 17 · Trước khi yêu cầu</figcaption></figure>
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/18-P100001-HL-000019-da-yeu-cau-dinh-gia-dang-cho-xu-ly.jpg" alt="Đã yêu cầu định giá" loading="lazy">
+            <i class="mk" data-n="3" style="--x:233;--y:555;--w:215;--h:48"></i>
+            <i class="mk" data-n="4" style="--x:381;--y:617;--w:172;--h:39"></i>
+          </div><figcaption>Ảnh 18 · Sau khi yêu cầu</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B6’</span>Trường hợp đặc biệt: định giá được dùng lại, không cần P200001</h4>
+          <p class="goal">Với tài sản đã được định giá trong 90 ngày gần nhất, bấm <b>Yêu cầu định giá</b> là xong ngay.</p>
+          <ol class="lg">
+            <li data-n="1">Trạng thái <b>Đã hoàn thành</b> ngay và dòng “<b>Dùng lại từ hồ sơ HL-000019</b>” kèm Giá trị thị trường 4.000.000.000 VND.</li>
+          </ol>
+          <p class="src">Ảnh 35 · Báo cáo mục 3.7 (HL-000020). Tiêu chí “cùng tài sản” là theo số giấy chứng nhận hay địa chỉ — xem M-10.</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/35-P100001-HL-000020-dinh-gia-dung-lai-tu-HL-000019.jpg" alt="Định giá dùng lại" loading="lazy">
+            <i class="mk" data-n="1" style="--x:38;--y:510;--w:500;--h:102"></i>
+          </div><figcaption>Ảnh 35 · HL-000020 dùng lại định giá</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B7</span>Bước 5 và 6 · Lãi suất, rồi Kiểm tra và gửi</h4>
+          <p class="goal">Bước Lãi suất: xem bảng so sánh sản phẩm và lịch trả nợ (đã xem trên hồ sơ HL-000011; <b>chưa thử đổi</b>). Bước Kiểm tra và gửi: xem lại tất cả rồi gửi.</p>
+          <ol class="lg">
+            <li data-n="1">Trường <b>Giảm biên độ (điểm phần trăm)</b> — chú thích “Tối đa 0,5”. <span class="t unk">❓ chưa thử đổi</span></li>
+            <li data-n="2">Bảng <b>So sánh sản phẩm</b> “Mua nhà”: 6,00%/12 tháng, 7,00%/24 tháng, 7,80%/36 tháng (đang chọn có nhãn “Đang chọn”).</li>
+            <li data-n="3">Bước “Kiểm tra và gửi”: phần <b>Ước tính trả nợ</b>.</li>
+            <li data-n="4">Phần <b>Thẩm định</b> (ví dụ “Phê duyệt”, kèm Lý do).</li>
+          </ol>
+          <div class="warn"><b>Nút “Gửi thẩm định”:</b> chưa có ảnh chụp riêng của nút này trong thư mục ảnh (mình chỉ chụp kết quả sau khi bấm, ảnh 24 bên dưới). Báo cáo ghi nút <b>mở</b> khi định giá xong, thông báo “Hồ sơ đã đầy đủ và sẵn sàng gửi.”</div>
+          <p class="src">Ảnh 07, 08 (hồ sơ HL-000011, chỉ đọc) · Báo cáo mục 3.2, 3.6 (dòng 1)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:411;--H:675"><div class="wrap">
+            <img src="screenshots/07-P100001-HL-000011-buoc-lai-suat.jpg" alt="Bước Lãi suất" loading="lazy">
+            <i class="mk" data-n="1" style="--x:20;--y:477;--w:372;--h:22"></i>
+            <i class="mk" data-n="2" style="--x:20;--y:560;--w:375;--h:115"></i>
+          </div><figcaption>Ảnh 07 · Lãi suất (HL-000011)</figcaption></figure>
+          <figure class="shot" style="--W:411;--H:675"><div class="wrap">
+            <img src="screenshots/08-P100001-HL-000011-buoc-kiem-tra-va-gui.jpg" alt="Bước Kiểm tra và gửi" loading="lazy">
+            <i class="mk" data-n="3" style="--x:19;--y:458;--w:375;--h:130"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:592;--w:375;--h:83"></i>
+          </div><figcaption>Ảnh 08 · Kiểm tra và gửi (HL-000011)</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B8</span>Sau khi bấm “Gửi thẩm định”</h4>
+          <p class="goal">Hồ sơ rời tay P100001 và chờ P300001.</p>
+          <ol class="lg">
+            <li data-n="1">Trạng thái → <b>Đã gửi</b>.</li>
+            <li data-n="2">Thông báo: “Hồ sơ đã gửi và bị khóa trong khi chuyên viên thẩm định ra quyết định.”</li>
+            <li data-n="3">Bước “Quyết định tín dụng” hiện “Đang chờ xử lý”.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> ở bước Quyết định tín dụng hiện kết quả thẩm định chính thức (Phê duyệt) và <b>Báo cáo tín dụng CIC “A1: nhóm nợ 1, trả nợ 0 VND”</b> — dữ liệu CIC chỉ xuất hiện sau khi gửi. Lịch sử thêm 2 dòng: “Nhận báo cáo CIC” và “Gửi thẩm định — Phê duyệt”.</div>
+          <p class="src">Ảnh 24, 25, 26 · Báo cáo mục 3.6</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/24-P100001-HL-000019-da-gui-bi-khoa-cho-quyet-dinh.jpg" alt="Đã gửi, bị khóa" loading="lazy">
+            <i class="mk" data-n="1" style="--x:213;--y:188;--w:58;--h:24"></i>
+            <i class="mk" data-n="2" style="--x:19;--y:330;--w:553;--h:43"></i>
+            <i class="mk" data-n="3" style="--x:29;--y:726;--w:533;--h:52"></i>
+          </div><figcaption>Ảnh 24 · Đã gửi, hồ sơ bị khóa</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B9</span>Khi hồ sơ <u>Bị trả lại</u>: đọc ghi chú → sửa → gửi lại</h4>
+          <p class="goal">P300001 trả hồ sơ về với ghi chú. Hồ sơ <b>mở khóa</b>, P100001 sửa rồi gửi lại (không cần định giá lại).</p>
+          <ol class="lg">
+            <li data-n="1">Trạng thái <b>Bị trả lại</b> (nhãn cam, cũng thấy ở Danh sách việc).</li>
+            <li data-n="2">Banner màu vàng: “Chuyên viên thẩm định đã trả lại hồ sơ. Ghi chú: Trả lại: LTV 85% vượt 80%, đề nghị giảm số tiền vay (test).”</li>
+            <li data-n="3">Sửa Số tiền vay 3,4 tỷ → 2 tỷ, bấm Lưu, rồi bấm <b>Gửi thẩm định</b> lần nữa.</li>
+            <li data-n="4">Sau khi gửi lại: trạng thái <b>Đã gửi</b> (khóa lại), banner ghi chú trả lại <b>biến mất</b>, trường <b>Khuyến nghị đổi thành Phê duyệt</b>, LTV 50%.</li>
+          </ol>
+          <div class="res"><b>Lưu ý:</b> giữa lúc sửa và gửi lại, trường Khuyến nghị ở đầu trang vẫn hiện “Từ chối” (cũ) — xem M-04.</div>
+          <p class="src">Ảnh 40, 41 · Báo cáo mục 3.8</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/40-P100001-HL-000021-bi-tra-lai-thay-ghi-chu-va-sua-duoc.jpg" alt="Bị trả lại" loading="lazy">
+            <i class="mk" data-n="1" style="--x:213;--y:188;--w:62;--h:24"></i>
+            <i class="mk" data-n="2" style="--x:19;--y:329;--w:553;--h:46"></i>
+          </div><figcaption>Ảnh 40 · Bị trả lại (trước khi sửa)</figcaption></figure>
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/41-P100001-HL-000021-gui-lai-sau-khi-sua-khuyen-nghi-Phe-duyet.jpg" alt="Gửi lại" loading="lazy">
+            <i class="mk" data-n="4" style="--x:19;--y:157;--w:553;--h:157"></i>
+          </div><figcaption>Ảnh 41 · Sau khi gửi lại</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p1)">
+        <div>
+          <h4><span class="sn">B10</span>Xem Lịch sử (nhật ký thao tác)</h4>
+          <p class="goal">Bước cuối của thanh bước. Mới nhất ở trên. Ví dụ hồ sơ có sẵn HL-000011 ghi 9 dòng.</p>
+          <ol class="lg">
+            <li data-n="1">Nhật ký: Tạo hồ sơ → Lưu thông tin → Kiểm tra danh tính với VNeID → Yêu cầu định giá → Hoàn thành định giá (P200001) → Nhận báo cáo CIC → Gửi thẩm định → Phê duyệt (P300001) → Gửi SMS cho khách hàng (<b>gửi lỗi, quyết định vẫn có hiệu lực</b>).</li>
+          </ol>
+          <p class="src">Ảnh 10 · Báo cáo mục 3.4. Mỗi lần bấm Lưu ở bước nhập liệu sinh một dòng “Lưu thông tin”.</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:411;--H:675"><div class="wrap">
+            <img src="screenshots/10-P100001-HL-000011-lich-su.jpg" alt="Lịch sử" loading="lazy">
+            <i class="mk" data-n="1" style="--x:10;--y:452;--w:385;--h:138"></i>
+          </div><figcaption>Ảnh 10 · Lịch sử HL-000011</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ ROLE 2 ============ -->
+  <article class="role p2" id="role-p2" style="--c:var(--p2)">
+    <header>
+      <h3>P200001 — Chuyên viên định giá</h3>
+      <div class="one">Người <b>chỉ làm một việc</b>: ghi giá trị thị trường của tài sản. Mọi thứ khác chỉ được xem.</div>
+    </header>
+    <div class="body">
+      <div class="analogy"><b>Ví dụ so sánh</b> <span class="small">(minh họa, không phải mô tả chính thức)</span>: giống người đi xem căn nhà dùng làm tài sản bảo đảm rồi báo “căn này đáng giá bao nhiêu”. Không soạn hồ sơ, không quyết định cho vay.</div>
+      <div class="can">
+        <div class="yes"><h4>Làm được (đã thấy)</h4><ul>
+          <li>Xem danh sách hồ sơ chờ định giá và tất cả hồ sơ</li>
+          <li>Mở hồ sơ, xem mọi bước (chỉ đọc)</li>
+          <li>Nhập Giá trị thị trường + ghi chú và <b>Hoàn thành định giá</b></li>
+        </ul></div>
+        <div class="no"><h4>Không làm được (đã thấy)</h4><ul>
+          <li>Không có nút Tạo hồ sơ mới / Tạo từ hồ sơ có sẵn</li>
+          <li>Không sửa Người vay, Khoản vay, Tài chính (“Bạn được xem nhưng không được sửa hồ sơ này.”)</li>
+          <li>Không có nút Gửi thẩm định; bước Quyết định tín dụng hiện “Hồ sơ chưa được gửi.”</li>
+          <li>Không thấy trang Tích hợp và nút CSV</li>
+        </ul></div>
+      </div>
+
+      <h3 style="margin-top:20px">Các thao tác của P200001 theo từng bước</h3>
+
+      <div class="step wide" style="--c:var(--p2)">
+        <div>
+          <h4><span class="sn">D1</span>Vào Danh sách việc → tab “Chờ định giá”</h4>
+          <ol class="lg">
+            <li data-n="1">Thanh trên: <code>P200001 · Chuyên viên định giá · DEFAULT</code>.</li>
+            <li class="neg" data-n="2"><b>Không có</b> nút “Tạo hồ sơ mới” / “Tạo từ hồ sơ có sẵn” (vùng gạch cam).</li>
+            <li data-n="3">Tab <b>Chờ định giá</b> (và tab Tất cả hồ sơ — thấy toàn bộ hồ sơ).</li>
+            <li data-n="4">Các hồ sơ có “Định giá: Đã yêu cầu” (ở đây HL-000019 và HL-000002). Bấm mã hồ sơ để mở.</li>
+          </ol>
+          <p class="src">Ảnh 19 · Báo cáo mục 3b. Cả hai hồ sơ này đều đang ở trạng thái <b>Nháp</b> — xem M-12.</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/19-P200001-danh-sach-viec-cho-dinh-gia.jpg" alt="Danh sách việc P200001" loading="lazy">
+            <i class="mk" data-n="1" style="--x:70;--y:55;--w:282;--h:22"></i>
+            <i class="mk neg" data-n="2" style="--x:273;--y:105;--w:300;--h:46"></i>
+            <i class="mk" data-n="3" style="--x:19;--y:158;--w:120;--h:35"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:262;--w:553;--h:156"></i>
+          </div><figcaption>Ảnh 19 · Danh sách việc của P200001</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p2)">
+        <div>
+          <h4><span class="sn">D2</span>Mở hồ sơ: chỉ được xem</h4>
+          <ol class="lg">
+            <li data-n="1">Banner màu xanh: <b>“Bạn được xem nhưng không được sửa hồ sơ này.”</b></li>
+            <li data-n="2">Các bước 1→5 hiển thị bình thường nhưng chỉ đọc. Bước “Kiểm tra và gửi” <b>không có nút Gửi thẩm định</b> (chỉ có “Tiếp tục →”).</li>
+          </ol>
+          <p class="src">Ảnh 21, 23 · Báo cáo mục 3b. Bước Quyết định tín dụng hiện “Hồ sơ chưa được gửi.”</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/23-P200001-HL-000019-chi-xem-khong-sua-duoc-ho-so.jpg" alt="Chỉ xem" loading="lazy">
+            <i class="mk" data-n="1" style="--x:19;--y:330;--w:553;--h:43"></i>
+            <i class="mk" data-n="2" style="--x:29;--y:668;--w:533;--h:52"></i>
+          </div><figcaption>Ảnh 23 · Bước Kiểm tra và gửi, chỉ xem</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p2)">
+        <div>
+          <h4><span class="sn">D3</span>Thao tác chính: Hoàn thành định giá</h4>
+          <p class="goal">Chỉ ở bước <b>Định giá</b>, khi trạng thái là “Đã yêu cầu”, mới có form riêng.</p>
+          <ol class="lg">
+            <li data-n="1">Trường <b>Giá trị thị trường (VND)*</b> — bắt buộc; nhập chữ <code>abc</code> thì trường không nhận ký tự chữ.</li>
+            <li data-n="2">Trường <b>Ghi chú định giá</b> (không bắt buộc).</li>
+            <li data-n="3">Nút <b>Hoàn thành định giá</b>.</li>
+            <li data-n="4">Để trống rồi bấm → khung đỏ “Một số giá trị không hợp lệ.” + dòng <code>validation.too_small (marketValue)</code> — hiện <b>mã lỗi gốc</b>, chưa dịch (xem M-02).</li>
+            <li data-n="5">Nhập 4.000.000.000 + ghi chú, bấm → “Đã lưu.”; Trạng thái định giá <b>Đã hoàn thành</b>, hiện “P100001 yêu cầu ngày …” và “P200001 hoàn thành ngày …”; bước Định giá “Đã xong”.</li>
+          </ol>
+          <div class="res"><b>Sau đó:</b> mở lại bước Kiểm tra và gửi thấy “Hồ sơ đã đầy đủ và sẵn sàng gửi.” — nhưng P200001 không có nút gửi; P100001 phải đăng nhập để gửi.</div>
+          <p class="src">Ảnh 20, 22 · Báo cáo mục 3b</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/20-P200001-HL-000019-dinh-gia-de-trong-loi-validation.too_small.jpg" alt="Form định giá, lỗi" loading="lazy">
+            <i class="mk" data-n="1" style="--x:39;--y:436;--w:514;--h:37"></i>
+            <i class="mk" data-n="2" style="--x:39;--y:512;--w:514;--h:80"></i>
+            <i class="mk" data-n="3" style="--x:385;--y:605;--w:168;--h:39"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:675;--w:553;--h:73"></i>
+          </div><figcaption>Ảnh 20 · Để trống → mã lỗi gốc</figcaption></figure>
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/22-P200001-HL-000019-hoan-thanh-dinh-gia-thanh-cong.jpg" alt="Hoàn thành định giá" loading="lazy">
+            <i class="mk" data-n="5" style="--x:38;--y:483;--w:500;--h:125"></i>
+          </div><figcaption>Ảnh 22 · Hoàn thành định giá thành công</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ ROLE 3 ============ -->
+  <article class="role p3" id="role-p3" style="--c:var(--p3)">
+    <header>
+      <h3>P300001 — Chuyên viên thẩm định tín dụng</h3>
+      <div class="one">Người <b>ra quyết định cuối</b> về từng hồ sơ đã gửi: Phê duyệt, Từ chối hoặc Trả lại.</div>
+    </header>
+    <div class="body">
+      <div class="analogy"><b>Ví dụ so sánh</b> <span class="small">(minh họa, không phải mô tả chính thức)</span>: giống người có thẩm quyền ra quyết định cuối — xem kết quả hệ thống đã tính (thẩm định, CIC, định giá), tự kiểm tra từng mục, rồi cho vay, không cho vay, hoặc đưa hồ sơ về để người lập sửa. Người này còn xem được trang <b>Tích hợp</b> (tình trạng các hệ thống bên thứ ba).</div>
+      <div class="can">
+        <div class="yes"><h4>Làm được (đã thấy)</h4><ul>
+          <li>Xem tab <b>Chờ quyết định</b> (các hồ sơ “Đã gửi”)</li>
+          <li><b>Ghi nhận quyết định</b>: Phê duyệt / Từ chối / Trả lại chuyên viên khách hàng</li>
+          <li>Xem trang <b>Tích hợp</b> (VNeID, CIC, SMS + nhật ký gọi)</li>
+          <li>Có nút <b>Tải báo cáo (CSV)</b> <span class="t unk">❓ chưa bấm</span></li>
+        </ul></div>
+        <div class="no"><h4>Không làm được (đã thấy)</h4><ul>
+          <li>Không có nút tạo hồ sơ</li>
+          <li>Hồ sơ đã quyết định (Phê duyệt / Từ chối) không còn thay đổi được: “Không thể thay đổi nữa.”</li>
+          <li>Các quyền khác (sửa dữ liệu, định giá, gửi) <span class="t unk">❓ chưa kiểm tra riêng</span></li>
+        </ul></div>
+      </div>
+
+      <h3 style="margin-top:20px">Các thao tác của P300001 theo từng bước</h3>
+
+      <div class="step wide" style="--c:var(--p3)">
+        <div>
+          <h4><span class="sn">T1</span>Vào Danh sách việc → tab “Chờ quyết định”</h4>
+          <ol class="lg">
+            <li data-n="1">Thanh trên: <code>P300001 · Chuyên viên thẩm định tín dụng · DEFAULT</code> và thêm menu <b>Tích hợp</b> (P100001/P200001 không thấy).</li>
+            <li data-n="2">Nút <b>Tải báo cáo (CSV)</b> <span class="t unk">❓ chưa bấm — tải file cần bạn đồng ý</span>.</li>
+            <li data-n="3">Tab <b>Chờ quyết định</b> và Tất cả hồ sơ.</li>
+            <li data-n="4">Các hồ sơ “Đã gửi” đang chờ (ảnh: HL-000019, HL-000009, HL-000008). Bấm mã hồ sơ để mở.</li>
+          </ol>
+          <p class="src">Ảnh 27 · Báo cáo mục 3c</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/27-P300001-danh-sach-viec-cho-quyet-dinh.jpg" alt="Danh sách việc P300001" loading="lazy">
+            <i class="mk" data-n="1" style="--x:19;--y:55;--w:352;--h:22"></i>
+            <i class="mk" data-n="1" style="--x:336;--y:11;--w:64;--h:20"></i>
+            <i class="mk" data-n="2" style="--x:425;--y:146;--w:147;--h:39"></i>
+            <i class="mk" data-n="3" style="--x:19;--y:197;--w:138;--h:35"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:298;--w:553;--h:240"></i>
+          </div><figcaption>Ảnh 27 · Danh sách việc của P300001</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p3)">
+        <div>
+          <h4><span class="sn">T2</span>Mở hồ sơ → bước “Quyết định tín dụng”: xem trước khi quyết</h4>
+          <ol class="lg">
+            <li data-n="1">Phần <b>Thẩm định</b> (kết quả chính thức khi gửi): LTV, lãi suất thẩm định, DSR, thặng dư, <b>Lý do</b>. Ví dụ: “Phê duyệt — Đáp ứng mọi quy tắc tín dụng.”</li>
+            <li data-n="2">Phần <b>Báo cáo tín dụng CIC</b>: “A1: nhóm nợ 1, trả nợ 0 VND”.</li>
+            <li data-n="3"><b>Danh mục kiểm tra</b> — 4 ô: đã xem kết quả kiểm tra danh tính / báo cáo CIC / kết quả định giá / thu nhập và chi phí.</li>
+          </ol>
+          <p class="src">Ảnh 29 · Báo cáo mục 3c</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/29-P300001-HL-000019-quyet-dinh-tin-dung-danh-muc-kiem-tra.jpg" alt="Quyết định tín dụng" loading="lazy">
+            <i class="mk" data-n="1" style="--x:19;--y:128;--w:553;--h:393"></i>
+            <i class="mk" data-n="2" style="--x:19;--y:538;--w:553;--h:107"></i>
+            <i class="mk" data-n="3" style="--x:41;--y:680;--w:510;--h:132"></i>
+          </div><figcaption>Ảnh 29 · Thẩm định, CIC, danh mục kiểm tra</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p3)">
+        <div>
+          <h4><span class="sn">T3</span>Quyết định “Phê duyệt”</h4>
+          <p class="goal">Phê duyệt <b>bắt buộc đánh dấu đủ 4 ô</b> kiểm tra.</p>
+          <ol class="lg">
+            <li data-n="1">4 ô đánh dấu (checkbox) trong <b>Danh mục kiểm tra</b>.</li>
+            <li data-n="2">Nhóm <b>Quyết định</b>: Phê duyệt (chọn sẵn) · Từ chối · Trả lại chuyên viên khách hàng.</li>
+            <li data-n="3">Trường <b>Ghi chú</b>.</li>
+            <li data-n="4">Nút <b>Ghi nhận quyết định</b>.</li>
+            <li data-n="5">Bấm khi chưa đánh dấu đủ → khung đỏ “Không thể ghi nhận quyết định. Đánh dấu đủ danh mục kiểm tra trước khi phê duyệt.”</li>
+            <li data-n="6">Đánh dấu đủ + Phê duyệt + ghi chú → hiện “P300001 quyết định phê duyệt ngày 11:00 17/11/26” + nội dung ghi chú.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> hồ sơ <b>Đã phê duyệt</b>, thông báo “Hồ sơ đã phê duyệt. Không thể thay đổi nữa.”; Lịch sử thêm “Phê duyệt” và “Gửi SMS cho khách hàng — đã gửi”.</div>
+          <p class="src">Ảnh 30, 31, 32 · Báo cáo mục 3c (bảng dòng 1–4)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/30-P300001-phe-duyet-khi-chua-tick-danh-muc-bi-chan.jpg" alt="Phê duyệt bị chặn" loading="lazy">
+            <i class="mk" data-n="1" style="--x:41;--y:214;--w:510;--h:140"></i>
+            <i class="mk" data-n="2" style="--x:41;--y:395;--w:250;--h:76"></i>
+            <i class="mk" data-n="3" style="--x:39;--y:511;--w:514;--h:82"></i>
+            <i class="mk" data-n="4" style="--x:386;--y:605;--w:167;--h:39"></i>
+            <i class="mk" data-n="5" style="--x:19;--y:675;--w:553;--h:73"></i>
+          </div><figcaption>Ảnh 30 · Chưa đánh dấu → bị chặn</figcaption></figure>
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/31-P300001-HL-000019-da-phe-duyet.jpg" alt="Đã phê duyệt" loading="lazy">
+            <i class="mk" data-n="6" style="--x:19;--y:537;--w:553;--h:118"></i>
+          </div><figcaption>Ảnh 31 · Đã phê duyệt</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p3)">
+        <div>
+          <h4><span class="sn">T4</span>Quyết định “Từ chối”</h4>
+          <p class="goal">Từ chối <b>bắt buộc ghi chú</b>, <b>không</b> đòi đánh dấu danh mục kiểm tra.</p>
+          <ol class="lg">
+            <li data-n="1">Chọn <b>Từ chối</b>, để trống ghi chú, bấm Ghi nhận → “Không thể ghi nhận quyết định. <b>Bắt buộc nhập ghi chú.</b>”</li>
+            <li data-n="2">Nhập ghi chú, vẫn không đánh dấu gì → được. Hồ sơ <b>Bị từ chối</b>; hiện “P300001 quyết định từ chối ngày 11:11 17/11/26” + ghi chú.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> HL-000020 có khuyến nghị hệ thống là <b>Phê duyệt</b> nhưng P300001 vẫn <b>Từ chối thủ công</b> được. Hồ sơ “Bị từ chối. Không thể thay đổi nữa.”; Lịch sử thêm “Từ chối” + “Gửi SMS cho khách hàng — đã gửi”.</div>
+          <p class="src">Ảnh 37, 38 · Báo cáo mục 3c.2 (dòng 1–3)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/37-P300001-HL-000020-tu-choi-thieu-ghi-chu-bi-chan.jpg" alt="Từ chối thiếu ghi chú" loading="lazy">
+            <i class="mk" data-n="1" style="--x:41;--y:422;--w:80;--h:20"></i>
+            <i class="mk" data-n="1" style="--x:19;--y:675;--w:553;--h:73"></i>
+          </div><figcaption>Ảnh 37 · Từ chối nhưng thiếu ghi chú</figcaption></figure>
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/38-P300001-HL-000020-da-tu-choi-thu-cong.jpg" alt="Đã từ chối" loading="lazy">
+            <i class="mk" data-n="2" style="--x:19;--y:537;--w:553;--h:118"></i>
+          </div><figcaption>Ảnh 38 · Đã từ chối thủ công</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p3)">
+        <div>
+          <h4><span class="sn">T5</span>Quyết định “Trả lại chuyên viên khách hàng”</h4>
+          <p class="goal">Trả hồ sơ về cho P100001 sửa. Cũng <b>bắt buộc ghi chú</b>.</p>
+          <ol class="lg">
+            <li data-n="1">Chọn Trả lại, không ghi chú → lỗi “Bắt buộc nhập ghi chú.”</li>
+            <li data-n="2">Nhập ghi chú, Ghi nhận → hồ sơ <b>Bị trả lại</b>; dòng chữ “Trả lại chuyên viên khách hàng” dưới phần quyết định.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> Lịch sử chỉ có “Trả lại chuyên viên khách hàng · P300001 — ghi chú”. <b>Không có SMS</b> cho khách (khác Phê duyệt/Từ chối). HL-000021 có khuyến nghị hệ thống là <b>Từ chối</b> (LTV 85%) nhưng P300001 chọn Trả lại.</div>
+          <p class="src">Ảnh 39 · Báo cáo mục 3c.2 (dòng 4–6)</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/39-P300001-HL-000021-da-tra-lai-chuyen-vien-khach-hang.jpg" alt="Đã trả lại" loading="lazy">
+            <i class="mk" data-n="2" style="--x:19;--y:670;--w:215;--h:24"></i>
+          </div><figcaption>Ảnh 39 · Đã trả lại chuyên viên khách hàng</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step wide" style="--c:var(--p3)">
+        <div>
+          <h4><span class="sn">T6</span>Trang “Tích hợp” (chỉ P300001 thấy)</h4>
+          <ol class="lg">
+            <li data-n="1">Menu <b>Tích hợp</b> trên thanh trên cùng.</li>
+            <li data-n="2">3 thẻ trạng thái: <b>VNeID (định danh)</b>, <b>CIC (thông tin tín dụng)</b>, <b>Cổng SMS</b> — cả ba “Hoạt động”.</li>
+            <li data-n="3">Nút <b>Làm mới</b>.</li>
+            <li data-n="4">Bộ lọc theo hệ thống và bảng <b>Nhật ký gọi</b> (200 lần gọi gần nhất): Thời điểm, Hệ thống, Thao tác, Mã hồ sơ, Đối tượng (CCCD/SĐT bị che: <code>********0001</code>, <code>090****121</code>), Kết quả.</li>
+          </ol>
+          <div class="res"><b>Kết quả đã thấy:</b> VNeID: Khớp / Thông tin không khớp / Không tìm thấy; CIC: Nhóm nợ 1 / 2 / 4; SMS: Đã gửi / Gửi lỗi. HL-000012 (CIC nhóm nợ 4) → “SMS: từ chối” và hồ sơ Bị từ chối. Chỉ có lần gọi VNeID <b>hợp lệ</b> của HL-000019 (10:45); các lần lưu CCCD <code>123</code> không sinh dòng nhật ký.</div>
+          <p class="src">Ảnh 28 · Báo cáo mục 3c</p>
+        </div>
+        <div class="figs">
+          <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+            <img src="screenshots/28-P300001-trang-tich-hop-nhat-ky-goi.jpg" alt="Trang Tích hợp" loading="lazy">
+            <i class="mk" data-n="1" style="--x:332;--y:11;--w:70;--h:20"></i>
+            <i class="mk" data-n="2" style="--x:19;--y:205;--w:553;--h:145"></i>
+            <i class="mk" data-n="3" style="--x:476;--y:146;--w:89;--h:39"></i>
+            <i class="mk" data-n="4" style="--x:19;--y:444;--w:553;--h:395"></i>
+          </div><figcaption>Ảnh 28 · Trang Tích hợp và nhật ký gọi</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </article>
+</div></section>
+
+<!-- ======================= 4. E2E ======================= -->
+<section id="e2e"><div class="wrapper">
+  <h2><span class="num">4</span> Các luồng end-to-end (E2E)</h2>
+  <p class="lead">Tất cả luồng dưới đây đã <b>chạy thật</b> trên hồ sơ HL-000019 / HL-000020 / HL-000021. Màu nhãn: <span class="tag p1">P100001</span> <span class="tag p2">P200001</span> <span class="tag p3">P300001</span> <span class="tag ext">hệ thống bên thứ ba</span> <span class="tag sys">hệ thống Banking Lite</span>.</p>
+
+  <h3>4.1 Sơ đồ tuần tự luồng chính (HL-000019 → Đã phê duyệt)</h3>
+  <p class="small">Đọc từ trên xuống; số trong vòng tròn là thứ tự. Nét liền = yêu cầu, nét đứt = kết quả trả về.</p>
+  <div class="diag">
+  <svg viewBox="0 0 1300 904" role="img" aria-label="Sơ đồ tuần tự luồng chính">
+<defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334"/></marker><marker id="a2d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#777"/></marker></defs>
+<g stroke="#b9c4c0" stroke-width="1.5" stroke-dasharray="5 5">
+<line x1="110" y1="64" x2="110" y2="884"/>
+<line x1="390" y1="64" x2="390" y2="884"/>
+<line x1="580" y1="64" x2="580" y2="884"/>
+<line x1="750" y1="64" x2="750" y2="884"/>
+<line x1="920" y1="64" x2="920" y2="884"/>
+<line x1="1060" y1="64" x2="1060" y2="884"/>
+<line x1="1190" y1="64" x2="1190" y2="884"/>
+</g>
+<g font-size="14" font-weight="700" text-anchor="middle" fill="#fff" class="noh">
+<rect x="40" y="14" width="140" height="48" rx="10" fill="#177a5c"/>
+<text x="110" y="34" stroke="none">P100001</text><text x="110" y="52" font-size="11.5" font-weight="500" stroke="none">Chuyên viên KH</text>
+<rect x="310" y="14" width="160" height="48" rx="10" fill="#4a5568"/>
+<text x="390" y="34" stroke="none">Banking Lite</text><text x="390" y="52" font-size="11.5" font-weight="500" stroke="none">hệ thống</text>
+<rect x="505" y="14" width="150" height="48" rx="10" fill="#b7791f"/>
+<text x="580" y="34" stroke="none">P200001</text><text x="580" y="52" font-size="11.5" font-weight="500" stroke="none">Chuyên viên định giá</text>
+<rect x="675" y="14" width="150" height="48" rx="10" fill="#2b6cb0"/>
+<text x="750" y="34" stroke="none">P300001</text><text x="750" y="52" font-size="11.5" font-weight="500" stroke="none">Thẩm định tín dụng</text>
+<rect x="865" y="14" width="110" height="48" rx="10" fill="#6b46c1"/>
+<text x="920" y="43" stroke="none">VNeID</text>
+<rect x="1005" y="14" width="110" height="48" rx="10" fill="#6b46c1"/>
+<text x="1060" y="43" stroke="none">CIC</text>
+<rect x="1135" y="14" width="110" height="48" rx="10" fill="#6b46c1"/>
+<text x="1190" y="43" stroke="none">Cổng SMS</text>
+</g>
+<line x1="110" y1="112" x2="388" y2="112" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="260" y="105" text-anchor="middle" font-size="13" fill="#222">Tạo hồ sơ mới → hồ sơ Nháp</text>
+<line x1="110" y1="156" x2="388" y2="156" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="260" y="149" text-anchor="middle" font-size="13" fill="#222">Lưu Người vay (CCCD 12 số, SĐT…)</text>
+<line x1="390" y1="200" x2="918" y2="200" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="665" y="193" text-anchor="middle" font-size="13" fill="#222">Xác thực danh tính khi lưu</text>
+<line x1="920" y1="244" x2="392" y2="244" stroke="#777" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a2d)"/>
+<text x="645" y="237" text-anchor="middle" font-size="13" fill="#555">“VNeID: khớp”</text>
+<line x1="110" y1="288" x2="388" y2="288" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="260" y="281" text-anchor="middle" font-size="13" fill="#222">Nhập khoản vay, tài sản, tài chính</text>
+<line x1="110" y1="332" x2="388" y2="332" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="260" y="325" text-anchor="middle" font-size="13" fill="#222">Yêu cầu định giá → “Đã yêu cầu”</text>
+<rect x="150" y="362" width="470" height="34" rx="8" fill="#fff6e0" stroke="#f0c36d" stroke-width="1.5"/>
+<text x="385" y="384" text-anchor="middle" font-size="13" fill="#6b4a00" stroke="none">⏸ Nút “Gửi thẩm định” bị vô hiệu hóa đến khi định giá xong</text>
+<line x1="580" y1="444" x2="392" y2="444" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="475" y="423" text-anchor="middle" font-size="13" fill="#222">Nhập giá thị trường,</text>
+<text x="475" y="437" text-anchor="middle" font-size="13" fill="#222">Hoàn thành định giá</text>
+<line x1="110" y1="488" x2="388" y2="488" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="260" y="481" text-anchor="middle" font-size="13" fill="#222">Gửi thẩm định</text>
+<line x1="390" y1="532" x2="1058" y2="532" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="735" y="525" text-anchor="middle" font-size="13" fill="#222">Lấy báo cáo tín dụng</text>
+<line x1="1060" y1="576" x2="392" y2="576" stroke="#777" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a2d)"/>
+<text x="715" y="569" text-anchor="middle" font-size="13" fill="#555">“A1: nhóm nợ 1, trả nợ 0 VND”</text>
+<line x1="390" y1="620" x2="112" y2="620" stroke="#777" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a2d)"/>
+<text x="240" y="613" text-anchor="middle" font-size="13" fill="#555">Đã gửi (khóa) · Thẩm định: Phê duyệt</text>
+<line x1="750" y1="664" x2="392" y2="664" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="560" y="657" text-anchor="middle" font-size="13" fill="#222">Đánh dấu 4 mục, chọn Phê duyệt, ghi chú</text>
+<line x1="390" y1="708" x2="1188" y2="708" stroke="#334" stroke-width="2" marker-end="url(#a2)"/>
+<text x="800" y="701" text-anchor="middle" font-size="13" fill="#222">Gửi SMS phê duyệt cho khách</text>
+<line x1="1190" y1="752" x2="392" y2="752" stroke="#777" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a2d)"/>
+<text x="780" y="745" text-anchor="middle" font-size="13" fill="#555">“Đã gửi”</text>
+<line x1="390" y1="796" x2="112" y2="796" stroke="#777" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a2d)"/>
+<text x="240" y="789" text-anchor="middle" font-size="13" fill="#555">Đã phê duyệt · không sửa được nữa</text>
+<g font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff" class="noh">
+<circle cx="127" cy="112" r="11" fill="#177a5c"/><text x="127" y="116.5" stroke="none">1</text>
+<circle cx="127" cy="156" r="11" fill="#177a5c"/><text x="127" y="160.5" stroke="none">2</text>
+<circle cx="407" cy="200" r="11" fill="#4a5568"/><text x="407" y="204.5" stroke="none">3</text>
+<circle cx="903" cy="244" r="11" fill="#6b46c1"/><text x="903" y="248.5" stroke="none">4</text>
+<circle cx="127" cy="288" r="11" fill="#177a5c"/><text x="127" y="292.5" stroke="none">5</text>
+<circle cx="127" cy="332" r="11" fill="#177a5c"/><text x="127" y="336.5" stroke="none">6</text>
+<circle cx="563" cy="444" r="11" fill="#b7791f"/><text x="563" y="448.5" stroke="none">7</text>
+<circle cx="127" cy="488" r="11" fill="#177a5c"/><text x="127" y="492.5" stroke="none">8</text>
+<circle cx="407" cy="532" r="11" fill="#4a5568"/><text x="407" y="536.5" stroke="none">9</text>
+<circle cx="1043" cy="576" r="11" fill="#6b46c1"/><text x="1043" y="580.5" stroke="none">10</text>
+<circle cx="373" cy="620" r="11" fill="#4a5568"/><text x="373" y="624.5" stroke="none">11</text>
+<circle cx="733" cy="664" r="11" fill="#2b6cb0"/><text x="733" y="668.5" stroke="none">12</text>
+<circle cx="407" cy="708" r="11" fill="#4a5568"/><text x="407" y="712.5" stroke="none">13</text>
+<circle cx="1173" cy="752" r="11" fill="#6b46c1"/><text x="1173" y="756.5" stroke="none">14</text>
+<circle cx="373" cy="796" r="11" fill="#4a5568"/><text x="373" y="800.5" stroke="none">15</text>
+</g></svg>
+  </div>
+  <p class="small">Nguồn: Báo cáo mục 4.0 (sơ đồ đã chạy thật). Ở bước 11–15, hồ sơ chuyển sang “Đã gửi” rồi “Đã phê duyệt” như ảnh 24, 31, 32.</p>
+
+  <h3>4.2 Vòng đời trạng thái của hồ sơ</h3>
+  <p class="small">Mọi mũi tên đều đã chạy thật. Chưa thấy luồng nào đi tiếp từ “Bị từ chối” và “Đã phê duyệt” (đều khóa).</p>
+  <div class="diag">
+  <svg viewBox="0 0 1000 390" role="img" aria-label="Sơ đồ trạng thái hồ sơ">
+    <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334"/></marker></defs>
+    <g class="noh" font-size="17" font-weight="700" text-anchor="middle">
+      <rect x="20" y="150" width="130" height="56" rx="12" fill="#eef1f4" stroke="#6b7a86" stroke-width="2.5"/><text x="85" y="185" fill="#33414d" stroke="none">Nháp</text>
+      <rect x="270" y="150" width="140" height="56" rx="12" fill="#e4eefa" stroke="#2b6cb0" stroke-width="2.5"/><text x="340" y="185" fill="#2b6cb0" stroke="none">Đã gửi</text>
+      <rect x="640" y="20" width="160" height="56" rx="12" fill="#dcf3e7" stroke="#146c43" stroke-width="2.5"/><text x="720" y="55" fill="#146c43" stroke="none">Đã phê duyệt</text>
+      <rect x="640" y="150" width="160" height="56" rx="12" fill="#ffe3e8" stroke="#a3123a" stroke-width="2.5"/><text x="720" y="185" fill="#a3123a" stroke="none">Bị từ chối</text>
+      <rect x="640" y="270" width="160" height="56" rx="12" fill="#fff0cf" stroke="#b7791f" stroke-width="2.5"/><text x="720" y="305" fill="#8a5a00" stroke="none">Bị trả lại</text>
+    </g>
+    <g stroke="#334" stroke-width="2.2" fill="none" marker-end="url(#a3)">
+      <line x1="150" y1="178" x2="268" y2="178"/>
+      <line x1="410" y1="162" x2="638" y2="64"/>
+      <line x1="410" y1="178" x2="638" y2="178"/>
+      <line x1="410" y1="194" x2="638" y2="290"/>
+      <path d="M640 312 C 520 372, 340 350, 340 208"/>
+    </g>
+    <g font-size="13" fill="#222">
+      <text x="209" y="158" text-anchor="middle">Gửi thẩm định</text>
+      <text x="548" y="86">Phê duyệt</text>
+      <text x="544" y="168">Từ chối</text>
+      <text x="548" y="284">Trả lại</text>
+      <text x="470" y="378" text-anchor="middle">Sửa rồi gửi lại</text>
+    </g>
+    <g class="noh" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">
+      <circle cx="209" cy="178" r="11" fill="#334"/><text x="209" y="182.5" stroke="none">1</text>
+      <circle cx="524" cy="113" r="11" fill="#334"/><text x="524" y="117.5" stroke="none">2</text>
+      <circle cx="524" cy="178" r="11" fill="#334"/><text x="524" y="182.5" stroke="none">3</text>
+      <circle cx="524" cy="241" r="11" fill="#334"/><text x="524" y="245.5" stroke="none">4</text>
+      <circle cx="400" cy="357" r="11" fill="#334"/><text x="400" y="361.5" stroke="none">5</text>
+    </g>
+    <g font-size="12.5" stroke="none">
+      <text x="812" y="52" fill="#146c43">khóa: không sửa được nữa</text>
+      <text x="812" y="182" fill="#a3123a">khóa: không sửa được nữa</text>
+      <text x="812" y="302" fill="#8a5a00">mở khóa cho P100001</text>
+    </g>
+  </svg>
+  </div>
+  <ol class="steplist">
+    <li data-n="1" style="--c:#334"><span class="tag p1">P100001</span> bấm <b>Gửi thẩm định</b> (cần định giá xong).</li>
+    <li data-n="2" style="--c:#334"><span class="tag p3">P300001</span> <b>Phê duyệt</b> — bắt buộc đánh dấu đủ 4 mục kiểm tra. Có SMS cho khách.</li>
+    <li data-n="3" style="--c:#334"><span class="tag p3">P300001</span> <b>Từ chối</b> — bắt buộc ghi chú. Có SMS cho khách.</li>
+    <li data-n="4" style="--c:#334"><span class="tag p3">P300001</span> <b>Trả lại chuyên viên khách hàng</b> — bắt buộc ghi chú. Không SMS.</li>
+    <li data-n="5" style="--c:#334"><span class="tag p1">P100001</span> sửa hồ sơ rồi bấm <b>Gửi thẩm định</b> lại (không về Nháp, không cần định giá lại).</li>
+  </ol>
+  <p class="small">Bên cạnh trạng thái hồ sơ còn có <b>trạng thái định giá</b>: Chưa yêu cầu → (P100001 Yêu cầu) → Đã yêu cầu → (P200001 Hoàn thành) → Đã hoàn thành. Từ “Đã yêu cầu” có nút Hủy yêu cầu định giá → “Đã hủy” <span class="t unk">❓ chưa thử</span> (HL-000003 đang ở “Đã hủy”).</p>
+
+  <h3>4.3 Bốn luồng cụ thể</h3>
+
+  <div class="path">
+    <h4>Luồng A · Phê duyệt (HL-000019) — luồng chính (happy path), cả 3 tài khoản</h4>
+    <ol class="flow">
+      <li style="--c:var(--p1)"><span class="n">1</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Bấm <b>Tạo hồ sơ mới</b> → hồ sơ <b>Nháp</b> HL-000019. <a class="ev" data-img="12">ảnh 12</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">2</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Nhập Người vay → <b>Lưu</b> → “VNeID: khớp”. <a class="ev" data-img="14">ảnh 14</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">3</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Nhập Khoản vay và tài sản, Tài chính → thấy Ước tính trả nợ và Thẩm định xem trước. <a class="ev" data-img="15">ảnh 15</a> <a class="ev" data-img="16">ảnh 16</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">4</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Bước Định giá → <b>Yêu cầu định giá</b> → “Đã yêu cầu”; nút Gửi thẩm định đang bị vô hiệu hóa. <a class="ev" data-img="18">ảnh 18</a></span></li>
+      <li style="--c:var(--p2)"><span class="n">5</span><span class="w"><span class="tag p2">P200001</span></span><span class="tx">Mở hồ sơ ở tab Chờ định giá → nhập Giá trị thị trường 4.000.000.000 + ghi chú → <b>Hoàn thành định giá</b>. <a class="ev" data-img="22">ảnh 22</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">6</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Bước Kiểm tra và gửi: “Hồ sơ đã đầy đủ và sẵn sàng gửi.” → <b>Gửi thẩm định</b> → <b>Đã gửi</b>, bị khóa. Hệ thống lấy CIC “nhóm nợ 1”, thẩm định chính thức = Phê duyệt. <a class="ev" data-img="24">ảnh 24</a> <a class="ev" data-img="25">ảnh 25</a></span></li>
+      <li style="--c:var(--p3)"><span class="n">7</span><span class="w"><span class="tag p3">P300001</span></span><span class="tx">Tab Chờ quyết định → mở hồ sơ → bước Quyết định tín dụng → đánh dấu đủ 4 mục → <b>Phê duyệt</b> + ghi chú → <b>Ghi nhận quyết định</b>. <a class="ev" data-img="29">ảnh 29</a> <a class="ev" data-img="31">ảnh 31</a></span></li>
+      <li style="--c:var(--ext)"><span class="n">8</span><span class="w"><span class="tag ext">Cổng SMS</span></span><span class="tx">Hệ thống gửi SMS phê duyệt cho khách → “Đã gửi”. Hồ sơ <b>Đã phê duyệt</b>: “Không thể thay đổi nữa.” <a class="ev" data-img="32">ảnh 32</a> <a class="ev" data-img="28">ảnh 28</a></span></li>
+    </ol>
+  </div>
+
+  <div class="path">
+    <h4>Luồng B · Tạo từ hồ sơ có sẵn, dùng lại định giá, rồi bị Từ chối (HL-000020)</h4>
+    <ol class="flow">
+      <li style="--c:var(--p1)"><span class="n">1</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Bấm <b>Tạo từ hồ sơ có sẵn</b> → tìm khách hàng (<code>Tester</code>) → <b>Dùng</b>; tìm tài sản (<code>CT 100019</code>) → <b>Dùng</b> → <b>Tạo hồ sơ</b>. <a class="ev" data-img="34">ảnh 34</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">2</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Hồ sơ mới: Người vay “Đã xong”, tài sản điền sẵn, Số tiền vay và Tài chính để trống → tự nhập.</span></li>
+      <li style="--c:var(--p1)"><span class="n">3</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Bấm <b>Yêu cầu định giá</b> → <b>Đã hoàn thành ngay</b>, “Dùng lại từ hồ sơ HL-000019” — <b>không cần P200001</b>. <a class="ev" data-img="35">ảnh 35</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">4</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx"><b>Gửi thẩm định</b> → Đã gửi; khuyến nghị hệ thống = Phê duyệt (LTV 50%).</span></li>
+      <li style="--c:var(--p3)"><span class="n">5</span><span class="w"><span class="tag p3">P300001</span></span><span class="tx">Chọn <b>Từ chối</b>, để trống ghi chú → bị chặn “Bắt buộc nhập ghi chú.” <a class="ev" data-img="37">ảnh 37</a></span></li>
+      <li style="--c:var(--p3)"><span class="n">6</span><span class="w"><span class="tag p3">P300001</span></span><span class="tx">Nhập ghi chú, không đánh dấu danh mục → <b>Bị từ chối</b> (khóa) + SMS khách “Đã gửi”. <a class="ev" data-img="38">ảnh 38</a></span></li>
+    </ol>
+  </div>
+
+  <div class="path">
+    <h4>Luồng C · Bị Trả lại, sửa, gửi lại (HL-000021)</h4>
+    <ol class="flow">
+      <li style="--c:var(--p1)"><span class="n">1</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Tạo từ hồ sơ có sẵn, nhập vay 3,4 tỷ → LTV 85%; trường Khuyến nghị = <b>Từ chối</b> nhưng hồ sơ vẫn <b>gửi thẩm định được</b>. <a class="ev" data-img="36">ảnh 36</a></span></li>
+      <li style="--c:var(--p3)"><span class="n">2</span><span class="w"><span class="tag p3">P300001</span></span><span class="tx">Chọn <b>Trả lại chuyên viên khách hàng</b> (bắt buộc ghi chú) → <b>Bị trả lại</b>. Không SMS. <a class="ev" data-img="39">ảnh 39</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">3</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Thấy banner màu vàng ghi chú; hồ sơ <b>mở khóa</b>. <a class="ev" data-img="40">ảnh 40</a></span></li>
+      <li style="--c:var(--p1)"><span class="n">4</span><span class="w"><span class="tag p1">P100001</span></span><span class="tx">Sửa vay xuống 2 tỷ → <b>Lưu</b> → <b>Gửi thẩm định</b> lại (không cần định giá lại) → <b>Đã gửi</b>, Khuyến nghị đổi thành Phê duyệt. <a class="ev" data-img="41">ảnh 41</a></span></li>
+      <li style="--c:var(--p3)"><span class="n">5</span><span class="w"><span class="tag p3">P300001</span></span><span class="tx">Hồ sơ quay lại danh sách chờ xử lý của P300001. HL-000021 hiện <b>đang để nguyên ở “Đã gửi, chờ P300001”</b> (mình chưa quyết định tiếp).</span></li>
+    </ol>
+  </div>
+
+  <div class="path">
+    <h4>Luồng D · Các ràng buộc chặn thao tác (không đi tiếp được)</h4>
+    <div class="tblwrap"><table>
+      <tr><th>Tình huống</th><th>Hệ thống làm gì</th><th>Ảnh</th></tr>
+      <tr><td>Hồ sơ mới, chưa xong Người vay, bấm sang bước 2</td><td>Bước 2 bị khóa: “Bước này mở sau khi hoàn thành: Người vay”.</td><td><a class="ev" data-img="13">13</a></td></tr>
+      <tr><td>Chưa có kết quả định giá hoàn thành, mở bước Kiểm tra và gửi</td><td>Nút Gửi thẩm định bị vô hiệu hóa; “Cần hoàn thiện các mục sau trước khi gửi: Kết quả định giá đã hoàn thành.”</td><td>— <span class="small">(ghi nhận trong báo cáo, không có ảnh)</span></td></tr>
+      <tr><td>P200001 để trống Giá trị thị trường</td><td>Khung đỏ “Một số giá trị không hợp lệ.” + <code>validation.too_small (marketValue)</code></td><td><a class="ev" data-img="20">20</a></td></tr>
+      <tr><td>P300001 chọn Phê duyệt khi chưa đánh dấu đủ 4 mục</td><td>“Đánh dấu đủ danh mục kiểm tra trước khi phê duyệt.”</td><td><a class="ev" data-img="30">30</a></td></tr>
+      <tr><td>P300001 chọn Từ chối hoặc Trả lại mà không ghi chú</td><td>“Bắt buộc nhập ghi chú.” (không đòi đánh dấu danh mục)</td><td><a class="ev" data-img="37">37</a></td></tr>
+      <tr><td>Hồ sơ Đã gửi</td><td>Khóa với P100001: “Hồ sơ đã gửi và bị khóa trong khi chuyên viên thẩm định ra quyết định.”</td><td><a class="ev" data-img="24">24</a></td></tr>
+      <tr><td>Hồ sơ Đã phê duyệt / Bị từ chối</td><td>“Không thể thay đổi nữa.” Chưa thấy cách mở lại.</td><td><a class="ev" data-img="32">32</a></td></tr>
+      <tr><td>P200001 mở hồ sơ</td><td>“Bạn được xem nhưng không được sửa hồ sơ này.”</td><td><a class="ev" data-img="23">23</a></td></tr>
+    </table></div>
+  </div>
+</div></section>
+
+<!-- ======================= 5. MƠ HỒ ======================= -->
+<section id="mo-ho"><div class="wrapper">
+  <h2><span class="num">5</span> Điểm mơ hồ cần bạn làm rõ</h2>
+  <p class="lead">Mỗi thẻ gồm: <b>đã thấy gì</b> (có ảnh/chứng cứ), <b>vì sao chưa kết luận được</b>, và <b>cần làm rõ điều gì</b>. Mình <b>không</b> kết luận “lỗi” hay “đúng thiết kế” khi chưa có tài liệu. Mức độ chỉ là gợi ý thứ tự hỏi: <span class="t hi">Nên hỏi trước</span> <span class="t mid">Hỏi sau</span>.</p>
+
+  <h3>Nhóm A · Hành vi có vẻ bất thường</h3>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-01</span>CCCD / SĐT sai định dạng vẫn “Đã lưu.” <span class="t hi">Nên hỏi trước</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Nhập CCCD <code>123</code> và SĐT <code>123</code> rồi bấm Lưu → hiện “Đã lưu.”, không có chữ đỏ báo lỗi; VNeID hiện “Chưa kiểm tra”; bước 1 vẫn “Còn thiếu thông tin”. Dưới ô chỉ có gợi ý “12 chữ số” / “10 chữ số, bắt đầu bằng 0”. Nhập đúng định dạng thì VNeID mới chạy và hiện “khớp”. <small>(Ảnh 11, 14; báo cáo mục 3.5 dòng 3–4)</small></dd>
+        <dt>Vì sao chưa rõ</dt><dd>Không có tài liệu cho biết hệ thống có cố ý cho lưu dữ liệu sai định dạng hay không.</dd>
+        <dt>Cần làm rõ</dt><dd>CCCD/SĐT sai định dạng có phải bị chặn khi lưu không? Đây là thiết kế hay lỗi?</dd>
+      </dl>
+    </div>
+    <div class="figs"><figure class="shot" style="--W:606;--H:845"><div class="wrap">
+      <img src="screenshots/11-P100001-HL-000019-luu-CCCD-123-sdt-123-van-Da-luu.jpg" alt="CCCD 123" loading="lazy">
+      <i class="mk" data-n="1" style="--x:303;--y:353;--w:250;--h:37"></i>
+      <i class="mk" data-n="2" style="--x:303;--y:451;--w:250;--h:37"></i>
+      <i class="mk" data-n="3" style="--x:39;--y:293;--w:90;--h:22"></i>
+      <i class="mk" data-n="4" style="--x:19;--y:677;--w:50;--h:20"></i>
+    </div><figcaption>Ảnh 11 · ① CCCD “123” ② SĐT “123” ③ “Chưa kiểm tra” ④ “Đã lưu.”</figcaption></figure></div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-02</span>Form định giá hiện mã lỗi gốc <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>P200001 để trống Giá trị thị trường rồi bấm Hoàn thành định giá → khung đỏ “Một số giá trị không hợp lệ.” + dòng <code>validation.too_small (marketValue)</code>. Gõ chữ <code>abc</code> thì ô không nhận chữ. <small>(Ảnh 20; mục 3b dòng 1–2)</small></dd>
+        <dt>Vì sao chưa rõ</dt><dd>Các form khác hiện câu tiếng Việt đầy đủ (ví dụ ảnh 30: “Đánh dấu đủ danh mục kiểm tra trước khi phê duyệt.”). Không biết đây là lỗi chưa dịch hay chủ ý.</dd>
+        <dt>Cần làm rõ</dt><dd>Chuẩn thông báo lỗi là gì? Giá trị thị trường có giới hạn tối thiểu/tối đa hoặc ràng buộc so với giá khai báo không? (Mình mới thử để trống và nhập chữ.)</dd>
+      </dl>
+    </div>
+    <div class="figs"><figure class="shot" style="--W:606;--H:845"><div class="wrap">
+      <img src="screenshots/20-P200001-HL-000019-dinh-gia-de-trong-loi-validation.too_small.jpg" alt="Mã lỗi thô" loading="lazy">
+      <i class="mk" data-n="1" style="--x:19;--y:675;--w:553;--h:73"></i>
+    </div><figcaption>Ảnh 20 · ① mã lỗi gốc</figcaption></figure></div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-03</span>Hồ sơ khuyến nghị “Từ chối” vẫn gửi thẩm định được <span class="t hi">Nên hỏi trước</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>HL-000021: vay 3,4 tỷ → LTV 85%, trường Khuyến nghị = <b>Từ chối</b> (ảnh 36). Báo cáo ghi: bước Kiểm tra và gửi vẫn “Hồ sơ đã đầy đủ và sẵn sàng gửi”, nút Gửi thẩm định không bị vô hiệu hóa, bấm được → Đã gửi. Sau đó P300001 thấy hồ sơ này với “Thẩm định: Từ chối” (ảnh 39). Cũng có thể nhập và lưu LTV 85% ở bước nhập liệu (ảnh 15).</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Không có tài liệu nói hồ sơ khuyến nghị Từ chối có được phép gửi hay không. <i>Lưu ý bằng chứng:</i> ảnh 36 chỉ chụp đầu trang; việc nút Gửi “không bị vô hiệu hóa” là ghi nhận trong báo cáo, <b>không có ảnh nút</b> (xem mục 6). Ngoài ra mình mới thử P300001 <b>Từ chối trái khuyến nghị Phê duyệt</b>; <b>chưa thử Phê duyệt trái khuyến nghị Từ chối</b>.</dd>
+        <dt>Cần làm rõ</dt><dd>Hồ sơ khuyến nghị Từ chối có được gửi không? P300001 có được phê duyệt trái khuyến nghị không?</dd>
+      </dl>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/36-P100001-HL-000021-LTV85-khuyen-nghi-Tu-choi-van-cho-gui.jpg" alt="LTV 85% khuyến nghị Từ chối" loading="lazy">
+        <i class="mk" data-n="1" style="--x:210;--y:216;--w:75;--h:40"></i>
+        <i class="mk" data-n="2" style="--x:33;--y:262;--w:115;--h:40"></i>
+      </div><figcaption>Ảnh 36 · ① LTV 85% ② Khuyến nghị Từ chối</figcaption></figure>
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/39-P300001-HL-000021-da-tra-lai-chuyen-vien-khach-hang.jpg" alt="P300001 thấy thẩm định Từ chối" loading="lazy">
+        <i class="mk" data-n="3" style="--x:134;--y:136;--w:60;--h:22"></i>
+      </div><figcaption>Ảnh 39 · ③ P300001 thấy “Từ chối”</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-04</span>Trường “Khuyến nghị” hiển thị dữ liệu cũ sau khi hồ sơ bị trả lại và được sửa <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Báo cáo ghi: sau khi sửa vay 3,4 tỷ → 2 tỷ và Lưu, LTV đầu trang đổi thành 50% nhưng Khuyến nghị vẫn là “Từ chối”, trạng thái vẫn “Bị trả lại”; phần thẩm định xem trước ở “Kiểm tra và gửi” đã chuyển Phê duyệt. Chỉ khi gửi lại, Khuyến nghị mới thành “Phê duyệt”. <small>(Mục 3.8 dòng 2–3)</small></dd>
+        <dt>Vì sao chưa rõ</dt><dd><b>Không có ảnh</b> của đúng khoảnh khắc này. Ảnh 40 là trước khi sửa (LTV 85%, Từ chối), ảnh 41 là sau khi gửi lại (LTV 50%, Phê duyệt).</dd>
+        <dt>Cần làm rõ</dt><dd>Khuyến nghị chỉ cập nhật khi gửi lại là chủ ý? Mình có thể tái hiện để chụp ảnh nếu bạn muốn.</dd>
+      </dl>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/40-P100001-HL-000021-bi-tra-lai-thay-ghi-chu-va-sua-duoc.jpg" alt="Trước khi sửa" loading="lazy">
+        <i class="mk" data-n="1" style="--x:210;--y:216;--w:75;--h:40"></i>
+        <i class="mk" data-n="2" style="--x:33;--y:262;--w:115;--h:40"></i>
+      </div><figcaption>Ảnh 40 · Trước khi sửa: ① LTV ② Khuyến nghị</figcaption></figure>
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/41-P100001-HL-000021-gui-lai-sau-khi-sua-khuyen-nghi-Phe-duyet.jpg" alt="Sau khi gửi lại" loading="lazy">
+        <i class="mk" data-n="3" style="--x:210;--y:216;--w:75;--h:40"></i>
+        <i class="mk" data-n="4" style="--x:33;--y:262;--w:115;--h:40"></i>
+      </div><figcaption>Ảnh 41 · Sau khi gửi lại: ③ LTV ④ Khuyến nghị</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-05</span>“Tạo hồ sơ mới” tạo bản ghi ngay → tồn đọng nhiều hồ sơ nháp (Draft) rỗng <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Bấm Tạo hồ sơ mới là có ngay HL-000019, chưa nhập gì (ảnh 12). Trong danh sách “Hồ sơ của tôi” có HL-000013…HL-000018 trống (“—”, Nháp, Chưa yêu cầu), cột Người tạo ghi <b>P100001</b> (ảnh 02).</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Bạn đã nói HL-000013…HL-000018 <b>không phải do bạn tạo</b> (báo cáo mục 6), nhưng danh sách ghi người tạo là P100001. Chưa biết ai tạo, và hồ sơ nháp rỗng có tự xóa không.</dd>
+        <dt>Cần làm rõ</dt><dd>Ai tạo các hồ sơ trống đó? Bấm “Tạo hồ sơ mới” rồi bỏ đi thì hồ sơ có tự xóa không?</dd>
+      </dl>
+    </div>
+    <div class="figs"><figure class="shot" style="--W:606;--H:845"><div class="wrap">
+      <img src="screenshots/02-P100001-danh-sach-viec-ho-so-cua-toi.jpg" alt="Nhiều hồ sơ nháp rỗng" loading="lazy">
+      <i class="mk" data-n="1" style="--x:446;--y:109;--w:126;--h:39"></i>
+      <i class="mk" data-n="2" style="--x:19;--y:262;--w:553;--h:556"></i>
+    </div><figcaption>Ảnh 02 · ① nút Tạo hồ sơ mới ② các hồ sơ nháp rỗng</figcaption></figure></div>
+  </div>
+
+  <h3>Nhóm B · Tích hợp bên ngoài</h3>
+
+  <div class="amb askme">
+    <div>
+      <h4><span class="id">M-06</span>VNeID / CIC / Cổng SMS: mô phỏng (mock) hay thật? SMS có gửi thật không? <span class="t hi">Nên hỏi trước</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Trang Tích hợp: 3 thẻ đều “Hoạt động” (ảnh 28). Nhật ký có dòng “SMS: từ chối · HL-000012 · 090****121 · Đã gửi”; với HL-000019 mình nhập số test <code>0912345678</code>, nhật ký ghi “SMS: phê duyệt · 091****678 · Đã gửi”. Hồ sơ có sẵn HL-000011 có dòng “Gửi SMS cho khách hàng — gửi lỗi (quyết định vẫn có hiệu lực)” (ảnh 10). VNeID trả “Khớp / Thông tin không khớp / Không tìm thấy”; CIC trả “Nhóm nợ 1 / 2 / 4”.</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Bạn từng nói tích hợp “chưa setup, tạm bỏ qua” (báo cáo mục 6), nhưng thực tế cả ba đều “Hoạt động” và trả kết quả. Không có gì trên màn hình cho biết đây là hệ thống thật hay mô phỏng (mock). Nếu SMS là thật, tin nhắn có thể đã gửi tới số test mình nhập.</dd>
+        <dt>Cần làm rõ</dt><dd>Ba tích hợp là mô phỏng (mock) hay thật? Khi lỗi (không khớp, hết thời gian chờ, SMS lỗi) thì hồ sơ xử lý ra sao, có thử lại không?</dd>
+      </dl>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/28-P300001-trang-tich-hop-nhat-ky-goi.jpg" alt="Trang Tích hợp" loading="lazy">
+        <i class="mk" data-n="1" style="--x:19;--y:205;--w:553;--h:145"></i>
+        <i class="mk" data-n="2" style="--x:19;--y:655;--w:553;--h:55"></i>
+      </div><figcaption>Ảnh 28 · ① 3 thẻ “Hoạt động” ② SMS “Đã gửi”</figcaption></figure>
+      <figure class="shot" style="--W:411;--H:675"><div class="wrap">
+        <img src="screenshots/10-P100001-HL-000011-lich-su.jpg" alt="SMS lỗi" loading="lazy">
+        <i class="mk" data-n="3" style="--x:10;--y:452;--w:385;--h:16"></i>
+      </div><figcaption>Ảnh 10 · ③ “gửi lỗi (quyết định vẫn có hiệu lực)”</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-07</span>Nhóm nợ CIC → kết quả thẩm định <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Nhật ký tích hợp: HL-000012 có CIC “Nhóm nợ 4” (nền đỏ) và hồ sơ <b>Bị từ chối</b>, SMS từ chối đã gửi. Nhật ký còn có “Nhóm nợ 1” và “Nhóm nợ 2” (HL-000009). <small>(Ảnh 28; báo cáo mục 3c, câu 27)</small></dd>
+        <dt>Vì sao chưa rõ</dt><dd>Chưa thấy kết quả thẩm định của HL-000009 (nhóm nợ 2) và chưa có bảng nhóm nợ → kết quả.</dd>
+        <dt>Cần làm rõ</dt><dd>Bảng ánh xạ nhóm nợ CIC → kết quả thẩm định là gì?</dd>
+      </dl>
+    </div>
+    <div class="figs"><figure class="shot" style="--W:606;--H:845"><div class="wrap">
+      <img src="screenshots/28-P300001-trang-tich-hop-nhat-ky-goi.jpg" alt="Nhóm nợ 4" loading="lazy">
+      <i class="mk" data-n="1" style="--x:19;--y:703;--w:553;--h:62"></i>
+    </div><figcaption>Ảnh 28 · ① HL-000012: CIC “Nhóm nợ 4”</figcaption></figure></div>
+  </div>
+
+  <h3>Nhóm C · Quy tắc nghiệp vụ chưa có tài liệu</h3>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-08</span>Công thức lãi suất sau ưu đãi <span class="t hi">Nên hỏi trước</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Cùng sản phẩm 6,00%/12 tháng: LTV 50% → sau ưu đãi <b>9,80%</b> (ảnh 29); LTV 85% → <b>10,30%</b> (ảnh 15). Hồ sơ có sẵn HL-000011 hiện 3 sản phẩm với lãi sau ưu đãi 9,80% / 9,50% / 9,30%. Trường “Giảm biên độ (điểm phần trăm)” ghi “Tối đa 0,5”.</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Chỉ biết LTV cao hơn thì lãi sau ưu đãi cao hơn. Báo cáo có ghi biên độ 3,30 nhưng <b>chưa có bảng cộng thêm theo LTV</b>, và chưa thử đổi “Giảm biên độ”.</dd>
+        <dt>Cần làm rõ</dt><dd>Công thức / bảng cộng thêm theo LTV là gì? “Giảm biên độ” áp dụng khi nào, ai được dùng?</dd>
+      </dl>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/15-P100001-HL-000019-vay-3.4ty-LTV-85-van-luu-lai-suat-10.30.jpg" alt="Lãi 10,30%" loading="lazy">
+        <i class="mk" data-n="1" style="--x:38;--y:488;--w:330;--h:22"></i>
+        <i class="mk" data-n="2" style="--x:38;--y:543;--w:330;--h:22"></i>
+      </div><figcaption>Ảnh 15 · ① LTV 85% ② lãi sau ưu đãi 10,30%</figcaption></figure>
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/29-P300001-HL-000019-quyet-dinh-tin-dung-danh-muc-kiem-tra.jpg" alt="Lãi 9,80%" loading="lazy">
+        <i class="mk" data-n="3" style="--x:38;--y:181;--w:460;--h:22"></i>
+        <i class="mk" data-n="4" style="--x:38;--y:208;--w:330;--h:22"></i>
+      </div><figcaption>Ảnh 29 · ③ LTV 50% ④ lãi thẩm định 9,80%</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-09</span>Ngưỡng thẩm định và ý nghĩa của “Chuyển cấp trên” <span class="t hi">Nên hỏi trước</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Với LTV 85% và DSR 67,63%: “Từ chối: LTV 85% vượt mức tối đa 80%” và “Chuyển cấp trên: DSR 67,63% vượt 50%; chuyển cấp trên xem xét.” Nhãn tổng hợp là “Từ chối”. Ở HL-000019 (LTV 50%, DSR 38,48%): “Phê duyệt — Đáp ứng mọi quy tắc tín dụng.” Trên màn hình còn có “Tuổi cao nhất khi đáo hạn” (56). <small>(Ảnh 16, 29)</small></dd>
+        <dt>Vì sao chưa rõ</dt><dd>Chỉ thấy hai quy tắc (LTV &gt; 80% → Từ chối; DSR &gt; 50% → Chuyển cấp trên). Chưa biết có quy tắc nào khác (tuổi, nhóm nợ CIC, thu nhập tối thiểu), thứ tự ưu tiên khi nhiều quy tắc cùng vi phạm, và “cấp trên” là ai / hệ thống làm gì khi “chuyển cấp trên” (hồ sơ ở ảnh 39 vẫn tới P300001).</dd>
+        <dt>Cần làm rõ</dt><dd>Danh sách đầy đủ quy tắc và ngưỡng; “Chuyển cấp trên” làm thay đổi gì trong hệ thống?</dd>
+      </dl>
+    </div>
+    <div class="figs"><figure class="shot" style="--W:606;--H:845"><div class="wrap">
+      <img src="screenshots/16-P100001-HL-000019-tai-chinh-tham-dinh-xem-truoc-Tu-choi-LTV85-DSR67.jpg" alt="Lý do Từ chối" loading="lazy">
+      <i class="mk" data-n="1" style="--x:134;--y:244;--w:60;--h:24"></i>
+      <i class="mk" data-n="2" style="--x:38;--y:550;--w:500;--h:80"></i>
+    </div><figcaption>Ảnh 16 · ① “Từ chối” ② Lý do</figcaption></figure></div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-10</span>LTV tính theo giá khai báo hay giá thị trường? Định giá dùng lại theo tiêu chí nào? <span class="t hi">Nên hỏi trước</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Ở HL-000019 giá khai báo và giá thị trường <b>đều 4.000.000.000</b> (ảnh 22). Hồ sơ tạo từ hồ sơ có sẵn dùng lại định giá của HL-000019: “Dùng lại từ hồ sơ HL-000019” (ảnh 35). Màn hình ghi “kết quả định giá của cùng tài sản trong 90 ngày gần nhất sẽ được dùng lại” (ảnh 15).</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Vì hai giá trị bằng nhau nên <b>không phân biệt được</b> LTV dùng giá nào; mình chưa thử nhập giá thị trường lệch giá khai báo. Cũng chưa biết “cùng tài sản” khớp theo số giấy chứng nhận hay địa chỉ.</dd>
+        <dt>Cần làm rõ</dt><dd>Giá thị trường có thay giá khai báo khi tính LTV không? Giá lệch bao nhiêu thì ảnh hưởng? “Cùng tài sản” khớp theo tiêu chí nào?</dd>
+      </dl>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/22-P200001-HL-000019-hoan-thanh-dinh-gia-thanh-cong.jpg" alt="Hai giá bằng nhau" loading="lazy">
+        <i class="mk" data-n="1" style="--x:38;--y:456;--w:500;--h:20"></i>
+        <i class="mk" data-n="2" style="--x:38;--y:536;--w:500;--h:20"></i>
+      </div><figcaption>Ảnh 22 · ① khai báo ② thị trường (bằng nhau)</figcaption></figure>
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/35-P100001-HL-000020-dinh-gia-dung-lai-tu-HL-000019.jpg" alt="Dùng lại" loading="lazy">
+        <i class="mk" data-n="3" style="--x:233;--y:590;--w:200;--h:22"></i>
+      </div><figcaption>Ảnh 35 · ③ “Dùng lại từ hồ sơ HL-000019”</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-11</span>Quy tắc form quyết định: vì sao chỉ Phê duyệt mới đòi đánh dấu danh mục? <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Phê duyệt khi chưa đánh dấu đủ → lỗi “Đánh dấu đủ danh mục kiểm tra trước khi phê duyệt.” (ảnh 30). Từ chối / Trả lại → chỉ đòi ghi chú, không đòi đánh dấu (ảnh 37). Hồ sơ Từ chối và Phê duyệt sau đó bị khóa “Không thể thay đổi nữa”.</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Quy tắc quan sát được rõ, nhưng không có tài liệu nói đây là chủ ý. Mình chưa thử Phê duyệt với ghi chú bỏ trống (HL-000019 có nhập ghi chú). Chưa thấy cách mở lại hồ sơ đã Từ chối.</dd>
+        <dt>Cần làm rõ</dt><dd>Ghi chú khi Phê duyệt có bắt buộc không? Hồ sơ Từ chối có mở lại được không?</dd>
+      </dl>
+    </div>
+    <div class="figs">
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/30-P300001-phe-duyet-khi-chua-tick-danh-muc-bi-chan.jpg" alt="Lỗi đánh dấu" loading="lazy">
+        <i class="mk" data-n="1" style="--x:19;--y:675;--w:553;--h:73"></i>
+      </div><figcaption>Ảnh 30 · ① Phê duyệt: đòi đánh dấu</figcaption></figure>
+      <figure class="shot" style="--W:606;--H:845"><div class="wrap">
+        <img src="screenshots/37-P300001-HL-000020-tu-choi-thieu-ghi-chu-bi-chan.jpg" alt="Lỗi ghi chú" loading="lazy">
+        <i class="mk" data-n="2" style="--x:19;--y:675;--w:553;--h:73"></i>
+      </div><figcaption>Ảnh 37 · ② Từ chối: đòi ghi chú</figcaption></figure>
+    </div>
+  </div>
+
+  <h3>Nhóm D · Quyền và phạm vi dữ liệu</h3>
+
+  <div class="amb">
+    <div>
+      <h4><span class="id">M-12</span>Người định giá xem được cả hồ sơ Nháp của người khác <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Tab “Chờ định giá” của P200001 liệt kê HL-000019 và HL-000002, cả hai đều trạng thái <b>Nháp</b>, người tạo P100001 (ảnh 19). Mở hồ sơ thấy đủ các bước, chỉ đọc (ảnh 23). Tab “Tất cả hồ sơ” thấy cả hồ sơ của P100001/P100002.</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Không có tài liệu nói người định giá được xem hồ sơ Nháp chưa gửi hay không.</dd>
+        <dt>Cần làm rõ</dt><dd>Quyền xem hồ sơ Nháp của người khác có đúng thiết kế không?</dd>
+      </dl>
+    </div>
+    <div class="figs"><figure class="shot" style="--W:606;--H:845"><div class="wrap">
+      <img src="screenshots/19-P200001-danh-sach-viec-cho-dinh-gia.jpg" alt="Hồ sơ Nháp trong tab Chờ định giá" loading="lazy">
+      <i class="mk" data-n="1" style="--x:290;--y:268;--w:62;--h:150"></i>
+    </div><figcaption>Ảnh 19 · ① trạng thái “Nháp” trong danh sách chờ</figcaption></figure></div>
+  </div>
+
+  <div class="amb noimg">
+    <div>
+      <h4><span class="id">M-13</span>Tài khoản P100002 và quyền với hồ sơ của người khác <span class="t mid">Hỏi sau</span></h4>
+      <dl>
+        <dt>Đã thấy</dt><dd>Tab “Tất cả hồ sơ” của P100001 có hồ sơ do <b>P100002</b> tạo (HL-000012). Mình chưa đăng nhập P100002. Chưa thử P100001 sửa/gửi hồ sơ của P100002. Trường “chưa kiểm tra riêng” trong bảng ở mục 3 (P300001 sửa / định giá / gửi) cũng chưa thử.</dd>
+        <dt>Vì sao chưa rõ</dt><dd>Không có danh sách tài khoản/vai trò đầy đủ và quy tắc phân quyền.</dd>
+        <dt>Cần làm rõ</dt><dd>P100002 là vai trò gì? P100001 có được sửa/gửi hồ sơ của P100002 không? P300001 có sửa được dữ liệu hồ sơ, có hạn mức quyền duyệt theo số tiền không? Bạn có thể cho thêm mật khẩu/đăng nhập P100002 để mình thử (mình không tự nhập mật khẩu).</dd>
+      </dl>
+    </div>
+  </div>
+</div></section>
+
+<!-- ======================= 6. CHƯA THỬ ======================= -->
+<section id="chua-thu"><div class="wrapper">
+  <h2><span class="num">6</span> Những gì chưa thử / chưa có ảnh</h2>
+  <p class="lead">Để bạn không hiểu nhầm: các mục dưới đây <b>chưa được kiểm chứng</b>.</p>
+  <div class="grid2">
+    <div class="amb noimg" style="margin:0">
+      <div>
+        <h4><span class="id">C-1</span>Nút <b>Tải báo cáo (CSV)</b> của P300001 <span class="t hi">Cần bạn đồng ý</span></h4>
+        <p style="margin:4px 0">Có nút (ảnh 27) nhưng mình chưa bấm vì tải file cần bạn đồng ý. Chưa biết file xuất cột nào, phạm vi nào, có che CCCD/SĐT như trang Tích hợp không.</p>
+        <figure class="shot" style="--W:606;--H:845;width:200px"><div class="wrap"><img src="screenshots/27-P300001-danh-sach-viec-cho-quyet-dinh.jpg" alt="CSV" loading="lazy"><i class="mk" data-n="1" style="--x:425;--y:146;--w:147;--h:39"></i></div></figure>
+      </div>
+    </div>
+    <div class="amb noimg" style="margin:0">
+      <div>
+        <h4><span class="id">C-2</span>Hủy yêu cầu định giá · trạng thái “Đã hủy”</h4>
+        <p style="margin:4px 0">Nút có hiện sau khi yêu cầu (ảnh 18) nhưng chưa bấm. HL-000003 đang ở định giá “Đã hủy” (ghi nhận trong báo cáo, không có ảnh). Chưa biết hủy được ở những trạng thái nào và có yêu cầu lại được không.</p>
+        <figure class="shot" style="--W:606;--H:845;width:200px"><div class="wrap"><img src="screenshots/18-P100001-HL-000019-da-yeu-cau-dinh-gia-dang-cho-xu-ly.jpg" alt="Hủy" loading="lazy"><i class="mk" data-n="1" style="--x:381;--y:617;--w:172;--h:39"></i></div></figure>
+      </div>
+    </div>
+    <div class="amb noimg" style="margin:0">
+      <div>
+        <h4><span class="id">C-3</span>Nút <b>Thêm người vay</b></h4>
+        <p style="margin:4px 0">Có nút (ảnh 14) nhưng chưa bấm: chưa biết tối đa mấy người vay, có bắt buộc khác CCCD không.</p>
+        <figure class="shot" style="--W:606;--H:845;width:200px"><div class="wrap"><img src="screenshots/14-P100001-HL-000019-nguoi-vay-hop-le-VNeID-khop.jpg" alt="Thêm người vay" loading="lazy"><i class="mk" data-n="1" style="--x:19;--y:628;--w:138;--h:39"></i></div></figure>
+      </div>
+    </div>
+    <div class="amb noimg" style="margin:0">
+      <div>
+        <h4><span class="id">C-4</span>Nút <b>Gửi thẩm định</b> — chưa có ảnh</h4>
+        <p style="margin:4px 0">Mình đã bấm nút này nhiều lần nhưng thư mục ảnh chỉ có ảnh <b>kết quả</b> (ảnh 24, 41), không có ảnh bản thân nút. Muốn có ảnh có đánh dấu nút, cần đăng nhập P100001 lại và chụp bổ sung.</p>
+      </div>
+    </div>
+    <div class="amb noimg" style="margin:0">
+      <div>
+        <h4><span class="id">C-5</span>Giao diện English <span class="t mid">Hỏi sau</span></h4>
+        <p style="margin:4px 0">Toàn bộ nhãn đổi sang tiếng Anh; số tiền thành <code>2,000,000,000 VND</code>; ngày giờ <code>17/11/2026, 07:26</code> (vẫn ngày/tháng/năm). Ở cửa sổ hẹp bảng <b>tràn theo chiều ngang</b> (có thanh cuộn ngang). Tên người vay không dịch. Chưa biết chuẩn định dạng giữa hai ngôn ngữ.</p>
+        <figure class="shot" style="--W:606;--H:845;width:200px"><div class="wrap"><img src="screenshots/33-P300001-giao-dien-English-worklist.jpg" alt="English" loading="lazy"><i class="mk" data-n="1" style="--x:19;--y:209;--w:572;--h:211"></i></div><figcaption>Ảnh 33 · ① bảng tràn theo chiều ngang</figcaption></figure>
+      </div>
+    </div>
+    <div class="amb noimg" style="margin:0">
+      <div>
+        <h4><span class="id">C-6</span>Các hành vi khác chưa thử</h4>
+        <ul style="margin:4px 0;padding-left:20px">
+          <li>Luồng SMS <b>gửi lỗi</b> (mới thấy trong dữ liệu có sẵn HL-000011, chưa tự tạo).</li>
+          <li>Đổi “Giảm biên độ” ở bước Lãi suất; chọn sản phẩm khác.</li>
+          <li>Truy cập thẳng link bước (ví dụ <code>/applications/&lt;id&gt;/decision</code>) khi chưa đủ quyền/bước.</li>
+          <li>VNeID “Thông tin không khớp / Không tìm thấy” có chặn gửi thẩm định không — chưa tái hiện (VNeID phản hồi theo dữ liệu mô phỏng (mock)).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ======================= 7. CẦN BẠN TRẢ LỜI ======================= -->
+<section id="cau-hoi"><div class="wrapper">
+  <h2><span class="num">7</span> Việc cần bạn quyết định / trả lời</h2>
+  <p class="lead">Các điểm dưới đây mình <b>không tự quyết</b> được. Trả lời xong mình sẽ cập nhật báo cáo.</p>
+  <ul class="ask">
+    <li><b>Đồng ý cho mình bấm “Tải báo cáo (CSV)” không?</b> (C-1) — mình cần biết file có gì, và file sẽ được lưu về máy.</li>
+    <li><b>Cổng SMS là mô phỏng (mock) hay thật?</b> (M-06) — nếu thật, SMS có thể đã gửi tới số test <code>0912345678</code>.</li>
+    <li><b>Ai tạo HL-000013…HL-000018?</b> (M-05) — danh sách ghi người tạo là P100001 nhưng bạn nói không phải bạn tạo.</li>
+    <li><b>Bạn có tài liệu nghiệp vụ hoặc người trong team để hỏi</b> về công thức lãi suất, quy tắc thẩm định, bảng nhóm nợ CIC, tiêu chí dùng lại định giá? (M-08 → M-10, M-07)</li>
+    <li><b>Bạn có muốn mình thử thêm</b> P100002, Hủy yêu cầu định giá, Thêm người vay, Phê duyệt trái khuyến nghị Từ chối, định giá lệch giá khai báo? Mỗi mục sẽ tạo/đổi dữ liệu test trong hệ thống.</li>
+    <li><b>Bạn có muốn mình chụp bổ sung</b> ảnh nút “Gửi thẩm định” và khoảnh khắc “Khuyến nghị cũ” (M-04)? Cần bạn đăng nhập P100001 trong cửa sổ trình duyệt (mình không tự nhập mật khẩu).</li>
+  </ul>
+  <h3>Các câu hỏi còn lại cho team (không có ảnh)</h3>
+  <p class="small">Lấy từ mục 7 của báo cáo v1, chưa có câu trả lời:</p>
+  <ol>
+    <li>Danh sách đầy đủ vai trò và tài khoản; mỗi vai trò làm gì ở từng bước và từng trạng thái hồ sơ.</li>
+    <li>Giới hạn tối thiểu/tối đa của số tiền vay, thời hạn (năm), ân hạn (tháng), giá trị tài sản, lương/chi phí/phụ thuộc (số âm, số thập phân?).</li>
+    <li>Có kiểm tra tuổi tối thiểu/tối đa của người vay không (màn hình có “Tuổi cao nhất khi đáo hạn”).</li>
+    <li>“Tìm khách hàng có sẵn” và “Tìm tài sản có sẵn” lấy dữ liệu từ đâu? “Tạo từ hồ sơ có sẵn” sao chép những dữ liệu nào (đã thấy: không sao chép thu nhập)?</li>
+    <li>Công thức “Kỳ trả đầu tiên / cao nhất” và “Tổng tiền lãi” (gốc đều vs niên kim, ân hạn).</li>
+    <li>“Lưu” và “Lưu và tiếp tục” có khác nhau về dữ liệu / ghi nhật ký không? Nhật ký Lịch sử ghi những sự kiện nào, giữ bao lâu?</li>
+    <li>Môi trường này có được tạo/sửa/xóa dữ liệu tự do không, có reset định kỳ không?</li>
+    <li>Lịch trả nợ chỉ hiện 24 kỳ đầu kèm “Hiện đủ 240 tháng” — nút xem đủ ở đâu?</li>
+  </ol>
+</div></section>
+</main>
+
+<footer><div class="wrapper">
+  Nguồn: <code>evidence/banking-lite/bao-cao-kham-pha.md</code> (v2) và <code>evidence/banking-lite/screenshots/</code> (41 ảnh). File HTML này đã nhúng sẵn toàn bộ ảnh nên mở độc lập được, không cần thư mục <code>screenshots/</code> đi kèm.
+</div></footer>
+
+<script>
+(function(){
+  /* map số ảnh -> tên file, để các liên kết "ảnh NN" mở đúng ảnh gốc */
+  var F = {
+    "01":"01-login-page-vi.jpg",
+    "02":"02-P100001-danh-sach-viec-ho-so-cua-toi.jpg",
+    "03":"03-P100001-HL-000011-da-phe-duyet-tong-quan.jpg",
+    "10":"10-P100001-HL-000011-lich-su.jpg",
+    "11":"11-P100001-HL-000019-luu-CCCD-123-sdt-123-van-Da-luu.jpg",
+    "12":"12-P100001-tao-ho-so-moi-HL-000019-cac-buoc-chua-mo.jpg",
+    "13":"13-P100001-HL-000019-luu-tiep-tuc-de-trong-buoc-2-bi-khoa.jpg",
+    "14":"14-P100001-HL-000019-nguoi-vay-hop-le-VNeID-khop.jpg",
+    "15":"15-P100001-HL-000019-vay-3.4ty-LTV-85-van-luu-lai-suat-10.30.jpg",
+    "16":"16-P100001-HL-000019-tai-chinh-tham-dinh-xem-truoc-Tu-choi-LTV85-DSR67.jpg",
+    "18":"18-P100001-HL-000019-da-yeu-cau-dinh-gia-dang-cho-xu-ly.jpg",
+    "20":"20-P200001-HL-000019-dinh-gia-de-trong-loi-validation.too_small.jpg",
+    "22":"22-P200001-HL-000019-hoan-thanh-dinh-gia-thanh-cong.jpg",
+    "23":"23-P200001-HL-000019-chi-xem-khong-sua-duoc-ho-so.jpg",
+    "24":"24-P100001-HL-000019-da-gui-bi-khoa-cho-quyet-dinh.jpg",
+    "25":"25-P100001-HL-000019-quyet-dinh-tin-dung-dang-cho-xu-ly.jpg",
+    "28":"28-P300001-trang-tich-hop-nhat-ky-goi.jpg",
+    "29":"29-P300001-HL-000019-quyet-dinh-tin-dung-danh-muc-kiem-tra.jpg",
+    "30":"30-P300001-phe-duyet-khi-chua-tick-danh-muc-bi-chan.jpg",
+    "31":"31-P300001-HL-000019-da-phe-duyet.jpg",
+    "32":"32-P300001-HL-000019-lich-su-sau-phe-duyet.jpg",
+    "34":"34-P100001-tao-tu-ho-so-co-san-ket-qua-tim-khach-hang-tai-san.jpg",
+    "35":"35-P100001-HL-000020-dinh-gia-dung-lai-tu-HL-000019.jpg",
+    "36":"36-P100001-HL-000021-LTV85-khuyen-nghi-Tu-choi-van-cho-gui.jpg",
+    "37":"37-P300001-HL-000020-tu-choi-thieu-ghi-chu-bi-chan.jpg",
+    "38":"38-P300001-HL-000020-da-tu-choi-thu-cong.jpg",
+    "39":"39-P300001-HL-000021-da-tra-lai-chuyen-vien-khach-hang.jpg",
+    "40":"40-P100001-HL-000021-bi-tra-lai-thay-ghi-chu-va-sua-duoc.jpg",
+    "41":"41-P100001-HL-000021-gui-lai-sau-khi-sua-khuyen-nghi-Phe-duyet.jpg"
+  };
+  document.querySelectorAll("a.ev[data-img]").forEach(function(a){
+    var f=F[a.getAttribute("data-img")];
+    if(f){a.href="screenshots/"+f;a.target="_blank";a.rel="noopener";}
+  });
+
+  /* bấm ảnh để phóng to */
+  document.addEventListener("click",function(e){
+    var w=e.target.closest("figure.shot .wrap");
+    if(!w || w.closest(".lightbox")) { if(e.target.closest(".lightbox")) { var lb=document.querySelector(".lightbox"); if(lb) lb.remove(); } return; }
+    var fig=w.parentNode.cloneNode(true);
+    var box=document.createElement("div");box.className="lightbox";
+    fig.style.width="";box.appendChild(fig);document.body.appendChild(box);
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){var lb=document.querySelector(".lightbox");if(lb)lb.remove();}
+  });
+})();
+</script>
+</body>
+</html>

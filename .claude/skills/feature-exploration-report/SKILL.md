@@ -1,0 +1,43 @@
+---
+name: feature-exploration-report
+description: Khám phá một feature/hệ thống bằng thao tác thật rồi lập báo cáo HTML dễ đọc cho người mới — vai trò tài khoản, ảnh khoanh nút đánh số, sơ đồ luồng có số bước, luồng end-to-end, điểm mơ hồ kèm bằng chứng. Dùng khi người dùng (thường là tester) nói "khám phá feature", "báo cáo khám phá", "làm báo cáo cho feature X", "tạo/cập nhật báo cáo HTML", hoặc muốn mô tả vai trò/luồng của một hệ thống chưa có tài liệu. Không dùng cho báo cáo lỗi (bug report) hay test case.
+---
+
+# Báo cáo khám phá feature (HTML)
+
+Biến một lượt khám phá thật trên hệ thống thành **một file HTML tự chứa**, mở được ngay trong khung xem trước của app. Mẫu tham chiếu đã chạy thật: `evidence/banking-lite/bao-cao-kham-pha-v2.html` (nguồn: `evidence/banking-lite/_src/`).
+
+Ngôn ngữ: **tiếng Việt**, dùng đúng thuật ngữ IT, dễ hiểu (xem `references/report-structure.md` mục "Thuật ngữ").
+
+## Quy tắc không được phá
+
+1. **Chỉ ghi điều đã nhìn thấy trên màn hình.** Điều chưa kiểm chứng ghi `❓ chưa xác nhận`. Không suy đoán công thức, quyền, ý nghĩa thiết kế. Không kết luận “lỗi” hay “đúng thiết kế” khi chưa có tài liệu — viết “đã thấy / vì sao chưa rõ / cần làm rõ”.
+2. **Trung thực về bằng chứng.** Chỗ nào không có ảnh thì nói “không có ảnh, chỉ ghi nhận trong báo cáo”. Không dựng lại ảnh, không gán ảnh cho khoảnh khắc khác.
+3. **Mật khẩu:** không tự gõ mật khẩu; người dùng tự đăng nhập từng tài khoản trong cửa sổ trình duyệt. Không ghi mật khẩu vào báo cáo, bộ nhớ hay chat.
+4. **Hỏi trước khi tạo/sửa dữ liệu thật, tải file, gửi thứ có thể ra ngoài** (SMS, email…). Dữ liệu test do mình tạo thì ghi rõ mã để người dùng nhận ra.
+5. **Hỏi người dùng khi chưa rõ**, đừng tự quyết (xem mục 7 của báo cáo).
+
+## Quy trình
+
+0. Theo quy trình của repo: đọc `CLAUDE.md` → `memories/MEMORY.md` → các file bộ nhớ liên quan trước khi làm.
+1. **Chốt phạm vi** (hỏi nếu thiếu): tên feature, URL hệ thống/phiên bản, danh sách tài khoản + vai trò đã biết, được phép tạo dữ liệu test không, tích hợp bên ngoài (SMS/email/…) là thật hay mô phỏng. **Nếu là feature của Banking Lite** (https://banking-lite.vercel.app/): đọc `references/banking-lite-context.md` — có sẵn tài khoản, bản đồ feature, điều đã/chưa khám phá; chỉ khám phá thêm phần còn thiếu, phần đã có thì tham chiếu báo cáo v2.
+2. **Khám phá thật** bằng trình duyệt (xem `references/evidence-and-build.md` mục "Chụp ảnh"). Với mỗi vai trò: màn hình đầu, từng nút, trường nhập, thông báo (chép **nguyên văn**), trạng thái chuyển. Chạy hết luồng chính rồi các nhánh (thành công, từ chối, trả lại/hoàn tác, nhập sai).
+3. **Ghi nhật ký gốc bằng Markdown** (`evidence/<feature>/bao-cao-kham-pha.md`) ngay trong lúc khám phá: bảng thao tác → kết quả → số ảnh. Đây là nguồn sự thật để dựng HTML. Giữ mục “Chưa thử” và “Câu hỏi cho team”.
+4. **Dựng nguồn HTML** từ `assets/report-template.src.html` → `evidence/<feature>/_src/<ten>.src.html`. Cấu trúc 7 mục và cách viết từng mục: `references/report-structure.md`.
+5. **Khoanh nút trên ảnh**: đo toạ độ thật từ ảnh gốc (mở ảnh, đọc vị trí), điền `<i class="mk" ...>`; vị trí số do script tự chọn. Chi tiết: `references/evidence-and-build.md`.
+6. **Build**: `python -X utf8 scripts/build-embed.py --src <src.html> --out <report.html> --shots <thư_mục_ảnh>`. Phải ≤ 512 KiB.
+7. **Soát**: chạy thêm `--review <thư_mục>` và xem từng tranh ghép (khung có đúng ô? số có đè chữ/đè nhau?); mở file thật trong khung xem trước kiểm tra ảnh hiện, thanh tab cuộn đúng. Xong mới giao.
+8. **Cập nhật bộ nhớ** (`memories/modules/<feature>/…` + `MEMORY.md`): kết quả khám phá, bẫy mới, khoảng trống bằng chứng.
+9. **Trả lời người dùng**: nêu file, điều đã kiểm tra, điều **chưa** kiểm tra, và các câu cần họ trả lời.
+
+## Khi người dùng nhờ sửa báo cáo đã có
+
+Sửa **file nguồn `*.src.html`**, chạy lại build — không sửa file đã build. Lỗi hay gặp: khung vẽ sai ô (không phải chỉ chồng số) → soát bằng `--review`. Đổi từ ngữ → áp cho toàn bộ báo cáo, rồi grep lại các từ cũ.
+
+## Tệp trong skill
+
+- `references/report-structure.md` — 7 mục báo cáo, văn phong, bảng thuật ngữ IT, quy tắc sơ đồ.
+- `references/banking-lite-context.md` — ngữ cảnh hệ thống Banking Lite: tài khoản, bản đồ feature + độ phủ khám phá, cách làm báo cáo cho từng feature.
+- `references/evidence-and-build.md` — chụp ảnh, đặt tên, khoanh nút, build, soát, các bẫy đã gặp.
+- `assets/report-template.src.html` — khung HTML nguồn (đã có CSS, thanh tab, mẫu step/flow/điểm mơ hồ).
+- `scripts/build-embed.py` — nhúng ảnh thu nhỏ, tự đặt số thứ tự, JS thanh tab, kiểm tra giới hạn 512 KiB.
