@@ -8,12 +8,12 @@
 - **Tình huống (= tên test case):** câu đầy đủ rõ nghĩa dạng `<Hệ thống làm gì/hiển thị gì> khi <người dùng làm gì/điều kiện>`, ví dụ `Đăng nhập thành công khi nhập đúng tên và mật khẩu`. Không rút gọn kiểu `điều kiện: kết quả`, không dùng mã nội bộ; con số chi tiết để cột Dữ liệu test (trong tên chỉ giữ số làm nên ca, đặt trong ngoặc). Một mục tiêu một dòng, **một** giá trị không hợp lệ hoặc **một** đường không được phép.
 - **Ưu tiên:** `Cao`, `Trung bình`, `Thấp` (tiêu chí trong `ky-thuat-thiet-ke.md`).
 - **Kỹ thuật:** đúng một trong `EP`, `BVA`, `Bảng quyết định`, `Chuyển trạng thái`, `Use case`, `Đoán lỗi`.
-- **Nguồn:** bắt đầu bằng nhãn.
-  - `Có trong tài liệu: <mã> (<tên ngắn>), <mã> (<tên ngắn>)…` — mã requirement hoặc mã câu trả lời BA.
-  - `Suy luận: <mã> (…) …, vì <một câu lý do>` — điểm xuất phát là điều nguồn đã ghi rõ.
-  - Cần thêm: `· ⚠️ hệ thống hiện khác (<một câu>)` khi bản đang chạy làm khác điều requirement/BA (nghi lỗi, chưa phải lỗi đã xác nhận).
-  - **Không có dòng `Giả định` trong bảng.**
-  Tên ngắn lấy từ `truy-vet-cau-hinh.json` của feature (xem `memories/project/truy-vet-requirement.md`); tên ngắn giúp người đọc hiểu mã mà không phải mở requirement.
+- **Nguồn (file gộp, từ 2026-11-18):** tối đa bốn dòng trong một ô, nối bằng `<br>`, viết bằng **câu thường** (người dùng chê dòng toàn mã và tên ngắn là khó hiểu, khó truy vết):
+  1. **Căn cứ chính**, bắt đầu bằng nhãn: `Có trong tài liệu: <câu nói điều SRS ghi> ([SRS, <mã tiêu chí>](<đường dẫn SRS>#<neo>)).` hoặc `Suy luận: <một câu lý do, điểm xuất phát là điều nguồn đã ghi> ([SRS, …](…)).` Mã tiêu chí (`S01-AC03`) link tới đúng dòng của SRS; nếu căn cứ là quy tắc thì ghi `[SRS, quy tắc R01](…#reco-r01)`.
+  2. Nếu có: **câu trả lời đã chốt chi phối kết quả**, ví dụ `Làm tròn lên 2 chữ số: [TL-02](bảng-soát.md#…) (tester chọn, BA chưa xác nhận).`
+  3. Nếu có: `⚠️ Hệ thống đang hiện <điều thấy>.` khi bản đang chạy làm khác kết quả mong đợi (nghi lỗi, chưa phải lỗi đã xác nhận).
+  4. Nếu có mã phụ: `Tra thêm: quy tắc R02; thông báo M06.` (không link). `kiem-tra-tc.py` tính phủ requirement theo các mã này nên mã phụ không được bỏ.
+  Link cần **thẻ neo** `<a id="<tiền-tố>-<mã>"></a>` (chữ thường, ví dụ `reco-s01-ac03`) đặt ở ô đầu mỗi dòng mã của SRS, như đã làm cho dòng bằng chứng `E..`; SRS chưa có thì thêm (không đổi nội dung; `truy-vet.py` bỏ thẻ neo khi băm nên không làm mã bị tính là đổi). Đầu file có đoạn "Cách đọc cột Nguồn" giải thích `S01-AC03`, `R`, `M`, `TL`. **Không có dòng `Giả định` trong bảng.** Tên ngắn trong `truy-vet-cau-hinh.json` vẫn dùng cho `truy-vet.md`, không ghi vào cột Nguồn nữa. Feature hai file cũ (`LOGIN`) giữ cách `mã (tên ngắn)`.
 
 ## Đầu file, sau bảng
 - Đầu file: bảng nhỏ (Ngày lập, Hệ thống, Nguồn, "Chỉ làm: checklist, chưa viết bước chi tiết"), đoạn "Cách đọc cột Nguồn", lưu ý an toàn nếu có ca có thể gây khóa.

@@ -58,6 +58,7 @@ def fmt_commit(e):
 
 
 def cells(line):
+    line = re.sub(r'<a id="[^"]*"></a>', "", line)  # thẻ neo để link tới dòng, không tính là nội dung
     return [c.strip() for c in line.strip().strip("|").split("|")]
 
 
@@ -81,7 +82,7 @@ def read(p):
 def parse_srs(text, prefix):
     out = {}
     keep = {"S": 5, "R": 3, "M": 4}
-    pat = re.compile(r"^\| `" + re.escape(prefix) + r"-(S\d\d-AC\d\d|R\d\d|M\d\d)` \|")
+    pat = re.compile(r'^\| (?:<a id="[^"]*"></a>)?`' + re.escape(prefix) + r"-(S\d\d-AC\d\d|R\d\d|M\d\d)` \|")
     for n, line in enumerate(text.splitlines(), 1):
         m = pat.match(line)
         if not m or m.group(1) in out:
@@ -108,7 +109,7 @@ def parse_tl(text):
 def parse_ba(text, prefix):
     """Gom, theo từng mã SRS, các dòng của bảng soát: điều BA trả lời, hệ thống hiện tại, chỗ còn mở."""
     out = {}
-    pat = re.compile(r"^\| `" + re.escape(prefix) + r"-(S\d\d-AC\d\d|R\d\d|M\d\d)` \|")
+    pat = re.compile(r'^\| (?:<a id="[^"]*"></a>)?`' + re.escape(prefix) + r"-(S\d\d-AC\d\d|R\d\d|M\d\d)` \|")
     in5 = False
     for line in text.splitlines():
         if line.startswith("## "):

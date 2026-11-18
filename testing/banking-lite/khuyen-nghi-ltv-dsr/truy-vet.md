@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 18:51:05 (+07:00) (chốt mốc mới) |
+| Lần chạy gần nhất | 2026-11-18 19:00:22 (+07:00) (chỉ kiểm, chưa đổi mốc) |
 | Requirement | srs/banking-lite/khuyen-nghi-ltv-dsr.md (cập nhật 2026-11-17); bảng soát (cập nhật ?), câu trả lời đến TL-02 |
 | Test case (đã gồm checklist) | [test-case.md](test-case.md) |
-| Mốc đã chốt | 2026-11-18 18:51:05 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
+| Mốc đã chốt | 2026-11-18 18:59:51 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
 
 ## 1. Tóm tắt
 - Mã requirement: 61 trong SRS, 2 câu trả lời (TL). Test case: 38.
@@ -164,7 +164,7 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | Mã | Tên ngắn | Trạng thái requirement | Test case |
 |---|---|---|---|
 | M01 | Thông báo chưa đủ thông tin | Không đổi | 1: TC-001 |
-| M02 | Không có lý do | Không đổi | 1: TC-002 |
+| M02 | Không có lý do | Không đổi | 2: TC-002, TC-008 |
 | M03 | Dòng xem trước | Không đổi | 1: TC-002 |
 | M04 | LTV vượt tối đa | Không đổi | 3: TC-010, TC-014, TC-016 |
 | M05 | DSR vượt tối đa | Không đổi | 2: TC-007, TC-010 |
@@ -237,7 +237,7 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 | TC-005 | Hiển thị Chuyển cấp trên khi DSR chỉ hơn 50% rất ít (50,0006%) | Cao | R02 (DSR), S01-AC07 (DSR sát 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-006 | Hiển thị Từ chối khi DSR chỉ hơn 70% rất ít (70,0000003%) | Cao | R02 (DSR), S01-AC06 (DSR đúng 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-007 | Hiển thị Từ chối kèm lý do khi DSR vượt 70% (70,35%) | Cao | M05 (DSR vượt tối đa), R02 (DSR), S01-AC04 (DSR trên 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-008 | Vẫn hiển thị Phê duyệt khi thặng dư hằng tháng đúng bằng mức tối thiểu 3.000.000 | Cao | R03 (Thặng dư tối thiểu), S01-AC08 (Thặng dư đúng 3 triệu) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
+| TC-008 | Vẫn hiển thị Phê duyệt khi thặng dư hằng tháng đúng bằng mức tối thiểu 3.000.000 | Cao | M02 (Không có lý do), R03 (Thặng dư tối thiểu), S01-AC08 (Thặng dư đúng 3 triệu) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-009 | Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng so với mức tối thiểu (2.999.999) | Cao | M07 (Thặng dư thấp), R03 (Thặng dư tối thiểu), S01-AC09 (Thặng dư thiếu 1 đồng) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-010 | Hiển thị Từ chối và liệt kê đủ ba lý do khi hồ sơ vi phạm cả LTV, DSR và thặng dư | Cao | M04 (LTV vượt tối đa), M05 (DSR vượt tối đa), M07 (Thặng dư thấp), S01-AC10 (Nhiều lý do cùng lúc), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
 | TC-011 | Hiển thị Phê duyệt khi LTV của hồ sơ Mua nhà đúng bằng mức tối đa 80% | Cao | R01 (LTV tối đa), S02-AC01 (LTV đúng 80%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
@@ -284,3 +284,4 @@ Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc b�
 | 2026-11-18 18:46:48 (+07:00) | `736f701` + sửa chưa commit | — | checklist, test-case | Điều kiện trước rút còn 2 gạch chung + gạch riêng của ca; hồ sơ nền định nghĩa một lần ở đầu file (hai lần chốt trước cùng lượt chưa đổi nội dung) | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |
 | 2026-11-18 18:47:09 (+07:00) | `736f701` + sửa chưa commit | — | checklist, test-case | Hồ sơ nền định nghĩa một lần ở đầu file; Điều kiện trước còn 2 gạch chung + gạch riêng; nội dung điều kiện không đổi | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 18:51:05 (+07:00) | `736f701` + sửa chưa commit | — | checklist, test-case | Điều kiện trước chỉ ghi dữ kiện cần cho từng ca (bỏ đăng nhập, bỏ mục hồ sơ nền ở đầu file); bỏ chữ tự nhập mật khẩu ở bước 1 | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |
+| 2026-11-18 18:59:51 (+07:00) | `0534aba` + sửa chưa commit | — | checklist, test-case | Viết lại cột Nguồn thành câu thường + link tới dòng SRS (neo thêm vào SRS, truy-vet.py bỏ thẻ neo khi băm); mã và nội dung requirement không đổi | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |

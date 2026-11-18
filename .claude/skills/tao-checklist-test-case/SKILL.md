@@ -64,7 +64,7 @@ File trên ~30 KB mà chỉ cần một phần: Grep rồi đọc đoạn đó (
      --nguon <file requirement> --ma "<biểu thức chính quy của mã, ví dụ LOGIN-(?:S\d\d-AC\d\d|R\d\d|M\d\d)>" --tien-to LOGIN
    ```
    Rồi soát tay: đọc vài test case như người chưa biết gì về feature, xem có chạy được không.
-8. **Truy vết** (người dùng chốt 2026-11-18: tự làm khi requirement có mã): theo `memories/project/truy-vet-requirement.md` — tạo `truy-vet-cau-hinh.json` (đường dẫn, tiền tố, tên ngắn từng mã; **file gộp thì bỏ khóa `checklist`**, script tự hiểu), đổi cột Nguồn thành `mã (tên ngắn)`, chạy `python -X utf8 scripts/truy-vet.py kiem <dự-án> <feature>` rồi `chot -m "…"`. Requirement chưa có mã thì bỏ qua và nói rõ.
+8. **Truy vết** (người dùng chốt 2026-11-18: tự làm khi requirement có mã): theo `memories/project/truy-vet-requirement.md` — tạo `truy-vet-cau-hinh.json` (đường dẫn, tiền tố, tên ngắn từng mã; **file gộp thì bỏ khóa `checklist`**, script tự hiểu), cột Nguồn viết theo `references/quy-tac-checklist.md` (câu thường + link tới dòng SRS, cần thẻ neo trong SRS), chạy `python -X utf8 scripts/truy-vet.py kiem <dự-án> <feature>` rồi `chot -m "…"`. Requirement chưa có mã thì bỏ qua và nói rõ.
 9. **Cập nhật bộ nhớ**: `memories/modules/<slug>/feature-<tên>.md` (điều học được, bẫy, trạng thái), một dòng trong `MEMORY.md`.
 10. **Trả lời** bằng tóm tắt ngắn và link file (không dán bảng): số dòng/số case, chỗ `CẦN XÁC NHẬN`, câu hỏi cho BA, giá trị do mình chọn, việc ghi nhận riêng; nói rõ **chưa chạy test** và chế độ vừa làm. Commit chỉ khi người dùng nhờ.
 
@@ -77,7 +77,7 @@ Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một l
 
 ## Tệp trong skill
 - `references/ky-thuat-thiet-ke.md` — dấu hiệu chọn kỹ thuật, cách làm từng kỹ thuật, bốn góc gợi ý, cách xếp ưu tiên.
-- `references/quy-tac-checklist.md` — khuôn bảng 5 cột, nhãn nguồn, cột Nguồn kèm tên ngắn, câu hỏi cho BA, "Chưa đưa vào", tự kiểm.
+- `references/quy-tac-checklist.md` — khuôn bảng 5 cột, nhãn nguồn, cột Nguồn (câu thường, link tới SRS; feature cũ: mã kèm tên ngắn), câu hỏi cho BA, "Chưa đưa vào", tự kiểm.
 - `references/quy-tac-test-case.md` — khuôn bảng 12 cột, cách viết điều kiện/bước/dữ liệu/kết quả, `CẦN XÁC NHẬN`, trạng thái, cập nhật khi requirement đổi, tự kiểm.
 - `references/bai-hoc.md` — bẫy đã gặp khi làm `LOGIN`.
 - `assets/mau-checklist.md`, `assets/mau-test-case.md` — hình dạng file đầu ra (ví dụ trung lập).

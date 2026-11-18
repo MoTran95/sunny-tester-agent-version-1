@@ -4,14 +4,14 @@
   "he_thong": "Web bán hàng (ví dụ trung lập, không phải requirement thật). Phạm vi: ô Số lượng và nút Thêm vào giỏ",
   "nguon_doc": "Requirement mẫu: R1 số lượng mỗi lần thêm từ 1 đến 10; R2 dưới 1 báo \"Số lượng tối thiểu là 1.\"; R3 trên 10 báo \"Số lượng tối đa là 10.\"; R4 để trống báo \"Vui lòng nhập số lượng.\"",
   "ghi_chu_dau": [
-    "**Cách đọc.** Mỗi dòng gồm cả phần checklist (Tình huống, Ưu tiên, Kỹ thuật, Nguồn) và phần chi tiết test case (Điều kiện trước, Các bước, Dữ liệu test, Kết quả mong đợi), làm một lần, không có file checklist riêng. Bốn cột cuối (`Kết quả thực tế`, `Trạng thái`, `Người viết`, `Tự động hóa`) để ghi khi chạy test. **Cột Nguồn:** `Có trong tài liệu` ghi mã requirement; `Suy luận` kèm một câu lý do; không có dòng `Giả định` trong bảng. **Cột Tình huống** là tên test case (câu đầy đủ: hệ thống làm gì khi người dùng làm gì). **Cột Điều kiện trước** chỉ ghi dữ kiện cần để vào kiểm tra ca đó, mỗi ý một gạch."
+    "**Cách đọc.** Mỗi dòng gồm cả phần checklist (Tình huống, Ưu tiên, Kỹ thuật, Nguồn) và phần chi tiết test case (Điều kiện trước, Các bước, Dữ liệu test, Kết quả mong đợi), làm một lần, không có file checklist riêng. Bốn cột cuối (`Kết quả thực tế`, `Trạng thái`, `Người viết`, `Tự động hóa`) để ghi khi chạy test. **Cột Nguồn** viết bằng câu thường kèm link tới dòng requirement; mã phụ ở dòng `Tra thêm`; không có dòng `Giả định` trong bảng. **Cột Tình huống** là tên test case (câu đầy đủ: hệ thống làm gì khi người dùng làm gì). **Cột Điều kiện trước** chỉ ghi dữ kiện cần để vào kiểm tra ca đó, mỗi ý một gạch."
   ],
   "ca": [
     {
       "tinh_huong": "Giỏ hiện 5 sản phẩm khi nhập số lượng hợp lệ `5` rồi bấm Thêm vào giỏ",
       "uu_tien": "Cao",
       "ky_thuat": "EP",
-      "nguon": "Có trong tài liệu: R1 (Số lượng từ 1 đến 10)",
+      "nguon": "Có trong tài liệu: Số lượng mỗi lần thêm phải từ 1 đến 10 ([Requirement, R1](requirement-mau.md#r1)).",
       "dieu_kien": [
         "- Giỏ hàng đang trống"
       ],
@@ -33,7 +33,7 @@
       "tinh_huong": "Thêm được và giỏ hiện 1 sản phẩm khi nhập số lượng ở biên dưới `1`",
       "uu_tien": "Cao",
       "ky_thuat": "BVA",
-      "nguon": "Có trong tài liệu: R1 (Số lượng từ 1 đến 10)",
+      "nguon": "Có trong tài liệu: Số lượng mỗi lần thêm phải từ 1 đến 10 ([Requirement, R1](requirement-mau.md#r1)).",
       "dieu_kien": [
         "- Giỏ hàng đang trống"
       ],
@@ -55,7 +55,7 @@
       "tinh_huong": "Không thêm và báo \"Số lượng tối thiểu là 1.\" khi nhập số lượng `0` (ngay dưới biên)",
       "uu_tien": "Cao",
       "ky_thuat": "BVA",
-      "nguon": "Có trong tài liệu: R1 (Số lượng từ 1 đến 10), R2 (Báo khi dưới 1)",
+      "nguon": "Có trong tài liệu: Số lượng dưới 1 thì báo lỗi tối thiểu ([Requirement, R2](requirement-mau.md#r2)).<br>Tra thêm: quy tắc R1.",
       "dieu_kien": [
         "- Giỏ hàng đang trống"
       ],
@@ -77,7 +77,7 @@
       "tinh_huong": "Thêm được và giỏ hiện 10 sản phẩm khi nhập số lượng ở biên trên `10`",
       "uu_tien": "Cao",
       "ky_thuat": "BVA",
-      "nguon": "Có trong tài liệu: R1 (Số lượng từ 1 đến 10)",
+      "nguon": "Có trong tài liệu: Số lượng mỗi lần thêm phải từ 1 đến 10 ([Requirement, R1](requirement-mau.md#r1)).",
       "dieu_kien": [
         "- Giỏ hàng đang trống"
       ],
@@ -99,7 +99,7 @@
       "tinh_huong": "Không thêm và báo \"Số lượng tối đa là 10.\" khi nhập số lượng `11` (ngay trên biên)",
       "uu_tien": "Cao",
       "ky_thuat": "BVA",
-      "nguon": "Có trong tài liệu: R1 (Số lượng từ 1 đến 10), R3 (Báo khi trên 10)",
+      "nguon": "Có trong tài liệu: Số lượng trên 10 thì báo lỗi tối đa ([Requirement, R3](requirement-mau.md#r3)).<br>Tra thêm: quy tắc R1.",
       "dieu_kien": [
         "- Giỏ hàng đang trống"
       ],
@@ -121,7 +121,7 @@
       "tinh_huong": "Báo \"Vui lòng nhập số lượng.\" khi để trống ô Số lượng rồi bấm Thêm vào giỏ",
       "uu_tien": "Trung bình",
       "ky_thuat": "EP",
-      "nguon": "Có trong tài liệu: R4 (Báo khi để trống)",
+      "nguon": "Có trong tài liệu: Để trống số lượng thì báo nhập số lượng ([Requirement, R4](requirement-mau.md#r4)).",
       "dieu_kien": [
         "- Giỏ hàng đang trống"
       ],
@@ -143,7 +143,7 @@
       "tinh_huong": "Giỏ hiện 8 sản phẩm khi giỏ đã có 5 sản phẩm và thêm lần hai `3` sản phẩm",
       "uu_tien": "Trung bình",
       "ky_thuat": "Use case",
-      "nguon": "Suy luận: R1 (Số lượng từ 1 đến 10), vì R1 áp dụng cho mỗi lần thêm nên lần hai `3` cũng là một lần thêm hợp lệ",
+      "nguon": "Suy luận: R1 áp dụng cho mỗi lần thêm nên lần hai `3` cũng là một lần thêm hợp lệ ([Requirement, R1](requirement-mau.md#r1)).",
       "dieu_kien": [
         "- Giỏ hàng đang có đúng 5 sản phẩm (tạo bằng cách thêm `5` một lần)"
       ],
