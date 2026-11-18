@@ -34,7 +34,7 @@ Copy-Item D:\AI\build-sunny-agent-version-1\.env.example D:\AI\build-sunny-agent
 
 ## 4. Việc phải tự làm trong app Claude
 1. Mở thư mục repo trong tab Code. Khi app hỏi có tin cậy thư mục không, chọn tin cậy: app mới đọc `.claude/settings.json`, nơi đã cho phép sẵn các lệnh an toàn (sửa file trong `memories/`, `srs/`, `testing/`, `evidence/`, `docs/`, skill; chạy script soát; `git status/diff/log/show`). `git commit`, `git push`, xóa file vẫn hỏi bạn trước.
-2. Tắt các plugin/skill không dùng cho việc kiểm thử, để mỗi phiên bớt nạp sẵn: plugin `data`, các skill `assp-*`, `kundalini-yoga-translator`, `flipbook-builder` (trong phần quản lý plugin/skill của app). Notion và Claude Docs: chỉ bật khi cần, xem `memories/user/connectors-and-plugins.md`.
+2. (Tùy chọn, ít tác dụng) Tắt tay trong phần quản lý plugin/skill của app những thứ không dùng cho kiểm thử: plugin `data`, skill `assp-*`, `kundalini-yoga-translator`, `flipbook-builder`; Notion và Claude Docs chỉ bật khi cần. Đã đo 2026-11-18: nạp sẵn ~74 nghìn token, phần của plugin/skill tài khoản chỉ ~2–5 nghìn, và **script/cấu hình trong repo không tắt được** chúng (`memories/user/connectors-and-plugins.md`).
 3. Lần đầu Claude mở trang Banking Lite trong trình duyệt của app: bấm cho phép trang, rồi tự đăng nhập (Claude không gõ mật khẩu).
 
 ## 5. Kiểm tra máy đã sẵn sàng

@@ -45,8 +45,14 @@ def analyse(path, slug, projects):
     rows = [r for r in rows if r.get("timestamp") and r.get("type") in ("user", "assistant")]
     first, t0, t_action, reads, other, bash = None, None, None, [], set(), 0
     gen, longest, prev = 0.0, 0.0, None
+    ctx0 = None  # ngữ cảnh (nghìn token) ở lượt trả lời đầu tiên = phần nạp sẵn + câu đầu
     for r in rows:
         t, c = ts(r["timestamp"]), (r.get("message") or {}).get("content")
+        if ctx0 is None and r["type"] == "assistant":
+            u = (r.get("message") or {}).get("usage") or {}
+            tot = sum(u.get(k) or 0 for k in ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"))
+            if tot:
+                ctx0 = tot / 1000
         if r["type"] == "user":
             txt = user_text(c)
             if first is None and txt:
@@ -77,7 +83,7 @@ def analyse(path, slug, projects):
     return {
         "file": os.path.basename(path)[:8], "first": first or "?",
         "reads": reads, "bash": bash, "to_action": ((t_action - t0).total_seconds() / 60) if t_action and t0 else None,
-        "gen": gen / 60, "longest": longest / 60, "other": sorted(other),
+        "gen": gen / 60, "longest": longest / 60, "other": sorted(other), "ctx0": ctx0,
         "start": t0.astimezone().strftime("%Y-%m-%d %H:%M") if t0 else "?",
     }
 
@@ -106,6 +112,8 @@ def main():
         s = analyse(f, slug, projects)
         to_a = f"{s['to_action']:.1f}" if s["to_action"] is not None else "chưa ghi file"
         print(f"[{s['start']}] {s['first']}")
+        if s["ctx0"] is not None:
+            print(f"   ngữ cảnh ở lượt trả lời đầu: {s['ctx0']:.0f} nghìn token (phần nạp sẵn: plugin, skill, công cụ + CLAUDE.md)")
         print(f"   trước khi làm: đọc {len(s['reads'])} file, {s['bash']} lệnh tìm/đọc khác · tới lúc bắt tay làm: {to_a} phút · "
               f"mô hình suy nghĩ/viết: {s['gen']:.1f} phút · bước dài nhất: {s['longest']:.1f} phút")
         if s["reads"]:

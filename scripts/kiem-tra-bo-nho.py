@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""Kiểm bộ nhớ `memories/` (chỉ cho AI đọc): bản đồ khớp file thật, link không gãy, quy tắc cốt lõi còn.
+
+    python -X utf8 scripts/kiem-tra-bo-nho.py
+
+- Mọi file .md trong memories/ (trừ MEMORY.md) phải có trong MEMORY.md; mọi file nêu trong MEMORY.md phải tồn tại.
+- Link/đường dẫn `memories/...` hay `../` trong các file memory phải trỏ tới file có thật.
+- Mỗi quy tắc cốt lõi (CỐT_LOI) phải xuất hiện đúng ở file chỉ định (bắt việc lỡ xóa khi gọn).
+- In cỡ từng file (KB) và tổng; phần LUÔN ĐỌC (★ trong bản đồ + CLAUDE.md + MEMORY.md).
+Thoát mã 1 nếu có lỗi.
+"""
+import io
+import os
+import re
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEM = os.path.join(ROOT, "memories")
+
+# (file trong memories/, cụm phải còn trong file đó, ý nghĩa)
+CỐT_LOI = [
+    ("user/working-preferences.md", "tiếng Việt", "giao tiếp tiếng Việt"),
+    ("user/working-preferences.md", "Không gõ mật khẩu", "không gõ mật khẩu"),
+    ("user/working-preferences.md", "tối đa **3 lần**", "tối đa 3 lần với thao tác gây khóa"),
+    ("user/working-preferences.md", "Commit/push chỉ khi người dùng nhờ", "commit khi được nhờ"),
+    ("user/working-preferences.md", "hỏi, không suy diễn", "hỏi không suy diễn"),
+    ("user/working-preferences.md", "đọc là hiểu", "tài liệu đọc là hiểu"),
+    ("user/working-preferences.md", "hỏi trước khi bật", "connector hỏi trước khi bật"),
+    ("conventions/nhieu-du-an.md", "hỏi riêng câu này", "hỏi riêng câu dự án trên máy mới"),
+    ("conventions/nhieu-du-an.md", "Không lẫn kiến thức", "không lẫn dự án"),
+    ("conventions/ba-question-wording.md", "anh/chị", "xưng hô với BA"),
+    ("pitfalls/dont-trigger-lockouts.md", "3 lần", "bài học khóa đăng nhập"),
+    ("decisions/decision-log.md", "Open Sans", "quyết định font báo cáo"),
+    ("user/document-preferences.md", "suy luận tiếp", "requirement rõ thì suy luận, chưa rõ thì hỏi"),
+    ("project/srs-process.md", "không làm trước", "không làm bước chưa được yêu cầu"),
+]
+
+
+def doc(p):
+    with io.open(p, encoding="utf-8") as f:
+        return f.read()
+
+
+def main():
+    loi = []
+    files = []
+    for d, _, fs in os.walk(MEM):
+        for f in fs:
+            if f.endswith(".md"):
+                files.append(os.path.relpath(os.path.join(d, f), MEM).replace("\\", "/"))
+    files.sort()
+    mm = doc(os.path.join(MEM, "MEMORY.md"))
+    nhac = set(re.findall(r"`([A-Za-z0-9_./-]+\.md)`", mm))
+    for f in files:
+        if f != "MEMORY.md" and f not in mm:
+            loi.append(f"{f}: chưa có trong MEMORY.md")
+    for n in sorted(nhac):
+        if "/" not in n:  # tên trần (checklist.md…) của sản phẩm trong testing/, không kiểm
+            continue
+        if n.startswith(("testing/", "srs/", "evidence/", ".claude/", "docs/")):
+            if not os.path.exists(os.path.join(ROOT, n)):
+                loi.append(f"MEMORY.md nêu {n} nhưng không có")
+        elif not os.path.exists(os.path.join(MEM, n)) and "<" not in n:
+            loi.append(f"MEMORY.md nêu {n} nhưng không có trong memories/")
+    # đường dẫn tới file repo trong các file memory
+    for f in files:
+        txt = doc(os.path.join(MEM, f))
+        for m in re.findall(r"`((?:srs|testing|evidence|docs|scripts)/[A-Za-z0-9_./-]+\.(?:md|py|json|html))`", txt):
+            if "<" in m:
+                continue
+            if not os.path.exists(os.path.join(ROOT, m)):
+                loi.append(f"{f}: đường dẫn không tồn tại: {m}")
+        for m in re.findall(r"\]\((?!http|#)([^)]+)\)", txt):
+            t = os.path.normpath(os.path.join(MEM, os.path.dirname(f), m.split("#")[0]))
+            if not os.path.exists(t):
+                loi.append(f"{f}: link gãy: {m}")
+    for f, cum, y in CỐT_LOI:
+        p = os.path.join(MEM, f)
+        if not os.path.exists(p) or cum not in doc(p):
+            loi.append(f"mất quy tắc cốt lõi ({y}): cần cụm \"{cum}\" trong {f}")
+
+    tong = 0
+    print("Cỡ (KB):")
+    for f in files:
+        kb = os.path.getsize(os.path.join(MEM, f)) / 1024
+        tong += kb
+        print(f"  {kb:5.1f}  {f}")
+    luon = ["MEMORY.md", "user/working-preferences.md", "project/overview.md"]
+    luon_kb = sum(os.path.getsize(os.path.join(MEM, f)) for f in luon) / 1024
+    luon_kb += os.path.getsize(os.path.join(ROOT, "CLAUDE.md")) / 1024
+    print(f"Tổng memories: {tong:.1f} KB · phần luôn đọc (CLAUDE.md + bản đồ + 2 file ★): {luon_kb:.1f} KB")
+    if loi:
+        print(f"\n{len(loi)} LỖI:")
+        for l in loi:
+            print("  -", l)
+        return 1
+    print("0 lỗi.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

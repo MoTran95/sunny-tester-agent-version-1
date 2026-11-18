@@ -1,23 +1,19 @@
-# Nhiều dự án: chọn dự án, tạo dự án mới, không lẫn kiến thức
-Cập nhật: 2026-11-18 · Liên quan: [../project/overview.md](../project/overview.md), [../decisions/decision-log.md](../decisions/decision-log.md)
+# Nhiều dự án: chọn, tạo mới, không lẫn kiến thức
+Đọc khi: máy mới, đổi dự án, tạo dự án. Người dùng chọn (2026-11-18): hỏi **một lần mỗi máy**; thư mục **theo cấu trúc hiện có**.
 
-Người dùng yêu cầu (2026-11-18): sang máy mới thì hỏi đang làm dự án nào; dự án khác thì tạo thư mục riêng; **không dùng kiến thức của Banking Lite cho dự án khác** để khỏi lẫn lộn. Người dùng chọn: hỏi **một lần mỗi máy**, thư mục **theo cấu trúc hiện có**.
-
-## Dự án hiện tại trên máy này
-- Ghi ở file `.du-an-hien-tai` ở gốc repo: một dòng là slug (ví dụ `banking-lite`). File này **không commit** (`.gitignore`), mỗi máy một file.
-- Chưa có file (máy mới) → **hỏi người dùng trước khi làm gì khác**: liệt kê các dự án trong bảng ở [../project/overview.md](../project/overview.md) và lựa chọn "dự án mới". Trả lời xong thì ghi slug vào file.
-- Có file → dùng luôn, không hỏi lại. Người dùng nhắc tên dự án khác → hỏi xác nhận đổi, rồi ghi lại file.
+## Dự án hiện tại
+- File `.du-an-hien-tai` ở gốc repo: một dòng slug (không commit, mỗi máy một file).
+- Chưa có file → **hỏi riêng câu này trước mọi việc**: liệt kê bảng dự án ở `project/overview.md` + lựa chọn "dự án mới"; không gộp câu hỏi khác, không đưa feature/tài liệu của dự án nào làm lựa chọn khi chưa chọn dự án. Trả lời xong ghi slug.
+- Có file → dùng luôn. Người dùng nhắc dự án khác → hỏi xác nhận đổi rồi ghi lại.
 
 ## Dự án mới
-1. Hỏi: tên dự án, URL hệ thống (nếu có), slug ngắn (kebab-case, tiếng Anh không dấu, ví dụ `shop-online`). Không tự đặt khi người dùng chưa đồng ý.
-2. Chạy: `python -X utf8 scripts/tao-du-an.py <slug> "<Tên dự án>" [<URL>]`. Script tạo `memories/modules/<slug>/overview.md`, các thư mục `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/` (có `.gitkeep`), thêm dòng vào bảng dự án, ghi `.du-an-hien-tai`.
-3. Thêm dòng cho dự án vào `memories/MEMORY.md` (mục "Dự án").
-4. Không tự commit; báo người dùng các file đã tạo, commit khi được nhờ.
-5. Tài khoản test: người dùng tự thêm vào `.env` với tiền tố `<SLUG_HOA>_` (ví dụ `SHOP_ONLINE_URL`), theo mẫu `.env.example`.
+1. Hỏi tên, URL (nếu có), slug (kebab-case, tiếng Anh không dấu); không tự đặt.
+2. `python -X utf8 scripts/tao-du-an.py <slug> "<Tên>" [<URL>]` → tạo `memories/modules/<slug>/overview.md`, `srs/ testing/ evidence/<slug>/` (`.gitkeep`), thêm dòng bảng dự án, ghi `.du-an-hien-tai`.
+3. Thêm mục dự án vào `memories/MEMORY.md`. Không tự commit; báo file đã tạo.
+4. Tài khoản test: người dùng tự thêm vào `.env` tiền tố `<SLUG_HOA>_` theo `.env.example`.
 
-## Không lẫn kiến thức giữa các dự án
-- Chỉ đọc bộ nhớ, SRS, bảng soát, bằng chứng của **dự án hiện tại**. Thư mục của dự án khác: không mở, kể cả "để xem mẫu".
-- Làm theo khuôn chung: `srs/_template.md`, `srs/id-and-source-rules.md`, `assets/` của skill. Ví dụ trong khuôn và trong bài học của skill (có nhắc `LOGIN`, `RECO`, LTV…) chỉ minh họa **cách làm**, không phải quy tắc nghiệp vụ của dự án mới.
-- Không mang sang dự án khác: quy tắc nghiệp vụ, tài khoản, dữ liệu test, tên màn hình, thông báo, từ ngữ đã chốt với BA (nằm trong `memories/modules/<slug>/tu-ngu-cau-hoi-ba.md`), giới hạn khóa/chặn đã đo.
-- Được mang theo: sở thích của người dùng (`memories/user/`), quy ước chung (`memories/conventions/`), quy trình và bài học về cách làm trong skill.
-- Dự án mới chưa có điều gì đã biết thì ghi là chưa biết và hỏi, không suy từ dự án cũ.
+## Không lẫn kiến thức
+- Chỉ đọc memory/SRS/bảng soát/bằng chứng của dự án hiện tại; không mở thư mục dự án khác, kể cả "xem mẫu".
+- Khuôn chung (`srs/_template.md`, `srs/id-and-source-rules.md`, `assets/` của skill) dùng được; ví dụ trong đó (`LOGIN`, `RECO`, LTV…) chỉ minh họa cách làm, không phải luật nghiệp vụ.
+- Không mang sang: quy tắc nghiệp vụ, tài khoản, dữ liệu test, tên màn hình, thông báo, từ đã chốt với BA (`modules/<slug>/tu-ngu-cau-hoi-ba.md`), giới hạn khóa/chặn đã đo. Được mang: `memories/user/`, `memories/conventions/`, quy trình/bài học trong skill.
+- Chưa biết gì về dự án mới thì ghi chưa biết và hỏi.

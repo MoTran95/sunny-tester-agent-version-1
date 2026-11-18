@@ -1,28 +1,18 @@
-# Kiến trúc tổng thể
-Cập nhật: 2026-11-18 · Liên quan: [overview.md](overview.md), [skills.md](skills.md)
+# Cấu trúc repo
+Đọc khi: thêm thư mục, đổi quyền, làm máy mới. Repo không có ứng dụng: bộ tài liệu kiểm thử + skill + memory. Cần cài: Git, Python 3 (+ Pillow cho build báo cáo HTML).
 
-Repo không có ứng dụng; là bộ tài liệu kiểm thử + skill + bộ nhớ cho Claude. Công cụ duy nhất phải cài: Git, Python 3 (+ Pillow cho build báo cáo HTML).
-
-## Thư mục
-| Thư mục | Vai trò |
+| Đường dẫn | Vai trò |
 |---|---|
-| `.claude/skills/` | 4 skill của dự án, mỗi skill có `SKILL.md`, `references/`, `assets/`, `scripts/` |
-| `.claude/settings.json` | Quyền cho phép sẵn (sửa file trong các thư mục dự án, chạy script soát, git đọc). Commit/push/xóa vẫn hỏi |
-| `memories/` | Bộ nhớ dự án, bản đồ ở `MEMORY.md` |
-| `srs/` | Khuôn, quy tắc ID và SRS theo feature |
-| `testing/` | Sản phẩm phân tích requirement (bảng soát, câu hỏi BA) |
-| `evidence/` | Nhật ký khám phá, ảnh, báo cáo HTML |
-| `docs/cai-dat-may-moi.md` | Hướng dẫn cài đặt máy mới |
-| `scripts/kiem-tra-may-moi.py` | Kiểm máy mới (Python, Pillow, Git, dự án hiện tại, `.env` của dự án đó, skill, quyền, chạy thử script soát) |
-| `scripts/do-toc-do-phien.py` | Đo tốc độ các phiên gần nhất từ nhật ký trên máy (file đọc, phút tới lúc làm, có mở dự án khác không) |
-| `docs/kiem-thu-cac-thay-doi.md` | Kịch bản kiểm thử T1–T7 cho các thay đổi tốc độ và nhiều dự án, có bảng ghi kết quả |
-| `scripts/tao-du-an.py` | Tạo thư mục cho dự án mới (`memories/modules/<slug>/`, `srs/`, `testing/`, `evidence/`) |
-| `scripts/truy-vet.py` | Truy vết requirement ↔ checklist/test case (`kiem` / `chot`), sinh `truy-vet.md`, ghi lịch sử. Cần `testing/<dự-án>/<tính-năng>/truy-vet-cau-hinh.json` |
-| `.du-an-hien-tai` | Slug dự án đang làm trên máy này (không commit, mỗi máy một file) |
-| `.env` / `.env.example` | Tài khoản test (không commit, khóa có tiền tố theo dự án) / mẫu khóa để chép |
+| `.claude/skills/` | 4 skill (`SKILL.md`, `references/`, `assets/`, `scripts/`) |
+| `.claude/settings.json` | Quyền cho phép sẵn (Edit trong thư mục dự án, chạy script soát, git đọc). Commit/push/xóa vẫn hỏi |
+| `memories/` | Bộ nhớ cho AI, bản đồ `MEMORY.md` |
+| `srs/` `testing/` `evidence/` | SRS; bảng soát/câu hỏi/checklist/test case/truy vết; khám phá + ảnh + báo cáo HTML (mỗi dự án có thư mục con `<slug>`) |
+| `docs/cai-dat-may-moi.md`, `docs/kiem-thu-cac-thay-doi.md` | Cài máy mới; kịch bản kiểm thử T1–T7 |
+| `scripts/kiem-tra-may-moi.py` | Kiểm máy mới (Python, Pillow, Git, dự án, `.env`, skill, quyền, chạy thử script soát) |
+| `scripts/do-toc-do-phien.py` | Đo phiên gần nhất từ nhật ký: ngữ cảnh đầu, file đọc, phút tới lúc làm, mở dự án khác |
+| `scripts/kiem-tra-bo-nho.py` | Kiểm memory: mọi file có trong bản đồ, link không gãy, in cỡ |
+| `scripts/tao-du-an.py` | Tạo thư mục dự án mới |
+| `scripts/truy-vet.py` | Truy vết requirement ↔ TC (`kiem`/`chot`); cần `testing/<dự-án>/<tính-năng>/truy-vet-cau-hinh.json` |
+| `.du-an-hien-tai`, `.env` / `.env.example` | Dự án đang làm; tài khoản test (không commit) / mẫu khóa |
 
-Mỗi dự án (hệ thống đang test) có thư mục con `<slug>` trong `memories/modules/`, `srs/`, `testing/`, `evidence/`. Quy tắc: [../conventions/nhieu-du-an.md](../conventions/nhieu-du-an.md).
-
-## Bẫy trên Windows
-- Chạy Python luôn kèm `-X utf8` (tiếng Việt trong đầu ra).
-- Heredoc qua Git Bash có thể làm méo `\\` trong regex: viết script ra tệp rồi chạy.
+Bẫy Windows: chạy Python kèm `-X utf8`; heredoc Git Bash làm méo `\\` trong regex → viết script ra file rồi chạy.

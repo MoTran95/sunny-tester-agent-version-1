@@ -1,13 +1,12 @@
-# Tổng quan repo
-Cập nhật: 2026-11-18
+# Tổng quan repo (LUÔN ĐỌC)
 
-- Repo `build-sunny-agent-version-1` (`D:\AI\build-sunny-agent-version-1`, Windows 11), đã push lên GitHub ([git-remote.md](git-remote.md)).
-- Là chỗ làm việc của **tester** cho **nhiều dự án** (mỗi dự án là một hệ thống đang test). Phần dùng chung: 4 skill trong `.claude/skills/` ([skills.md](skills.md)), khuôn trong `srs/_template.md`, `srs/id-and-source-rules.md`, bộ nhớ chung trong `memories/` (trừ `memories/modules/`).
-- Mỗi dự án có thư mục riêng trong `memories/modules/<slug>/`, `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/`. **Không dùng kiến thức của dự án này cho dự án khác.** Quy tắc chọn dự án và tạo dự án mới: [../conventions/nhieu-du-an.md](../conventions/nhieu-du-an.md).
+- Repo `build-sunny-agent-version-1` (`D:\AI\build-sunny-agent-version-1`, Windows 11), remote GitHub (`git-remote.md`). Chỗ làm việc của **tester** cho **nhiều dự án** (mỗi dự án = một hệ thống đang test).
+- Dùng chung: 4 skill `.claude/skills/` (`skills.md`), khuôn `srs/_template.md` + `srs/id-and-source-rules.md`, memory chung (trừ `memories/modules/`).
+- Riêng mỗi dự án: `memories/modules/<slug>/`, `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/`. **Không dùng kiến thức dự án này cho dự án khác** (`conventions/nhieu-du-an.md`).
+- Tài liệu cho **người đọc** (srs/, testing/, evidence/, docs/, báo cáo HTML) viết đầy đủ; `memories/` chỉ cho AI, viết ngắn (`conventions/memory-writing-rules.md`).
 
-## Các dự án
 | Slug | Tên | Tổng quan |
 |---|---|---|
-| `banking-lite` | Banking Lite — Vay mua nhà | [../modules/banking-lite/overview.md](../modules/banking-lite/overview.md) |
+| `banking-lite` | Banking Lite — Vay mua nhà | `modules/banking-lite/overview.md` |
 
-Thêm dòng khi tạo dự án mới (script `scripts/tao-du-an.py` tự thêm).
+Dự án mới: `scripts/tao-du-an.py` tự thêm dòng.

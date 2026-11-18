@@ -1,76 +1,52 @@
-# Feature “Đăng nhập” — kết quả khám phá
-Cập nhật: 2026-11-17 · Liên quan: [exploration-findings.md](exploration-findings.md), [../../project/srs-process.md](../../project/srs-process.md)
+# Banking Lite — Đăng nhập (`LOGIN`)
+Đọc khi: làm SRS/bảng soát/checklist/test case/truy vết `LOGIN`. Chi tiết: `evidence/banking-lite/features/dang-nhap/` (nhật ký, ảnh), `srs/banking-lite/dang-nhap.md`, `testing/banking-lite/dang-nhap/`.
 
-Nhật ký đầy đủ + 10 ảnh: `evidence/banking-lite/features/dang-nhap/` (`bao-cao.md`, `screenshots/`). File này chỉ giữ điều cần nhớ. Đây là feature thử nghiệm đầu tiên cho bước “khám phá → SRS”.
+## Trạng thái (2026-11-18)
+- BA xác nhận đúng TL-01…13 (chưa có ticket). **SRS `LOGIN` nay là yêu cầu theo BA**: cột "Yêu cầu: hệ thống phản hồi" + cột "Hệ thống 1.3.0 hiện tại" (`Khớp` / `⚠️ Khác` = nghi lỗi). Bỏ: S03-AC02, M02, M03, M04. Mốc trước khi sửa: commit `46feb45`. (Trước 2026-11-17 SRS chỉ là bản quan sát.)
+- Câu hỏi BA còn mở: **B4** (câu báo + số phút khi nhập lúc đang bị chặn), **B8** (thời hạn phiên) + 8 mục tự kiểm tra (C1–C3 chỉ còn kiểm hệ thống). Bỏ: B5–B7, B9–B11, B14, C6. A7, A8 không gửi BA (người dùng chốt TL-12, TL-13).
+- Checklist 41 dòng (TC-001…041, chỉ phần đã chốt, mã nguồn bỏ tiền tố `LOGIN-`); test case 12 cột, 41 TC, **chưa chạy ca nào**, chưa ca có script `auto/`. Ca khóa tài khoản (TC-014, 015, 021, 022, 037) ghi Không tự động được. Ca chạm ngưỡng 10 lần (TC-014…022) chỉ chạy khi người dùng đồng ý (tối đa 3 lần sai).
+- 3 câu BA mới từ test case: (1) câu báo/số phút khi nhập lúc bị chặn (= B4, TC-016…018); (2) lần sai của tài khoản khác xen giữa có làm đứt chuỗi "liên tiếp" không (TC-022); (3) `2,000,000,000` hiện ở đâu (TC-039). Mật khẩu đúng không ghi trong tài liệu.
+- Truy vết: `truy-vet.md` (tự sinh) + `truy-vet-cau-hinh.json` (tên ngắn 52 mã) + `truy-vet-trang-thai.json`. Xem `project/truy-vet-requirement.md`.
 
-## Điều học được (đã thấy)
-- Sai mật khẩu **và** mã nhân viên không tồn tại cho **cùng một** thông báo: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.` Câu nhắc “mã không gian” dù form không có ô đó (❓ nghĩa gì).
-- Để trống ô → `Some values are not valid.` + mã thô `validation.too_small (password)` (chỉ nhắc password, kể cả khi ID là `abc123` sai định dạng). Phần mã không được dịch sang tiếng Việt.
-- Chưa đăng nhập mà mở link bất kỳ (hồ sơ, `/integrations`, địa chỉ không tồn tại) → hiện form đăng nhập, **giữ nguyên URL**. Đăng nhập đúng → quay lại đúng link hồ sơ đã mở.
-- Đã đăng nhập mà mở `/login` → hiện Danh sách việc, URL vẫn `/login`.
-- Ngôn ngữ lưu ở `localStorage` khóa `bl.locale` (`vi`/`en`), giữ qua tải lại và qua đăng xuất. Cách giữ phiên đăng nhập không đọc được từ trang (không có khóa trong storage; `document.cookie` rỗng).
-- English: vai trò hiện `Banker` (Tiếng Việt: `Chuyên viên khách hàng`).
+## Hành vi đã thấy ở hệ thống 1.3.0
+- Sai mật khẩu và mã không tồn tại: cùng câu `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.` (EN `Workspace, employee ID or password is incorrect.`).
+- Trống ô → `Some values are not valid.` + `validation.too_small (password)` (chưa dịch). Mã 210 ký tự → 400 `validation.too_big (employeeId)`. Mã không bị kiểm định dạng phía máy chủ (`p999999`, khoảng trắng, `X999999`… đều 401). Chữ thường `p100001` đăng nhập được. Mật khẩu 3 ký tự sai chỉ 401.
+- Chưa đăng nhập mở link bất kỳ → form đăng nhập giữ URL; đăng nhập đúng quay lại link đó. Đã đăng nhập mở `/login` → Danh sách việc, URL vẫn `/login`. Địa chỉ không tồn tại khi đã đăng nhập → Danh sách việc (không có 404). Back sau đăng xuất chỉ hiện form.
+- Ô Mật khẩu **giữ chữ** sau khi báo lỗi (nghi lỗi theo bảo mật, bảng soát).
+- Ngôn ngữ ở `localStorage` `bl.locale` (`vi`/`en`), giữ qua đăng xuất. English: vai trò `Banker` (VI `Chuyên viên khách hàng`). Phiên đăng nhập không đọc được từ trang (không có storage, `document.cookie` rỗng). Hai tab chung phiên; tab kia chỉ về form khi gọi API 401, không báo.
+- API: `POST /api/auth/sign-in` 400/401/200; `sign-out` 204; `GET /api/me` 401 / 200; `GET /api/health` → `{"status":"ok","version":"1.3.0"}`. `/api/me` P100001: `role: BANKER`, `workspace: DEFAULT`, 9 quyền. Không đọc được thân phản hồi lỗi sign-in; **không đọc thân yêu cầu sign-in** (chứa mật khẩu).
+- Tệp giao diện `/assets/main.<băm>.js` (băm đổi theo bản) chứa bảng thông báo: `auth.invalidCredentials`, `auth.locked` VI "Đăng nhập sai quá nhiều lần. Thử lại sau {minutes} phút.", `auth.required` "Vui lòng đăng nhập." 401 + `auth.required` → phát `bl:signed-out`.
+- **Chặn tạm:** sau chuỗi thất bại liên tiếp (lần kích hoạt 2026-11-17 14:23: 9×401 + 1×400, lần 11 → 429 "Too many failed attempts. Try again in 5 minutes."). Xảy ra với mã không tồn tại (không chỉ tài khoản thật). Đăng nhập đúng lúc đang bị chặn **vẫn thành công** (hệ thống; BA nói phải bị chặn → khác). Nhật ký hàng 19: gõ mã khác nhau vẫn bị chặn → hệ thống không đếm riêng từng mã (đừng đoán "đếm theo mã"). Ngưỡng lệch tùy cách đếm: 9 / 10 / 11 / 14.
 
-## Quan sát qua công cụ đọc mạng (không có ảnh; mở lại bằng Network của trình duyệt)
-- `POST /api/auth/sign-in`: 400 (để trống / `abc123`), 401 (sai mật khẩu hoặc mã không tồn tại), 200 (đúng). `POST /api/auth/sign-out` 204. `GET /api/me`: 401 khi chưa đăng nhập, 200 khi đã đăng nhập. `GET /api/health` → `{"status":"ok","version":"1.3.0"}`.
-- `/api/me` của P100001: `role: BANKER`, `workspace: DEFAULT`, 9 quyền (`application.view/create/capture/submit…`, `valuation.request/cancel`, `pricing.set`, `events.view`, `registry.search`). → `DEFAULT` trên thanh trên = workspace; “mã không gian” trong lỗi **có thể** là workspace (suy luận, chờ team).
-- Công cụ không đọc được thân phản hồi lỗi của sign-in; **không đọc thân yêu cầu sign-in** (chứa mật khẩu).
-- Hai tab cùng trình duyệt dùng chung phiên; đăng xuất ở tab này, tab kia chỉ bị đưa về form đăng nhập khi gọi API (401), không có thông báo. Đã đăng nhập + địa chỉ không tồn tại → vẫn Danh sách việc (không có trang 404).
+## Yêu cầu theo BA (TL) — tóm tắt
+| TL | Nội dung | Với hệ thống |
+|---|---|---|
+| 01 | Đang bị chặn thì không vào được kể cả nhập đúng; hết chặn sau 5 phút kể từ lúc bị chặn | Khác (đang cho vào) |
+| 02 | 10 lần sai liên tiếp là chặn, mọi loại lỗi đều tính | Khớp; lệch 1 lần (TL-11) |
+| 03 | Mọi ca sai/trống/quá dài chỉ báo "Mã nhân viên hoặc mật khẩu không đúng"; không còn `Some values are not valid` / `validation…`. Lý do: **bảo mật** | Khác |
+| 04 | Chữ p hoa/thường đều được; khoảng trắng đầu/cuối tự cắt; không quy định độ dài mã ở màn đăng nhập | Khác với mã 210 ký tự |
+| 05 | Bỏ "mã không gian"/Workspace khỏi câu báo | Khác |
+| 06 | Đăng nhập đúng xen giữa đưa số lần sai về 0; chỉ tính số lần, không tính thời gian | |
+| 07 | Bỏ `DEFAULT` trên thanh trên và `workspace` trong `/api/me` | Khác |
+| 08 | VI "Mã nhân viên hoặc mật khẩu không đúng." / EN "Employee ID or password is incorrect." | |
+| 09 | Hết 5 phút là hết chặn; nhập thêm lúc bị chặn không tính; sau đó nhập sai mới đếm lại | chưa kiểm |
+| 10 | Mã không tồn tại và sai mật khẩu dùng chung một câu | Khớp |
+| 11 | Lần sai thứ 10 đã báo bị chặn | Khác 1 lần |
+| 12 | Chặn đúng tài khoản nhập sai (người dùng chốt) | |
+| 13 | Mật khẩu không có khoảng trắng, phân biệt hoa thường (người dùng chốt) | |
+- 13 đơn vị "khác" ≠ 13 lỗi (có thể chung nguyên nhân; chỉ là nghi lỗi tới khi BA xác nhận). Bảng soát có hai kiểu dòng cho cùng mã: dòng ✅ cũ "hành vi hiện tại, khác TL-xx" và dòng "theo TL-xx" là đúng. Nhãn "✅ Suy ra từ <mã>" (7 đơn vị). "Tự cắt bỏ" khoảng trắng: người dùng xác nhận 2026-11-18.
 
-## Giới hạn đăng nhập sai và kiểm tra ID (2026-11-17, vô tình kích hoạt)
-- Mã nhân viên **không** bị kiểm định dạng ở phía máy chủ: `p999999`, khoảng trắng đầu/cuối, thiếu/thừa số, `X999999`, `P99999A`, `P99-999`, để trống ID (khi có mật khẩu) đều chỉ 401 + câu `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`. Chỉ mã rất dài (210 ký tự) bị 400 `validation.too_big (employeeId)` → có độ dài tối đa (chưa biết bao nhiêu).
-- **Chặn tạm: sau 10 lần thất bại liên tiếp kể từ lần đăng nhập đúng (9×401 + 1×400; 11×401 nếu tính cả hai lần trước đó) → lần thứ 11 trả 429 “Too many failed attempts. Try again in 5 minutes.”** (14:23 17/11/2026). Xảy ra với mã không tồn tại → không chỉ theo tài khoản thật; chặn theo IP/trình duyệt/toàn hệ thống chưa biết.
-- **Bài học:** mình đã vô tình kích hoạt chặn này khi thử các kiểu mã nhân viên. Quy tắc chung (tối đa 3 lần, rồi hỏi người dùng) nằm ở [../../user/working-preferences.md](../../user/working-preferences.md); chi tiết ở [../../pitfalls/dont-trigger-lockouts.md](../../pitfalls/dont-trigger-lockouts.md).
+## Quy tắc người dùng đưa ra khi làm LOGIN
+- **Requirement ghi rõ thì suy luận tiếp, ghi chưa rõ thì hỏi.** Người dùng chê A7, A8, B14 "vô tri". Không hỏi: độ dài mã (đăng nhập chỉ báo đúng/sai), A6 (suy từ chữ "10 lần liên tiếp"), B5, B6, B7, B9, B10, B11.
+- Mỗi đợt TL xong **soát lại** chứ không chỉ đổi ❓→✅ (lần này sinh A7, A8, B14, viết lại B4).
+- Checklist chỉ viết từ dòng đã chốt, không lập "Câu hỏi cho BA" mới. Test case: mỗi case một giá trị không hợp lệ (checklist gộp nhiều giá trị thì dùng giá trị đầu và ghi nhận riêng), không có mã R/TL trong cột Kết quả.
+- Tổng kết bảng soát tính bằng script đếm cột Trạng thái (từng đếm sai 8 vs 9).
+- Mục C có lần nhập sai (C1 khoảng trắng với mã thật…) → có thể tính vào bộ đếm; chưa biết bộ đếm còn bao nhiêu → chỉ làm khi báo người dùng, tối đa 3 lần cộng cả hai (`pitfalls/dont-trigger-lockouts.md`). Chờ hết 5 phút để kiểm chặn tự hết cũng cần lần sai → hỏi BA thay vì tự thử.
 
-## Điều thêm về cuối phiên (2026-11-17)
-- Đăng nhập đúng lúc đang bị chặn 429 vẫn thành công. Mã chữ thường `p100001` đăng nhập được (không phân biệt hoa/thường). Enter trong ô mã gửi form. Back sau đăng xuất chỉ hiện form, không lộ hồ sơ.
-- Tệp giao diện `/assets/main.99595f2e.js` (tên băm đổi theo bản) chứa bảng thông báo VI/EN: `auth.invalidCredentials` EN = “Workspace, employee ID or password is incorrect.” (→ “mã không gian” = Workspace); `auth.locked` VI = “Đăng nhập sai quá nhiều lần. Thử lại sau {minutes} phút.”; `auth.required` = “Vui lòng đăng nhập.” (chưa thấy hiện). 401 + `auth.required` → giao diện phát `bl:signed-out`.
-- SRS đã viết xong tại `srs/banking-lite/dang-nhap.md`; kết thúc phiên trình duyệt đang **đăng xuất**, giao diện Tiếng Việt.
+## Chưa thử trên hệ thống
+Sai mật khẩu nhiều lần, hết hạn phiên, hai tab đầy đủ, đăng nhập P100002.
 
-## Phân tích requirement (2026-11-17, skill `phan-tich-requirement`)
-Sản phẩm ở `testing/banking-lite/dang-nhap/`: `bang-soat-requirement.md` (39 đơn vị có mã + 6 mục không mã; 10 chỉ ✅, 25 cả hai, 4 chỉ ❓) và `cau-hoi-cho-ba.md` (A 5 / B 11 / C 9). **Chưa gửi BA; A1–A5 đã có TL-01…05 (xem mục dưới), thêm A6/B12/B13 (A 6 / B 13 / C 9, C6 bỏ).** Điều không suy ra nhanh được từ code/SRS:
-- SRS `LOGIN` là bản nháp tả lại hệ thống, **không phải yêu cầu của BA** → “✅ đã rõ” chỉ nghĩa “hệ thống đang làm vậy”. Đã nói rõ ở đầu hai file; cần xin tài liệu chính thức.
-- **Ngưỡng chặn “10 lần” lệch tùy cách đếm** (tính lại từ nhật ký hàng 14, 18–21): 9 (chỉ 401, đếm lại khi đúng), 10 (tính cả 400, đếm lại), 11 (chỉ 401, không đếm lại), 14 (tính cả 400, không đếm lại). SRS ghi “10” như đã chắc và R06 tự mâu thuẫn (“kể từ lần đăng nhập đúng gần nhất” vs “có đặt lại không: chưa rõ”). → câu A2.
-- Mật khẩu 3 ký tự sai chỉ bị 401 (không `too_small`) → mức tối thiểu ≤ 3. Ô Mật khẩu **giữ chữ** sau khi báo lỗi (nhật ký hàng 10) nhưng SRS không ghi → B9.
-- SRS tự lệch nhỏ: S02-AC04 xếp `p999999` vào “sai dạng” trong khi chữ thường được chấp nhận; S03-AC02 nói cả `too_small`/`too_big` giữ tiếng Anh nhưng M04 cột English “chưa quan sát”.
-- Phần C có 2 mục (C1 khoảng trắng với mã thật, C6 mã 210 ký tự bản English) **có lần nhập sai → có thể tính vào giới hạn chặn**; chưa biết bộ đếm hiện còn bao nhiêu. Chỉ làm khi báo người dùng trước, tối đa 3 lần cộng cả hai ([../../pitfalls/dont-trigger-lockouts.md](../../pitfalls/dont-trigger-lockouts.md)). Chờ hết 5 phút để kiểm chặn tự hết (B3) cũng cần lần sai → để hỏi BA thay vì tự thử.
-
-## Câu trả lời A1–A5 đã nhận (2026-11-18, TL-01…TL-05 trong bảng soát)
-Người dùng xác nhận **BA trả lời** (chuyển lại trong chat, chưa có link ticket/kênh chung) → các dòng khác hệ thống là **nghi lỗi**, chưa phải lỗi đã xác nhận. Chưa sửa SRS (chỉ sửa khi BA/team xác nhận). Nội dung:
-- Đang bị chặn thì **không** vào được kể cả nhập đúng; hết chặn sau 5 phút tính từ lúc bị chặn → **khác hệ thống** (đang cho vào).
-- 10 lần sai liên tiếp là chặn, mọi loại lỗi đều tính → khớp hệ thống. Lệch một lần: BA nói lần sai thứ 10 đã báo bị chặn (TL-11), hệ thống báo sai thông tin ở 10 lần đầu, lần thứ 11 mới chặn. Đăng nhập đúng đưa số lần về 0, chỉ tính số lần không tính thời gian (TL-06).
-- Mọi ca sai/trống/quá dài chỉ báo “mã nhân viên hoặc mật khẩu không đúng”; không còn “Một số giá trị không hợp lệ.” và dòng `validation…` → **khác hệ thống**. Nguyên văn + English chưa có (→ B13).
-- Chữ p hoa/thường đều được; khoảng trắng đầu/cuối “tự cắt bỏ” (ô chọn gửi lại **chưa đánh dấu rõ**, mình hiểu là tự cắt bỏ); độ dài mã không quy định ở màn đăng nhập → hệ thống từ chối mã 210 ký tự là **khác**.
-- “Mã không gian”/Workspace bị bỏ → câu báo và thanh trên (`DEFAULT`, `/api/me`) còn → **khác**; chưa nói thanh trên có bỏ theo (→ B12).
-- Hệ quả cho việc test: **C6 bỏ** (không còn `too_big` → bớt một lần nhập sai); C1, C3 chỉ còn là kiểm hệ thống có làm đúng. Bộ đếm hiện còn bao nhiêu vẫn không biết nên quy tắc tối đa 3 lần nhập sai vẫn giữ.
-- **Đợt 2 (cùng ngày):** TL-06 (A6): đăng nhập đúng xen giữa đưa số lần sai về 0, chỉ tính số lần, không tính thời gian; lần sai thứ 10 báo bị chặn (TL-11, phần cuối A6, **khác** hệ thống một lần). TL-07 (B12): bỏ `DEFAULT` trên thanh trên và `workspace` trong `/api/me` (hệ thống còn → khác). TL-08 (B13): câu báo VI “Mã nhân viên hoặc mật khẩu không đúng.”, EN “Employee ID or password is incorrect.”. TL-09 (B3): hết 5 phút là hết chặn, nhập thêm lúc bị chặn không tính, sau đó nhập sai mới đếm lại số lần (chưa kiểm hệ thống). TL-10 (B1): mã không tồn tại và sai mật khẩu dùng chung một câu (khớp). Còn mở: B2, B4–B11 và 8 mục tự kiểm tra; Người trả lời đã xác nhận là BA. “Tự cắt bỏ” khoảng trắng đã được người dùng xác nhận (2026-11-18).
-- Bảng soát có hai kiểu dòng cho cùng một mã: dòng ✅ cũ ghi “hành vi hiện tại, khác TL-xx” và dòng “theo TL-xx” là kết quả đúng. Đừng đếm 13 đơn vị “khác” thành 13 lỗi (có thể chung nguyên nhân, và chỉ là nghi lỗi nếu BA xác nhận).
-
-## Soát lại sau câu trả lời (2026-11-18, SRS không đổi)
-- Câu trả lời của BA tạo ra chỗ hở mới, nên **mỗi đợt TL xong nên soát lại** chứ không chỉ đổi ❓ thành ✅. Lần này tìm thêm: B2 (ai bị chặn) phải lên **A7** vì TL-01 làm người bị chặn mất quyền vào cả khi nhập đúng; **A8** mật khẩu có cắt khoảng trắng/phân biệt hoa thường như mã không (TL-04 chỉ nói mã); **B14** dòng gợi ý "Chữ P và 6 chữ số" và dấu `*` lệch với TL-03, TL-04; **B4** viết lại (câu báo khi nhập đúng lúc bị chặn, số phút có giảm dần).
-- **Người dùng chê A7, A8 "vô tri"** và tự chốt: chặn đúng tài khoản nhập sai (TL-12); mật khẩu không có khoảng trắng, phân biệt hoa thường (TL-13). Không gửi BA; chưa có BA xác nhận. B2 gộp vào A7. Lý do của TL-03 (mọi lỗi đăng nhập báo chung một câu): **bảo mật**, không lộ mã hay mật khẩu sai (người dùng giải thích 2026-11-18). **B14 bỏ** (dòng gợi ý, dấu `*`: suy luận là ra). Áp quy tắc "requirement ghi rõ thì suy luận tiếp, ghi chưa rõ thì hỏi" (2026-11-18): bỏ B5, B6; C2 chỉ còn kiểm hệ thống; A7, A8 (TL-12, TL-13) ghi là "suy ra, người dùng xác nhận". Bảng soát có nhãn mới "✅ Suy ra từ <mã>" (7 đơn vị). Sau đó bỏ thêm B7 (bị đăng xuất thì về form đăng nhập là đủ) và B11 (quy tắc mật khẩu thuộc phần đăng ký, cùng lý do TL-04). Rồi bỏ B9 (ô Mật khẩu phải bị xóa sau khi báo lỗi, suy ra từ bảo mật; hệ thống đang giữ → **nghi lỗi mới**) và B10 (không đổi kết quả test Đăng nhập). A4 phần độ dài, A6 ghi chú là suy ra được. **Câu hỏi BA còn mở: chỉ B4, B8** và 8 mục tự kiểm tra (C1–C3 chỉ còn là kiểm hệ thống).
-- Bằng chứng nhật ký hàng 19: mỗi lần gõ một mã khác mà vẫn bị chặn → hệ thống hiện **không** đếm riêng từng mã. Đừng đoán "đếm theo mã" trong câu hỏi.
-- Bảng soát thiếu dòng "theo TL" cho M02, S03-AC01 (đã thêm); tổng kết cũ ghi 📋 còn mở 8, đúng là 9. Tổng kết nay tính bằng script đếm cột Trạng thái.
-
-## Checklist (2026-11-18)
-`testing/banking-lite/dang-nhap/checklist.md`: 41 dòng, 5 cột (Mã, Tình huống, Ưu tiên, Kỹ thuật, Nguồn). Người dùng yêu cầu **chỉ viết từ dòng đã rõ/đã chốt**, bỏ phần ❓ (B4, B8, C5, C7–C9, mã không có thật đếm thế nào, đúng giây thứ 5 phút) và không lập mục "Câu hỏi cho BA" mới. Mã nguồn dùng mã SRS (`S01-AC02`, `R06`, `TL-xx`), bỏ tiền tố `LOGIN-`. Ca chạm ngưỡng 10 lần (TC-014…022) chỉ chạy khi người dùng đồng ý (quy tắc tối đa 3 lần sai).
-
-## Test case chi tiết (2026-11-18)
-`testing/banking-lite/dang-nhap/test-case.md`: 41 TC khớp checklist, 7 cột. Quy tắc người dùng đặt: mỗi case đứng riêng (không "như TC-xxx"), mỗi case một giá trị không hợp lệ (checklist gộp nhiều giá trị thì dùng giá trị đầu và **ghi nhận riêng**, không tự thêm/gộp TC), không có mã R/TL trong cột Kết quả, nguồn thiếu thì ghi `CẦN XÁC NHẬN` + đưa vào "Câu hỏi cho BA". Câu hỏi mới: (1) câu báo/số phút khi nhập lúc đang bị chặn (= B4, TC-016…018); (2) lần sai của tài khoản khác xen giữa có làm gián đoạn chuỗi "liên tiếp" không (TC-022); (3) số tiền `2,000,000,000` hiện ở đâu (TC-039). Chưa chạy thử; mật khẩu đúng không ghi trong tài liệu. Bản gốc sinh bằng script ở scratchpad (không lưu trong repo).
-
-## Truy vết (2026-11-18)
-`testing/banking-lite/dang-nhap/truy-vet.md` (tự sinh) + `truy-vet-cau-hinh.json` (tên ngắn 52 mã) + `truy-vet-trang-thai.json` (mốc đã chốt). Cột Nguồn của checklist/test case ghi `mã (tên ngắn)`. Mốc đầu chốt 2026-11-18: 41 TC "Còn đúng". Chi tiết cách dùng: [../../project/truy-vet-requirement.md](../../project/truy-vet-requirement.md).
-
-## SRS theo BA (2026-11-18, hướng C đã làm)
-BA xác nhận đúng TL-01…TL-13 (chưa có ticket). `srs/banking-lite/dang-nhap.md` nay có cột **"Yêu cầu: hệ thống phản hồi"** (theo BA) và cột **"Hệ thống 1.3.0 hiện tại"** (chữ quan sát cũ, `Khớp`/`⚠️ Khác` = nghi lỗi). **Từ nay SRS này là yêu cầu theo BA, không còn chỉ là bản quan sát** (các ghi chú cũ ở file này nói "SRS là bản nháp ghi hành vi hệ thống" chỉ đúng tới 2026-11-17). Đã bỏ: S03-AC02, M02, M03, M04. Còn mở: B4, B8. Chi tiết: [../../project/truy-vet-requirement.md](../../project/truy-vet-requirement.md). Mốc trước khi sửa: commit `46feb45`.
-
-## Test case 12 cột (2026-11-18)
-`test-case.md` đã thêm 5 cột (Ưu tiên, Kết quả thực tế, Trạng thái, Người viết = Sunny Tran, Tự động hóa = Chưa có) và bọc bảng bằng dấu `<!-- BANG-TC:… -->`; khi chạy test điền vào bốn cột cuối, không cần chốt lại truy vết. Chưa ca nào có script `auto/`; ca khóa tài khoản (TC-014, 015, 021, 022, 037) nên ghi Không tự động được. Chưa có test case nào được chạy.
-
-## Chưa thử
-Sai mật khẩu nhiều lần (nguy cơ khóa tài khoản test — hỏi người dùng trước), chữ P thường, khoảng trắng, hết hạn phiên, hai tab, đăng nhập P100002.
-
-## Bẫy khi test feature này
-- Không tự gõ mật khẩu **kể cả mật khẩu sai** (người dùng đã thử thuyết phục, vẫn giữ quy tắc). Cách làm đã chạy tốt: mình điền sẵn **Mã nhân viên** bằng `form_input`, người dùng gõ mật khẩu và bấm, báo “xong”, mình đọc kết quả và chụp ảnh.
-- Cửa sổ trình duyệt bị ẩn thì người dùng không thấy gì: dùng `mcp__ccd_view__show_pane` (pane `preview`) để bật lại.
-- Bấm Đăng xuất làm mất phiên P100001 sẵn có; người dùng phải đăng nhập lại.
+## Bẫy khi test
+- Không tự gõ mật khẩu **kể cả sai**. Cách tốt: mình điền Mã nhân viên bằng `form_input`, người dùng gõ mật khẩu + bấm, báo "xong", mình đọc kết quả + chụp ảnh.
+- Pane trình duyệt ẩn thì người dùng không thấy gì: `mcp__ccd_view__show_pane` (pane `preview`).
+- Bấm Đăng xuất làm mất phiên P100001; người dùng phải đăng nhập lại. Cuối khám phá trình duyệt đang đăng xuất, giao diện Tiếng Việt.

@@ -5,7 +5,7 @@ Chạy từ gốc repo:
     python -X utf8 scripts/tao-du-an.py <slug> "<Tên dự án>" [<URL>]
 
 Tạo:  memories/modules/<slug>/overview.md, srs/<slug>/, testing/<slug>/, evidence/<slug>/ (kèm .gitkeep),
-      thêm dòng vào bảng "Các dự án" trong memories/project/overview.md, ghi slug vào .du-an-hien-tai.
+      thêm dòng vào bảng dự án trong memories/project/overview.md và mục trong memories/MEMORY.md, ghi slug vào .du-an-hien-tai.
 Không ghi đè file đã có. Không đụng tới thư mục của dự án khác.
 """
 import datetime
@@ -43,10 +43,8 @@ def main():
     if os.path.exists(ov):
         print("đã có, giữ nguyên:", os.path.relpath(ov, ROOT))
     else:
-        io.open(ov, "w", encoding="utf-8", newline="\n").write(f"""# Dự án {ten} — tổng quan
-Cập nhật: {today}
-
-Slug dự án: `{slug}`. Chỉ đọc file này khi dự án hiện tại là {ten} (xem `memories/conventions/nhieu-du-an.md`).
+        io.open(ov, "w", encoding="utf-8", newline="\n").write(f"""# {ten} — tổng quan
+Đọc khi: đầu tiên khi làm {ten} (`.du-an-hien-tai` = {slug}). Ngày tạo: {today}.
 
 ## Hệ thống
 - URL: {url or "_chưa có, hỏi người dùng_"}
@@ -78,9 +76,20 @@ _Điền khi có._
         io.open(pov, "w", encoding="utf-8", newline="\n").write("\n".join(lines))
         print("thêm dòng vào bảng dự án:", os.path.relpath(pov, ROOT))
 
+    mmp = os.path.join(ROOT, "memories", "MEMORY.md")
+    mm = io.open(mmp, encoding="utf-8").read()
+    if f"modules/{slug}/overview.md" not in mm:
+        mm = mm.rstrip("\n") + (
+            f"\n\n## Dự án `{slug}` (chỉ khi `.du-an-hien-tai` = {slug})\n"
+            "| File | Khi | Chứa |\n|---|---|---|\n"
+            f"| `modules/{slug}/overview.md` | đầu tiên | hệ thống, tài khoản, thư mục |\n"
+        )
+        io.open(mmp, "w", encoding="utf-8", newline="\n").write(mm)
+        print("thêm mục dự án vào memories/MEMORY.md")
+
     io.open(os.path.join(ROOT, ".du-an-hien-tai"), "w", encoding="utf-8", newline="\n").write(slug + "\n")
     print("dự án hiện tại trên máy này:", slug)
-    print(f"\nViệc còn lại: thêm dòng cho dự án vào memories/MEMORY.md; người dùng tự thêm tài khoản vào .env với tiền tố {env_prefix}")
+    print(f"\nViệc còn lại: người dùng tự thêm tài khoản vào .env với tiền tố {env_prefix}")
     return 0
 
 

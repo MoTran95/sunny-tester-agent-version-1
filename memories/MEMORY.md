@@ -1,53 +1,37 @@
-# MEMORY.md — Bản đồ bộ nhớ của repo
+# MEMORY — bản đồ cho AI (không phải tài liệu cho người)
+Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Khi". Chỉ mở mục của dự án hiện tại (`.du-an-hien-tai`). Thêm/đổi tên/xóa file → sửa bảng này cùng lượt, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py`.
 
-Đọc ngay sau `CLAUDE.md`. Mỗi dòng: file nào, chứa gì, khi nào đọc. Chỉ hai file đánh dấu **luôn đọc** là đọc ở mọi yêu cầu; còn lại chỉ đọc khi việc liên quan.
-Repo có nhiều dự án: đọc phần **Chung** khi cần, và **chỉ** mục của dự án hiện tại (`.du-an-hien-tai`). Không mở mục của dự án khác.
-Thêm, đổi tên hoặc xóa file bộ nhớ thì sửa bản đồ trong cùng lượt. Mỗi dòng giữ ngắn; chi tiết để trong file. Không ghi nhật ký cập nhật ở đây.
+## Chung
+| File (trong `memories/`) | Khi | Chứa |
+|---|---|---|
+| ★ `user/working-preferences.md` | mọi việc | quy tắc cốt lõi: tiếng Việt, hỏi không đoán, mật khẩu, tối đa 3 lần, commit khi nhờ |
+| ★ `project/overview.md` | mọi việc | repo là gì, danh sách dự án |
+| `user/document-preferences.md` | viết báo cáo/SRS/bảng soát/checklist | cách người dùng muốn tài liệu |
+| `user/connectors-and-plugins.md` | cần connector/plugin; chậm | Notion/Docs tắt; tắt plugin từ repo không được (đã đo) |
+| `conventions/nhieu-du-an.md` | máy mới, đổi/tạo dự án | chọn dự án, không lẫn kiến thức |
+| `conventions/memory-writing-rules.md` | trước khi ghi/sửa memory | khuôn viết cho AI, độ dài |
+| `conventions/ba-question-wording.md` | viết câu hỏi BA | xưng hô, từ chung, khuôn |
+| `project/skills.md` | dùng/sửa skill | 4 skill, script, trạng thái đã thử |
+| `project/srs-process.md` | làm SRS; hỏi vì sao khuôn thế | quyết định khuôn/ID, bẫy |
+| `project/truy-vet-requirement.md` | requirement đổi; sửa checklist/TC | `truy-vet.py`, lịch sử, bẫy |
+| `project/session-speed.md` | than chậm/tốn token; sửa skill/khuôn | số đo, đã làm, rủi ro |
+| `project/git-remote.md` | commit/push | remote, `.env` loại trừ |
+| `project/architecture.md` | thêm thư mục, đổi quyền, máy mới | cấu trúc, script |
+| `project/cong-cu-markitdown.md` | đọc docx/pdf/xlsx/pptx; cài máy | cách dùng, bẫy |
+| `project/notion-journey-page.md` | nhắc Notion/hướng dẫn/content | trang Notion, bẫy |
+| `decisions/decision-log.md` | trước khi đề xuất đổi hướng | quyết định + lý do + phương án loại |
+| `pitfalls/dont-trigger-lockouts.md` | trước thao tác có thể gây khóa | bài học khóa đăng nhập |
+| `modules/_template.md` | tạo file module | khuôn |
 
-# Chung (mọi dự án)
+## Dự án `banking-lite` (chỉ khi `.du-an-hien-tai` = banking-lite)
+| File | Khi | Chứa |
+|---|---|---|
+| `modules/banking-lite/overview.md` | đầu tiên | hệ thống, tài khoản, thư mục |
+| `modules/banking-lite/tu-ngu-cau-hoi-ba.md` | viết câu hỏi BA | từ đã chốt với BA |
+| `modules/banking-lite/exploration-findings.md` | cần luồng hồ sơ/vai trò/dữ liệu test | vòng đời, vai trò, bẫy trình duyệt |
+| `modules/banking-lite/feature-dang-nhap.md` | `LOGIN` | hành vi, TL-01…13, trạng thái |
+| `modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md` | `RECO` | luật, TL-02, chỗ SRS lệch |
+| `modules/banking-lite/feature-gui-tham-dinh.md` | nút Gửi thẩm định | điều kiện bật/tắt |
+| `modules/banking-lite/report-v2-html.md` | sửa báo cáo v2 | build, khoanh nút, bẫy |
 
-## Người dùng
-- [user/working-preferences.md](user/working-preferences.md) — **luôn đọc**. Sở thích cốt lõi: tiếng Việt, từng bước nhỏ, không gõ mật khẩu, tối đa 3 lần, đọc là hiểu, không lẫn dự án.
-- [user/document-preferences.md](user/document-preferences.md) — cách viết báo cáo, SRS, bảng soát, checklist mà người dùng muốn. Đọc khi viết tài liệu.
-- [user/connectors-and-plugins.md](user/connectors-and-plugins.md) — Notion, Claude Docs đã tắt; hỏi trước khi bật. Đọc khi việc cần connector/plugin.
-
-## Quy ước
-- [conventions/nhieu-du-an.md](conventions/nhieu-du-an.md) — chọn dự án, tạo dự án mới, không lẫn kiến thức giữa dự án. Đọc khi máy mới, đổi dự án hoặc tạo dự án.
-- [conventions/memory-writing-rules.md](conventions/memory-writing-rules.md) — đặt tên, độ dài, khuôn file bộ nhớ. Đọc trước khi ghi/sửa bộ nhớ.
-- [conventions/ba-question-wording.md](conventions/ba-question-wording.md) — xưng hô, quy tắc từ ngữ chung, khuôn câu hỏi gửi BA. Đọc khi viết câu hỏi cho BA.
-
-## Repo
-- [project/overview.md](project/overview.md) — **luôn đọc**. Repo là gì, danh sách dự án, thư mục theo dự án.
-- [project/skills.md](project/skills.md) — bốn skill của repo (có `tao-checklist-test-case`), thành phần, đã thử gì. Đọc khi dùng hoặc sửa skill.
-- [project/srs-process.md](project/srs-process.md) — quy trình khám phá → SRS, khuôn và quy tắc ID. Đọc khi làm SRS.
-- [project/truy-vet-requirement.md](project/truy-vet-requirement.md) — cách truy vết requirement ↔ test case, lịch sử, script `truy-vet.py`, làm cho tính năng mới. Đọc khi requirement đổi hoặc sửa checklist/test case.
-- [project/session-speed.md](project/session-speed.md) — vì sao phiên chậm, số đo, hướng đã/chưa làm. Đọc khi người dùng than chậm hoặc khi sửa skill/khuôn.
-- [project/git-remote.md](project/git-remote.md) — remote GitHub, `.env` bị loại trừ. Đọc khi commit/push.
-- [project/architecture.md](project/architecture.md) — cấu trúc thư mục, quyền cho phép sẵn, cài đặt máy mới. Đọc khi thêm thư mục, đổi quyền, hoặc làm trên máy mới.
-- [project/cong-cu-markitdown.md](project/cong-cu-markitdown.md) — MarkItDown đã cài (venv ngoài repo), kết quả soát an toàn, cách dùng, bẫy tiếng Việt. Đọc khi cần đọc docx/pdf/xlsx/pptx hoặc cài máy mới.
-- [project/notion-journey-page.md](project/notion-journey-page.md) — trang Notion hành trình (3 database, hướng dẫn v2). Đọc khi người dùng nhắc Notion, hướng dẫn người mới, content.
-
-## Quyết định và bẫy
-- [decisions/decision-log.md](decisions/decision-log.md) — quyết định đã chốt và lý do. Đọc trước khi đề xuất đổi hướng.
-- [pitfalls/dont-trigger-lockouts.md](pitfalls/dont-trigger-lockouts.md) — từng tự kích hoạt chặn đăng nhập khi test. Đọc trước khi lặp thao tác có thể gây khóa.
-
-Dự án mới: `scripts/tao-du-an.py` tạo `modules/<slug>/overview.md`; thêm mục cho dự án ở dưới. Khuôn file module: [modules/_template.md](modules/_template.md).
-
-# Dự án: Banking Lite (`banking-lite`)
-Chỉ đọc khi `.du-an-hien-tai` là `banking-lite`.
-
-| File | Nội dung |
-|---|---|
-| [modules/banking-lite/overview.md](modules/banking-lite/overview.md) | Hệ thống, tài khoản, bối cảnh, thư mục của dự án. Đọc đầu tiên khi làm Banking Lite |
-| [modules/banking-lite/tu-ngu-cau-hoi-ba.md](modules/banking-lite/tu-ngu-cau-hoi-ba.md) | Từ đã chốt với BA (mức tối đa, hết hạn vay, bị chặn…) |
-| [modules/banking-lite/exploration-findings.md](modules/banking-lite/exploration-findings.md) | Luồng hồ sơ vay, vai trò, tích hợp, bẫy khi thao tác browser |
-| [modules/banking-lite/feature-dang-nhap.md](modules/banking-lite/feature-dang-nhap.md) | Đăng nhập (`LOGIN`): thông báo lỗi, link sâu, câu trả lời BA, SRS đã ghi theo BA (2026-11-18), điều chưa thử |
-| [modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md](modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md) | Khuyến nghị LTV/DSR (`RECO`): luật thẩm định, dữ liệu test, bẫy |
-| [modules/banking-lite/feature-gui-tham-dinh.md](modules/banking-lite/feature-gui-tham-dinh.md) | Nút Gửi thẩm định: điều kiện bật/tắt, dữ liệu test, việc còn lại |
-| [modules/banking-lite/report-v2-html.md](modules/banking-lite/report-v2-html.md) | Báo cáo HTML v2: cấu trúc, khoanh nút, cách xem thử |
-
-Sản phẩm trong `testing/` (không phải bộ nhớ):
-- [../testing/chien-luoc-phan-tich-requirement.md](../testing/chien-luoc-phan-tich-requirement.md) — chiến lược Tách–Xoay–Lọc rút từ sách Sunny, đối chiếu với `RECO`. Đọc khi người dùng nhắc “sách” (với dự án khác: chỉ dùng phần cách làm, bỏ phần đối chiếu `RECO`).
-- `LOGIN` — [bảng soát](../testing/banking-lite/dang-nhap/bang-soat-requirement.md) (TL-01…11) và [câu hỏi BA](../testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md) (A1–A6, B1, B3, B12, B13 đã trả lời; A7, A8 suy ra TL-12, TL-13; B5–B7, B9–B11, B14 bỏ; còn hỏi B4, B8). Đọc trước khi làm checklist/test case `LOGIN`.
-- `LOGIN` — [checklist](../testing/banking-lite/dang-nhap/checklist.md) (41 dòng TC-001…041, chỉ phần đã chốt; chưa viết bước chi tiết). Đọc trước khi viết test case `LOGIN`; [test case chi tiết](../testing/banking-lite/dang-nhap/test-case.md) (41 TC, 3 câu hỏi BA mới, chưa chạy thử); [truy vết](../testing/banking-lite/dang-nhap/truy-vet.md) (bảng tra mã, hai ma trận, lịch sử; tự sinh).
-- `RECO` — [bảng soát](../testing/banking-lite/khuyen-nghi-ltv-dsr/bang-soat-requirement.md), [câu hỏi BA](../testing/banking-lite/khuyen-nghi-ltv-dsr/cau-hoi-cho-ba.md), [phân tích cũ có 62 test case](../testing/banking-lite/khuyen-nghi-ltv-dsr/phan-tich-requirement.md). Đọc trước khi làm checklist/test case `RECO`.
+Sản phẩm cho người đọc (không phải memory): `testing/chien-luoc-phan-tich-requirement.md` (sách Sunny; đọc khi nhắc "sách"); `testing/banking-lite/<feature>/` gồm `bang-soat-requirement.md`, `cau-hoi-cho-ba.md`, `checklist.md`, `test-case.md`, `truy-vet.md` (`dang-nhap` = LOGIN, `khuyen-nghi-ltv-dsr` = RECO, có thêm `phan-tich-requirement.md` cũ). Đọc trước khi làm checklist/test case feature đó.
