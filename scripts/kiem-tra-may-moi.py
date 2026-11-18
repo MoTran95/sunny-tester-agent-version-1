@@ -71,22 +71,42 @@ if shutil.which("git"):
 else:
     miss("chưa cài Git", "cài Git for Windows từ git-scm.com")
 
-print("3. Tài khoản test (.env)")
+print("3. Dự án hiện tại trên máy này (.du-an-hien-tai)")
+slug = ""
+cur = os.path.join(ROOT, ".du-an-hien-tai")
+if os.path.exists(cur):
+    slug = io.open(cur, encoding="utf-8").read().strip()
+    if os.path.exists(os.path.join(ROOT, "memories", "modules", slug, "overview.md")):
+        ok(f"dự án hiện tại: {slug}")
+    else:
+        miss(f"dự án '{slug}' chưa có memories/modules/{slug}/overview.md",
+             f"tạo bằng: python -X utf8 scripts/tao-du-an.py {slug} \"<Tên dự án>\"")
+else:
+    warn("chưa chọn dự án trên máy này", "mở phiên Claude, Claude sẽ hỏi đang làm dự án nào (hoặc tạo dự án mới)")
+
+print("4. Tài khoản test (.env) của dự án hiện tại")
 env_path, mau_path = os.path.join(ROOT, ".env"), os.path.join(ROOT, ".env.example")
-if not os.path.exists(env_path):
+prefix = slug.upper().replace("-", "_") + "_" if slug else None
+if not prefix:
+    warn("bỏ qua vì chưa chọn dự án", "chọn dự án trước")
+elif not os.path.exists(env_path):
     miss(".env chưa có", "chép .env.example thành .env rồi tự điền mật khẩu (không gửi qua chat)")
 else:
-    env, mau = read_env(env_path), read_env(mau_path) if os.path.exists(mau_path) else {}
+    env = read_env(env_path)
+    mau = {k: v for k, v in (read_env(mau_path) if os.path.exists(mau_path) else {}).items() if k.startswith(prefix)}
+    co = [k for k in env if k.startswith(prefix)]
     thieu_khoa = [k for k in mau if k not in env]
-    trong = [k for k in mau if k in env and not env[k]]
+    trong = [k for k in co if not env[k]]
+    if not co:
+        warn(f".env chưa có khóa nào bắt đầu bằng {prefix}", "người dùng tự thêm tài khoản test của dự án này")
     if thieu_khoa:
         miss(".env thiếu khóa: " + ", ".join(thieu_khoa), "thêm theo .env.example")
     if trong:
         warn(".env còn trống: " + ", ".join(trong), "tự điền giá trị")
-    if not thieu_khoa and not trong:
-        ok(f".env đủ {len(mau)} khóa (không in giá trị)")
+    if co and not thieu_khoa and not trong:
+        ok(f".env có {len(co)} khóa {prefix}… (không in giá trị)")
 
-print("4. Cấu hình Claude trong repo")
+print("5. Cấu hình Claude trong repo")
 for name in ("feature-exploration-report", "srs-from-website", "phan-tich-requirement"):
     p = os.path.join(ROOT, ".claude", "skills", name, "SKILL.md")
     ok(f"skill {name}") if os.path.exists(p) else miss(f"thiếu skill {name}", "git pull lại repo")
@@ -97,7 +117,7 @@ try:
 except (OSError, ValueError, KeyError) as e:
     miss(".claude/settings.json lỗi hoặc thiếu", f"git pull lại repo ({e})")
 
-print("5. Chạy thử script của skill")
+print("6. Chạy thử script của skill")
 checks = [
     ("check-srs.py trên SRS Đăng nhập",
      [sys.executable, "-X", "utf8", ".claude/skills/srs-from-website/scripts/check-srs.py", "srs/banking-lite/dang-nhap.md"]),

@@ -7,7 +7,7 @@ description: Khám phá một website/web app bằng thao tác thật rồi vi�
 
 Biến một lượt khám phá **thật** trên website thành một file SRS **truy được nguồn**: người mới đọc là hiểu, và sau này test case gắn thẳng vào từng ID. SRS ở đây ghi **hành vi quan sát được**, chưa phải yêu cầu nghiệp vụ chính thức.
 
-Ngôn ngữ: **tiếng Việt**, câu đầy đủ, dễ hiểu. Mẫu đã chạy thật: `srs/banking-lite/dang-nhap.md` (nhật ký + ảnh ở `evidence/banking-lite/features/dang-nhap/`).
+Ngôn ngữ: **tiếng Việt**, câu đầy đủ, dễ hiểu. Mẫu đã chạy thật (dự án Banking Lite, chỉ mở khi đang làm dự án đó): `srs/banking-lite/dang-nhap.md` (nhật ký + ảnh ở `evidence/banking-lite/features/dang-nhap/`).
 
 ## Quy tắc không được phá (và vì sao)
 
@@ -21,7 +21,7 @@ Ngôn ngữ: **tiếng Việt**, câu đầy đủ, dễ hiểu. Mẫu đã ch�
 8. **Làm từng bước nhỏ, hỏi khi chưa rõ.** Từ nghe lệch (người dùng nói bằng giọng nói) → hỏi lại nghĩa, không đoán.
 
 ## Đọc gì cho từng việc
-Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`. Thêm theo việc:
+Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`, và `memories/modules/<slug>/overview.md` của **dự án hiện tại** (slug trong `.du-an-hien-tai`; chưa có thì hỏi người dùng trước, xem `CLAUDE.md` bước 0). `<hệ thống>` trong các đường dẫn dưới đây chính là slug đó. **Không mở file của dự án khác, kể cả để làm mẫu**: dùng khuôn trong `assets/` (và `srs/_template.md`). Thêm theo việc:
 
 | Việc | Đọc | Không cần đọc |
 |---|---|---|

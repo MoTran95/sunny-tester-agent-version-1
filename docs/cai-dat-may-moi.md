@@ -21,8 +21,12 @@ Nếu gõ `python` mà Windows mở Microsoft Store thay vì chạy: Python chư
 git clone git@github.com:MoTran95/sunny-tester-agent-version-1.git D:\AI\build-sunny-agent-version-1
 ```
 
-## 3. Tạo file tài khoản test `.env`
-`.env` không đi theo git (để không lộ mật khẩu). Chép file mẫu rồi **tự điền mật khẩu** bằng Notepad. Đừng gửi mật khẩu qua chat.
+## 3. Chọn dự án và tạo file tài khoản test `.env`
+Repo chứa nhiều dự án (mỗi dự án là một hệ thống đang test, hiện có `banking-lite`). Mở phiên Claude đầu tiên trên máy mới, **Claude sẽ hỏi bạn đang làm dự án nào** rồi ghi vào file `.du-an-hien-tai` (chỉ nằm trên máy này, không commit). Các phiên sau không hỏi lại; muốn đổi thì nói tên dự án khác.
+- Dự án đã có: chọn trong danh sách.
+- Dự án mới: Claude hỏi tên, URL, tên thư mục ngắn rồi tạo thư mục riêng (`scripts/tao-du-an.py`). Claude **không dùng kiến thức của Banking Lite** cho dự án mới.
+
+`.env` không đi theo git (để không lộ mật khẩu). Chép file mẫu rồi **tự điền mật khẩu** của dự án đang làm bằng Notepad. Đừng gửi mật khẩu qua chat. Dự án mới: thêm nhóm khóa riêng theo hướng dẫn ở đầu `.env.example`.
 
 ```powershell
 Copy-Item D:\AI\build-sunny-agent-version-1\.env.example D:\AI\build-sunny-agent-version-1\.env

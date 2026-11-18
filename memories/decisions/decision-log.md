@@ -3,6 +3,11 @@ Cập nhật: 2026-11-18
 
 Mỗi quyết định một mục, mới nhất ở trên. Khi file quá dài, tách theo năm/chủ đề.
 
+## 2026-11-18 — Repo nhiều dự án, mỗi máy chọn một dự án
+- **Quyết định:** máy mới (chưa có `.du-an-hien-tai`) thì hỏi đang làm dự án nào trước mọi việc, ghi slug vào `.du-an-hien-tai` (không commit). Dự án mới tạo thư mục theo cấu trúc hiện có (`scripts/tao-du-an.py`). Kiến thức riêng của Banking Lite tách khỏi phần chung: tổng quan sang `memories/modules/banking-lite/overview.md`, từ ngữ với BA sang `memories/modules/banking-lite/tu-ngu-cau-hoi-ba.md`; skill không mở file của dự án khác kể cả làm mẫu. Chi tiết: [../conventions/nhieu-du-an.md](../conventions/nhieu-du-an.md).
+- **Lý do:** người dùng yêu cầu, để không lẫn kiến thức Banking Lite sang dự án khác.
+- **Phương án đã loại (người dùng chọn):** hỏi ở mọi phiên mới (phải trả lời nhiều lần); gom mỗi dự án vào `du-an/<tên>/` (phải dời toàn bộ Banking Lite).
+
 ## 2026-11-18 — Skill ghi rõ file cần đọc; quyền cho phép sẵn cho máy mới
 - **Quyết định:** mỗi `SKILL.md` có bảng "Đọc gì cho từng việc" thay cho bước "đọc bộ nhớ liên quan" chung chung. `.claude/settings.json` (commit theo repo) cho phép sẵn: `Edit` trong `memories/`, `srs/`, `testing/`, `evidence/`, `docs/`, `.claude/skills/`, `CLAUDE.md`; chạy script trong `.claude/skills/` và `scripts/kiem-tra-may-moi.py`; `git status/diff/log/show`.
 - **Lý do:** người dùng nhờ (2026-11-18) để phiên đầu trên máy mới không mất ~30 phút.

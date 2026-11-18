@@ -7,7 +7,7 @@ description: Đọc soát một requirement (file SRS/tài liệu yêu cầu/tic
 
 Làm **một việc**: đọc requirement trước khi viết test, tìm mọi chỗ chưa đủ căn cứ để biết kết quả đúng, rồi biến thành (1) **bảng soát** để tester tự kiểm tra và (2) **file câu hỏi** để mang đi hỏi BA. Xong thì **dừng**, chờ BA trả lời. Checklist và test case là việc của skill khác, sau khi BA trả lời.
 
-Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong sách *Nền Tảng Tester Thời AI* (Phần 1) cộng các bài học từ lần làm thật trên feature Khuyến nghị LTV/DSR (mã `RECO`). Mẫu đã chạy thật: `testing/banking-lite/khuyen-nghi-ltv-dsr/`.
+Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong sách *Nền Tảng Tester Thời AI* (Phần 1) cộng các bài học từ lần làm thật trên feature Khuyến nghị LTV/DSR (mã `RECO`). Mẫu đã chạy thật (dự án Banking Lite, chỉ mở khi đang làm dự án đó): `testing/banking-lite/khuyen-nghi-ltv-dsr/`.
 
 ## Quy tắc không được phá (và vì sao)
 
@@ -24,13 +24,13 @@ Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong s�
 11. **Làm từng bước nhỏ, hỏi khi chưa rõ** (tối đa 3 câu khi không làm tiếp được). Từ nghe lệch thì hỏi lại nghĩa.
 
 ## Đọc gì cho từng việc
-Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`. Thêm theo việc:
+Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview.md`, và `memories/modules/<slug>/overview.md` của **dự án hiện tại** (slug trong `.du-an-hien-tai`; chưa có thì hỏi người dùng trước, xem `CLAUDE.md` bước 0). `<hệ thống>` trong các đường dẫn dưới đây chính là slug đó. **Không mở file của dự án khác, kể cả để làm mẫu**: dùng khuôn trong `assets/` (và `srs/_template.md`). Thêm theo việc:
 
 | Việc | Đọc | Không cần đọc |
 |---|---|---|
-| Phân tích requirement mới | File requirement (cả file). Bộ nhớ: `memories/conventions/ba-question-wording.md`, `memories/modules/<hệ thống>/feature-<tên>.md` nếu có. Skill: `references/quy-trinh-tach-xoay-loc.md`, `quy-tac-nguon-va-tra-loi.md`, `viet-cau-hoi-de-doc.md`, `bai-hoc.md`, hai file trong `assets/` | Bảng soát, câu hỏi của feature khác; `scripts/kiem-tra.py` (chỉ chạy, không đọc) |
+| Phân tích requirement mới | File requirement (cả file). Bộ nhớ: `memories/conventions/ba-question-wording.md`, `memories/modules/<hệ thống>/tu-ngu-cau-hoi-ba.md` và `feature-<tên>.md` nếu có. Skill: `references/quy-trinh-tach-xoay-loc.md`, `quy-tac-nguon-va-tra-loi.md`, `viet-cau-hoi-de-doc.md`, `bai-hoc.md`, hai file trong `assets/` | Bảng soát, câu hỏi của feature khác; `scripts/kiem-tra.py` (chỉ chạy, không đọc) |
 | Ghi câu trả lời BA (`TL-xx`) | Bộ nhớ của feature. `references/quy-tac-nguon-va-tra-loi.md` mục 4. Trong bảng soát: chỉ mục 3 và các dòng `--tim` chỉ ra. Trong file câu hỏi: chỉ khối của câu được trả lời (tìm `## A4.`). Requirement: chỉ đoạn của mã liên quan | Cả bảng soát, cả file câu hỏi, cả requirement; các file references khác. Đọc thêm `viet-cau-hoi-de-doc.md` **chỉ khi** phải viết câu hỏi mới |
-| Sửa câu chữ một câu hỏi | Khối câu đó trong file câu hỏi, `memories/conventions/ba-question-wording.md`, `references/viet-cau-hoi-de-doc.md` | Bảng soát (chỉ sửa tiêu đề nếu tiêu đề đổi, dùng `--tim`) |
+| Sửa câu chữ một câu hỏi | Khối câu đó trong file câu hỏi, `memories/conventions/ba-question-wording.md`, `memories/modules/<hệ thống>/tu-ngu-cau-hoi-ba.md`, `references/viet-cau-hoi-de-doc.md` | Bảng soát (chỉ sửa tiêu đề nếu tiêu đề đổi, dùng `--tim`) |
 | Sửa chính skill này | `memories/project/skills.md`, file cần sửa | Sản phẩm trong `testing/` |
 
 File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đoạn đó (`offset`/`limit`), đừng đọc cả file.
