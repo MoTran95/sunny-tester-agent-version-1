@@ -15,6 +15,7 @@ Cập nhật lần cuối: 2026-11-18 (ghi câu trả lời A1–A5 của `LOGIN
 
 ## Tổng quan dự án
 - [project/overview.md](project/overview.md) — dự án là gì, mục tiêu, trạng thái hiện tại, bối cảnh khám phá banking-lite (tester). Đọc ở mọi yêu cầu.
+- [project/git-remote.md](project/git-remote.md) — repo đã `git init` + push lên GitHub `MoTran95/sunny-tester-agent-version-1` (2026-11-18), `.env` được loại trừ. Đọc khi người dùng nhờ commit/push.
 - [project/architecture.md](project/architecture.md) — kiến trúc tổng thể, cấu trúc thư mục, công nghệ. Đọc khi thêm/sửa chức năng.
 
 - [project/skills.md](project/skills.md) — ba skill: `feature-exploration-report` (báo cáo khám phá HTML), `srs-from-website` (khám phá → SRS Markdown Story + AC, có script soát) và `phan-tich-requirement` (bảng soát + câu hỏi BA, có script kiểm). Nằm ở đâu, gồm gì. Đọc khi người dùng nhờ làm/sửa báo cáo khám phá, viết/cập nhật/soát SRS, phân tích requirement, hoặc đụng tới skill.
