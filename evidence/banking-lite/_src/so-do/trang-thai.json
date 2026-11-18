@@ -1,0 +1,18 @@
+{
+  "loai": "trang-thai",
+  "mo-ta": "Sơ đồ trạng thái hồ sơ",
+  "trang-thai": [
+    {"id": "nhap", "ten": "Nháp", "kieu": "xam", "cot": 0, "hang": 1},
+    {"id": "gui", "ten": "Đã gửi", "kieu": "xanh", "cot": 1, "hang": 1},
+    {"id": "duyet", "ten": "Đã phê duyệt", "kieu": "ok", "cot": 2, "hang": 0, "ghi-chu": "khóa: không sửa được nữa"},
+    {"id": "tuchoi", "ten": "Bị từ chối", "kieu": "loi", "cot": 2, "hang": 1, "ghi-chu": "khóa: không sửa được nữa"},
+    {"id": "tralai", "ten": "Bị trả lại", "kieu": "cho", "cot": 2, "hang": 2, "ghi-chu": "mở khóa cho P100001"}
+  ],
+  "chuyen": [
+    {"so": 1, "tu": "nhap", "den": "gui", "nhan": "Gửi thẩm định"},
+    {"so": 2, "tu": "gui", "den": "duyet", "nhan": "Phê duyệt"},
+    {"so": 3, "tu": "gui", "den": "tuchoi", "nhan": "Từ chối"},
+    {"so": 4, "tu": "gui", "den": "tralai", "nhan": "Trả lại"},
+    {"so": 5, "tu": "tralai", "den": "gui", "nhan": "Sửa rồi gửi lại"}
+  ]
+}

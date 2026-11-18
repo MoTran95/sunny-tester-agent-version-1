@@ -6,6 +6,7 @@ Chuyển từ `working-preferences.md` sang đây ngày 2026-11-18 để phần 
 ## Báo cáo khám phá
 - Báo cáo MD có sơ đồ Mermaid, ảnh bằng chứng, luồng end-to-end như người dùng thật; không bịa, chỗ chưa rõ thì hỏi.
 - Báo cáo HTML (2026-11-17): giải thích vai trò cho người mới chưa biết lĩnh vực; ảnh có khoanh nút đánh số; sơ đồ luồng đánh số bước 1, 2, 3…; đường end-to-end; điểm mơ hồ phải có lý do + bằng chứng; vẫn không thêm giả định, thiếu thì hỏi.
+- **Giao diện báo cáo HTML giữ nguyên như đã chốt ở mọi máy, mọi dự án** (font, màu, cách trình bày; sơ đồ cùng kiểu cho trường hợp tương tự). Người dùng báo 2026-11-18 khi báo cáo tạo trên Mac bị đổi font/màu/sơ đồ; chọn nhúng font Open Sans. Cách làm: [../decisions/decision-log.md](../decisions/decision-log.md), skill `feature-exploration-report` `references/so-do.md`.
 - File báo cáo phải mở được ngay trong khung xem trước của app (xem [report-v2-html](../modules/banking-lite/report-v2-html.md)).
 - Thuật ngữ IT đúng ngữ cảnh; từ đã bị chê: “giải phẫu”, “dây chuyền”, “tick” (script của skill đã chặn).
 
@@ -23,6 +24,7 @@ Bản đầu viết quá cô đọng (nội dung kiểu “thiếu (Dữ liệu)
 
 ## Checklist / test case
 - Câu hỏi BA dựa vào kinh nghiệm (không có dấu vết trong nguồn) phải **tách riêng, hỏi sau khi cần**.
+- **Requirement ghi rõ thì suy luận tiếp theo logic, ghi chưa rõ thì hỏi** (người dùng chốt 2026-11-18, sau khi chê A7, A8, B14 của `LOGIN` là "vô tri"). Ghi "suy ra từ <mã/TL>" kèm lý do. Lý do bảo mật được dùng để suy ra hành vi chức năng (ví dụ lỗi đăng nhập báo chung một câu), không tự đặt ca test bảo mật. A4 phần độ dài mã cũng **không cần hỏi**: đăng nhập vì bảo mật chỉ báo đúng hoặc sai, nên không test độ dài ở màn hình đăng nhập (người dùng chỉ ra 2026-11-18). A6 (lần sai thứ 10 hay 11 bị chặn, đăng nhập đúng có đếm lại) **không cần hỏi**: suy ra từ chữ "10 lần liên tiếp"; đi theo câu chữ, hệ thống làm khác thì là nghi lỗi (người dùng chỉ ra 2026-11-18). Chi tiết: skill `phan-tich-requirement`, quy tắc 1b.
 - Thêm cột ưu tiên và lý do vì sao cần nhiều test case/câu hỏi.
 
 ## Câu hỏi gửi BA

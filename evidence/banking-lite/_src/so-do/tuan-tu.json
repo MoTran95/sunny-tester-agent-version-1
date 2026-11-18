@@ -1,0 +1,31 @@
+{
+  "loai": "tuan-tu",
+  "mo-ta": "Sơ đồ tuần tự luồng chính",
+  "lan": [
+    {"id": "P1", "mau": "p1", "ten": "P100001", "phu": "Chuyên viên KH"},
+    {"id": "SYS", "mau": "sys", "ten": "Banking Lite", "phu": "hệ thống"},
+    {"id": "P2", "mau": "p2", "ten": "P200001", "phu": "Chuyên viên định giá"},
+    {"id": "P3", "mau": "p3", "ten": "P300001", "phu": "Thẩm định tín dụng"},
+    {"id": "VNEID", "mau": "ext", "ten": "VNeID"},
+    {"id": "CIC", "mau": "ext", "ten": "CIC"},
+    {"id": "SMS", "mau": "ext", "ten": "Cổng SMS"}
+  ],
+  "buoc": [
+    {"tu": "P1", "den": "SYS", "nhan": "Tạo hồ sơ mới → hồ sơ Nháp"},
+    {"tu": "P1", "den": "SYS", "nhan": "Lưu Người vay (CCCD 12 số, SĐT…)"},
+    {"tu": "SYS", "den": "VNEID", "nhan": "Xác thực danh tính khi lưu"},
+    {"tu": "VNEID", "den": "SYS", "nhan": "“VNeID: khớp”", "tra-ve": true},
+    {"tu": "P1", "den": "SYS", "nhan": "Nhập khoản vay, tài sản, tài chính"},
+    {"tu": "P1", "den": "SYS", "nhan": "Yêu cầu định giá → “Đã yêu cầu”"},
+    {"ghi-chu": "⏸ Nút “Gửi thẩm định” bị vô hiệu hóa đến khi định giá xong", "tu": "P1", "den": "P2"},
+    {"tu": "P2", "den": "SYS", "nhan": "Nhập giá thị trường,\nHoàn thành định giá"},
+    {"tu": "P1", "den": "SYS", "nhan": "Gửi thẩm định"},
+    {"tu": "SYS", "den": "CIC", "nhan": "Lấy báo cáo tín dụng"},
+    {"tu": "CIC", "den": "SYS", "nhan": "“A1: nhóm nợ 1, trả nợ 0 VND”", "tra-ve": true},
+    {"tu": "SYS", "den": "P1", "nhan": "Đã gửi (khóa) · Thẩm định: Phê duyệt", "tra-ve": true},
+    {"tu": "P3", "den": "SYS", "nhan": "Đánh dấu 4 mục, chọn Phê duyệt, ghi chú"},
+    {"tu": "SYS", "den": "SMS", "nhan": "Gửi SMS phê duyệt cho khách"},
+    {"tu": "SMS", "den": "SYS", "nhan": "“Đã gửi”", "tra-ve": true},
+    {"tu": "SYS", "den": "P1", "nhan": "Đã phê duyệt · không sửa được nữa", "tra-ve": true}
+  ]
+}

@@ -80,7 +80,7 @@
 <section id="ban-do"><div class="wrapper">
   <h2><span class="num">2</span> Sơ đồ tổng quan và kết nối hệ thống</h2>
   <p class="lead">Số <b>1 → 7</b> là thứ tự các bước khi gửi một hồ sơ. Hình dựa trên hồ sơ HL-000022 đã chạy thật; riêng bước 7 đã thấy ở HL-000019 (báo cáo v2).</p>
-  <div class="diag">{{SVG_OVERVIEW}}</div>
+  <div class="diag" data-so-do="so-do/tong-quan.json"></div>
   <h3>Giải thích từng số</h3>
   <ol class="steplist">
     <li data-n="1" style="--c:var(--p1)"><span class="tag p1">P100001</span> hoàn thiện các bước 1–5 (Người vay, Khoản vay và tài sản, Tài chính, Định giá, Lãi suất), rồi mở bước 6.</li>
@@ -324,10 +324,10 @@
   <p class="lead">Chỉ ghi luồng <b>đã chạy thật</b>. Màu nhãn: <span class="tag p1">P100001</span> <span class="tag p3">P300001</span> <span class="tag ext">hệ thống bên thứ ba</span> <span class="tag sys">hệ thống Banking Lite</span>.</p>
 
   <h3>4.1 Sơ đồ tuần tự luồng chính (HL-000022)</h3>
-  <div class="diag">{{SVG_SEQ}}</div>
+  <div class="diag" data-so-do="so-do/tuan-tu.json"></div>
 
   <h3>4.2 Trạng thái hồ sơ liên quan đến nút “Gửi thẩm định”</h3>
-  <div class="diag">{{SVG_STATE}}</div>
+  <div class="diag" data-so-do="so-do/trang-thai.json"></div>
   <ol class="steplist">
     <li data-n="1" style="--c:#334"><span class="tag p1">P100001</span> bấm <b>Gửi thẩm định</b> khi hồ sơ <b>Nháp</b> đủ điều kiện → <b>Đã gửi</b> (bị khóa).</li>
     <li data-n="2" style="--c:#334"><span class="tag p1">P100001</span> sửa hồ sơ <b>Bị trả lại</b> rồi bấm <b>Gửi thẩm định</b> lại → <b>Đã gửi</b>.</li>

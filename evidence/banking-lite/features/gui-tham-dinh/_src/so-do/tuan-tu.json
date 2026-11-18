@@ -1,0 +1,20 @@
+{
+  "loai": "tuan-tu",
+  "mo-ta": "Sơ đồ tuần tự Gửi thẩm định",
+  "lan": [
+    {"id": "RM", "mau": "p1", "ten": "P100001", "phu": "Chuyên viên KH"},
+    {"id": "S", "mau": "sys", "ten": "Banking Lite", "phu": "hệ thống"},
+    {"id": "CIC", "mau": "ext", "ten": "CIC"},
+    {"id": "AP", "mau": "p3", "ten": "P300001", "phu": "Thẩm định tín dụng"}
+  ],
+  "buoc": [
+    {"tu": "RM", "den": "S", "nhan": "Mở bước “Kiểm tra và gửi”"},
+    {"tu": "S", "den": "RM", "nhan": "Mục còn thiếu (nút bị vô hiệu hóa)\nhoặc “Hồ sơ đã đầy đủ và sẵn sàng gửi.”", "tra-ve": true},
+    {"tu": "RM", "den": "S", "nhan": "Bấm “Gửi thẩm định”"},
+    {"tu": "S", "den": "CIC", "nhan": "Lấy báo cáo tín dụng"},
+    {"tu": "CIC", "den": "S", "nhan": "“A1: nhóm nợ 1, trả nợ 0 VND”", "tra-ve": true},
+    {"tu": "S", "den": "RM", "nhan": "Đã gửi (khóa) · Thẩm định: Phê duyệt", "tra-ve": true},
+    {"tu": "S", "den": "AP", "nhan": "Hồ sơ vào “Chờ quyết định”"},
+    {"ghi-chu": "Bước 7 đã thấy ở HL-000019 (báo cáo v2). HL-000022 chưa kiểm tra bằng P300001.", "tu": "RM", "den": "AP"}
+  ]
+}

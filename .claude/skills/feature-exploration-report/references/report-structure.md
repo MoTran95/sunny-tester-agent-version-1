@@ -26,13 +26,14 @@ Tên thao tác → mục đích 1 câu → legend đánh số (tên nút **đún
 - **Cần làm rõ**: câu hỏi cụ thể, trả lời được bằng 1–2 câu.
 - Tuyệt đối không viết “đây là lỗi”, “chắc là do…”. Cho phép viết “mâu thuẫn giữa A (bạn nói) và B (đã thấy)”.
 
-## Sơ đồ (SVG tự vẽ, không phụ thuộc thư viện)
+## Sơ đồ (không vẽ tay — viết JSON, `scripts/ve-so-do.py` vẽ theo mẫu đã chốt; cách viết: `so-do.md`)
+Các quy tắc dưới đây đã nằm trong script; giữ ở đây để hiểu vì sao sơ đồ trông như vậy.
 
 - **Sơ đồ tổng quan**: vai trò bên trái (mỗi vai trò một màu), hệ thống ở giữa (liệt kê các bước/trạng thái), hệ thống bên thứ ba bên phải; mũi tên liền = yêu cầu, nét đứt = kết quả trả về; vòng tròn số ở đầu mũi tên; ghi chú nhánh phụ (vd “trả lại → quay về bước 7”) ở hộp riêng phía dưới.
 - **Sơ đồ tuần tự**: các “làn” = tài khoản + hệ thống + bên thứ ba; mỗi thông điệp một dòng, cách nhau ~44px; nhãn ngắn đặt phía trên mũi tên; nhãn 2 dòng thì chừa thêm khoảng trống; hộp ghi chú (vd nút bị vô hiệu hóa) cách thông điệp kế ≥ 68px để không đè.
 - **Sơ đồ trạng thái**: ô trạng thái + mũi tên đánh số; **mô tả điều kiện chuyển ở danh sách bên dưới**, không nhồi chữ dài lên mũi tên (từng bị chồng chữ).
-- SVG đặt trong `.diag` (cuộn ngang trên màn hình hẹp). Văn bản trong SVG có viền trắng tự động (halo).
-- Kiểm tra bằng mắt sau khi vẽ: chữ không đè mũi tên/lifeline, số không che nhau.
+- Kiểm tra bằng mắt sau khi build: chữ không đè mũi tên/lifeline, số không che nhau. Nếu đè: sửa nội dung JSON (nhãn ngắn hơn, xuống dòng bằng `
+`), hoặc sửa `ve-so-do.py` cho mọi báo cáo — không sửa tay SVG.
 
 ## Thuật ngữ — dùng đúng, dễ hiểu
 
@@ -57,4 +58,4 @@ Quy tắc chung: gặp từ lóng/ẩn dụ → thay bằng thuật ngữ IT ho�
 
 ## Màu vai trò
 
-`p1` xanh lá, `p2` hổ phách, `p3` xanh dương, `ext` tím (hệ thống bên thứ ba), `sys` xám (hệ thống chính). Giữ nhất quán giữa bảng, thẻ tag, sơ đồ.
+`p1` xanh lá, `p2` hổ phách, `p3` xanh dương, `p4` hồng, `p5` xanh ngọc, `ext` tím (hệ thống bên thứ ba), `sys` xám (hệ thống chính). Giữ nhất quán giữa bảng, thẻ tag, sơ đồ. Mã màu nằm duy nhất ở `assets/giao-dien-chuan.css` và `scripts/ve-so-do.py`; không tự đặt màu khác.

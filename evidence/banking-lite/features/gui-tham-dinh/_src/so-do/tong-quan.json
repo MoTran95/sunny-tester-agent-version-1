@@ -1,0 +1,24 @@
+{
+  "loai": "tong-quan",
+  "mo-ta": "Sơ đồ tổng quan Gửi thẩm định",
+  "he-thong": {
+    "ten": "Banking Lite", "phu": "Bước 6 “Kiểm tra và gửi”",
+    "muc": ["Kiểm tra 12 điều kiện gửi", "Nút “Gửi thẩm định”: bật hoặc vô hiệu hóa", "Lấy CIC, thẩm định chính thức", "Trạng thái: Nháp → Đã gửi", "Hồ sơ Đã gửi bị khóa", "Bước 7: Đang chờ xử lý"]
+  },
+  "vai-tro": [
+    {"id": "P1", "mau": "p1", "ten": "P100001", "vai": "Chuyên viên khách hàng", "mo-ta": ["Hoàn thiện bước 1–5,", "kiểm tra điều kiện,", "bấm Gửi thẩm định"]},
+    {"id": "P3", "mau": "p3", "ten": "P300001", "vai": ["Chuyên viên thẩm định", "tín dụng"], "mo-ta": ["Nhận hồ sơ để quyết định"]}
+  ],
+  "ben-ngoai": [
+    {"id": "cic", "ten": "CIC", "mo-ta": ["thông tin tín dụng"]}
+  ],
+  "buoc": [
+    {"so": 1, "tu": "P1", "nhan": "Hoàn thiện bước 1–5"},
+    {"so": 2, "tu": "P1", "chieu": "ve", "tra-ve": true, "nhan": "Mục còn thiếu / sẵn sàng"},
+    {"so": 3, "tu": "P1", "nhan": "Bấm Gửi thẩm định"},
+    {"so": 6, "tu": "P1", "chieu": "ve", "tra-ve": true, "nhan": "Đã gửi, hồ sơ bị khóa"},
+    {"so": 7, "tu": "P3", "chieu": "ve", "mau": "p3", "nhan": "Chờ quyết định"},
+    {"so": 4, "den": "cic", "nhan": "Lấy báo cáo tín dụng", "tra-ve": "“Nhóm nợ …”", "so-tra-ve": 5}
+  ],
+  "ghi-chu": {"dong": ["Bước 7 đã thấy ở HL-000019 (báo cáo v2); HL-000022 chưa kiểm tra bằng P300001."]}
+}

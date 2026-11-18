@@ -1,0 +1,37 @@
+{
+  "loai": "tong-quan",
+  "mo-ta": "Sơ đồ tổng quan và kết nối hệ thống",
+  "he-thong": {
+    "ten": "Banking Lite", "phu": "Vay mua nhà",
+    "tieu-de-muc": "Mỗi hồ sơ HL-xxxxxx đi qua:",
+    "muc": ["Người vay", "Khoản vay và tài sản", "Tài chính", "Định giá", "Lãi suất", "Kiểm tra và gửi", "Quyết định tín dụng", "Lịch sử (nhật ký)"],
+    "tieu-de-trang-thai": "Trạng thái hồ sơ",
+    "trang-thai": ["Nháp → Đã gửi →", "Đã phê duyệt / Bị từ chối /", "Bị trả lại (→ Đã gửi lại)"]
+  },
+  "vai-tro": [
+    {"id": "P1", "mau": "p1", "ten": "P100001", "vai": "Chuyên viên khách hàng", "mo-ta": ["Lập hồ sơ, nhập liệu,", "yêu cầu định giá, gửi", "thẩm định, sửa khi bị trả lại"]},
+    {"id": "P2", "mau": "p2", "ten": "P200001", "vai": "Chuyên viên định giá", "mo-ta": ["Ghi giá trị thị trường"]},
+    {"id": "P3", "mau": "p3", "ten": "P300001", "vai": ["Chuyên viên thẩm định", "tín dụng"], "mo-ta": ["Quyết định · xem Tích hợp"]}
+  ],
+  "ben-ngoai": [
+    {"id": "vneid", "ten": "VNeID", "mo-ta": ["định danh người vay"]},
+    {"id": "cic", "ten": "CIC", "mo-ta": ["thông tin tín dụng"]},
+    {"id": "sms", "ten": "Cổng SMS", "mo-ta": ["nhắn khách hàng"]}
+  ],
+  "buoc": [
+    {"so": 1, "tu": "P1", "nhan": "Tạo hồ sơ mới"},
+    {"so": 2, "tu": "P1", "nhan": "Lưu Người vay"},
+    {"so": 4, "tu": "P1", "nhan": "Nhập khoản vay, tài chính"},
+    {"so": 5, "tu": "P1", "nhan": "Yêu cầu định giá"},
+    {"so": 7, "tu": "P1", "nhan": "Gửi thẩm định"},
+    {"so": 6, "tu": "P2", "nhan": "Nhập giá thị trường"},
+    {"so": 9, "tu": "P3", "nhan": "Xem hồ sơ + quyết định"},
+    {"so": 3, "den": "vneid", "nhan": "Hỏi xác thực danh tính", "tra-ve": "“Khớp”"},
+    {"so": 8, "den": "cic", "nhan": "Tra cứu tín dụng", "tra-ve": "“Nhóm nợ …”"},
+    {"so": 10, "den": "sms", "nhan": "Gửi SMS cho khách", "ghi-chu-nho": "(khi Phê duyệt hoặc Từ chối)"}
+  ],
+  "ghi-chu": {"so": 11, "mau": "p3", "dong": [
+    "Nếu P300001 chọn **Trả lại chuyên viên khách hàng** (thay vì Phê duyệt/Từ chối): hồ sơ về lại P100001 để sửa,",
+    "rồi P100001 bấm Gửi thẩm định lần nữa (quay lại bước 7). Trường hợp này **không gửi SMS**."
+  ]}
+}

@@ -1,12 +1,13 @@
 # Skills của dự án
-Cập nhật: 2026-11-17 · Liên quan: [modules/banking-lite/report-v2-html.md](../modules/banking-lite/report-v2-html.md)
+Cập nhật: 2026-11-18 · Liên quan: [modules/banking-lite/report-v2-html.md](../modules/banking-lite/report-v2-html.md)
 
 ## feature-exploration-report (`.claude/skills/feature-exploration-report/`)
 - Mục đích: khám phá một feature bằng thao tác thật rồi lập báo cáo HTML tự chứa (vai trò, ảnh khoanh nút đánh số, sơ đồ luồng có số, E2E, điểm mơ hồ kèm bằng chứng). Dạng **tổng quát** — dùng cho feature/hệ thống bất kỳ (người dùng chọn 2026-11-17; không gắn riêng Banking Lite).
 - Thành phần: `SKILL.md` (quy tắc + quy trình 9 bước), `references/report-structure.md` (7 mục, văn phong, bảng thuật ngữ IT, quy tắc sơ đồ), `references/evidence-and-build.md` (chụp ảnh, khoanh nút, build, soát, bẫy), `assets/report-template.src.html` (khung nguồn), `scripts/build-embed.py` (đã tổng quát hoá bằng tham số `--src --out --shots`; đã thử: đầu ra **giống từng byte** với báo cáo v2 hiện tại).
 - Làm rõ ý người dùng (2026-11-17): “những feature sau” = **các feature của trang web Banking Lite** đã khám phá (lúc đầu mình tưởng là danh sách chưa gửi). Vì vậy skill vẫn tổng quát nhưng có thêm `references/banking-lite-context.md` (tài khoản, bản đồ feature + cột “còn thiếu”, quy ước báo cáo theo từng feature trong `evidence/banking-lite/features/<ten>/`). Khi khám phá thêm, cập nhật bảng độ phủ ở file đó.
 - Lưu trong repo (người dùng chọn), không phải cấp người dùng. Skill mới có thể cần mở phiên mới mới hiện trong danh sách.
-- `evidence/banking-lite/_src/build-embed.py` là bản cũ trước khi tổng quát hoá; bản chuẩn là bản trong skill. Hai bản cho cùng kết quả — khi sửa logic build, sửa bản trong skill.
+- `evidence/banking-lite/_src/build-embed.py` nay chỉ là lối tắt gọi bản trong skill (2026-11-18); logic build chỉ sửa ở skill.
+- **Giao diện chuẩn (2026-11-18):** `assets/giao-dien-chuan.css` + font Open Sans nhúng + `scripts/ve-so-do.py` (sơ đồ từ JSON, mẫu trung lập ở `assets/so-do-mau/`, hướng dẫn `references/so-do.md`). Đo chữ bằng `assets/fonts/do-rong-chu.json` nên không cần fontTools trên máy mới. Đã thử: vẽ lại 3 sơ đồ v2 từ JSON, so cạnh bản gốc → cùng bố cục/màu; build v2 98,3% giới hạn (q37), báo cáo Gửi thẩm định 52%. **Chưa thử trên Mac** và chưa thử trọn quy trình trên dự án mới. Báo cáo Gửi thẩm định cũng đã chuyển 3 sơ đồ sang JSON (`features/gui-tham-dinh/_src/so-do/`; `assemble.py` chỉ còn ghép khung + `body.html`). Để vẽ được sơ đồ đó, script có thêm: mũi tên hệ thống → vai trò (`chieu: ve`), số trên mũi tên trả về (`so-tra-ve`), ô `ngoai` nét đứt nhiều dòng, `hang` số lẻ, mũi tên không số/nét đứt, `chu-thich`, tự giãn khi nhiều mũi tên đổ vào một ô. Cả 2 báo cáo build không còn cảnh báo.
 - Skill được dựng từ các bài học: người dùng là tester; không bịa; thuật ngữ IT đúng ngữ cảnh; ảnh không được che chữ; file ≤ 512 KiB để xem được trong khung xem trước.
 
 ## phan-tich-requirement (`.claude/skills/phan-tich-requirement/`) — thêm 2026-11-17

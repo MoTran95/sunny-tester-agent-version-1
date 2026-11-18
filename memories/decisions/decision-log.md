@@ -3,6 +3,11 @@ Cập nhật: 2026-11-18
 
 Mỗi quyết định một mục, mới nhất ở trên. Khi file quá dài, tách theo năm/chủ đề.
 
+## 2026-11-18 — Báo cáo HTML dùng một giao diện chuẩn, font nhúng, sơ đồ vẽ bằng script
+- **Quyết định:** skill `feature-exploration-report` giữ giao diện ở một chỗ: `assets/giao-dien-chuan.css` (CSS duy nhất) + font **Open Sans** nhúng vào file khi build (`assets/fonts/`, đã cắt còn Latin + tiếng Việt, 29 KB). Ba kiểu sơ đồ (tổng quan, tuần tự, trạng thái) viết bằng JSON, `scripts/ve-so-do.py` vẽ đúng mẫu báo cáo v2. Build cảnh báo khi còn SVG vẽ tay hoặc CSS riêng đổi font/màu, và tự giảm chất lượng ảnh thu nhỏ khi vượt 512 KiB. Báo cáo v2 đã chuyển sang cách này.
+- **Lý do:** người dùng mang repo sang máy Mac, báo cáo tạo ở đó bị đổi font, màu, cách trình bày sơ đồ. Nguyên nhân: CSS dùng `Segoe UI` (chỉ có trên Windows, không nhúng); khuôn chỉ có `<svg>` rỗng nên mỗi phiên tự vẽ sơ đồ khác nhau, và skill cấm mở báo cáo của dự án khác làm mẫu.
+- **Phương án đã loại (người dùng chọn Open Sans):** Be Vietnam Pro (dáng chữ khác Segoe UI rõ); không nhúng font (Mac vẫn khác). Nhúng Segoe UI: không được phép theo giấy phép của Microsoft. Tải font từ Google Fonts lúc mở file: khung xem trước dạng ảnh tĩnh có thể không tải được.
+
 ## 2026-11-18 — Repo nhiều dự án, mỗi máy chọn một dự án
 - **Quyết định:** máy mới (chưa có `.du-an-hien-tai`) thì hỏi đang làm dự án nào trước mọi việc, ghi slug vào `.du-an-hien-tai` (không commit). Dự án mới tạo thư mục theo cấu trúc hiện có (`scripts/tao-du-an.py`). Kiến thức riêng của Banking Lite tách khỏi phần chung: tổng quan sang `memories/modules/banking-lite/overview.md`, từ ngữ với BA sang `memories/modules/banking-lite/tu-ngu-cau-hoi-ba.md`; skill không mở file của dự án khác kể cả làm mẫu. Chi tiết: [../conventions/nhieu-du-an.md](../conventions/nhieu-du-an.md).
 - **Lý do:** người dùng yêu cầu, để không lẫn kiến thức Banking Lite sang dự án khác.

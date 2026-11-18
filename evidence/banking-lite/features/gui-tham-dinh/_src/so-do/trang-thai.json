@@ -1,0 +1,17 @@
+{
+  "loai": "trang-thai",
+  "mo-ta": "Trạng thái hồ sơ liên quan Gửi thẩm định",
+  "trang-thai": [
+    {"id": "nhap", "ten": "Nháp", "kieu": "xam", "cot": 0, "hang": 0},
+    {"id": "gui", "ten": "Đã gửi", "kieu": "xanh", "cot": 1, "hang": 0.6},
+    {"id": "tralai", "ten": "Bị trả lại", "kieu": "cho", "cot": 0, "hang": 1.4},
+    {"id": "qd", "ten": "Quyết định của P300001", "kieu": "ngoai", "cot": 2, "hang": 0.45,
+     "dong": ["Phê duyệt / Từ chối / Trả lại", "(ngoài phạm vi feature này, xem báo cáo v2)"]}
+  ],
+  "chuyen": [
+    {"so": 1, "tu": "nhap", "den": "gui", "nhan": "Gửi thẩm định"},
+    {"so": 2, "tu": "tralai", "den": "gui", "nhan": "Gửi thẩm định"},
+    {"tu": "gui", "den": "qd", "nhan": "P300001", "net-dut": true}
+  ],
+  "chu-thich": ["Điều kiện bấm được: đủ mục theo danh sách (ảnh 07). Sau khi Đã gửi, hồ sơ bị khóa (ảnh 05)."]
+}

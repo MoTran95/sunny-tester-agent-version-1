@@ -9,6 +9,10 @@ dạng "ảnh chụp tĩnh" (không đọc được ảnh tương đối `screen
 Dùng:
   python -X utf8 build-embed.py --src <bao-cao.src.html> --out <bao-cao.html> [--shots <thư_mục_ảnh>]
                                 [--shots-rel screenshots] [--review <thư_mục_xuất_tranh_ghép>]
+Giao diện chuẩn (để báo cáo trông giống nhau trên mọi máy, mọi dự án):
+  - Khối <style id="giao-dien-chuan"></style> trong nguồn được thay bằng assets/giao-dien-chuan.css
+    + font Open Sans nhúng sẵn (assets/fonts/). Nguồn cũ không có khối này: khối <style> đầu tiên bị thay.
+  - <div class="diag" data-so-do="so-do/x.json"></div> → vẽ sơ đồ bằng ve-so-do.py theo mẫu đã chốt.
 Quy ước ảnh: tên file bắt đầu bằng số thứ tự 2 chữ số, vd `14-P100001-nguoi-vay.jpg` (số = "Ảnh 14" trong báo cáo).
 Sửa nội dung ở file nguồn rồi chạy lại; đừng sửa file đã build.
 """
@@ -22,17 +26,49 @@ ap.add_argument('--shots', help='thư mục ảnh gốc (mặc định: <thư m�
 ap.add_argument('--shots-rel', default='screenshots', help='đường dẫn tương đối tới ảnh trong HTML (mặc định screenshots)')
 ap.add_argument('--review', help='xuất tranh ghép ảnh có khung/số vào thư mục này để soát bằng mắt')
 ap.add_argument('--thumb-w', type=int, default=360)
-ap.add_argument('--thumb-q', type=int, default=45)
+ap.add_argument('--thumb-q', type=int, default=None, help='chất lượng ảnh thu nhỏ (mặc định 45, tự giảm dần nếu file vượt 512 KiB)')
 ARGS = ap.parse_args()
 
 SRC = os.path.abspath(ARGS.src)
 OUT = os.path.abspath(ARGS.out)
 REL = ARGS.shots_rel.strip('/')
 SHOTS = os.path.abspath(ARGS.shots) if ARGS.shots else os.path.join(os.path.dirname(OUT), REL)
-THUMB_W, THUMB_Q = ARGS.thumb_w, ARGS.thumb_q
+THUMB_W, THUMB_Q = ARGS.thumb_w, (ARGS.thumb_q if ARGS.thumb_q is not None else 45)
 LIMIT = 512 * 1024
 
 html = io.open(SRC, encoding='utf-8').read()
+WARN = []
+
+# ---- giao diện chuẩn: CSS + font nhúng (không phụ thuộc font cài trên máy) ----
+HERE = os.path.dirname(os.path.abspath(__file__))
+ASSETS = os.path.join(HERE, '..', 'assets')
+std_css = io.open(os.path.join(ASSETS, 'giao-dien-chuan.css'), encoding='utf-8').read()
+font_b64 = base64.b64encode(open(os.path.join(ASSETS, 'fonts', 'open-sans-vi.woff2'), 'rb').read()).decode('ascii')
+std_block = ('<style id="giao-dien-chuan">\n@font-face{font-family:"Open Sans";src:url(data:font/woff2;base64,%s) format("woff2");'
+             'font-weight:400 700;font-style:normal;font-display:block}\n%s</style>' % (font_b64, std_css))
+if re.search(r'<style id="giao-dien-chuan">', html):
+    html = re.sub(r'<style id="giao-dien-chuan">.*?</style>', lambda m: std_block, html, count=1, flags=re.S)
+else:
+    html = re.sub(r'<style>.*?</style>', lambda m: std_block, html, count=1, flags=re.S)
+    WARN.append('nguồn chưa có <style id="giao-dien-chuan"> — đã thay khối <style> đầu tiên bằng CSS chuẩn')
+for blk in re.findall(r'<style(?! id="giao-dien-chuan")[^>]*>(.*?)</style>', html, flags=re.S):
+    if re.search(r'font-family|font:\s|:root|--p\d|--brand', blk):
+        WARN.append('có khối <style> riêng đổi font/màu chuẩn — giao diện sẽ khác các báo cáo khác')
+
+# ---- sơ đồ: vẽ từ JSON theo mẫu đã chốt ----
+import importlib.util
+_spec = importlib.util.spec_from_file_location('ve_so_do', os.path.join(HERE, 've-so-do.py'))
+VSD = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(VSD)
+_k = [0]
+def diag_sub(m):
+    _k[0] += 1
+    path = os.path.join(os.path.dirname(SRC), m.group(1))
+    return '<div class="diag">' + VSD.ve(path, 'sd%d' % _k[0]) + '</div>'
+html, n_diag = re.subn(r'<div class="diag" data-so-do="([^"]+)">.*?</div>', diag_sub, html, flags=re.S)
+WARN += ['sơ đồ: ' + w for w in VSD.CANH_BAO]
+n_hand = len(re.findall(r'<svg (?![^>]*data-ve-boi)[^>]*viewBox', html))
+if n_hand:
+    WARN.append('%d sơ đồ SVG vẽ tay (không qua ve-so-do.py) — nên chuyển sang data-so-do để giữ đúng mẫu' % n_hand)
 files = sorted(os.listdir(SHOTS))
 by_num = {f.split('-')[0]: f for f in files}
 
@@ -242,9 +278,17 @@ html = '\n'.join(l.lstrip() for l in html.split('\n') if l.strip())
 
 io.open(OUT, 'w', encoding='utf-8', newline='').write(html)
 size = os.path.getsize(OUT)
-print('span.im:', n_img, '| images:', len(used), '| js:', n_js, '| size: %d bytes (%.1f%% of 512KiB limit)' % (size, size * 100 / LIMIT))
+print('span.im:', n_img, '| images:', len(used), '| sơ đồ vẽ từ JSON:', n_diag, '| js:', n_js, '| size: %d bytes (%.1f%% of 512KiB limit)' % (size, size * 100 / LIMIT))
+for w in WARN:
+    print('Cảnh báo:', w)
+if size > LIMIT and (ARGS.thumb_q is None or os.environ.get('BUILD_TU_GIAM')) and THUMB_Q > 30:
+    # tự build lại với ảnh thu nhỏ nhẹ hơn (font nhúng chiếm ~40 KB)
+    import subprocess
+    q = THUMB_Q - 4
+    print('-> vượt giới hạn, build lại với --thumb-q %d' % q)
+    sys.exit(subprocess.call([sys.executable, '-X', 'utf8'] + sys.argv + ['--thumb-q', str(q)], env=dict(os.environ, BUILD_TU_GIAM='1')))
 if size > LIMIT:
-    print('!!! VƯỢT GIỚI HẠN 512 KiB của khung xem trước')
+    print('!!! VƯỢT GIỚI HẠN 512 KiB của khung xem trước — giảm --thumb-w hoặc chia báo cáo')
 
 
 # ---- chế độ kiểm tra: python build-embed.py --review <thư_mục>  -> xuất tranh ghép ảnh có khung/số để soát bằng mắt ----
