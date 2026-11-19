@@ -1,0 +1,62 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 15:36:51",
+  "results": [
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-014",
+      "code": "TC-014",
+      "title": "Hiển thị Từ chối kèm lý do LTV vượt mức khi LTV là 81%",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Đầu trang LTV `81,00%` (bước 8)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Đầu trang Khuyến nghị `Từ chối` (bước 8)",
+          "passed": true,
+          "note": "thấy: Từ chối",
+          "mark_text": [
+            "Từ chối"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Khung `Thẩm định` ghi `81,00% (LTV tối đa 80,00%)` (bước 8)",
+          "passed": true,
+          "note": "thấy khung: Thẩm định: Từ chối\n\nXem trước: thẩm định chính thức chạy khi gửi, có dữ liệu CIC.\n\nTỷ lệ cho vay/giá trị (LTV)\n81,00% (LTV tối đa 80,00%)\nLãi suất thẩm định\n10,30%\nKhoản trả mới theo lãi suất thẩm địn",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Lý do `Từ chối: LTV 81% vượt mức tối đa 80%.` (bước 8)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-014-sau-khi-luu-20261119-153650.png",
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-014-kiem-20261119-153650.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 14.5
+    }
+  ]
+}

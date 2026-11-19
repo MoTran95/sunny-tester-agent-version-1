@@ -1,0 +1,781 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 15:35:34",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-005",
+      "code": "TC-005",
+      "title": "Form đăng nhập đủ ô nhập, nút và phiên bản ở chân trang",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Có ô `Mã nhân viên *` (bước 2)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Có ô `Mật khẩu *` (bước 2)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Có nút `Đăng nhập` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Chân trang ghi `Banking Lite · Phiên bản 1.3.0` (bước 5)",
+          "passed": true,
+          "note": "thấy: 1.3.0",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Có dòng gợi ý `Chữ P và 6 chữ số, ví dụ P100001.` (bước 3)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Chữ gõ trong ô Mật khẩu hiện dạng chấm (bước 7)",
+          "passed": true,
+          "note": "kiểu ô: password",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-005-form-dang-nhap-20261119-153412.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 1.5
+    },
+    {
+      "case_id": "dang-nhap/tc-001",
+      "code": "TC-001",
+      "title": "Đăng nhập đúng P100001 vào Danh sách việc",
+      "smoke_number": "",
+      "verdict": "Đạt kèm ý phụ sai",
+      "reason": "Sai ý phụ: Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thanh điều hướng hiện mã P100001 (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thanh điều hướng hiện vai trò Chuyên viên khách hàng (bước 5)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        },
+        {
+          "kind": "minor",
+          "title": "Không có thông báo đăng nhập thành công (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-001-danh-sach-viec-20261119-153417.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-001-loi-20261119-153417.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-001-loi-20261119-153417.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+      },
+      "videos": [
+        "evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-153417.webm"
+      ],
+      "seconds": 4.5
+    },
+    {
+      "case_id": "dang-nhap/tc-002",
+      "code": "TC-002",
+      "title": "Đăng nhập đúng P200001 và P300001, đúng Danh sách việc và vai trò",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "P200001: vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P200001: thanh điều hướng hiện mã P200001 (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P200001 · Chuyên viên định giá · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P200001: thanh điều hướng hiện vai trò Chuyên viên định giá (bước 5)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "P200001: bấm Đăng xuất về form Đăng nhập (bước 6)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: vào Danh sách việc (bước 9)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: thanh điều hướng hiện mã P300001 (bước 10)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | Tích hợp | P300001 · Chuyên viên thẩm định tín dụng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: thanh điều hướng hiện vai trò Chuyên viên thẩm định tín dụng (bước 10)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-002-p200001-danh-sach-viec-20261119-153420.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-002-p300001-danh-sach-viec-20261119-153425.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 9.0
+    },
+    {
+      "case_id": "dang-nhap/tc-003",
+      "code": "TC-003",
+      "title": "Chưa đăng nhập mở link hồ sơ: form giữ link, đăng nhập đúng mở thẳng hồ sơ",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ vẫn là link hồ sơ",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: mở thẳng hồ sơ HL-000019",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "HL-000019"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: không về Danh sách việc (địa chỉ vẫn là link hồ sơ)",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-link-ho-so-chua-dang-nhap-20261119-153427.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-sau-dang-nhap-20261119-153430.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-kiem-20261119-153430.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 4.8
+    },
+    {
+      "case_id": "dang-nhap/tc-004",
+      "code": "TC-004",
+      "title": "Nhập sai một lần rồi sửa lại cho đúng: vào Danh sách việc",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 4-5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 4-5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 4-5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4-5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 4-5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 4-5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4-5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 4-5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 8: lần nhập đúng được máy chủ nhận (200)",
+          "passed": true,
+          "note": "mã trả về: 200",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 9: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 9: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "P100001"
+          ],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-004-sau-nhap-sai-20261119-153437.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-004-sau-dang-nhap-20261119-153441.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-004-kiem-20261119-153441.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [
+        "evidence/banking-lite/chay-test/video/dang-nhap-tc-004-20261119-153441.webm"
+      ],
+      "seconds": 10.0
+    },
+    {
+      "case_id": "dang-nhap/tc-026",
+      "code": "TC-026",
+      "title": "Chưa đăng nhập mở /integrations hoặc địa chỉ không có thật: form đăng nhập, giữ địa chỉ, không thông báo",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "/integrations: hiện form Đăng nhập (bước 2)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/integrations: thanh địa chỉ giữ nguyên (bước 2)",
+          "passed": true,
+          "note": "địa chỉ: /integrations",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/integrations: không có thông báo `cần đăng nhập` hay trang `không tìm thấy` (bước 2)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/khong-ton-tai-xyz: hiện form Đăng nhập (bước 2 (địa chỉ không có thật))",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/khong-ton-tai-xyz: thanh địa chỉ giữ nguyên (bước 2 (địa chỉ không có thật))",
+          "passed": true,
+          "note": "địa chỉ: /khong-ton-tai-xyz",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/khong-ton-tai-xyz: không có thông báo `cần đăng nhập` hay trang `không tìm thấy` (bước 2 (địa chỉ không có thật))",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-026-integrations-20261119-153442.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 1.9
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-001",
+      "code": "TC-001",
+      "title": "Không hiển thị khuyến nghị mà báo cần nhập đủ thông tin khi chưa nhập thu nhập",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: Khung `Thẩm định` không có nhãn khuyến nghị (bước 4); Khung `Thẩm định` không có mục `Lý do` (bước 4); Có thông báo `Nhập đủ thông tin người vay, khoản vay, tài sản và thu nhập để xem khuyến nghị.` (bước 4)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Khung `Thẩm định` không có nhãn khuyến nghị (bước 4)",
+          "passed": false,
+          "note": "thấy nhãn: Từ chối",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Khung `Thẩm định` không có mục `Lý do` (bước 4)",
+          "passed": false,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Có thông báo `Nhập đủ thông tin người vay, khoản vay, tài sản và thu nhập để xem khuyến nghị.` (bước 4)",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Nhập đủ thông tin"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "LTV `80,00% (LTV tối đa 80,00%)` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Khoản trả mới `40.800.000 VND` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thặng dư `-45.300.000 VND` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-001-khung-tham-dinh-20261119-153503.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [
+        "evidence/banking-lite/chay-test/video/khuyen-nghi-ltv-dsr-tc-001-p100001-20261119-153504.webm"
+      ],
+      "seconds": 21.9
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-002",
+      "code": "TC-002",
+      "title": "Hiển thị khuyến nghị Phê duyệt khi nhập lương 100 triệu",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Khung Thẩm định đổi ngay khi nhập, không cần Lưu (bước 5)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Nhãn `Phê duyệt`",
+          "passed": true,
+          "note": "thấy: Phê duyệt",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "DSR `40,80%`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thặng dư `54.700.000 VND`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Lý do `Đáp ứng mọi quy tắc tín dụng.`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Dòng nhỏ `Xem trước: thẩm định chính thức chạy khi gửi, có dữ liệu CIC.`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Khoản trả mới `40.800.000 VND`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Thu nhập được tính `100.000.000 VND`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Chi phí được tính `4.500.000 VND`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-002-khung-tham-dinh-20261119-153511.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 6.7
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-009",
+      "code": "TC-009",
+      "title": "Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng (2.999.999)",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Thặng dư `2.999.999 VND` (bước 6)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Nhãn `Từ chối` (bước 6)",
+          "passed": true,
+          "note": "thấy: Từ chối",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Lý do `Từ chối: Thặng dư hằng tháng 2.999.999 VND thấp hơn 3.000.000 VND.`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-009-khung-tham-dinh-20261119-153517.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 5.6
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-023",
+      "code": "TC-023",
+      "title": "Hiển thị Chuyển cấp trên khi DSR 54,40% (lương 75 triệu)",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "DSR `54,40%` (bước 5)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Nhãn `Chuyển cấp trên` (bước 5)",
+          "passed": true,
+          "note": "thấy: Chuyển cấp trên",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-023-khung-tham-dinh-20261119-153522.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 5.3
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-014",
+      "code": "TC-014",
+      "title": "Hiển thị Từ chối kèm lý do LTV vượt mức khi LTV là 81%",
+      "smoke_number": "",
+      "verdict": "Không kết luận",
+      "reason": "Điều kiện trước chưa đúng: Hồ sơ chưa nhập thu nhập (khung còn thông báo `Nhập đủ thông tin…`); ca này dùng hết một hồ sơ nháp",
+      "checks": [],
+      "images": [],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 3.7
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-022",
+      "code": "TC-022",
+      "title": "Cập nhật khuyến nghị ở đầu trang sau vài giây khi nhập lương rồi bấm Lưu",
+      "smoke_number": "",
+      "verdict": "Không kết luận",
+      "reason": "Điều kiện trước chưa đúng: Hồ sơ chưa nhập thu nhập (khung còn thông báo `Nhập đủ thông tin…`); ca này dùng hết một hồ sơ nháp",
+      "checks": [],
+      "images": [],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 3.1
+    },
+    {
+      "case_id": "dang-nhap/tc-023",
+      "code": "TC-023",
+      "title": "Đăng xuất: về form đăng nhập, địa chỉ /, ngôn ngữ đã chọn giữ nguyên",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: về form đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 3: thanh địa chỉ là `/`",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 3: form bằng English (`Employee ID`, `Password`, nút `Sign in`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Bước 3: ngôn ngữ lưu vẫn là English (localStorage bl.locale)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-023-sau-dang-xuat-20261119-153534.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 4.9
+    }
+  ]
+}

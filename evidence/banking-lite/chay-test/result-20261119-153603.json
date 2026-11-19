@@ -1,0 +1,79 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 15:36:03",
+  "results": [
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-001",
+      "code": "TC-001",
+      "title": "Không hiển thị khuyến nghị mà báo cần nhập đủ thông tin khi chưa nhập thu nhập",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: Khung `Thẩm định` không có nhãn khuyến nghị (bước 4); Khung `Thẩm định` không có mục `Lý do` (bước 4); Có thông báo `Nhập đủ thông tin người vay, khoản vay, tài sản và thu nhập để xem khuyến nghị.` (bước 4)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Khung `Thẩm định` không có nhãn khuyến nghị (bước 4)",
+          "passed": false,
+          "note": "thấy nhãn: Từ chối",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Khung `Thẩm định` không có mục `Lý do` (bước 4)",
+          "passed": false,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Có thông báo `Nhập đủ thông tin người vay, khoản vay, tài sản và thu nhập để xem khuyến nghị.` (bước 4)",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Nhập đủ thông tin"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "LTV `80,00% (LTV tối đa 80,00%)` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Khoản trả mới `40.800.000 VND` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thặng dư `-45.300.000 VND` (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-001-khung-tham-dinh-20261119-153603.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 20.1
+    }
+  ]
+}

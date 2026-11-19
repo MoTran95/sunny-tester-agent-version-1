@@ -15,6 +15,7 @@ from pathlib import Path
 
 from . import bug_page, config, theme
 from . import report as report_mod
+from . import summary_report as summary_mod
 
 GENERATOR = '<meta name="generator" content="build_docs.py">'
 _CELL_SPLIT = re.compile(r"(?<!\\)\|")
@@ -41,7 +42,7 @@ def collect_sources(project):
     found = []
     found += sorted((root / "srs" / project).glob("*.md"))
     t = root / "testing" / project
-    found += [f for f in sorted(t.glob("*.md")) if f.name != "smoke-ket-qua.md"]
+    found += [f for f in sorted(t.glob("*.md")) if f.name not in ("smoke-ket-qua.md", "test-summary-report.md") and not f.name.endswith("-ket-qua.md")]
     for sub in sorted(x for x in t.iterdir() if x.is_dir()):
         found += [f for f in sorted(sub.glob("*.md")) if f.name != "ket-qua-test-case.md"]
     e = root / "evidence" / project
@@ -138,7 +139,7 @@ def _fix_link(url, src, converted):
     path, sep, frag = url.partition("#")
     if path.endswith(".md"):
         target = (src.parent / path).resolve()
-        generated = target.exists() and (target.stem.startswith("BUG-") or target.name in ("smoke-ket-qua.md", "ket-qua-test-case.md"))  # trang do build_report/bug_page sinh
+        generated = target.exists() and (target.stem.startswith("BUG-") or target.name in ("smoke-ket-qua.md", "ket-qua-test-case.md") or target.name.startswith("regression-tang-"))  # trang do build_report/bug_page sinh
         if target in converted or generated:
             return path[:-3] + ".html" + (sep + frag if sep else "")
     return url
@@ -493,6 +494,26 @@ def render_index(project, exists):
         n_smoke = len(report_mod.read_smoke_table(cfg))
         srun_line = (f'Lượt {srun["number"]} ({e(srun["timestamp"][:10])}, bản {e(srun["build"])}): {report_mod._verdict_badge(srun["verdict"])}; {e(report_mod._count_statuses(srun))}' if srun else "Chưa có lượt chạy ghi lại")
         smoke_card = f'<div class="card"><h3>Bộ smoke test</h3><div class="small">{n_smoke} case chọn từ các test case</div><h4>Tài liệu</h4>{_links(tdir, [x for x in links if exists(x[1])])}<h4>Lượt chạy gần nhất</h4><div>{srun_line}</div></div>'
+    regression_card = ""
+    if (tdir / "regression-test.md").exists():
+        rg_lines, rg_links = [], [("Bộ regression test", tdir / "regression-test.html")]
+        for n in (1, 2, 3):
+            page = tdir / f"regression-tang-{n}-ket-qua.html"
+            if not page.exists():
+                continue
+            rg_links.append((f"Kết quả Tầng {n}", page))
+            rdata = report_mod.read_results_data(cfg, f"regression-tang-{n}")
+            rrun = rdata["runs"][-1] if rdata["runs"] else None
+            if rrun:
+                rg_lines.append(f'Tầng {n}, lượt {rrun["number"]} ({e(rrun["timestamp"][:10])}, bản {e(rrun["build"])}): {report_mod._verdict_badge(rrun["verdict"])}; {e(report_mod._count_statuses(rrun))}')
+        rg_run = "<br>".join(rg_lines) or "Chưa có lượt chạy ghi lại"
+        n_t1 = len(report_mod.read_regression_table(cfg, "regression-tang-1"))
+        regression_card = (f'<div class="card"><h3>Bộ regression test</h3><div class="small">Ba tầng: lõi ({n_t1} case), vùng bị ảnh hưởng, toàn bộ</div>'
+                           f'<h4>Tài liệu</h4>{_links(tdir, [x for x in rg_links if exists(x[1])])}<h4>Lượt chạy gần nhất</h4><div>{rg_run}</div></div>')
+    summary_card = ""
+    if exists(tdir / "test-summary-report.html"):
+        summary_card = ('<div class="card"><h3>Báo cáo tổng kết kiểm thử</h3><div class="small">Tổng hợp mọi lượt chạy của build mới nhất; có form người test và người duyệt build, nút in PDF</div>'
+                        f'<h4>Tài liệu</h4>{_links(tdir, [("Báo cáo tổng kết kiểm thử", tdir / "test-summary-report.html")])}</div>')
     ev = root / "evidence" / project
     ev_items = [(f"Báo cáo khám phá: {p.stem}", p) for p in sorted(ev.glob("*.html"))] if ev.exists() else []
     if (ev / "features").exists():
@@ -514,7 +535,7 @@ def render_index(project, exists):
         ("tính năng có test case", len(features)), ("test case", total_tc), ("đã chạy có kết luận", total_ran), ("không đạt", total_fail), ("bug đã ghi", total_bug))) + "</div>")
     body = (f'<h1>Trang tổng · {e(project)}</h1><p class="small">Hệ thống: <a href="{e(cfg.url)}/">{e(cfg.url)}</a>' + (f" · bản test {e(version)}" if version else "") +
             ". Mọi số liệu đọc từ file có sẵn; sau khi sửa tài liệu hoặc chạy test, chạy lại <code>python -X utf8 scripts/build_docs.py</code> để cập nhật.</p>"
-            + stats + '<h2>Từng tính năng</h2><div class="the">' + "".join(cards) + "</div>" + '<h2>Bộ smoke và tài liệu chung</h2><div class="the">' + smoke_card + other + "</div>")
+            + stats + '<h2>Từng tính năng</h2><div class="the">' + "".join(cards) + "</div>" + '<h2>Bộ smoke và tài liệu chung</h2><div class="the">' + summary_card + smoke_card + regression_card + other + "</div>")
     return tdir / "index.html", _page(f"Trang tổng {project}", body, tdir, project=project)
 
 
@@ -545,6 +566,7 @@ def render_all(project):
             except config.ConfigError:
                 continue
         pages.update(bug_page.render_all(cfg))
+        pages.update(summary_mod.render_pages(cfg))
     planned = {o for _, o in outs} | set(pages)
 
     def exists(p):

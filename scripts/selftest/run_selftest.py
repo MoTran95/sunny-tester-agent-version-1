@@ -208,6 +208,42 @@ def main():
         check("feature run verdict is 'not all run' (blocked and no-verdict cases remain)", feature_run["verdict"] == report.NOT_ALL_RUN, feature_run["verdict"])
         bug_html = project / "feature" / "bug" / "BUG-001.html"
         check("bug page built", bug_html.exists() and "Sao chép" in bug_html.read_text(encoding="utf-8"))
+        print("5b. Summary report (test summary, reviewer form, stale decision)")
+        from test_automation import summary_report
+
+        model = summary_report.build_model(cfg)
+        pages = summary_report.render_pages(cfg)
+        md_path, html_path = summary_report.page_paths(cfg)
+        check("summary picks the build of the newest run", model["build"] == "9.9.9" and set(model["based_on"]) == {"smoke", "feature"}, str(model.get("based_on")))
+        check("summary writes an md and an html page", set(pages) == {md_path, html_path})
+        summary_html, summary_md = pages[html_path], pages[md_path]
+        check("summary html has the reviewer form, download button and print button",
+              'data-k="approver.decision"' in summary_html and "Tải file duyệt" in summary_html and "In / Lưu PDF" in summary_html and "window.print" in summary_html)
+        check("summary html embeds the run numbers the decision is based on", '"based_on"' in summary_html and '"smoke": 1' in summary_html)
+        check("summary md shows empty reviewer fields before any decision", "(chưa điền)" in summary_md and "Duyệt build" in summary_md)
+        approval = {"approvals": [{"build": "9.9.9", "based_on": model["based_on"], "approver": {"name": "Người duyệt thử", "decision": "Nhận có điều kiện", "conditions": "Sửa BUG-001", "date": "2026-01-01"}}]}
+        summary_approval = project / summary_report.APPROVAL_FILE
+        summary_approval.write_text(json.dumps(approval), encoding="utf-8")
+        recorded_md = summary_report.render_pages(cfg)[md_path]
+        check("a decision for the same runs is shown and still valid", "Người duyệt thử" in recorded_md and "Còn hiệu lực" in recorded_md)
+        approval["approvals"][0]["based_on"] = dict(model["based_on"], smoke=0)
+        summary_approval.write_text(json.dumps(approval), encoding="utf-8")
+        check("a decision made before a newer run is marked stale", "Đã lỗi thời" in summary_report.render_pages(cfg)[md_path])
+        approval["approvals"][0]["build"] = "8.8.8"
+        summary_approval.write_text(json.dumps(approval), encoding="utf-8")
+        other_md = summary_report.render_pages(cfg)[md_path]
+        check("a decision for another build is only listed as history", "Các lần duyệt khác" in other_md and "Còn hiệu lực" not in other_md)
+        lk = summary_report.Linker(cfg, model)
+        check("summary: a TC code in a feature suite links to its row", "feature/test-case.md#tc-001" in lk.link("Xem TC-001.", "md", "feature"), lk.link("Xem TC-001.", "md", "feature"))
+        check("summary: a smoke code links to the original test case", "feature/test-case.md#tc-" in lk.link("SM-01", "md", "smoke"))
+        check("summary: a bug code links to its file", "feature/bug/BUG-001.md" in lk.link("BUG-001", "md", "smoke"))
+        check("summary: an unknown code stays plain text", lk.link("TC-999", "md", "feature") == "TC-999")
+        check("summary: a TC code in smoke text links only after a feature name",
+              "feature/test-case.md#tc-002" in lk.link("Ở feature TC-002", "md", "smoke") and lk.link("Xem TC-002", "md", "smoke") == "Xem TC-002")
+        check("summary: html links are escaped and point to html pages", lk.link("a<b TC-001", "html", "feature") == 'a&lt;b <a href="feature/test-case.html#tc-001">TC-001</a>', lk.link("a<b TC-001", "html", "feature"))
+        check("summary: the bug table links every case that found the bug", "feature/test-case.md#tc-" in summary_md and "[BUG-001](feature/bug/BUG-001.md)" in summary_md)
+        summary_approval.unlink()
+        check("md of the summary is not converted as a plain document", md_path not in docs_pages.collect_sources("demo"))
         print("6. Docs pages (markdown to HTML)")
         sample = Path(root / "docs-sample")
         sample.mkdir()
@@ -255,6 +291,8 @@ def main():
         (root / "docs" / "thuong-hieu" / "brand.json").write_text('{"name": "Công ty Khác", "logo": "docs/thuong-hieu/logo-khac.svg"}', encoding="utf-8")
         block = theme.brand_html()
         check("repo-wide brand.json sets name and logo (svg)", 'alt="Công ty Khác"' in block and "data:image/svg+xml;base64," in block, block[:120])
+        check("the summary report never shows the logo, even when a logo is configured", 'class="brand"' not in summary_report.render_pages(cfg)[summary_report.page_paths(cfg)[1]]
+              and 'class="brand"' in report.render_pages(cfg, "smoke")[report.page_files(cfg, "smoke")[1]])
         (project / "brand.json").write_text('{"logo_enabled": false}', encoding="utf-8")
         check("project brand.json can switch the logo off", theme.brand_html("demo") == "" and theme.brand_html() != "")
         (project / "brand.json").write_text("not json", encoding="utf-8")

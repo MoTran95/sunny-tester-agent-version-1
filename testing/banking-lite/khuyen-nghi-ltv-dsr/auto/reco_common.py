@@ -68,3 +68,18 @@ def stable_panel(ctx, seconds=15):
 def recommendation_label(panel):
     m = RECOMMENDATION_LABELS.search(panel)
     return m.group(0) if m else None
+
+
+HEADER_LABEL_PATTERN = re.compile(r"Khuyến nghị[^\n]*\n?\s*(Phê duyệt|Chuyển cấp trên|Từ chối|—)")
+
+
+def header_recommendation(ctx):
+    """Nhãn Khuyến nghị ở đầu trang hồ sơ (bản đã lưu): Phê duyệt / Chuyển cấp trên / Từ chối / —; None nếu chưa thấy."""
+    m = HEADER_LABEL_PATTERN.search(ctx.page_text())
+    return m.group(1) if m else None
+
+
+def save_and_wait(ctx):
+    """Bấm Lưu và chờ thông báo `Đã lưu.`."""
+    ctx.page.get_by_role("button", name=re.compile(r"^Lưu$")).first.click()
+    ctx.wait_text("Đã lưu.")

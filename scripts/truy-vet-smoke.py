@@ -126,22 +126,24 @@ def parse_smoke(text, du_an_dir):
     return rows, problems, tong, ngoai, tat_ca
 
 
+def link_ma(f, c, du_an_dir, ten=True):
+    """Mã requirement thành link: ưu tiên thẻ neo theo mã; chưa có neo thì link tới đúng dòng (#L<số dòng>, trang HTML có neo này)."""
+    v = f["cur"].get(c)
+    t = f" {v['ten']}" if v and ten else ""
+    if not v:
+        return f"{c}{t}"
+    low = f"{f['cfg']['tien_to'].lower()}-{c.lower()}"
+    if c.startswith("TL-"):
+        return f"[{c}]({tv.rel(du_an_dir, f['bs'])}#{c.lower() if c.lower() in f['bs_ids'] else 'L' + str(v['dong'])}){t}"
+    return f"[{c}]({tv.rel(du_an_dir, f['srs'])}#{low if low in f['srs_ids'] else 'L' + str(v['dong'])}){t}"
+
+
 def ghi_file(sm_p, text, rows, info, cache, du_an_dir, moc_moi, hang_moi):
     """Chỉ chạy khi chốt: làm mới mục Truy vết, mốc (một dòng chú thích), thêm dòng lịch sử, dòng Cập nhật lần cuối."""
-    def link_code(f, c):
-        v = f["cur"].get(c)
-        ten = f" {v['ten']}" if v else ""
-        low = f"{f['cfg']['tien_to'].lower()}-{c.lower()}"
-        if c.startswith("TL-") and c.lower() in f["bs_ids"]:
-            return f"[{c}]({tv.rel(du_an_dir, f['bs'])}#{c.lower()}){ten}"
-        if low in f["srs_ids"]:
-            return f"[{c}]({tv.rel(du_an_dir, f['srs'])}#{low}){ten}"
-        return f"{c}{ten}"
-
     T = ["| # | Test case gốc | Requirement mà test case dựa vào |", "|---|---|---|"]
     for r in rows:
         f = cache[r["rel_dir"]]
-        codes = "<br>".join(link_code(f, c) for c in info[r["key"]]["ma"]) or "—"
+        codes = "<br>".join(link_ma(f, c, du_an_dir) for c in info[r["key"]]["ma"]) or "—"
         T.append(f"| {r['n']} | [{r['nhan']}]({r['rel_dir']}/test-case.md#{r['tc'].lower()}) | {codes} |")
     new = re.sub(re.escape(TV_START) + r".*?" + re.escape(TV_END), lambda m: "\n".join([TV_START] + T + [TV_END]), text, flags=re.S)
     cu = new.split(LS_START)[1].split(LS_END)[0]

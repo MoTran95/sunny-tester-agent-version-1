@@ -49,6 +49,9 @@ class Config:
         self._env = env
         self.env_prefix = data["env_prefix"]
         self.url = (env.get(f"{self.env_prefix}_URL") or data["default_url"]).rstrip("/")
+        # Tùy chọn: nơi đọc số phiên bản hệ thống (GET, không cần đăng nhập), ví dụ "/api/health" và "version".
+        self.health_api = data.get("health_api", "")
+        self.version_field = data.get("version_field", "version")
         login_cfg = data["login"]
         self.login_mode = login_cfg.get("mode", "form")
         self.id_labels = login_cfg.get("id_labels", [])

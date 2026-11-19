@@ -72,7 +72,43 @@ def read_feature_table(cfg, feature):
     return sorted(entries, key=lambda x: int(x["number"]))
 
 
+def is_regression(suite):
+    """Bộ regression theo tầng: tên bộ dạng `regression-tang-1` (Tầng 1), `regression-tang-2`, `regression-tang-3`."""
+    return suite.startswith("regression-tang-")
+
+
+def read_regression_table(cfg, suite):
+    """Các case của MỘT tầng trong regression-test.md: cùng dạng với read_smoke_table.
+    Mỗi dòng tầng có link [Tên · TC-005](thư-mục/test-case.md#tc-005); ID là RG-01, RG-02… theo thứ tự trong bảng; vùng nằm ở source_ref."""
+    tang = f"Tầng {suite.rsplit('-', 1)[1]}"
+    f = cfg.project_dir / "regression-test.md"
+    if not f.exists():
+        raise config.ConfigError(f"Không có {f.relative_to(config.ROOT)}")
+    names = feature_names(cfg.project)
+    entries, seen, cache = [], set(), {}
+    for line in f.read_text(encoding="utf-8").splitlines():
+        if not line.startswith(f"| {tang} |"):
+            continue
+        o = _CELL_SPLIT.split(line)
+        vung = o[2].strip()
+        for m in re.finditer(r"\[([^\]]+)\]\(([\w-]+)/test-case\.md#(tc-\d+)\)", o[3]):
+            feature, tc = m.group(2), m.group(3)
+            if (feature, tc) in seen:
+                continue
+            seen.add((feature, tc))
+            if feature not in cache:
+                cache[feature] = {e["tc"]: e for e in read_feature_table(cfg, feature)}
+            goc = cache[feature].get(tc)
+            title = (goc["title"] if goc else m.group(1)).strip()
+            n = len(entries) + 1
+            entries.append({"number": str(n), "id": f"RG-{n:02d}", "title": f"[{names.get(feature, feature)} · {tc.upper()}] {title}",
+                            "source_ref": vung, "feature": feature, "tc": tc})
+    return entries
+
+
 def read_table(cfg, suite):
+    if is_regression(suite):
+        return read_regression_table(cfg, suite)
     return read_smoke_table(cfg) if suite == "smoke" else read_feature_table(cfg, suite)
 
 
@@ -84,19 +120,23 @@ def feature_names(project):
 
 
 def suite_title(suite, project=None):
+    if is_regression(suite):
+        return f"Regression Tầng {suite.rsplit('-', 1)[1]}"
     return SUITE_NAMES.get(suite) or f"Test case {feature_names(project).get(suite, suite) if project else suite}"
 
 
 def case_label(suite):
-    return "Smoke case" if suite == "smoke" else "Test case"
+    return "Smoke case" if suite == "smoke" else "Regression case" if is_regression(suite) else "Test case"
 
 
 def page_dir(cfg, suite):
-    return cfg.project_dir if suite == "smoke" else cfg.project_dir / suite
+    return cfg.project_dir if suite == "smoke" or is_regression(suite) else cfg.project_dir / suite
 
 
 def page_files(cfg, suite):
     d = page_dir(cfg, suite)
+    if is_regression(suite):
+        return (d / f"{suite}-ket-qua.md", d / f"{suite}-ket-qua.html")
     return (d / "smoke-ket-qua.md", d / "smoke-ket-qua.html") if suite == "smoke" else (d / "ket-qua-test-case.md", d / "ket-qua-test-case.html")
 
 

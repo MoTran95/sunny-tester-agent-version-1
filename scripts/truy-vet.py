@@ -402,6 +402,19 @@ def main():
     # ---------- sinh truy-vet.md ----------
     out_dir = d
     link = lambda p, n: f"[{Path(p).name} dòng {n}]({rel(out_dir, ROOT / p)}#L{n})"
+    tc_neo = set(re.findall(r'<a id="([^"]+)"></a>', tc_t))
+
+    def lk_ma(c):
+        """Mã requirement thành link tới đúng dòng trong SRS (hoặc bảng soát nếu là TL); không có thì để chữ thường."""
+        v = cur.get(c)
+        if not v:
+            return c
+        p = cfg["bang_soat"] if c.startswith("TL") else cfg["srs"]
+        return f"[{c}]({rel(out_dir, ROOT / p)}#L{v['dong']})"
+
+    def lk_tc(x):
+        """Mã test case thành link tới đúng dòng trong test-case.md (cần thẻ neo ở ô Mã)."""
+        return f"[{x}]({rel(out_dir, ROOT / cfg['test_case'])}#{x.lower()})" if x.lower() in tc_neo else x
     cnt = {}
     for v in tc_st.values():
         k = v.split(" (")[0]
@@ -459,7 +472,7 @@ def main():
             ht = "⚠️ Khác. " + ("<br>".join(cut(x, 260) for x in o["hien_tai"]) if o["hien_tai"] else "Xem dòng theo BA ở cột bên cạnh")
         else:
             ht = "Không có điểm khác đã biết"
-        L.append(f"| {c} | {cur[c]['ten']} | {tb} | {ht} | {', '.join(sorted(set(o['chua_chot']))) or '—'} |")
+        L.append(f"| {lk_ma(c)} | {cur[c]['ten']} | {tb} | {ht} | {', '.join(sorted(set(o['chua_chot']))) or '—'} |")
     L.append("")
     L.append("## 5. Từ requirement tới test case")
     L.append("| Mã | Tên ngắn | Trạng thái requirement | Test case |\n|---|---|---|---|")
@@ -473,8 +486,8 @@ def main():
         if not ts:
             tshow = "⚠️ chưa có test case" if (not c.startswith("TL") and c in cur) else "—"
         else:
-            tshow = f"{len(ts)}: " + ", ".join(ts)
-        L.append(f"| {c} | {tname} | {stt} | {tshow} |")
+            tshow = f"{len(ts)}: " + ", ".join(lk_tc(x) for x in ts)
+        L.append(f"| {lk_ma(c)} | {tname} | {stt} | {tshow} |")
     L.append("")
     L.append("## 6. Từ test case tới requirement")
     L.append("| Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối | Tự động hóa |\n|---|---|---|---|---|---|---|---|")
@@ -483,8 +496,8 @@ def main():
         au = (tcs[t].get("auto") or "—").replace("|", "¦")
         if tc_st[t].startswith("Cần xem lại") and au.startswith("Có"):
             au = "⚠️ script cần xem lại · " + au
-        ms = ", ".join(f"{c} ({cur[c]['ten']})" if c in cur else c for c in tcs[t]["ma"]) or "—"
-        L.append(f"| {t} | {cut(tcs[t]['tinh_huong'], 90)} | {ck.get(t, {}).get('uu_tien', '')} | {cut(ms, 400)} | {tc_st[t]} | {b.get('tao', '—') if not b.get('da_bo') else '—'} | {b.get('sua', '—') if not b.get('da_bo') else '—'} | {au} |")
+        ms = ", ".join(f"{lk_ma(c)} ({cur[c]['ten']})" if c in cur else c for c in tcs[t]["ma"]) or "—"
+        L.append(f"| {lk_tc(t)} | {cut(tcs[t]['tinh_huong'], 90)} | {ck.get(t, {}).get('uu_tien', '')} | {ms} | {tc_st[t]} | {b.get('tao', '—') if not b.get('da_bo') else '—'} | {b.get('sua', '—') if not b.get('da_bo') else '—'} | {au} |")
     L.append("")
     L.append("## 7. Lịch sử thay đổi")
     L.append("Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc bấm chốt (kèm múi giờ), không phải giờ BA trả lời hay giờ requirement đổi; mốc cũ chỉ có ngày thì ghi \"không rõ giờ\". **Commit gốc** là commit đang đứng lúc chốt (\"+ sửa chưa commit\" nghĩa là còn thay đổi chưa commit); muốn xem từng chữ đã đổi, dùng git. **Ngày BA trả lời** chỉ ghi khi biết.\n")
@@ -542,6 +555,9 @@ def main():
     sm = ROOT / "testing" / a.du_an / "smoke-test.md"
     if sm.exists() and f"{a.tinh_nang}/test-case.md#" in read(sm) and (a.lenh == "chot" or ma_doi or any(v != "Còn đúng" for v in tc_st.values())):
         print(f"  Smoke test có dùng test case của tính năng này: chạy `python -X utf8 scripts/truy-vet-smoke.py kiem {a.du_an}` để xem smoke có cần cập nhật không.")
+    rg = ROOT / "testing" / a.du_an / "regression-test.md"
+    if rg.exists() and f"{a.tinh_nang}/test-case.md#" in read(rg) and (a.lenh == "chot" or ma_doi or any(v != "Còn đúng" for v in tc_st.values())):
+        print(f"  Bộ regression có dùng test case của tính năng này: chạy `python -X utf8 scripts/truy-vet-regression.py kiem {a.du_an}` để xem tầng/vùng nào cần chạy lại hoặc cập nhật.")
     bad = ma_doi or chua_co_tc or tc_bo or problems or any(v != "Còn đúng" for v in tc_st.values())
     sys.exit(1 if bad and a.lenh == "kiem" else 0)
 

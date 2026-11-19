@@ -1,0 +1,74 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 15:54:01",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-001",
+      "code": "TC-001",
+      "title": "Đăng nhập đúng P100001 vào Danh sách việc",
+      "smoke_number": "",
+      "verdict": "Đạt kèm ý phụ sai",
+      "reason": "Sai ý phụ: Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thanh điều hướng hiện mã P100001 (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thanh điều hướng hiện vai trò Chuyên viên khách hàng (bước 5)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        },
+        {
+          "kind": "minor",
+          "title": "Không có thông báo đăng nhập thành công (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-001-danh-sach-viec-20261119-155401.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-001-loi-20261119-155401.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-001-loi-20261119-155401.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+      },
+      "videos": [],
+      "seconds": 3.9
+    }
+  ]
+}

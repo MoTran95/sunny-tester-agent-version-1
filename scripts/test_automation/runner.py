@@ -17,6 +17,33 @@ from .results import CaseResult
 from .context import WaitTimeout, SessionExpired, PreconditionNotMet, Context
 
 
+def read_system_version(cfg):
+    """Số phiên bản hệ thống đang chạy (GET `health_api` của dự án, chỉ đọc). Không khai hoặc không đọc được → (None, lý do)."""
+    if not cfg.health_api:
+        return None, "dự án chưa khai health_api trong auto-config.json"
+    import json
+    import urllib.request
+    try:
+        with urllib.request.urlopen(cfg.url + cfg.health_api, timeout=15) as response:
+            value = json.loads(response.read().decode("utf-8")).get(cfg.version_field)
+    except Exception as error:  # noqa: BLE001
+        return None, f"{type(error).__name__}: {error}"
+    return (str(value), "") if value else (None, f"phản hồi không có trường {cfg.version_field}")
+
+
+def print_system_version(cfg, bug_build=None):
+    version, reason = read_system_version(cfg)
+    if version is None:
+        print(f"Số phiên bản hệ thống: không đọc được ({reason}).")
+        return
+    print(f"Số phiên bản hệ thống đang chạy: {version} (đọc từ {cfg.health_api}).")
+    if bug_build:
+        if str(bug_build) == version:
+            print(f"  LƯU Ý: GIỐNG bản lúc bug được tạo ({bug_build}). Không phân biệt được bản sửa bằng số build; hãy chắc bản sửa đã được triển khai lên địa chỉ này.")
+        else:
+            print(f"  Khác bản lúc bug được tạo ({bug_build}).")
+
+
 def read_smoke_table(cfg):
     """Đọc bảng smoke-test.md: [(số, tính năng, mã ca)] theo thứ tự cột #."""
     f = cfg.project_dir / "smoke-test.md"
@@ -122,6 +149,7 @@ def main(argv=None):
     ap.add_argument("--headed", action="store_true", help="hiện cửa sổ trình duyệt (gỡ lỗi)")
     ap.add_argument("--record-run", action="store_true",
                     help="(chỉ với --smoke) ghi kết quả thành một lượt mới và sinh lại smoke-ket-qua.md + .html")
+    ap.add_argument("--bug-build", help="số bản lúc bug được tạo (re-test): in so với số phiên bản hệ thống đang chạy trước khi chạy ca")
     ap.add_argument("--build", help="số bản đang test, bắt buộc khi --record-run (mặc định lấy `version` trong auto-data.json)")
     ap.add_argument("--run-by", default="Sunny Tran", help="người chạy, ghi vào lượt")
     args = ap.parse_args(argv)
@@ -139,6 +167,7 @@ def main(argv=None):
     try:
         cfg = config.load(args.project)
         print(cfg.banner())
+        print_system_version(cfg, args.bug_build)
         if args.smoke:
             entries = read_smoke_table(cfg)
         elif args.feature:

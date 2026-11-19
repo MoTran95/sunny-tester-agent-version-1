@@ -1,0 +1,87 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 15:54:13",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-002",
+      "code": "TC-002",
+      "title": "Đăng nhập đúng P200001 và P300001, đúng Danh sách việc và vai trò",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "P200001: vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P200001: thanh điều hướng hiện mã P200001 (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P200001 · Chuyên viên định giá · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P200001: thanh điều hướng hiện vai trò Chuyên viên định giá (bước 5)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "P200001: bấm Đăng xuất về form Đăng nhập (bước 6)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: vào Danh sách việc (bước 9)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: thanh điều hướng hiện mã P300001 (bước 10)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | Tích hợp | P300001 · Chuyên viên thẩm định tín dụng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: thanh điều hướng hiện vai trò Chuyên viên thẩm định tín dụng (bước 10)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-002-p200001-danh-sach-viec-20261119-155408.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-002-p300001-danh-sach-viec-20261119-155412.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 9.3
+    }
+  ]
+}

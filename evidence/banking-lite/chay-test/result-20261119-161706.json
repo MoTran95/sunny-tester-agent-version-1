@@ -1,0 +1,160 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 16:17:06",
+  "results": [
+    {
+      "case_id": "dang-nhap/retest-bug-001",
+      "code": "RT-BUG-001",
+      "title": "Re-test BUG-001: không còn chữ DEFAULT trên thanh điều hướng (P100001, P200001, P300001)",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: P100001: thanh điều hướng không còn chữ DEFAULT (bước 5); P200001: thanh điều hướng không còn chữ DEFAULT (bước 5); P300001: thanh điều hướng không còn chữ DEFAULT (bước 5)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "P100001: vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "P100001",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P100001: thanh điều hướng hiện mã P100001 và vai trò Chuyên viên khách hàng (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "P100001",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P100001: thanh điều hướng không còn chữ DEFAULT (bước 5)",
+          "passed": false,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "P100001",
+          "error_note": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        },
+        {
+          "kind": "main",
+          "title": "P200001: vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "P200001",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P200001: thanh điều hướng hiện mã P200001 và vai trò Chuyên viên định giá (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P200001 · Chuyên viên định giá · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "P200001",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P200001: thanh điều hướng không còn chữ DEFAULT (bước 5)",
+          "passed": false,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P200001 · Chuyên viên định giá · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "P200001",
+          "error_note": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        },
+        {
+          "kind": "main",
+          "title": "P300001: vào Danh sách việc (bước 4)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "P300001",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: thanh điều hướng hiện mã P300001 và vai trò Chuyên viên thẩm định tín dụng (bước 5)",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | Tích hợp | P300001 · Chuyên viên thẩm định tín dụng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "P300001",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "P300001: thanh điều hướng không còn chữ DEFAULT (bước 5)",
+          "passed": false,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | Tích hợp | P300001 · Chuyên viên thẩm định tín dụng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "P300001",
+          "error_note": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        },
+        {
+          "kind": "main",
+          "title": "P300001: vẫn còn menu Tích hợp",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "P300001",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Biến thể 1: /api/me không còn trường workspace",
+          "passed": false,
+          "note": "/api/me trả 200, còn trường workspace",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Biến thể 2: bản English không còn chữ DEFAULT",
+          "passed": false,
+          "note": "thanh điều hướng: Banking Lite Home loans | Worklist | P100001 · Banker · DEFAULT | Tiếng Việt | English | Sign out",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "P100001",
+          "error_note": "Lỗi ở biến thể 2 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        },
+        {
+          "kind": "minor",
+          "title": "Biến thể 3: sau khi tải lại trang (F5) vẫn không có chữ DEFAULT",
+          "passed": false,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "DEFAULT"
+          ],
+          "account": "P100001",
+          "error_note": "Lỗi ở biến thể 3 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-p100001-danh-sach-viec-20261119-161653.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-p200001-danh-sach-viec-20261119-161657.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-p300001-danh-sach-viec-20261119-161701.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-loi-p100001-20261119-161706.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-loi-p200001-20261119-161706.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-loi-p300001-20261119-161706.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-loi-p100001-20261119-161706.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này. Lỗi ở biến thể 2 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này. Lỗi ở biến thể 3 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này.",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-loi-p200001-20261119-161706.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này.",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-retest-bug-001-loi-p300001-20261119-161706.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+      },
+      "videos": [],
+      "seconds": 16.8
+    }
+  ]
+}

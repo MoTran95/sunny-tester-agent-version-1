@@ -40,6 +40,7 @@ Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`); chỉ file 
 5. **Ghi kết quả** vào test case gốc (Kết quả thực tế, Trạng thái, Tự động hóa) bằng script ghi một lần cho cả nhóm; không điền tay từng dòng.
 6. **Ghi lượt và sinh trang:** `build_report.py add-run [--suite <tính-năng>] --build X --results-files … --status … --bug … --blocked-by … --conclusion-file …` (xem quy tắc kết luận ở `references/quy-tac-da-chot.md`).
 7. **Bug:** mỗi nguyên nhân một bug theo `tao-bug-report`; đính ảnh `-loi` và video; ca không test được vì bug khác → `Bị chặn` kèm link bug.
+7b. **Báo cáo tổng kết (khi được nhờ; skill riêng `tao-test-summary-report`):** `python -X utf8 scripts/build_report.py summary [--build X] [--author tên]` ra `testing/<dự-án>/test-summary-report.md` + `.html` (tổng hợp mọi lượt của build mới nhất; có form người test/người duyệt build và nút In / Lưu PDF; `build_docs.py` cũng tự sinh). Quyết định duyệt do người điền trên trang rồi tải `duyet-build.json` về đặt vào `testing/<dự-án>/`; **không tự điền tên, quyết định hay ngày duyệt**. Chi tiết `docs/chay-test-tu-dong.md`.
 8. **Sinh lại và kiểm:** `python -X utf8 scripts/build_docs.py --all`, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py` (báo lỗi nếu còn trang cũ). Báo người dùng link trang HTML (không chỉ md).
 
 ## Tự kiểm trước khi trả lời

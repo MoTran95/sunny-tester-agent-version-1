@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Ngày lập | 2026-11-18 |
-| Cập nhật lần cuối | 2026-11-19 09:37:30 (+07:00) (cập nhật: Đổi địa chỉ test sang staging-banking-lite.vercel.app, không đổi nội dung test (xem lại/sửa dang-nhap/TC-005, dang-nhap/TC-001, khuyen-nghi-ltv-dsr/TC-002, khuyen-nghi-ltv-dsr/TC-023, khuyen-nghi-ltv-dsr/TC-009, khuyen-nghi-ltv-dsr/TC-022, dang-nhap/TC-002)) |
+| Cập nhật lần cuối | 2026-11-19 15:23:39 (+07:00) (cập nhật: Thêm link bấm được cho mã requirement ở mục Truy vết, không đổi nội dung test) |
 | Người lập | Sunny Tran |
 | Hệ thống | Banking Lite, https://staging-banking-lite.vercel.app/ |
 | Thời gian mục tiêu (tham khảo, không cứng) | **khoảng 15 phút** (người dùng chốt) |
@@ -76,13 +76,13 @@ Bảng tự sinh khi chốt (đừng sửa tay). Chỉ mã có điểm nhảy tr
 <!-- TRUY-VET:BAT-DAU (tự sinh bởi scripts/truy-vet-smoke.py, không sửa tay) -->
 | # | Test case gốc | Requirement mà test case dựa vào |
 |---|---|---|
-| 1 | [Đăng nhập · TC-005](dang-nhap/test-case.md#tc-005) | M07 Nhãn, nút, gợi ý, chân trang<br>R01 Mã nhân viên: định dạng<br>R08 Thuộc tính ô nhập<br>S01-AC01 Mở hệ thống khi chưa đăng nhập<br>[TL-04](dang-nhap/bang-soat-requirement.md#tl-04) BA: tự cắt khoảng trắng, p hoa thường đều được |
-| 2 | [Đăng nhập · TC-001](dang-nhap/test-case.md#tc-001) | R05 Hiển thị sau đăng nhập<br>S01-AC02 Đăng nhập đúng<br>[TL-05](dang-nhap/bang-soat-requirement.md#tl-05) BA: bỏ mã không gian<br>[TL-07](dang-nhap/bang-soat-requirement.md#tl-07) BA: bỏ DEFAULT trên thanh trên |
+| 1 | [Đăng nhập · TC-005](dang-nhap/test-case.md#tc-005) | [M07](../../srs/banking-lite/dang-nhap.md#L113) Nhãn, nút, gợi ý, chân trang<br>[R01](../../srs/banking-lite/dang-nhap.md#L95) Mã nhân viên: định dạng<br>[R08](../../srs/banking-lite/dang-nhap.md#L102) Thuộc tính ô nhập<br>[S01-AC01](../../srs/banking-lite/dang-nhap.md#L45) Mở hệ thống khi chưa đăng nhập<br>[TL-04](dang-nhap/bang-soat-requirement.md#tl-04) BA: tự cắt khoảng trắng, p hoa thường đều được |
+| 2 | [Đăng nhập · TC-001](dang-nhap/test-case.md#tc-001) | [R05](../../srs/banking-lite/dang-nhap.md#L99) Hiển thị sau đăng nhập<br>[S01-AC02](../../srs/banking-lite/dang-nhap.md#L46) Đăng nhập đúng<br>[TL-05](dang-nhap/bang-soat-requirement.md#tl-05) BA: bỏ mã không gian<br>[TL-07](dang-nhap/bang-soat-requirement.md#tl-07) BA: bỏ DEFAULT trên thanh trên |
 | 3 | [Khuyến nghị LTV/DSR · TC-002](khuyen-nghi-ltv-dsr/test-case.md#tc-002) | [M02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m02) Không có lý do<br>[M03](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m03) Dòng xem trước<br>[S01-AC02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s01-ac02) Đạt mọi quy tắc<br>[S03-AC01](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s03-ac01) DSR và thặng dư cơ bản |
 | 4 | [Khuyến nghị LTV/DSR · TC-023](khuyen-nghi-ltv-dsr/test-case.md#tc-023) | [R02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-r02) DSR<br>[S01-AC03](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s01-ac03) DSR trên 50% |
 | 5 | [Khuyến nghị LTV/DSR · TC-009](khuyen-nghi-ltv-dsr/test-case.md#tc-009) | [M07](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m07) Thặng dư thấp<br>[R03](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-r03) Thặng dư tối thiểu<br>[S01-AC09](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s01-ac09) Thặng dư thiếu 1 đồng |
 | 6 | [Khuyến nghị LTV/DSR · TC-022](khuyen-nghi-ltv-dsr/test-case.md#tc-022) | [M11](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m11) Đã lưu<br>[S05-AC01](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s05-ac01) Đầu trang sau khi lưu |
-| 7 | [Đăng nhập · TC-002](dang-nhap/test-case.md#tc-002) | S01-AC02 Đăng nhập đúng |
+| 7 | [Đăng nhập · TC-002](dang-nhap/test-case.md#tc-002) | [S01-AC02](../../srs/banking-lite/dang-nhap.md#L46) Đăng nhập đúng |
 <!-- TRUY-VET:KET-THUC -->
 
 ## Khi requirement hoặc test case đổi
@@ -94,6 +94,7 @@ Chạy `python -X utf8 scripts/truy-vet-smoke.py kiem banking-lite` (chỉ đọ
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet-smoke.py, không sửa tay) -->
 | Thời điểm | Việc | Người | Nội dung | Số case · tổng phút (ước lượng) | Commit |
 |---|---|---|---|---|---|
+| 2026-11-19 15:23:39 (+07:00) | Cập nhật | Sunny Tran | Thêm link bấm được cho mã requirement ở mục Truy vết, không đổi nội dung test | 7 case · 10.5 phút | `1d7d560` + sửa chưa commit |
 | 2026-11-19 09:37:30 (+07:00) | Cập nhật | Sunny Tran | Đổi địa chỉ test sang staging-banking-lite.vercel.app, không đổi nội dung test (xem lại/sửa dang-nhap/TC-005, dang-nhap/TC-001, khuyen-nghi-ltv-dsr/TC-002, khuyen-nghi-ltv-dsr/TC-023, khuyen-nghi-ltv-dsr/TC-009, khuyen-nghi-ltv-dsr/TC-022, dang-nhap/TC-002) | 7 case · 10.5 phút | `85176fc` + sửa chưa commit |
 | 2026-11-18 20:52:17 (+07:00) | Cập nhật | Sunny Tran | Thêm giao thức chạy smoke (references/chay-smoke.md) và mục Lượt chạy; lệnh ghi-luot | 7 case · 10.5 phút | `b4aa480` + sửa chưa commit |
 | 2026-11-18 20:44:03 (+07:00) | Cập nhật | Sunny Tran | Sửa skill theo 9 điểm yếu: tiêu chí trả build tách ý chính/ý phụ, ghi nguồn nháp và hiệu chuẩn, nêu hành trình then chốt chưa phủ, cách gợi ý Theo build khi thiếu release note | 7 case · 10.5 phút | `b4aa480` + sửa chưa commit |

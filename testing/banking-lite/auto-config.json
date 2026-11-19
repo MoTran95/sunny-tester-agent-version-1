@@ -1,6 +1,8 @@
 {
   "env_prefix": "BANKING_LITE",
   "default_url": "https://staging-banking-lite.vercel.app",
+  "health_api": "/api/health",
+  "version_field": "version",
   "login": {
     "id_labels": [
       "Mã nhân viên",

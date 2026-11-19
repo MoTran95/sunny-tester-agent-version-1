@@ -104,6 +104,24 @@ python -X utf8 scripts/build_report.py bug-pages
 
 Trang chia mỗi mục thành một thẻ có nút **Sao chép** (chép chữ thường của mục đó để dán vào Jira, chat...). Ở đầu trang có "Sao chép tiêu đề" và "Sao chép cả bug (md)". Ảnh bằng chứng hiện thành ảnh nhỏ, ảnh tô đỏ có viền đỏ; chữ `[Giả định: …]` được tô vàng. Cột Bug trong bảng kết quả smoke link thẳng tới trang này. Nút Sao chép cần trang mở bằng trình duyệt thường (Chrome, Edge); nếu trình duyệt chặn clipboard thì trang tự dùng cách dự phòng.
 
+## Báo cáo tổng kết kiểm thử và duyệt build
+
+Một trang cho cả dự án, tổng hợp mọi lượt chạy của build mới nhất (smoke, regression, test case từng tính năng):
+
+```powershell
+python -X utf8 scripts/build_report.py summary
+```
+
+Ra `testing/<dự-án>/test-summary-report.md` và `.html` (`build_docs.py` cũng tự sinh lại). Trang có 9 mục: thông tin chung (người viết báo cáo, người test), kết luận, kết quả theo tính năng, theo bộ test, bug, độ phủ requirement, rủi ro còn lại, đề xuất tiếp theo, duyệt build. Số liệu đọc từ file có sẵn, không tự quyết nhận hay trả build.
+
+**Điền quyết định ngay trên trang HTML:**
+1. Mục 2 (người test đề xuất) và mục 9 (người duyệt build): chọn **Nhận build / Không nhận build / Nhận có điều kiện**, điền tên, chức danh, điều kiện (bắt buộc khi chọn "có điều kiện"), ghi chú. Trình duyệt tự lưu bản nháp.
+2. Bấm **Tải file duyệt** để tải `duyet-build.json`.
+3. Đặt file vào `testing/<dự-án>/duyet-build.json` (ghi đè), rồi chạy `python -X utf8 scripts/build_docs.py`: quyết định vào cả bản md lẫn HTML. Nếu trình duyệt đặt tên `duyet-build (1).json` thì đổi lại cho đúng tên.
+4. Quyết định gắn với số lượt của từng bộ test lúc duyệt. Có lượt chạy mới sau đó thì trang báo **đã lỗi thời**: cần xem lại và duyệt lại.
+
+**Gửi người khác xem:** bấm **In / Lưu PDF** (hộp thoại in của trình duyệt, chọn "Lưu dưới dạng PDF"). Bản in tự dùng nền sáng, ẩn các nút, giữ nội dung đã điền.
+
 ## Đọc kết quả
 
 | Kết luận | Nghĩa |

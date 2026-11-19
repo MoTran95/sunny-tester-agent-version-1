@@ -5,8 +5,9 @@
 | Đường dẫn | Việc |
 |---|---|
 | `scripts/test_automation/` | `config`, `session`, `context` (`ctx`), `results`, `runner`, `failure_counter`, `report` (bảng kết quả), `bug_page`, `docs_pages` (md→HTML + trang tổng), `theme` (màu, font, logo, brand) |
+| `scripts/test_automation/summary_report.py` | báo cáo tổng kết `testing/<dự-án>/test-summary-report.md/.html` (`build_report.py summary`, cũng nằm trong `docs_pages.render_all`); form người test/người duyệt; đọc `testing/<dự-án>/duyet-build.json` |
 | `scripts/*.py` | `auto_login`, `run_tests`, `build_report` (`add-run`/`build`/`bug-pages`), `build_docs` (`--all/--check/--stage`), `inspect_page`, `mark_error`, `process_logo`, `tai-font`, `selftest/run_selftest.py` |
-| `testing/<dự-án>/auto-config.json`, `auto-data.json` | cấu hình đăng nhập/URL; dữ liệu test (số bản, id hồ sơ) |
+| `testing/<dự-án>/auto-config.json`, `auto-data.json` | cấu hình đăng nhập/URL (tùy chọn `health_api`, `version_field`: runner in số phiên bản hệ thống, cờ `--bug-build` cảnh báo khi giống bản lỗi); dữ liệu test (số bản, id hồ sơ) |
 | `testing/<dự-án>/<tính-năng>/auto/tc-xxx.py` | `CASE_INFO` + `run(ctx)`; hàm chung ở `*_common.py` cùng thư mục |
 | `testing/<dự-án>/run-results/<bộ>.json` | dữ liệu lượt chạy (chỉ thêm) → `smoke-ket-qua.*` hoặc `<tính-năng>/ket-qua-test-case.*` |
 | `evidence/<dự-án>/chay-test/` | ảnh (`-kiem`, `-loi`), `result-*.json`, `video/` (gitignore) |
@@ -29,3 +30,12 @@ Nằm ở `memories/modules/<slug>/tu-dong-hoa.md` (số bản, kết quả lư�
 
 ## Thiết kế trang và thương hiệu (người dùng chốt, 2026-11-18 đến 19)
 Chi tiết ở `docs/thuong-hieu/README.md`. Điểm không suy ra từ code: màu nền chốt `#E8DFD0` (bản sáng đầu tiên chói mắt), có chế độ tối tự theo hệ điều hành; trang rộng gần hết màn hình, bảng có thanh kéo ngang luôn hiện + cột cố định; logo ở góc trái (không để giữa) và cấu hình được (`brand.json`) vì người khác dùng bộ công cụ; font tải về repo để giống hệt khi không có mạng; link truy vết phải nhảy đúng dòng; trang HTML phải luôn khớp md (4 lớp chặn). Màu cam logo (`#E8832A`) hơi khác vàng giao diện (`#D9902A`), chưa chỉnh.
+
+## Báo cáo tổng kết kiểm thử (người dùng chốt 2026-11-19)
+- Người dùng muốn bảng **test summary report** có thêm **người test** và **người duyệt build**; chọn cách **A**: form điền ngay trên HTML, nút **Tải file duyệt** ra `duyet-build.json`, đặt vào `testing/<slug>/` (KHÔNG để trong `run-results/`: `docs_pages` coi mọi json ở đó là một bộ test), script đọc lại vào md + HTML. Có nút **In / Lưu PDF** (`window.print` + CSS in; không sinh PDF bằng script).
+- Quyết định gắn `based_on` = số lượt từng bộ lúc duyệt; có lượt mới thì "Đã lỗi thời". Mục 2 (đề xuất của người test) khác mục 9 (quyết định của người duyệt). **Không tự điền** tên/quyết định/ngày duyệt; người duyệt do người dùng nêu (chưa chốt ai, cố định hay đổi theo build).
+- Số liệu theo tính năng: mỗi test case lấy kết quả mới nhất trong các lượt cùng build (kết luận thật thắng Bị chặn/Không kết luận). File bug chưa có trường trạng thái nên bảng bug không có cột mở/đóng (muốn có thì người dùng chốt cách ghi, xem skill `lap-ke-hoach-retest`).
+- Bẫy: tên lớp CSS nút chọn trùng `.ok/.bad/.warn` của badge làm lem màu → dùng `nut-ok`…; `test-summary-report.md` phải loại khỏi `collect_sources` kẻo bị đổi thành trang tài liệu thường; selftest mục 5b giữ các ca này.
+- **Không logo** (dặn 2026-11-19): báo cáo tổng kết gửi công ty nên `summary_report.py` không gọi `brand_html`; các trang kết quả khác vẫn có logo.
+- **Mã trong báo cáo tổng kết đều có link** (dặn 2026-11-19, theo quy tắc "mọi chỗ truy vết phải có link"): `summary_report.Linker` đổi TC-nnn, RG-nn, SM-nn (về test case gốc), BUG-nnn và mã requirement (cột "chưa có test case") thành link md/html. TC-nnn trong câu của bộ smoke/regression chỉ link khi ngay trước có tên tính năng ("Khuyến nghị TC-001"), vì cùng mã TC có ở nhiều tính năng; mã không tìm được nơi định nghĩa giữ nguyên chữ. Mã `SM`/`RG` link tới test case gốc chứ không tới dòng của trang kết quả.
+- **Bản in PDF** (thử 2026-11-19 bằng Playwright `emulate_media(print)` + `page.pdf`, đọc bằng `pdfplumber` của `.venv`; máy chưa có `pdftoppm` nên không dùng `Read` đọc PDF): phần chỉ có ích trên màn hình (câu hướng dẫn thao tác, cột link tới trang khác, Phụ lục) gắn lớp `khong-in`; `.card` cho phép ngắt trang (trước đó khối kết luận bị đẩy sang trang sau làm trang 1 trống nửa). Playwright không bắn `beforeprint` khi tạo PDF nên script thử tự gọi sự kiện đó.

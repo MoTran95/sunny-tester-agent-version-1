@@ -11,6 +11,7 @@
 1. Tạo dự án: `python -X utf8 scripts/tao-du-an.py <slug> "<Tên>" <địa chỉ>` (xem `memories/conventions/nhieu-du-an.md`): tạo thư mục, bộ nhớ, ghi `.du-an-hien-tai`, và **khuôn** `testing/<slug>/auto-config.json`, `auto-data.json`, `ten-tinh-nang.json`, khối khóa trong `.env.example`.
 2. Điền các chỗ `<…>` trong `testing/<slug>/auto-config.json` (chưa điền thì thư viện từ chối chạy, nói rõ khóa nào):
    `{"env_prefix": "...", "default_url": "https://<địa chỉ có nhãn staging/dev>", "login": {"id_labels": ["Mã nhân viên", "Employee ID"], "button_labels": ["Đăng nhập", "Sign in"], "login_api": "/api/auth/sign-in", "session_check_api": "/api/me", "session_minutes": 10, "max_consecutive_failures": 9}}`
+   Tùy chọn (ngoài `login`): `"health_api": "/api/health", "version_field": "version"` để runner in số phiên bản hệ thống đang chạy trước khi chạy ca (`--bug-build X` so với bản lúc tạo bug); không khai thì bỏ qua.
    (nhãn ô và API lấy từ hệ thống thật bằng `scripts/inspect_page.py`; nhãn cả hai ngôn ngữ nếu có).
    Đăng nhập SSO, mã xác nhận, captcha: `"login": {"mode": "manual", "session_check_api": "…", "session_minutes": …}`; người test chạy `auto_login.py <mã> --manual` (tự đăng nhập, script chỉ chờ rồi lưu phiên).
    **Trần nhập sai và thời gian chặn** (`max_consecutive_failures`, `block_minutes`): lấy từ requirement hoặc hỏi người test; chưa khai thì ca cố ý nhập sai bị từ chối. Không đặt số mặc định.

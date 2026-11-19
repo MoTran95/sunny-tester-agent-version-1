@@ -9,6 +9,9 @@
     # chỉ sinh lại md + html từ dữ liệu đã có (cũng dựng lại trang HTML của mọi file bug)
     python -X utf8 scripts/build_report.py build
 
+    # sinh báo cáo tổng kết (testing/<dự-án>/test-summary-report.md và .html); --build chọn build, mặc định build của lượt mới nhất
+    python -X utf8 scripts/build_report.py summary
+
     # chỉ dựng trang HTML cho các file bug (testing/<dự-án>/**/bug/BUG-*.md → BUG-*.html cạnh nó)
     python -X utf8 scripts/build_report.py bug-pages
 
@@ -42,13 +45,14 @@ def _parse_pairs(s):
 
 def main():
     ap = argparse.ArgumentParser(description="Ghi lượt chạy và sinh bảng kết quả md + HTML")
-    ap.add_argument("command", choices=["add-run", "build", "bug-pages"])
+    ap.add_argument("command", choices=["add-run", "build", "bug-pages", "summary"])
     ap.add_argument("--project")
     ap.add_argument("--suite", default="smoke", help="smoke (mặc định) hoặc slug tính năng, ví dụ dang-nhap: trang kết quả cho cả bộ test case của tính năng")
     ap.add_argument("--build")
     ap.add_argument("--results-files", nargs="+", help="các file result-*.json của run_tests.py, theo thứ tự thời gian")
     ap.add_argument("--run-by", default="Sunny Tran")
     ap.add_argument("--run-method", default="Tự động (Playwright)")
+    ap.add_argument("--author", help="summary: người viết báo cáo tổng kết (mặc định: người chạy lượt mới nhất)")
     ap.add_argument("--note", default="")
     ap.add_argument("--status", help='ghi đè status theo số, ví dụ "2=Đạt kèm lỗi đã biết"')
     ap.add_argument("--error-images", help='ảnh đã tô đỏ chỗ lỗi theo số, ví dụ "2=evidence/.../anh-loi.png" (nhiều ảnh: nối bằng +)')
@@ -65,6 +69,12 @@ def main():
 
             entries = bug_page.build_all(cfg)
             print("Đã sinh: " + (", ".join(str(x.relative_to(config.ROOT)) for x in entries) or "(không có file bug)"))
+            return 0
+        if args.command == "summary":
+            from test_automation import summary_report
+
+            written = summary_report.build_pages(cfg, args.build, args.author)
+            print("Đã sinh: " + (", ".join(str(x.relative_to(config.ROOT)) for x in written) or "(chưa có lượt chạy nào để tổng hợp)"))
             return 0
         if args.command == "build":
             md_file, html_file = report.build_pages(cfg, args.suite)

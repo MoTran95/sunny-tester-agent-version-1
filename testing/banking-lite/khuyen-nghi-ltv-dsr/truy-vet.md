@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-19 09:37:27 (+07:00) (chốt mốc mới) |
+| Lần chạy gần nhất | 2026-11-19 15:37:55 (+07:00) (chỉ kiểm, chưa đổi mốc) |
 | Requirement | srs/banking-lite/khuyen-nghi-ltv-dsr.md (cập nhật 2026-11-17); bảng soát (cập nhật ?), câu trả lời đến TL-02 |
 | Test case (đã gồm checklist) | [test-case.md](test-case.md) |
 | Mốc đã chốt | 2026-11-19 09:37:27 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
@@ -98,176 +98,176 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 
 | Mã | Tên ngắn | Theo BA (hoặc suy ra) | Hệ thống 1.3.0 hiện tại | Còn mở |
 |---|---|---|---|---|
-| M01 | Thông báo chưa đủ thông tin | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M02 | Không có lý do | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M03 | Dòng xem trước | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M04 | LTV vượt tối đa | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M05 | DSR vượt tối đa | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M06 | DSR trên 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M07 | Thặng dư thấp | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M08 | Quá tuổi | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M09 | Định giá thấp hơn giá khai báo — **chưa… | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M10 | CIC báo nhóm nợ — **chưa thấy** (chỉ tr… | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M11 | Đã lưu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| M12 | Nhãn khuyến nghị | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R01 | LTV tối đa | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R02 | DSR | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R03 | Thặng dư tối thiểu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R04 | Tuổi lúc đáo hạn | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R05 | LTV theo giá khai báo | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R06 | Thu nhập cho thuê | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R07 | Chi phí được tính | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R08 | Khoản trả mới | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R09 | Lãi suất thẩm định | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R10 | Công thức DSR và thặng dư | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R11 | Ô nhập tiền | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| R12 | Ngưỡng cố định hay cấu hình | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC01 | Chưa nhập thu nhập | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC02 | Đạt mọi quy tắc | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC03 | DSR trên 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC04 | DSR trên 70% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC05 | DSR đúng 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC06 | DSR đúng 70% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC07 | DSR sát 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC08 | Thặng dư đúng 3 triệu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC09 | Thặng dư thiếu 1 đồng | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S01-AC10 | Nhiều lý do cùng lúc | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC01 | LTV đúng 80% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC02 | LTV sát 80% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC03 | LTV 80,01% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC04 | LTV 81% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC05 | LTV theo giá khai báo | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC06 | Lãi suất theo LTV | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S02-AC07 | Xây/sửa nhà | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC01 | DSR và thặng dư cơ bản | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC02 | Thu nhập cho thuê 70% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC03 | Nợ hiện có | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC04 | Chi phí nhập cao | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC05 | Chi phí để trống | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC06 | Người phụ thuộc | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC07 | Thời hạn vay | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC08 | Phương thức trả nợ | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC09 | Ân hạn | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC10 | Sản phẩm | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S03-AC11 | Số rất lớn không gây lỗi | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S04-AC01 | Thời hạn 20 năm | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S04-AC02 | Tuổi 70 vẫn đạt | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S04-AC03 | Tuổi 71 bị từ chối | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S04-AC04 | Quá tuổi nhưng màn hình không báo | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S05-AC01 | Đầu trang sau khi lưu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S05-AC02 | Chưa lưu thì đầu trang giữ kết quả cũ | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S05-AC03 | Lưu khi trống | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S05-AC04 | Ô tiền chỉ nhận chữ số | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
-| S06-AC01 | Giao diện English | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L146) | Thông báo chưa đủ thông tin | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L147) | Không có lý do | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L148) | Dòng xem trước | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L149) | LTV vượt tối đa | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L150) | DSR vượt tối đa | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L151) | DSR trên 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L152) | Thặng dư thấp | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L153) | Quá tuổi | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L154) | Định giá thấp hơn giá khai báo — **chưa… | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L155) | CIC báo nhóm nợ — **chưa thấy** (chỉ tr… | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L156) | Đã lưu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [M12](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L157) | Nhãn khuyến nghị | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) | LTV tối đa | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) | DSR | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L132) | Thặng dư tối thiểu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L133) | Tuổi lúc đáo hạn | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L134) | LTV theo giá khai báo | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L135) | Thu nhập cho thuê | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L136) | Chi phí được tính | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L137) | Khoản trả mới | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L138) | Lãi suất thẩm định | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L139) | Công thức DSR và thặng dư | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L140) | Ô nhập tiền | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [R12](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L141) | Ngưỡng cố định hay cấu hình | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L50) | Chưa nhập thu nhập | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L51) | Đạt mọi quy tắc | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L52) | DSR trên 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L53) | DSR trên 70% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L54) | DSR đúng 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L55) | DSR đúng 70% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L56) | DSR sát 50% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L57) | Thặng dư đúng 3 triệu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L58) | Thặng dư thiếu 1 đồng | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S01-AC10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L59) | Nhiều lý do cùng lúc | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L68) | LTV đúng 80% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L69) | LTV sát 80% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L70) | LTV 80,01% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L71) | LTV 81% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L72) | LTV theo giá khai báo | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L73) | Lãi suất theo LTV | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S02-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L74) | Xây/sửa nhà | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L83) | DSR và thặng dư cơ bản | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L84) | Thu nhập cho thuê 70% | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L85) | Nợ hiện có | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L86) | Chi phí nhập cao | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L87) | Chi phí để trống | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L88) | Người phụ thuộc | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L89) | Thời hạn vay | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L90) | Phương thức trả nợ | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L91) | Ân hạn | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L92) | Sản phẩm | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S03-AC11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L93) | Số rất lớn không gây lỗi | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S04-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L102) | Thời hạn 20 năm | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S04-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L103) | Tuổi 70 vẫn đạt | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S04-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L104) | Tuổi 71 bị từ chối | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S04-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L105) | Quá tuổi nhưng màn hình không báo | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S05-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L114) | Đầu trang sau khi lưu | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S05-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L115) | Chưa lưu thì đầu trang giữ kết quả cũ | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S05-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L116) | Lưu khi trống | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S05-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L117) | Ô tiền chỉ nhận chữ số | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
+| [S06-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L124) | Giao diện English | Chưa có câu trả lời riêng của BA; theo SRS | Không có điểm khác đã biết | — |
 
 ## 5. Từ requirement tới test case
 | Mã | Tên ngắn | Trạng thái requirement | Test case |
 |---|---|---|---|
-| M01 | Thông báo chưa đủ thông tin | Không đổi | 1: TC-001 |
-| M02 | Không có lý do | Không đổi | 2: TC-002, TC-008 |
-| M03 | Dòng xem trước | Không đổi | 1: TC-002 |
-| M04 | LTV vượt tối đa | Không đổi | 3: TC-010, TC-014, TC-016 |
-| M05 | DSR vượt tối đa | Không đổi | 2: TC-007, TC-010 |
-| M06 | DSR trên 50% | Không đổi | 2: TC-004, TC-036 |
-| M07 | Thặng dư thấp | Không đổi | 2: TC-009, TC-010 |
-| M08 | Quá tuổi | Không đổi | 1: TC-021 |
-| M09 | Định giá thấp hơn giá khai báo — **chưa… | Không đổi | ⚠️ chưa có test case |
-| M10 | CIC báo nhóm nợ — **chưa thấy** (chỉ tr… | Không đổi | ⚠️ chưa có test case |
-| M11 | Đã lưu | Không đổi | 2: TC-022, TC-035 |
-| M12 | Nhãn khuyến nghị | Không đổi | 1: TC-036 |
-| R01 | LTV tối đa | Không đổi | 6: TC-011, TC-012, TC-013, TC-016, TC-017, TC-025 |
-| R02 | DSR | Không đổi | 6: TC-003, TC-004, TC-005, TC-006, TC-007, TC-023 |
-| R03 | Thặng dư tối thiểu | Không đổi | 2: TC-008, TC-009 |
-| R04 | Tuổi lúc đáo hạn | Không đổi | 2: TC-020, TC-021 |
-| R05 | LTV theo giá khai báo | Không đổi | 2: TC-015, TC-024 |
-| R06 | Thu nhập cho thuê | Không đổi | 1: TC-018 |
-| R07 | Chi phí được tính | Không đổi | 4: TC-027, TC-028, TC-029, TC-030 |
-| R08 | Khoản trả mới | Không đổi | 3: TC-031, TC-032, TC-033 |
-| R09 | Lãi suất thẩm định | Không đổi | 2: TC-026, TC-034 |
-| R10 | Công thức DSR và thặng dư | Không đổi | 2: TC-001, TC-019 |
-| R11 | Ô nhập tiền | Không đổi | 2: TC-037, TC-038 |
-| R12 | Ngưỡng cố định hay cấu hình | Không đổi | ⚠️ chưa có test case |
-| S01-AC01 | Chưa nhập thu nhập | Không đổi | 1: TC-001 |
-| S01-AC02 | Đạt mọi quy tắc | Không đổi | 1: TC-002 |
-| S01-AC03 | DSR trên 50% | Không đổi | 2: TC-004, TC-023 |
-| S01-AC04 | DSR trên 70% | Không đổi | 1: TC-007 |
-| S01-AC05 | DSR đúng 50% | Không đổi | 1: TC-003 |
-| S01-AC06 | DSR đúng 70% | Không đổi | 1: TC-006 |
-| S01-AC07 | DSR sát 50% | Không đổi | 1: TC-005 |
-| S01-AC08 | Thặng dư đúng 3 triệu | Không đổi | 1: TC-008 |
-| S01-AC09 | Thặng dư thiếu 1 đồng | Không đổi | 1: TC-009 |
-| S01-AC10 | Nhiều lý do cùng lúc | Không đổi | 1: TC-010 |
-| S02-AC01 | LTV đúng 80% | Không đổi | 1: TC-011 |
-| S02-AC02 | LTV sát 80% | Không đổi | 1: TC-012 |
-| S02-AC03 | LTV 80,01% | Không đổi | 1: TC-013 |
-| S02-AC04 | LTV 81% | Không đổi | 1: TC-014 |
-| S02-AC05 | LTV theo giá khai báo | Không đổi | 2: TC-015, TC-024 |
-| S02-AC06 | Lãi suất theo LTV | Không đổi | 1: TC-026 |
-| S02-AC07 | Xây/sửa nhà | Không đổi | 1: TC-016 |
-| S03-AC01 | DSR và thặng dư cơ bản | Không đổi | 1: TC-002 |
-| S03-AC02 | Thu nhập cho thuê 70% | Không đổi | 1: TC-018 |
-| S03-AC03 | Nợ hiện có | Không đổi | 1: TC-019 |
-| S03-AC04 | Chi phí nhập cao | Không đổi | 1: TC-027 |
-| S03-AC05 | Chi phí để trống | Không đổi | 1: TC-028 |
-| S03-AC06 | Người phụ thuộc | Không đổi | 2: TC-029, TC-030 |
-| S03-AC07 | Thời hạn vay | Không đổi | 1: TC-031 |
-| S03-AC08 | Phương thức trả nợ | Không đổi | 1: TC-032 |
-| S03-AC09 | Ân hạn | Không đổi | 1: TC-033 |
-| S03-AC10 | Sản phẩm | Không đổi | 1: TC-034 |
-| S03-AC11 | Số rất lớn không gây lỗi | Không đổi | ⚠️ chưa có test case |
-| S04-AC01 | Thời hạn 20 năm | Không đổi | ⚠️ chưa có test case |
-| S04-AC02 | Tuổi 70 vẫn đạt | Không đổi | 1: TC-020 |
-| S04-AC03 | Tuổi 71 bị từ chối | Không đổi | 1: TC-021 |
-| S04-AC04 | Quá tuổi nhưng màn hình không báo | Không đổi | ⚠️ chưa có test case |
-| S05-AC01 | Đầu trang sau khi lưu | Không đổi | 1: TC-022 |
-| S05-AC02 | Chưa lưu thì đầu trang giữ kết quả cũ | Không đổi | ⚠️ chưa có test case |
-| S05-AC03 | Lưu khi trống | Không đổi | 1: TC-035 |
-| S05-AC04 | Ô tiền chỉ nhận chữ số | Không đổi | 2: TC-037, TC-038 |
-| S06-AC01 | Giao diện English | Không đổi | 1: TC-036 |
-| TL-01 | Làm tròn LTV và DSR đến 2 chữ số thập p… | Không đổi | — |
-| TL-02 | Làm tròn LTV và DSR đến **2 chữ số thập… | Không đổi | 10: TC-004, TC-005, TC-006, TC-007, TC-010, TC-012, TC-016, TC-031, TC-033, TC-036 |
+| [M01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L146) | Thông báo chưa đủ thông tin | Không đổi | 1: [TC-001](test-case.md#tc-001) |
+| [M02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L147) | Không có lý do | Không đổi | 2: [TC-002](test-case.md#tc-002), [TC-008](test-case.md#tc-008) |
+| [M03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L148) | Dòng xem trước | Không đổi | 1: [TC-002](test-case.md#tc-002) |
+| [M04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L149) | LTV vượt tối đa | Không đổi | 3: [TC-010](test-case.md#tc-010), [TC-014](test-case.md#tc-014), [TC-016](test-case.md#tc-016) |
+| [M05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L150) | DSR vượt tối đa | Không đổi | 2: [TC-007](test-case.md#tc-007), [TC-010](test-case.md#tc-010) |
+| [M06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L151) | DSR trên 50% | Không đổi | 2: [TC-004](test-case.md#tc-004), [TC-036](test-case.md#tc-036) |
+| [M07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L152) | Thặng dư thấp | Không đổi | 2: [TC-009](test-case.md#tc-009), [TC-010](test-case.md#tc-010) |
+| [M08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L153) | Quá tuổi | Không đổi | 1: [TC-021](test-case.md#tc-021) |
+| [M09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L154) | Định giá thấp hơn giá khai báo — **chưa… | Không đổi | ⚠️ chưa có test case |
+| [M10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L155) | CIC báo nhóm nợ — **chưa thấy** (chỉ tr… | Không đổi | ⚠️ chưa có test case |
+| [M11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L156) | Đã lưu | Không đổi | 2: [TC-022](test-case.md#tc-022), [TC-035](test-case.md#tc-035) |
+| [M12](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L157) | Nhãn khuyến nghị | Không đổi | 1: [TC-036](test-case.md#tc-036) |
+| [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) | LTV tối đa | Không đổi | 6: [TC-011](test-case.md#tc-011), [TC-012](test-case.md#tc-012), [TC-013](test-case.md#tc-013), [TC-016](test-case.md#tc-016), [TC-017](test-case.md#tc-017), [TC-025](test-case.md#tc-025) |
+| [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) | DSR | Không đổi | 6: [TC-003](test-case.md#tc-003), [TC-004](test-case.md#tc-004), [TC-005](test-case.md#tc-005), [TC-006](test-case.md#tc-006), [TC-007](test-case.md#tc-007), [TC-023](test-case.md#tc-023) |
+| [R03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L132) | Thặng dư tối thiểu | Không đổi | 2: [TC-008](test-case.md#tc-008), [TC-009](test-case.md#tc-009) |
+| [R04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L133) | Tuổi lúc đáo hạn | Không đổi | 2: [TC-020](test-case.md#tc-020), [TC-021](test-case.md#tc-021) |
+| [R05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L134) | LTV theo giá khai báo | Không đổi | 2: [TC-015](test-case.md#tc-015), [TC-024](test-case.md#tc-024) |
+| [R06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L135) | Thu nhập cho thuê | Không đổi | 1: [TC-018](test-case.md#tc-018) |
+| [R07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L136) | Chi phí được tính | Không đổi | 4: [TC-027](test-case.md#tc-027), [TC-028](test-case.md#tc-028), [TC-029](test-case.md#tc-029), [TC-030](test-case.md#tc-030) |
+| [R08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L137) | Khoản trả mới | Không đổi | 3: [TC-031](test-case.md#tc-031), [TC-032](test-case.md#tc-032), [TC-033](test-case.md#tc-033) |
+| [R09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L138) | Lãi suất thẩm định | Không đổi | 2: [TC-026](test-case.md#tc-026), [TC-034](test-case.md#tc-034) |
+| [R10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L139) | Công thức DSR và thặng dư | Không đổi | 2: [TC-001](test-case.md#tc-001), [TC-019](test-case.md#tc-019) |
+| [R11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L140) | Ô nhập tiền | Không đổi | 2: [TC-037](test-case.md#tc-037), [TC-038](test-case.md#tc-038) |
+| [R12](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L141) | Ngưỡng cố định hay cấu hình | Không đổi | ⚠️ chưa có test case |
+| [S01-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L50) | Chưa nhập thu nhập | Không đổi | 1: [TC-001](test-case.md#tc-001) |
+| [S01-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L51) | Đạt mọi quy tắc | Không đổi | 1: [TC-002](test-case.md#tc-002) |
+| [S01-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L52) | DSR trên 50% | Không đổi | 2: [TC-004](test-case.md#tc-004), [TC-023](test-case.md#tc-023) |
+| [S01-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L53) | DSR trên 70% | Không đổi | 1: [TC-007](test-case.md#tc-007) |
+| [S01-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L54) | DSR đúng 50% | Không đổi | 1: [TC-003](test-case.md#tc-003) |
+| [S01-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L55) | DSR đúng 70% | Không đổi | 1: [TC-006](test-case.md#tc-006) |
+| [S01-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L56) | DSR sát 50% | Không đổi | 1: [TC-005](test-case.md#tc-005) |
+| [S01-AC08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L57) | Thặng dư đúng 3 triệu | Không đổi | 1: [TC-008](test-case.md#tc-008) |
+| [S01-AC09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L58) | Thặng dư thiếu 1 đồng | Không đổi | 1: [TC-009](test-case.md#tc-009) |
+| [S01-AC10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L59) | Nhiều lý do cùng lúc | Không đổi | 1: [TC-010](test-case.md#tc-010) |
+| [S02-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L68) | LTV đúng 80% | Không đổi | 1: [TC-011](test-case.md#tc-011) |
+| [S02-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L69) | LTV sát 80% | Không đổi | 1: [TC-012](test-case.md#tc-012) |
+| [S02-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L70) | LTV 80,01% | Không đổi | 1: [TC-013](test-case.md#tc-013) |
+| [S02-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L71) | LTV 81% | Không đổi | 1: [TC-014](test-case.md#tc-014) |
+| [S02-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L72) | LTV theo giá khai báo | Không đổi | 2: [TC-015](test-case.md#tc-015), [TC-024](test-case.md#tc-024) |
+| [S02-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L73) | Lãi suất theo LTV | Không đổi | 1: [TC-026](test-case.md#tc-026) |
+| [S02-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L74) | Xây/sửa nhà | Không đổi | 1: [TC-016](test-case.md#tc-016) |
+| [S03-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L83) | DSR và thặng dư cơ bản | Không đổi | 1: [TC-002](test-case.md#tc-002) |
+| [S03-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L84) | Thu nhập cho thuê 70% | Không đổi | 1: [TC-018](test-case.md#tc-018) |
+| [S03-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L85) | Nợ hiện có | Không đổi | 1: [TC-019](test-case.md#tc-019) |
+| [S03-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L86) | Chi phí nhập cao | Không đổi | 1: [TC-027](test-case.md#tc-027) |
+| [S03-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L87) | Chi phí để trống | Không đổi | 1: [TC-028](test-case.md#tc-028) |
+| [S03-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L88) | Người phụ thuộc | Không đổi | 2: [TC-029](test-case.md#tc-029), [TC-030](test-case.md#tc-030) |
+| [S03-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L89) | Thời hạn vay | Không đổi | 1: [TC-031](test-case.md#tc-031) |
+| [S03-AC08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L90) | Phương thức trả nợ | Không đổi | 1: [TC-032](test-case.md#tc-032) |
+| [S03-AC09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L91) | Ân hạn | Không đổi | 1: [TC-033](test-case.md#tc-033) |
+| [S03-AC10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L92) | Sản phẩm | Không đổi | 1: [TC-034](test-case.md#tc-034) |
+| [S03-AC11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L93) | Số rất lớn không gây lỗi | Không đổi | ⚠️ chưa có test case |
+| [S04-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L102) | Thời hạn 20 năm | Không đổi | ⚠️ chưa có test case |
+| [S04-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L103) | Tuổi 70 vẫn đạt | Không đổi | 1: [TC-020](test-case.md#tc-020) |
+| [S04-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L104) | Tuổi 71 bị từ chối | Không đổi | 1: [TC-021](test-case.md#tc-021) |
+| [S04-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L105) | Quá tuổi nhưng màn hình không báo | Không đổi | ⚠️ chưa có test case |
+| [S05-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L114) | Đầu trang sau khi lưu | Không đổi | 1: [TC-022](test-case.md#tc-022) |
+| [S05-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L115) | Chưa lưu thì đầu trang giữ kết quả cũ | Không đổi | ⚠️ chưa có test case |
+| [S05-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L116) | Lưu khi trống | Không đổi | 1: [TC-035](test-case.md#tc-035) |
+| [S05-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L117) | Ô tiền chỉ nhận chữ số | Không đổi | 2: [TC-037](test-case.md#tc-037), [TC-038](test-case.md#tc-038) |
+| [S06-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L124) | Giao diện English | Không đổi | 1: [TC-036](test-case.md#tc-036) |
+| [TL-01](bang-soat-requirement.md#L47) | Làm tròn LTV và DSR đến 2 chữ số thập p… | Không đổi | — |
+| [TL-02](bang-soat-requirement.md#L48) | Làm tròn LTV và DSR đến **2 chữ số thập… | Không đổi | 10: [TC-004](test-case.md#tc-004), [TC-005](test-case.md#tc-005), [TC-006](test-case.md#tc-006), [TC-007](test-case.md#tc-007), [TC-010](test-case.md#tc-010), [TC-012](test-case.md#tc-012), [TC-016](test-case.md#tc-016), [TC-031](test-case.md#tc-031), [TC-033](test-case.md#tc-033), [TC-036](test-case.md#tc-036) |
 
 ## 6. Từ test case tới requirement
 | Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối | Tự động hóa |
 |---|---|---|---|---|---|---|---|
-| TC-001 | Không hiển thị khuyến nghị mà báo cần nhập đủ thông tin khi chưa nhập thu nhập | Cao | M01 (Thông báo chưa đủ thông tin), R10 (Công thức DSR và thặng dư), S01-AC01 (Chưa nhập thu nhập) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-002 | Hiển thị khuyến nghị Phê duyệt khi nhập lương 100 triệu và đạt mọi quy tắc | Cao | M02 (Không có lý do), M03 (Dòng xem trước), S01-AC02 (Đạt mọi quy tắc), S03-AC01 (DSR và thặng dư cơ bản) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-002.py |
-| TC-003 | Vẫn hiển thị Phê duyệt khi DSR đúng bằng mức 50% | Cao | R02 (DSR), S01-AC05 (DSR đúng 50%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-004 | Hiển thị Chuyển cấp trên khi DSR vượt 50% một chút (50,38%) | Cao | M06 (DSR trên 50%), R02 (DSR), S01-AC03 (DSR trên 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-005 | Hiển thị Chuyển cấp trên khi DSR chỉ hơn 50% rất ít (50,0006%) | Cao | R02 (DSR), S01-AC07 (DSR sát 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-006 | Hiển thị Từ chối khi DSR chỉ hơn 70% rất ít (70,0000003%) | Cao | R02 (DSR), S01-AC06 (DSR đúng 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-007 | Hiển thị Từ chối kèm lý do khi DSR vượt 70% (70,35%) | Cao | M05 (DSR vượt tối đa), R02 (DSR), S01-AC04 (DSR trên 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-008 | Vẫn hiển thị Phê duyệt khi thặng dư hằng tháng đúng bằng mức tối thiểu 3.000.000 | Cao | M02 (Không có lý do), R03 (Thặng dư tối thiểu), S01-AC08 (Thặng dư đúng 3 triệu) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-009 | Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng so với mức tối thiểu (2.999.999) | Cao | M07 (Thặng dư thấp), R03 (Thặng dư tối thiểu), S01-AC09 (Thặng dư thiếu 1 đồng) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-009.py |
-| TC-010 | Hiển thị Từ chối và liệt kê đủ ba lý do khi hồ sơ vi phạm cả LTV, DSR và thặng dư | Cao | M04 (LTV vượt tối đa), M05 (DSR vượt tối đa), M07 (Thặng dư thấp), S01-AC10 (Nhiều lý do cùng lúc), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-011 | Hiển thị Phê duyệt khi LTV của hồ sơ Mua nhà đúng bằng mức tối đa 80% | Cao | R01 (LTV tối đa), S02-AC01 (LTV đúng 80%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-012 | Hiển thị Từ chối khi LTV chỉ hơn 80% rất ít (80,0025%) | Cao | R01 (LTV tối đa), S02-AC02 (LTV sát 80%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-013 | Hiển thị Từ chối khi LTV là 80,01% | Cao | R01 (LTV tối đa), S02-AC03 (LTV 80,01%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-014 | Hiển thị Từ chối kèm lý do LTV vượt mức khi LTV là 81% | Cao | M04 (LTV vượt tối đa), S02-AC04 (LTV 81%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-015 | Hiển thị Từ chối khi giá trị khai báo 3 tỷ làm LTV lên 106,67% | Cao | R05 (LTV theo giá khai báo), S02-AC05 (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-016 | Hiển thị Từ chối theo mức tối đa 70% khi hồ sơ Xây/sửa nhà có LTV 76,20% | Cao | M04 (LTV vượt tối đa), R01 (LTV tối đa), S02-AC07 (Xây/sửa nhà), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-017 | Hiển thị Từ chối khi hồ sơ Xây/sửa nhà có LTV chỉ hơn 70% một chút (70,01%) | Cao | R01 (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-018 | Chỉ tính 70% thu nhập cho thuê vào thu nhập khi nhập cả lương và thu nhập cho thuê | Cao | R06 (Thu nhập cho thuê), S03-AC02 (Thu nhập cho thuê 70%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-019 | Cộng khoản nợ hiện có vào DSR khi nhập nợ hiện có hằng tháng | Cao | R10 (Công thức DSR và thặng dư), S03-AC03 (Nợ hiện có) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-020 | Vẫn đạt (API trả APPROVE) khi thời hạn 34 năm khiến người vay 70 tuổi lúc đáo hạn | Cao | R04 (Tuổi lúc đáo hạn), S04-AC02 (Tuổi 70 vẫn đạt) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-021 | Bị từ chối (API trả DECLINE) khi thời hạn 35 năm khiến người vay 71 tuổi lúc đáo hạn | Cao | M08 (Quá tuổi), R04 (Tuổi lúc đáo hạn), S04-AC03 (Tuổi 71 bị từ chối) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-022 | Cập nhật khuyến nghị ở đầu trang hồ sơ sau vài giây khi nhập lương rồi bấm Lưu | Cao | M11 (Đã lưu), S05-AC01 (Đầu trang sau khi lưu) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-022.py |
-| TC-023 | Hiển thị Chuyển cấp trên khi DSR 54,40% (nằm giữa 50% và 70%) | Trung bình | R02 (DSR), S01-AC03 (DSR trên 50%) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-023.py |
-| TC-024 | Hiển thị Phê duyệt khi giá trị khai báo 5 tỷ cho LTV 64,00% | Trung bình | R05 (LTV theo giá khai báo), S02-AC05 (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-025 | Không bị loại vì LTV khi hồ sơ Xây/sửa nhà có LTV đúng bằng mức tối đa 70% | Trung bình | R01 (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-026 | Lãi suất thẩm định là 10,05% (xem ở API) khi LTV là 64% | Trung bình | R09 (Lãi suất thẩm định), S02-AC06 (Lãi suất theo LTV) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-027 | Dùng số chi phí đã nhập khi chi phí nhập cao hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC04 (Chi phí nhập cao) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-028 | Tính chi phí mặc định 4.500.000 khi để trống chi phí và số người phụ thuộc | Trung bình | R07 (Chi phí được tính), S03-AC05 (Chi phí để trống) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-029 | Nâng chi phí lên 8.500.000 khi có 2 người phụ thuộc mà chi phí nhập thấp hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC06 (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-030 | Giữ chi phí đã nhập khi có 2 người phụ thuộc và chi phí nhập cao hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC06 (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-031 | Khoản trả mới giảm còn 34.133.333 khi đổi thời hạn vay từ 20 lên 40 năm | Trung bình | R08 (Khoản trả mới), S03-AC07 (Thời hạn vay), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-032 | Khoản trả mới là 30.986.775 khi đổi phương thức trả nợ sang Niên kim | Trung bình | R08 (Khoản trả mới), S03-AC08 (Phương thức trả nợ) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-033 | Khoản trả mới là 31.504.846 khi Niên kim có thêm ân hạn 12 tháng | Trung bình | R08 (Khoản trả mới), S03-AC09 (Ân hạn), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-034 | Lãi suất thẩm định đổi thành 9,55% khi chọn sản phẩm cố định 36 tháng | Trung bình | R09 (Lãi suất thẩm định), S03-AC10 (Sản phẩm) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-035 | Khuyến nghị ở đầu trang về “—” khi bấm Lưu lúc mọi ô tài chính để trống | Trung bình | M11 (Đã lưu), S05-AC03 (Lưu khi trống) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-036 | Khung thẩm định đổi sang tiếng Anh khi chọn giao diện English | Trung bình | M06 (DSR trên 50%), M12 (Nhãn khuyến nghị), S06-AC01 (Giao diện English), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-037 | Ô lương bị để trống khi gõ chữ “abc” vào ô lương | Thấp | R11 (Ô nhập tiền), S05-AC04 (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
-| TC-038 | Dấu trừ bị bỏ và ô lương giữ 5000000 khi gõ “-5000000” vào ô lương | Thấp | R11 (Ô nhập tiền), S05-AC04 (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-001](test-case.md#tc-001) | Không hiển thị khuyến nghị mà báo cần nhập đủ thông tin khi chưa nhập thu nhập | Cao | [M01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L146) (Thông báo chưa đủ thông tin), [R10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L139) (Công thức DSR và thặng dư), [S01-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L50) (Chưa nhập thu nhập) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-001.py |
+| [TC-002](test-case.md#tc-002) | Hiển thị khuyến nghị Phê duyệt khi nhập lương 100 triệu và đạt mọi quy tắc | Cao | [M02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L147) (Không có lý do), [M03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L148) (Dòng xem trước), [S01-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L51) (Đạt mọi quy tắc), [S03-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L83) (DSR và thặng dư cơ bản) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-002.py |
+| [TC-003](test-case.md#tc-003) | Vẫn hiển thị Phê duyệt khi DSR đúng bằng mức 50% | Cao | [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) (DSR), [S01-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L54) (DSR đúng 50%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-004](test-case.md#tc-004) | Hiển thị Chuyển cấp trên khi DSR vượt 50% một chút (50,38%) | Cao | [M06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L151) (DSR trên 50%), [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) (DSR), [S01-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L52) (DSR trên 50%), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-005](test-case.md#tc-005) | Hiển thị Chuyển cấp trên khi DSR chỉ hơn 50% rất ít (50,0006%) | Cao | [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) (DSR), [S01-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L56) (DSR sát 50%), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-006](test-case.md#tc-006) | Hiển thị Từ chối khi DSR chỉ hơn 70% rất ít (70,0000003%) | Cao | [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) (DSR), [S01-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L55) (DSR đúng 70%), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-007](test-case.md#tc-007) | Hiển thị Từ chối kèm lý do khi DSR vượt 70% (70,35%) | Cao | [M05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L150) (DSR vượt tối đa), [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) (DSR), [S01-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L53) (DSR trên 70%), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-008](test-case.md#tc-008) | Vẫn hiển thị Phê duyệt khi thặng dư hằng tháng đúng bằng mức tối thiểu 3.000.000 | Cao | [M02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L147) (Không có lý do), [R03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L132) (Thặng dư tối thiểu), [S01-AC08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L57) (Thặng dư đúng 3 triệu) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-009](test-case.md#tc-009) | Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng so với mức tối thiểu (2.999.999) | Cao | [M07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L152) (Thặng dư thấp), [R03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L132) (Thặng dư tối thiểu), [S01-AC09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L58) (Thặng dư thiếu 1 đồng) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-009.py |
+| [TC-010](test-case.md#tc-010) | Hiển thị Từ chối và liệt kê đủ ba lý do khi hồ sơ vi phạm cả LTV, DSR và thặng dư | Cao | [M04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L149) (LTV vượt tối đa), [M05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L150) (DSR vượt tối đa), [M07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L152) (Thặng dư thấp), [S01-AC10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L59) (Nhiều lý do cùng lúc), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-011](test-case.md#tc-011) | Hiển thị Phê duyệt khi LTV của hồ sơ Mua nhà đúng bằng mức tối đa 80% | Cao | [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) (LTV tối đa), [S02-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L68) (LTV đúng 80%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-012](test-case.md#tc-012) | Hiển thị Từ chối khi LTV chỉ hơn 80% rất ít (80,0025%) | Cao | [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) (LTV tối đa), [S02-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L69) (LTV sát 80%), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-013](test-case.md#tc-013) | Hiển thị Từ chối khi LTV là 80,01% | Cao | [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) (LTV tối đa), [S02-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L70) (LTV 80,01%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-014](test-case.md#tc-014) | Hiển thị Từ chối kèm lý do LTV vượt mức khi LTV là 81% | Cao | [M04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L149) (LTV vượt tối đa), [S02-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L71) (LTV 81%) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-014.py |
+| [TC-015](test-case.md#tc-015) | Hiển thị Từ chối khi giá trị khai báo 3 tỷ làm LTV lên 106,67% | Cao | [R05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L134) (LTV theo giá khai báo), [S02-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L72) (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-016](test-case.md#tc-016) | Hiển thị Từ chối theo mức tối đa 70% khi hồ sơ Xây/sửa nhà có LTV 76,20% | Cao | [M04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L149) (LTV vượt tối đa), [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) (LTV tối đa), [S02-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L74) (Xây/sửa nhà), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-017](test-case.md#tc-017) | Hiển thị Từ chối khi hồ sơ Xây/sửa nhà có LTV chỉ hơn 70% một chút (70,01%) | Cao | [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-018](test-case.md#tc-018) | Chỉ tính 70% thu nhập cho thuê vào thu nhập khi nhập cả lương và thu nhập cho thuê | Cao | [R06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L135) (Thu nhập cho thuê), [S03-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L84) (Thu nhập cho thuê 70%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-019](test-case.md#tc-019) | Cộng khoản nợ hiện có vào DSR khi nhập nợ hiện có hằng tháng | Cao | [R10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L139) (Công thức DSR và thặng dư), [S03-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L85) (Nợ hiện có) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-020](test-case.md#tc-020) | Vẫn đạt (API trả APPROVE) khi thời hạn 34 năm khiến người vay 70 tuổi lúc đáo hạn | Cao | [R04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L133) (Tuổi lúc đáo hạn), [S04-AC02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L103) (Tuổi 70 vẫn đạt) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-021](test-case.md#tc-021) | Bị từ chối (API trả DECLINE) khi thời hạn 35 năm khiến người vay 71 tuổi lúc đáo hạn | Cao | [M08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L153) (Quá tuổi), [R04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L133) (Tuổi lúc đáo hạn), [S04-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L104) (Tuổi 71 bị từ chối) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-022](test-case.md#tc-022) | Cập nhật khuyến nghị ở đầu trang hồ sơ sau vài giây khi nhập lương rồi bấm Lưu | Cao | [M11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L156) (Đã lưu), [S05-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L114) (Đầu trang sau khi lưu) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-022.py |
+| [TC-023](test-case.md#tc-023) | Hiển thị Chuyển cấp trên khi DSR 54,40% (nằm giữa 50% và 70%) | Trung bình | [R02](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L131) (DSR), [S01-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L52) (DSR trên 50%) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-023.py |
+| [TC-024](test-case.md#tc-024) | Hiển thị Phê duyệt khi giá trị khai báo 5 tỷ cho LTV 64,00% | Trung bình | [R05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L134) (LTV theo giá khai báo), [S02-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L72) (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-025](test-case.md#tc-025) | Không bị loại vì LTV khi hồ sơ Xây/sửa nhà có LTV đúng bằng mức tối đa 70% | Trung bình | [R01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L130) (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-026](test-case.md#tc-026) | Lãi suất thẩm định là 10,05% (xem ở API) khi LTV là 64% | Trung bình | [R09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L138) (Lãi suất thẩm định), [S02-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L73) (Lãi suất theo LTV) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-027](test-case.md#tc-027) | Dùng số chi phí đã nhập khi chi phí nhập cao hơn mức tối thiểu | Trung bình | [R07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L136) (Chi phí được tính), [S03-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L86) (Chi phí nhập cao) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-028](test-case.md#tc-028) | Tính chi phí mặc định 4.500.000 khi để trống chi phí và số người phụ thuộc | Trung bình | [R07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L136) (Chi phí được tính), [S03-AC05](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L87) (Chi phí để trống) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-029](test-case.md#tc-029) | Nâng chi phí lên 8.500.000 khi có 2 người phụ thuộc mà chi phí nhập thấp hơn mức tối thiểu | Trung bình | [R07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L136) (Chi phí được tính), [S03-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L88) (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-030](test-case.md#tc-030) | Giữ chi phí đã nhập khi có 2 người phụ thuộc và chi phí nhập cao hơn mức tối thiểu | Trung bình | [R07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L136) (Chi phí được tính), [S03-AC06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L88) (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-031](test-case.md#tc-031) | Khoản trả mới giảm còn 34.133.333 khi đổi thời hạn vay từ 20 lên 40 năm | Trung bình | [R08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L137) (Khoản trả mới), [S03-AC07](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L89) (Thời hạn vay), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-032](test-case.md#tc-032) | Khoản trả mới là 30.986.775 khi đổi phương thức trả nợ sang Niên kim | Trung bình | [R08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L137) (Khoản trả mới), [S03-AC08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L90) (Phương thức trả nợ) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-033](test-case.md#tc-033) | Khoản trả mới là 31.504.846 khi Niên kim có thêm ân hạn 12 tháng | Trung bình | [R08](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L137) (Khoản trả mới), [S03-AC09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L91) (Ân hạn), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-034](test-case.md#tc-034) | Lãi suất thẩm định đổi thành 9,55% khi chọn sản phẩm cố định 36 tháng | Trung bình | [R09](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L138) (Lãi suất thẩm định), [S03-AC10](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L92) (Sản phẩm) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-035](test-case.md#tc-035) | Khuyến nghị ở đầu trang về “—” khi bấm Lưu lúc mọi ô tài chính để trống | Trung bình | [M11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L156) (Đã lưu), [S05-AC03](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L116) (Lưu khi trống) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-036](test-case.md#tc-036) | Khung thẩm định đổi sang tiếng Anh khi chọn giao diện English | Trung bình | [M06](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L151) (DSR trên 50%), [M12](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L157) (Nhãn khuyến nghị), [S06-AC01](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L124) (Giao diện English), [TL-02](bang-soat-requirement.md#L48) (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-037](test-case.md#tc-037) | Ô lương bị để trống khi gõ chữ “abc” vào ô lương | Thấp | [R11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L140) (Ô nhập tiền), [S05-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L117) (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| [TC-038](test-case.md#tc-038) | Dấu trừ bị bỏ và ô lương giữ 5000000 khi gõ “-5000000” vào ô lương | Thấp | [R11](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L140) (Ô nhập tiền), [S05-AC04](../../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L117) (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
 
 ## 7. Lịch sử thay đổi
 Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc bấm chốt (kèm múi giờ), không phải giờ BA trả lời hay giờ requirement đổi; mốc cũ chỉ có ngày thì ghi "không rõ giờ". **Commit gốc** là commit đang đứng lúc chốt ("+ sửa chưa commit" nghĩa là còn thay đổi chưa commit); muốn xem từng chữ đã đổi, dùng git. **Ngày BA trả lời** chỉ ghi khi biết.

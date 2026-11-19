@@ -28,7 +28,7 @@ CUSTOMER_QUERY = "Tester Mot"
 COLLATERAL_QUERY = "CT 100019"
 PRODUCT = "Vay mua nhà, cố định 6,00% trong 12 tháng"
 REPAYMENT_METHOD = "Gốc đều (số tiền trả giảm dần)"
-KEYS = ["draft_application", "draft_application_for_tc_022"]
+KEYS = ["draft_application", "draft_application_for_tc_022", "draft_application_for_tc_014"]  # TC-022 và TC-014 có bấm Lưu nên mỗi lần chạy dùng hết một hồ sơ
 
 
 def create_one(ctx):
@@ -64,12 +64,17 @@ def create_one(ctx):
 
 def main():
     ap = argparse.ArgumentParser(description="Tạo hồ sơ nháp đúng điều kiện trước cho ca Khuyến nghị LTV/DSR")
-    ap.add_argument("--count", type=int, default=2, choices=[1, 2])
+    ap.add_argument("--count", type=int, default=2, choices=[1, 2, 3])
+    ap.add_argument("--keys", default="", help="chỉ tạo các khóa này (cách nhau dấu phẩy), ví dụ draft_application_for_tc_014,draft_application_for_tc_022")
     ap.add_argument("--overwrite", action="store_true", help="cho phép ghi đè id đang có trong auto-data.json")
     ap.add_argument("--tc-022-only", action="store_true",
                     help="chỉ tạo 1 hồ sơ mới cho draft_application_for_tc_022 (ca TC-022 dùng hết hồ sơ mỗi lần chạy), không đụng draft_application")
     args = ap.parse_args()
-    needed_keys = KEYS[1:] if args.tc_022_only else KEYS[: args.count]
+    needed_keys = [k.strip() for k in args.keys.split(",") if k.strip()] or (KEYS[1:2] if args.tc_022_only else KEYS[: args.count])
+    unknown = [k for k in needed_keys if k not in KEYS]
+    if unknown:
+        print("Khóa không biết:", ", ".join(unknown), "| có:", ", ".join(KEYS))
+        return 2
 
     cfg = config.load("banking-lite")
     data_file = cfg.project_dir / "auto-data.json"

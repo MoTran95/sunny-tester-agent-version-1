@@ -12,6 +12,34 @@
 | Kết luận | **Chưa đủ kết luận** |
 | Ghi chú | Chạy tự động bằng Playwright trên môi trường thử staging (https://staging-banking-lite.vercel.app/), bản 1.3.0, ngày 2026-11-19. Ca số 2 (TC-001) còn chữ DEFAULT trên thanh điều hướng: lỗi đã biết ở BUG-001, bộ smoke cho phép nhận build. Ca số 6 (TC-022 của tính năng Khuyến nghị LTV/DSR) không kết luận được vì hồ sơ nháp của riêng ca này đã dùng hết; cần tạo hồ sơ nháp mới trên staging (tạo dữ liệu thật nên cần bạn đồng ý) rồi chạy lại. |
 
+## Kết luận và rủi ro
+
+Chưa đủ căn cứ nhận hay trả bản 1.3.0 theo bộ smoke ở lượt 2: 5 trên 7 case Đạt, 1 case Đạt kèm lỗi đã biết (BUG-001) và 1 case chưa kết luận được vì hồ sơ nháp dành riêng cho ca đó đã dùng hết.
+
+Số liệu lượt này: 6 trên 7 case đã có kết quả (86%): 5 Đạt, 1 Đạt kèm lỗi đã biết, 1 Không kết luận.
+
+**Đã kiểm và đạt**
+
+- SM-01: mở hệ thống lúc chưa đăng nhập thấy form đủ ô nhập, nút và chân trang bản 1.3.0.
+- SM-02: P100001 vào đúng Danh sách việc với đúng mã và vai trò; chỉ sai ý phụ là còn chữ DEFAULT trên thanh điều hướng, lỗi đã biết BUG-001 mà bộ smoke cho phép nhận build.
+- SM-03, SM-04, SM-05: khuyến nghị Phê duyệt (lương 100 triệu), Chuyển cấp trên (DSR 54,40%) và Từ chối kèm lý do (thặng dư thiếu 1 đồng) đều hiện đúng.
+- SM-07: P200001 và P300001 vào đúng Danh sách việc và đúng vai trò.
+
+**Chưa có kết quả và vì sao**
+
+| Case | Trạng thái | Lý do |
+|---|---|---|
+| SM-06 | Không kết luận | Điều kiện trước chưa đúng: ca cần hồ sơ nháp chưa nhập thu nhập (khung Thẩm định còn thông báo Nhập đủ thông tin…) nhưng hồ sơ nháp dành riêng cho ca này đã dùng hết ở lần chạy trước. Cần tạo hồ sơ nháp mới trên staging (tạo dữ liệu thật nên cần người dùng đồng ý) rồi chạy lại. |
+
+**Rủi ro để người kiểm thử đánh giá**
+
+- **Cập nhật khuyến nghị ở đầu trang sau khi lưu chưa được kiểm ở lượt này.** SM-06 chưa có kết quả nên chưa biết ô Khuyến nghị đầu trang hồ sơ có đổi sang Phê duyệt sau vài giây khi nhập lương 100 triệu rồi bấm Lưu ở bản 1.3.0. Lượt 1 cùng bản 1.3.0 ca này Đạt, nhưng lượt 2 chưa xác nhận lại.
+- **Chữ DEFAULT còn trên thanh điều hướng (BUG-001).** Cả ba tài khoản test (P100001, P200001, P300001) vẫn thấy mã và vai trò kèm chữ DEFAULT mà BA đã chốt bỏ; bug mức Rất nhỏ, không chặn thao tác nào và bộ smoke đã chốt cho nhận build ở trường hợp này.
+
+**Đề xuất (người kiểm thử hoặc PO quyết định)**
+
+Tạo hồ sơ nháp mới trên staging (tạo dữ liệu thật nên cần người dùng đồng ý) rồi chạy lại SM-06; nếu đạt thì bộ smoke đủ 7 case Đạt hoặc Đạt kèm lỗi đã biết. Nhận hay trả bản là quyết định của người kiểm thử hoặc PO.
+
 ## Kết quả lượt mới nhất
 
 | ID | Smoke case | Các bước | Kết quả mong đợi | Status | Evidence | Bug | Số lần chạy |

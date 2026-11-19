@@ -113,7 +113,7 @@ else:
         ok(f".env có {len(co)} khóa {prefix}… (không in giá trị)")
 
 print("5. Cấu hình Claude trong repo")
-for name in ("feature-exploration-report", "srs-from-website", "phan-tich-requirement", "tao-checklist-test-case", "tao-smoke-test", "tao-bug-report", "chay-test-tu-dong"):
+for name in ("feature-exploration-report", "srs-from-website", "phan-tich-requirement", "tao-checklist-test-case", "tao-smoke-test", "de-xuat-regression", "lap-ke-hoach-retest", "tao-bug-report", "chay-test-tu-dong"):
     p = os.path.join(ROOT, ".claude", "skills", name, "SKILL.md")
     ok(f"skill {name}") if os.path.exists(p) else miss(f"thiếu skill {name}", "git pull lại repo")
 sp = os.path.join(ROOT, ".claude", "settings.json")
