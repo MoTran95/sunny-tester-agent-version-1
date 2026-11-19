@@ -11,7 +11,8 @@ Dùng:
                                 [--shots-rel screenshots] [--review <thư_mục_xuất_tranh_ghép>]
 Giao diện chuẩn (để báo cáo trông giống nhau trên mọi máy, mọi dự án):
   - Khối <style id="giao-dien-chuan"></style> trong nguồn được thay bằng assets/giao-dien-chuan.css
-    + font Open Sans nhúng sẵn (assets/fonts/). Nguồn cũ không có khối này: khối <style> đầu tiên bị thay.
+    + font thương hiệu (Hanken Grotesk, Fraunces) cắt theo chữ có trong báo cáo, + logo theo docs/thuong-hieu/brand.json.
+    Nguồn cũ không có khối này: khối <style> đầu tiên bị thay.
   - <div class="diag" data-so-do="so-do/x.json"></div> → vẽ sơ đồ bằng ve-so-do.py theo mẫu đã chốt.
 Quy ước ảnh: tên file bắt đầu bằng số thứ tự 2 chữ số, vd `14-P100001-nguoi-vay.jpg` (số = "Ảnh 14" trong báo cáo).
 Sửa nội dung ở file nguồn rồi chạy lại; đừng sửa file đã build.
@@ -43,14 +44,16 @@ WARN = []
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(HERE, '..', 'assets')
 std_css = io.open(os.path.join(ASSETS, 'giao-dien-chuan.css'), encoding='utf-8').read()
-font_b64 = base64.b64encode(open(os.path.join(ASSETS, 'fonts', 'open-sans-vi.woff2'), 'rb').read()).decode('ascii')
-std_block = ('<style id="giao-dien-chuan">\n@font-face{font-family:"Open Sans";src:url(data:font/woff2;base64,%s) format("woff2");'
-             'font-weight:400 700;font-style:normal;font-display:block}\n%s</style>' % (font_b64, std_css))
+sys.path.insert(0, HERE)
+import giao_dien  # CSS chuẩn + font thương hiệu cắt theo chữ thật + logo (dùng chung với theme của repo)
+PROJECT = giao_dien.project_of(OUT)
+std_block = giao_dien.std_block()
 if re.search(r'<style id="giao-dien-chuan">', html):
     html = re.sub(r'<style id="giao-dien-chuan">.*?</style>', lambda m: std_block, html, count=1, flags=re.S)
 else:
     html = re.sub(r'<style>.*?</style>', lambda m: std_block, html, count=1, flags=re.S)
     WARN.append('nguồn chưa có <style id="giao-dien-chuan"> — đã thay khối <style> đầu tiên bằng CSS chuẩn')
+html = giao_dien.add_logo(html, PROJECT)
 for blk in re.findall(r'<style(?! id="giao-dien-chuan")[^>]*>(.*?)</style>', html, flags=re.S):
     if re.search(r'font-family|font:\s|:root|--p\d|--brand', blk):
         WARN.append('có khối <style> riêng đổi font/màu chuẩn — giao diện sẽ khác các báo cáo khác')
@@ -272,6 +275,7 @@ new_js = '''<script>
 </script>'''
 html, n_js = re.subn(r'<script>.*?</script>', lambda m: new_js.replace('__REL__', REL), html, count=1, flags=re.S)
 
+html = giao_dien.embed_fonts(html, WARN)   # font cắt theo chữ thật của báo cáo (sau khi sơ đồ và JS đã vào)
 # thu gọn: bỏ chú thích HTML, bỏ thụt đầu dòng và dòng trống
 html = re.sub(r'<!--.*?-->', '', html, flags=re.S)
 html = '\n'.join(l.lstrip() for l in html.split('\n') if l.strip())
@@ -282,7 +286,7 @@ print('span.im:', n_img, '| images:', len(used), '| sơ đồ vẽ từ JSON:', 
 for w in WARN:
     print('Cảnh báo:', w)
 if size > LIMIT and (ARGS.thumb_q is None or os.environ.get('BUILD_TU_GIAM')) and THUMB_Q > 30:
-    # tự build lại với ảnh thu nhỏ nhẹ hơn (font nhúng chiếm ~40 KB)
+    # tự build lại với ảnh thu nhỏ nhẹ hơn (font nhúng đã cắt chiếm ~30 KB)
     import subprocess
     q = THUMB_Q - 4
     print('-> vượt giới hạn, build lại với --thumb-q %d' % q)

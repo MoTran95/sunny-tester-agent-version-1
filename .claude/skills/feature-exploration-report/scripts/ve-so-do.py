@@ -37,7 +37,7 @@ KIEU_TT = {   # kiểu ô trạng thái: nền, viền, chữ
 NOTE_FILL, NOTE_LINE, NOTE_INK = '#fff6e0', '#f0c36d', '#6b4a00'
 ARROW, ARROW_RET, LIFELINE = '#334', '#777', '#b9c4c0'
 
-# ---------- đo chữ bằng độ rộng thật của font Open Sans ----------
+# ---------- đo chữ bằng độ rộng thật của font Hanken Grotesk (bảng tạo bằng tao-bang-do-rong.py) ----------
 _W = json.load(io.open(os.path.join(ASSETS, 'fonts', 'do-rong-chu.json'), encoding='utf-8'))['rong']
 
 def tw(s, size, weight=400):
@@ -500,12 +500,10 @@ def ve(path, mid=None):
 
 def trang_xem_thu(svgs):
     """Trang HTML độc lập có font + CSS chuẩn, để xem thử sơ đồ."""
-    import base64
-    css = io.open(os.path.join(ASSETS, 'giao-dien-chuan.css'), encoding='utf-8').read()
-    font = base64.b64encode(open(os.path.join(ASSETS, 'fonts', 'open-sans-vi.woff2'), 'rb').read()).decode()
-    ff = '@font-face{font-family:"Open Sans";src:url(data:font/woff2;base64,%s) format("woff2");font-weight:400 700;font-display:block}\n' % font
+    import giao_dien
     divs = '\n'.join('<h3>%s</h3><div class="diag">%s</div>' % (esc(t), s) for t, s in svgs)
-    return '<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Xem thử sơ đồ</title><style>%s%s</style></head><body><div class="wrapper">%s</div></body></html>' % (ff, css, divs)
+    page = '<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Xem thử sơ đồ</title>%s</head><body><div class="wrapper">%s</div></body></html>' % (giao_dien.std_block(), divs)
+    return giao_dien.embed_fonts(page, CANH_BAO)
 
 
 if __name__ == '__main__':

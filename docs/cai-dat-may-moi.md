@@ -8,6 +8,7 @@ Mục tiêu: lần đầu mở repo trên máy khác, Claude bắt tay làm vi�
 | Git | Lấy repo, commit, push | git-scm.com → Git for Windows |
 | Python 3.10 trở lên | Chạy các script soát của skill | python.org (tick "Add python.exe to PATH") hoặc Microsoft Store |
 | Pillow | Script build báo cáo HTML cần | lệnh bên dưới |
+| fonttools, brotli | Cắt font nhúng vào báo cáo khám phá (nhẹ, dưới 512 KiB); thiếu vẫn build được nhưng nặng hơn | `python -m pip install fonttools brotli` |
 | App Claude (desktop) | Làm việc với Claude | claude.ai/download |
 
 ```powershell

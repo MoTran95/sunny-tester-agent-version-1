@@ -60,6 +60,12 @@ try:
     ok("Pillow (cần cho build báo cáo HTML)")
 except ImportError:
     miss("chưa có Pillow (script build báo cáo HTML cần)", "chạy: python -m pip install pillow")
+try:
+    import fontTools  # noqa: F401
+    import brotli  # noqa: F401
+    ok("fonttools + brotli (cắt font nhúng vào báo cáo khám phá)")
+except ImportError:
+    warn("chưa có fonttools/brotli: báo cáo khám phá vẫn build được nhưng nhúng font nặng hơn", "chạy: python -m pip install fonttools brotli")
 
 print("2. Git")
 if shutil.which("git"):
