@@ -161,7 +161,8 @@ def render_one(md_path):
         else:
             current[1].append(d)
     e = html.escape
-    logo = report_mod._logo_data_uri()
+    parts = md.resolve().parts
+    project = parts[parts.index("testing") + 1] if "testing" in parts else None
     chips = []
     for title, content in section:
         if title in ("Mức độ nghiêm trọng", "Severity"):
@@ -175,7 +176,7 @@ def render_one(md_path):
          theme_mod.font_head(md.parent),
          f"<style>{report_mod._CSS}{_CSS_BUG}</style><script>{report_mod._JS_THEME}{_JS_COPY}</script></head><body>"
          '<button id="theme" class="theme" type="button">Chế độ tối</button><main>',
-         (f'<div class="brand"><img src="{logo}" alt="Sunny Nhận Ra"></div>' if logo else ""),
+         theme_mod.brand_html(project),
          f'<p class="eyebrow">Bug report · {e(bug_code)}</p>',
          f"<h1 style=\"font-size:30px\">{e(_plain_text(heading))}</h1>",
          f'<div class="chips">{"".join(chips)}</div>',

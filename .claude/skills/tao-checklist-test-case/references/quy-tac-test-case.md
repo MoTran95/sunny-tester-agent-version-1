@@ -11,7 +11,7 @@
 - **Dữ liệu test:** giá trị cụ thể từng lần nhập. Dữ liệu giả (email `@example.com`, chuỗi giả như `Sai@Matkhau1`). Tài khoản có thật của hệ thống đang test chỉ ghi mã; mật khẩu thật **không** ghi vào tài liệu ("do người dùng cung cấp, người kiểm thử tự nhập").
 - **Kết quả mong đợi:** viết thẳng câu chữ, con số, trạng thái cần thấy, **mở đầu bằng "Bước N:"** cho bước có kết quả. Mọi câu chữ và con số lấy từ nguồn (copy đúng dấu câu, dấu tiếng Việt). **Mã requirement/câu trả lời không viết trong cột này.**
 - **Nguồn:** như checklist.
-- **Kết quả thực tế, Trạng thái, Người viết, Tự động hóa:** để người chạy test điền. Mặc định: ` ` (trống), `Chưa chạy`, `Sunny Tran` (người dùng chốt 2026-11-18; `sinh-bang.py --nguoi-viet` đổi được cho người khác). **Trạng thái chọn một:** `Chưa chạy`, `Đạt`, `Không đạt`, `Bị chặn`, `Bỏ qua`. Kết quả thực tế ghi điều thấy ở bước nào, số liệu, ảnh chụp nếu có; thấy khác kết quả mong đợi mà kết quả mong đợi theo BA thì ghi "nghi lỗi", chưa phải lỗi đã xác nhận.
+- **Kết quả thực tế, Trạng thái, Người viết, Tự động hóa:** để người chạy test điền. Mặc định: ` ` (trống), `Chưa chạy`, `Sunny Tran` (người dùng chốt 2026-11-18; `sinh-bang.py --nguoi-viet` đổi được cho người khác). **Trạng thái chọn một:** `Chưa chạy`, `Đạt`, `Không đạt`, `Bị chặn` (chưa test được vì **bug của case khác**; ghi link bug ở Kết quả thực tế), `Bỏ qua` (người kiểm thử tự làm, ví dụ ca mà chính bước làm gây chặn hệ thống). Kết quả thực tế ghi điều thấy ở bước nào, số liệu, ảnh chụp nếu có; thấy khác kết quả mong đợi mà kết quả mong đợi theo BA thì ghi "nghi lỗi", chưa phải lỗi đã xác nhận.
 
 ## Cột Tự động hóa (người dùng yêu cầu 2026-11-18)
 Sau khi chạy test case mà thấy **ca nào lưu được script chạy lại không cần AI** (đỡ token) thì ghi vào cột này; mặc định `Chưa có`. Chỉ ba dạng:
@@ -31,7 +31,7 @@ Ghi `CẦN XÁC NHẬN` đúng chỗ thiếu trong kết quả mong đợi (kèm
 Con số không có trong nguồn nhưng cần để kiểm (mốc "ngay trước 5 phút" → "4 phút 50 giây") thì ghi rõ trong Dữ liệu test là "giá trị chọn để kiểm; nguồn chỉ nêu mốc 5 phút", và nhắc ở "Ghi nhận riêng".
 
 ## Ca có thể gây khóa hoặc đổi dữ liệu người khác
-Ghi ở điều kiện trước: "Ca này cố ý nhập sai N lần: chỉ chạy khi người dùng đã đồng ý." Skill chỉ viết, không chạy.
+Ghi ở điều kiện trước: "Ca này cố ý nhập sai N lần: chỉ chạy khi người dùng đã đồng ý." Skill chỉ viết, không chạy. Khi chạy tự động (skill `chay-test-tu-dong`): tổng lần sai cộng dồn tối đa 9; ca mà **chính các bước làm hệ thống chặn** (ví dụ lần sai thứ 10) ghi `Không tự động được: làm chặn hệ thống, tester tự làm` và trạng thái `Bỏ qua`; ca chạm sát ngưỡng nhưng kết quả mong đợi là không chặn vẫn viết và chạy được.
 
 ## Cập nhật khi requirement đổi
 1. Chạy `python -X utf8 scripts/truy-vet.py kiem <dự-án> <feature>`: liệt kê mã đã đổi và test case chuyển sang **Cần xem lại**.

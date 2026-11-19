@@ -25,7 +25,28 @@ Chế độ sáng/tối theo hệ điều hành, có nút đổi tay (nhớ tron
 
 ## Logo
 
-Đặt ảnh logo nền trong suốt tại `docs/thuong-hieu/logo-sunny-nhan-ra-nen-trong.png` (tạo từ logo gốc `logo-sunny-nhan-ra.png` bằng `python scripts/process_logo.py`). Có file thì logo được nhúng thẳng vào mọi trang; chưa có thì bỏ qua.
+- Logo gốc: `docs/thuong-hieu/logo-sunny-nhan-ra.png` (nền trong suốt). Bản nhúng vào trang: `logo-sunny-nhan-ra-nen-trong.png` (420 px, khoảng 55 KB), tạo bằng `python -X utf8 scripts/process_logo.py` (dọn chấm nhiễu li ti, cắt phần trống; cần Pillow). Logo gốc nền trắng cũng dùng được: script đổi nền trắng thành trong suốt.
+- Logo nằm ở **góc trái đầu trang** (cao 60 px, nút đổi sáng/tối ở góc phải), nhúng thẳng vào mọi trang (không phụ thuộc đường dẫn). Đổi logo: thay file gốc, chạy `process_logo.py`, rồi `build_docs.py --all`.
+- Màu logo: cam khoảng `#E8832A`, nâu đậm, xanh lá rêu. Cam logo hơi khác vàng hổ phách `#D9902A` của giao diện; muốn khớp hơn thì chỉnh `--amber` trong `theme.py`.
+
+## Cấu hình thương hiệu (dùng cho thương hiệu khác hoặc tắt logo)
+
+Logo không cố định trong code. Cấu hình ở `docs/thuong-hieu/brand.json` (mặc định là logo Sunny, ai dùng repo của Sunny không cần làm gì):
+
+```
+{
+  "name": "Sunny Nhận Ra",
+  "logo": "docs/thuong-hieu/logo-sunny-nhan-ra-nen-trong.png",
+  "logo_source": "docs/thuong-hieu/logo-sunny-nhan-ra.png",
+  "logo_enabled": true
+}
+```
+
+- **Dùng thương hiệu khác:** đổi `name` và `logo` (đường dẫn tính từ gốc repo; nhận png, jpg, svg, webp). Có logo gốc nền trắng thì đặt vào `logo_source` rồi chạy `python -X utf8 scripts/process_logo.py` để tạo bản nhúng.
+- **Không muốn logo:** đặt `"logo_enabled": false`.
+- **Riêng một dự án:** tạo `testing/<dự-án>/brand.json` chỉ gồm các khóa muốn đổi (ví dụ `{"logo_enabled": false}`); chỉ trang của dự án đó đổi. Tài liệu dùng chung (`docs/`, `srs/*.md`, `testing/*.md`) luôn theo cấu hình chung của repo.
+- File cấu hình hỏng hoặc thiếu file logo thì trang vẫn sinh bình thường, chỉ không có logo.
+- Sửa xong chạy `python -X utf8 scripts/build_docs.py --all` để mọi trang cập nhật cùng lúc. Bảng màu và font vẫn là giao diện chung (`theme.py`).
 
 ## Đổi giao diện
 

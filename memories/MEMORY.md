@@ -11,10 +11,10 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `conventions/nhieu-du-an.md` | máy mới, đổi/tạo dự án | chọn dự án, không lẫn kiến thức |
 | `conventions/memory-writing-rules.md` | trước khi ghi/sửa memory | khuôn viết cho AI, độ dài |
 | `conventions/ba-question-wording.md` | viết câu hỏi BA | xưng hô, từ chung, khuôn |
-| `project/skills.md` | dùng/sửa skill | 6 skill, script, trạng thái đã thử |
+| `project/skills.md` | dùng/sửa skill | 7 skill (có `chay-test-tu-dong`), script, trạng thái đã thử |
 | `project/srs-process.md` | làm SRS; hỏi vì sao khuôn thế | quyết định khuôn/ID, bẫy |
 | `project/truy-vet-requirement.md` | requirement đổi; sửa checklist/TC; sửa smoke | `truy-vet.py`, `truy-vet-smoke.py`, neo TC, lịch sử, bẫy |
-| `project/tu-dong-hoa-test.md` | viết/chạy script test case; thư viện `test_automation`; thêm dự án | quyết định Playwright, cấu trúc, bẫy, bảng kết quả smoke (`smoke-ket-qua.md/.html`), trạng thái |
+| `project/tu-dong-hoa-test.md` | sửa thư viện `test_automation`, thêm dự án, trạng thái Banking Lite | cấu trúc, bẫy, trạng thái; quy tắc chốt ở skill `chay-test-tu-dong` |
 | `project/session-speed.md` | than chậm/tốn token; sửa skill/khuôn | số đo, đã làm, rủi ro |
 | `project/git-remote.md` | commit/push | remote, `.env` loại trừ |
 | `project/architecture.md` | thêm thư mục, đổi quyền, máy mới | cấu trúc, script |

@@ -1,0 +1,55 @@
+---
+name: chay-test-tu-dong
+description: Viết script và chạy test case tự động bằng Playwright cho mọi dự án (smoke hoặc theo tính năng), ghi lượt chạy, sinh trang kết quả HTML có kết luận và rủi ro, ảnh kiểm tra khung xanh/đỏ, video ca lỗi, nối bug, và giữ mọi trang HTML luôn khớp file md. Dùng khi người dùng (thường là tester) nói "chạy test tự động", "viết script cho test case", "automation", "chạy smoke bằng script", "chạy test case X trên hệ thống", "ghi lượt chạy", "tạo trang kết quả", "thêm dự án vào bộ chạy test", "sinh lại trang HTML", hoặc khi test case, SRS, bug đổi mà trang HTML cần cập nhật. Không dùng để viết test case (tao-checklist-test-case), chọn bộ smoke (tao-smoke-test) hay viết nội dung bug (tao-bug-report).
+---
+
+# Chạy test tự động (Playwright, dùng chung nhiều dự án)
+
+Tiếng Việt với người dùng; tên hàm, biến, khóa JSON, lệnh trong code bằng tiếng Anh. Công cụ nằm trong repo (`scripts/test_automation/`, `scripts/*.py`); skill chỉ nói **cách dùng và quy tắc đã chốt**, không chép lại code.
+
+## Năm nguyên tắc (vì sao: người dùng muốn chất lượng cao mà ít token)
+1. **Viết script ca một lần, chạy lại 0 token.** Ghi lượt, sinh trang, kiểm đều do chương trình; AI chỉ viết script ca, kết luận và bug.
+2. **Chỉ kết luận Đạt/Không đạt khi script chạy trọn.** Script lỗi, chờ quá hạn, phiên hết hạn, điều kiện trước sai, bị bộ đếm từ chối → `Không kết luận`, không bao giờ "Không đạt giả".
+3. **Chỉ tin điều đã quan sát**, không tin quy tắc BA khi thiết kế cơ chế an toàn (bài học bộ đếm nhập sai).
+4. **Không làm hệ thống đang test hỏng:** không chạm ngưỡng chặn, không tạo dữ liệu thật khi chưa được cho phép rõ (hỏi, dừng, không đi đường vòng).
+5. **Trang HTML là sản phẩm tự sinh, không sửa tay.** Sửa nguồn (md, JSON, bug md) rồi `python -X utf8 scripts/build_docs.py --all`.
+
+## Giữ token thấp (bắt buộc)
+- Đọc đúng ca cần: `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma TC-xxx --day-du`; không mở cả `test-case.md`.
+- Chạy lệnh rồi chỉ đọc phần cuối (`| tail`, `| grep "^|\|Tổng"`); không đọc cả log, không dán JSON kết quả vào chat.
+- Xem ảnh (`Read`) chỉ khi kết quả bất ngờ hoặc cần kiểm khung tô; không xem ảnh ca Đạt.
+- Chạy nhóm nhỏ bằng `--case-id`; chạy lại chỉ ca lỗi; không chạy cả bộ "để thử".
+- Ca cùng nhóm dùng chung một file hàm (như `login_common.py`); script ca dựng từ `assets/mau-ca-tu-dong.py`.
+- Kết luận, rủi ro, câu hỏi cho Dev viết **một lần** vào file; trang web sinh từ file đó, không viết lại mỗi lần.
+
+## Đọc gì cho từng việc
+Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`); chỉ file của dự án hiện tại.
+
+| Việc | Đọc |
+|---|---|
+| Lần đầu dùng skill trong phiên, hoặc không chắc quy tắc | `references/quy-tac-da-chot.md` (ngắn, đọc hết) |
+| Dự án mới / máy mới | `references/them-du-an-moi.md` |
+| Cần cờ lệnh đầy đủ | `docs/chay-test-tu-dong.md` (chỉ mục cần) |
+| Sửa thư viện `test_automation` | `memories/project/tu-dong-hoa-test.md`, rồi chạy `python -X utf8 scripts/selftest/run_selftest.py` (mong đợi `RESULT: ALL OK`) |
+
+## Quy trình
+1. **Chốt phạm vi:** địa chỉ test do người dùng nêu (có nhãn môi trường thử như staging); ca nào chạy, ca nào bỏ (ca mà chính bước làm gây chặn hệ thống); dữ liệu cần tạo (hỏi trước).
+2. **Đăng nhập một lần:** `python -X utf8 scripts/auto_login.py <mã…> --headless` (mỗi tài khoản đúng một lần bấm; một tài khoản lỗi thì dừng). Phiên sống ngắn: chạy test ngay sau đó.
+3. **Viết script ca** theo khuôn cho ca chưa có (`<tính-năng>/auto/tc-xxx.py`); ý đạt cũng khai `mark_text` để có ảnh xanh.
+4. **Chạy:** `python -X utf8 scripts/run_tests.py --project <slug> --case-id <tính-năng>/tc-xxx … ` (hoặc `--smoke`, `--feature`). Ca có nhập sai: sắp từ ít sai đến nhiều sai, dừng ngay khi bị chặn.
+5. **Ghi kết quả** vào test case gốc (Kết quả thực tế, Trạng thái, Tự động hóa) bằng script ghi một lần cho cả nhóm; không điền tay từng dòng.
+6. **Ghi lượt và sinh trang:** `build_report.py add-run [--suite <tính-năng>] --build X --results-files … --status … --bug … --blocked-by … --conclusion-file …` (xem quy tắc kết luận ở `references/quy-tac-da-chot.md`).
+7. **Bug:** mỗi nguyên nhân một bug theo `tao-bug-report`; đính ảnh `-loi` và video; ca không test được vì bug khác → `Bị chặn` kèm link bug.
+8. **Sinh lại và kiểm:** `python -X utf8 scripts/build_docs.py --all`, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py` (báo lỗi nếu còn trang cũ). Báo người dùng link trang HTML (không chỉ md).
+
+## Tự kiểm trước khi trả lời
+- [ ] Không ca nào kết luận khi script lỗi/quá hạn; ca không kết luận được nêu rõ lý do.
+- [ ] Không có mật khẩu trong script, kết quả, ảnh, bug hay chat; không nhập sai quá bộ đếm (trần 9, cộng dồn).
+- [ ] Bug đủ ảnh tô đỏ + video (nếu có), tách đúng nguyên nhân; ca bị chặn có link bug gây chặn.
+- [ ] Kết luận trang kết quả có đủ: kết luận một câu, đã kiểm và đạt, chưa có kết quả và vì sao, rủi ro cho người dùng, đề xuất; câu chữ đầy đủ, không viết tắt khó hiểu.
+- [ ] `build_docs.py --all --check` báo khớp; selftest `ALL OK` nếu có sửa thư viện.
+
+## Tệp trong skill
+- `references/quy-tac-da-chot.md` — quy tắc người dùng đã xác nhận (kèm lý do).
+- `references/them-du-an-moi.md` — thêm dự án, máy mới, cấu hình thương hiệu.
+- `assets/mau-ca-tu-dong.py` — khuôn script ca.

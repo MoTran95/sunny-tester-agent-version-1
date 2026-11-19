@@ -22,7 +22,7 @@ CSS_BASE = """
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 "Hanken Grotesk","Instrument Sans","Segoe UI",system-ui,sans-serif;padding:40px 16px 56px}
 main{max-width:1100px;margin:0 auto}
-.brand{text-align:center;margin:0 0 14px}.brand img{height:68px;width:auto}
+.brand{text-align:left;margin:0 0 16px}.brand img{height:60px;width:auto;display:block}
 .eyebrow{text-align:center;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin:0 0 10px}
 h1{font:700 40px/1.15 Fraunces,Georgia,"Times New Roman",serif;color:var(--text);text-align:center;margin:0 0 8px}
 h1 em{font-style:italic;color:var(--coral)}
@@ -81,22 +81,57 @@ JS_DRAG_SCROLL = ("document.addEventListener('DOMContentLoaded',function(){docum
 JS_THEME = "(function(){var r=document.documentElement;try{var t=localStorage.getItem('smoke-theme');if(t)r.setAttribute('data-theme',t)}catch(e){}document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('theme');function eff(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}function lab(){b.textContent=eff()==='dark'?'Chế độ sáng':'Chế độ tối'}lab();b.onclick=function(){var n=eff()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('smoke-theme',n)}catch(e){}lab()}})})();"
 
 
-LOGO_PATH = "docs/thuong-hieu/logo-sunny-nhan-ra-nen-trong.png"
+BRAND_FILE = "docs/thuong-hieu/brand.json"
+DEFAULT_BRAND = {
+    "name": "Sunny Nhận Ra",                                      # tên thương hiệu (chữ thay thế của logo)
+    "logo": "docs/thuong-hieu/logo-sunny-nhan-ra-nen-trong.png",  # logo nhúng vào trang (nền trong suốt, nên rộng 400 đến 500 px)
+    "logo_source": "docs/thuong-hieu/logo-sunny-nhan-ra.png",     # logo gốc để scripts/process_logo.py tạo ra bản nhúng
+    "logo_enabled": True,                                         # false = không hiện logo
+}
+LOGO_PATH = DEFAULT_BRAND["logo"]
+_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".webp": "image/webp"}
 
 
-def logo_data_uri():
-    """Nhúng logo (bản nền trong suốt) thẳng vào trang để gửi file đi không thiếu logo; không có file thì bỏ qua.
+def load_brand(project=None):
+    """Cấu hình thương hiệu: mặc định (Sunny) < `docs/thuong-hieu/brand.json` (chung cả repo) < `testing/<dự-án>/brand.json` (riêng một dự án).
 
-    Bản nền trong suốt tạo một lần bằng `python scripts/process_logo.py` từ logo gốc
-    `docs/thuong-hieu/logo-sunny-nhan-ra.png` (cần Pillow ở lần đó, không cần khi sinh trang).
+    Chỉ cần ghi các khóa muốn đổi. Đường dẫn tính từ gốc repo. Dùng khi người khác dùng bộ công cụ này cho thương hiệu của họ.
     """
+    import json
+
+    brand = dict(DEFAULT_BRAND)
+    files = [config.ROOT / BRAND_FILE]
+    if project:
+        files.append(config.ROOT / "testing" / project / "brand.json")
+    for f in files:
+        if f.exists():
+            try:
+                brand.update({k: v for k, v in json.loads(f.read_text(encoding="utf-8")).items() if k in DEFAULT_BRAND})
+            except (OSError, ValueError):
+                pass
+    return brand
+
+
+def logo_data_uri(project=None):
+    """Nhúng logo thẳng vào trang (gửi file đi không thiếu logo); tắt, thiếu file hoặc định dạng lạ thì bỏ qua."""
     import base64
 
-    f = config.ROOT / LOGO_PATH
-    if not f.exists():
+    brand = load_brand(project)
+    if not brand["logo_enabled"]:
         return None
-    return "data:image/png;base64," + base64.b64encode(f.read_bytes()).decode("ascii")
+    f = config.ROOT / brand["logo"]
+    mime = _MIME.get(f.suffix.lower())
+    if not f.exists() or not mime:
+        return None
+    return f"data:{mime};base64," + base64.b64encode(f.read_bytes()).decode("ascii")
 
+
+def brand_html(project=None):
+    """Khối logo ở góc trái đầu trang (chuỗi rỗng nếu không có logo)."""
+    import html
+
+    uri = logo_data_uri(project)
+    return f'<div class="brand"><img src="{uri}" alt="{html.escape(load_brand(project)["name"])}"></div>' if uri else ""
 
 
 FONTS_DIR = "docs/thuong-hieu/fonts"

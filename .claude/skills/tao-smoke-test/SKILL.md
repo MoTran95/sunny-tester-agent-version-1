@@ -51,7 +51,7 @@ description: Đề xuất bộ smoke test cho hệ thống đang test, chọn t�
 
 ## Chạy smoke (execute)
 
-Chỉ khi người dùng nhờ chạy; **đọc `references/chay-smoke.md` trước khi chạy** (hỏi môi trường, dữ liệu, đăng nhập một lần; chạy theo thứ tự, Không đạt thì dừng; ghi lượt chạy bằng `ghi-luot`; lượt hiệu chuẩn). AI không gõ mật khẩu.
+Chỉ khi người dùng nhờ chạy; **đọc `references/chay-smoke.md` trước khi chạy**. Case có script `auto/` thì chạy bằng skill `chay-test-tu-dong` (`run_tests.py --smoke`, ghi lượt bằng `build_report.py add-run`, trang `smoke-ket-qua.html`); không có script thì chạy tay theo giao thức. Địa chỉ phải do người dùng nêu và có nhãn môi trường thử; mật khẩu không bao giờ hiện trong chat.
 
 ## Cập nhật khi requirement/test case đổi
 

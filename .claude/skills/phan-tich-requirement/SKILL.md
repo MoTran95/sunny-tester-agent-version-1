@@ -69,6 +69,12 @@ Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một l
 - Lệnh có thể in nhiều: thêm `| head -40`.
 - Soát tay chỉ phần script không kiểm được (câu chữ đọc có hiểu không, ý nghĩa): lấy mẫu vài dòng, không đọc cả file.
 
+## Quy ước để trang HTML tự link (đã chốt; `scripts/build_docs.py` dựa vào đây)
+
+- Mã requirement (`<TIỀN_TỐ>-S01-AC02`, `-R06`, `-M06`, `-E20`) đứng ở **ô đầu** của dòng bảng; trang HTML tự gắn neo theo số dòng md và biến mọi chỗ nhắc mã (bản ngắn `S01-AC02` cũng được) thành link tới dòng đó. Không đổi số dòng của file đã chốt mà không cần (link truy vết dạng `file.md#L66` theo số dòng).
+- Câu trả lời BA: mỗi `TL-nn` ở ô đầu một dòng của bảng trong bảng soát. Câu hỏi cho BA: mỗi câu có `<a id="a1"></a>` (chữ A/B/C + số, chữ thường) ngay trước tiêu đề câu.
+- Sau khi sửa file md của tài liệu này: `python -X utf8 scripts/build_docs.py --all` (trang HTML phải luôn khớp md; `kiem-tra-bo-nho.py` báo lỗi nếu còn trang cũ).
+
 ## Tệp trong skill
 - `references/quy-trinh-tach-xoay-loc.md` — năm câu tự hỏi, sáu dấu hiệu, sáu nút (chỉ chức năng), cách quyết ✅/❓, ba nhóm câu hỏi, cách tính lại số liệu.
 - `references/quy-tac-nguon-va-tra-loi.md` — nhãn nguồn, cách trích nguyên văn, mã requirement, ghi câu trả lời `TL-xx`, quyết định của người dùng.

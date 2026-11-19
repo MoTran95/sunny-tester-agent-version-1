@@ -379,12 +379,11 @@ _JS_FILTER = _JS_HASH + ("document.addEventListener('DOMContentLoaded',function(
               "var ok=!v||r.textContent.toLowerCase().indexOf(v)>=0;r.classList.toggle('an',!ok);if(ok)n++});c.textContent=v?(n+' / '+t+' dòng'):''})});")
 
 
-def _page(title, body, page_dir, nav_html="", toc_html="", has_table=False):
-    logo = theme.logo_data_uri()
+def _page(title, body, page_dir, nav_html="", toc_html="", has_table=False, project=None):
     flt = ('<div class="loc"><input id="loc-q" type="search" placeholder="Lọc dòng trong các bảng (gõ chữ hoặc mã)…"><span id="loc-n"></span></div>' if has_table else "")
     head = theme.page_head(title, page_dir, _CSS_DOC).replace("<head>", "<head>" + GENERATOR, 1).replace("</script></head>", f"</script><script>{_JS_FILTER}</script></head>", 1)
     return (head + '<body><button id="theme" class="theme" type="button">Chế độ tối</button><main class="rong doc">'
-            + (f'<div class="brand"><img src="{logo}" alt="Sunny Nhận Ra"></div>' if logo else "") + nav_html + toc_html + flt + body +
+            + theme.brand_html(project) + nav_html + toc_html + flt + body +
             '<p class="small" style="margin-top:36px">Trang tự sinh từ file markdown bằng <code>scripts/build_docs.py</code>; không sửa tay, hãy sửa file md rồi chạy lại.</p></main></body></html>')
 
 
@@ -422,7 +421,8 @@ def render_doc(project, src, converted, codes, exists):
     toc = ""
     if len(heads) >= 4:
         toc = '<details class="muc-luc"><summary>Mục lục</summary><ul>' + "".join(f'<li><a href="#{i}">{html.escape(t)}</a></li>' for lv, i, t in heads if lv == 2) + "</ul></details>"
-    return out, _page(title or src.stem, body, src.parent, "".join(parts), toc, has_table="<table>" in body)
+    # tài liệu dùng chung (docs/, srs/*.md, testing/*.md) luôn dùng thương hiệu chung của repo để sinh ra giống nhau ở mọi dự án
+    return out, _page(title or src.stem, body, src.parent, "".join(parts), toc, has_table="<table>" in body, project=project if project in src.parts else None)
 
 
 # ---------------------------------------------------------------- trang tổng
@@ -515,7 +515,7 @@ def render_index(project, exists):
     body = (f'<h1>Trang tổng · {e(project)}</h1><p class="small">Hệ thống: <a href="{e(cfg.url)}/">{e(cfg.url)}</a>' + (f" · bản test {e(version)}" if version else "") +
             ". Mọi số liệu đọc từ file có sẵn; sau khi sửa tài liệu hoặc chạy test, chạy lại <code>python -X utf8 scripts/build_docs.py</code> để cập nhật.</p>"
             + stats + '<h2>Từng tính năng</h2><div class="the">' + "".join(cards) + "</div>" + '<h2>Bộ smoke và tài liệu chung</h2><div class="the">' + smoke_card + other + "</div>")
-    return tdir / "index.html", _page(f"Trang tổng {project}", body, tdir)
+    return tdir / "index.html", _page(f"Trang tổng {project}", body, tdir, project=project)
 
 
 # ---------------------------------------------------------------- sinh và so sánh

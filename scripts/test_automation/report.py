@@ -427,12 +427,11 @@ def _bug_summary_html(cfg, suite, run_record, table):
 def build_html(cfg, suite, data, table):
     e = html.escape
     title = suite_title(suite)
-    logo = _logo_data_uri()
     p = [f'<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
          f"<title>Kết quả {e(title)} {e(cfg.project)}</title>"
          + theme_mod.font_head(page_dir(cfg, suite)) +
          f"<style>{_CSS}</style><script>{_JS_THEME}{_JS_DRAG_SCROLL}</script></head><body><button id=\"theme\" class=\"theme\" type=\"button\">Chế độ tối</button><main class=\"rong\">",
-         (f'<div class="brand"><img src="{logo}" alt="Sunny Nhận Ra"></div>' if logo else ""),
+         theme_mod.brand_html(cfg.project),
          f'<p class="eyebrow">Kết quả chạy {e(title.lower())}</p>',
          f"<h1>Lượt chạy của <em>{e(cfg.project)}</em></h1>",
          '<p class="sub">Trang tự sinh từ file dữ liệu bằng <code>scripts/build_report.py</code>; không sửa tay.</p>']

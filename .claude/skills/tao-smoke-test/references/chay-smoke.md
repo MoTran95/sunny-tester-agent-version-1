@@ -1,23 +1,25 @@
 # Chạy smoke trên hệ thống (giao thức)
 
-Đọc khi người dùng nhờ chạy smoke. Quy trình chọn case nằm ở `SKILL.md`.
+Đọc khi người dùng nhờ chạy smoke. Chọn case: `SKILL.md`. Chỉ chạy khi được nhờ.
 
-Chỉ chạy khi người dùng nhờ ("chạy smoke", "chạy thử smoke trên build này"); không tự chạy.
+## Hỏi một lần cho cả lượt
+- Địa chỉ hệ thống đang test (do người dùng nêu, có nhãn môi trường thử như staging) và số bản đọc ở chân trang.
+- Dữ liệu sẽ bị đổi (ví dụ tạo hồ sơ nháp): hỏi rõ trước; dọn lại sau lượt nếu case gốc yêu cầu.
+- Không nhập sai thông tin đăng nhập quá trần bộ đếm, không làm gì có thể chặn tài khoản (`memories/pitfalls/dont-trigger-lockouts.md`).
 
-**Trước khi chạy (hỏi một lần cho cả lượt):**
-- Môi trường và địa chỉ hệ thống nào; người dùng đồng ý chạy trên hệ thống thật.
-- Dữ liệu sẽ bị đổi (vd tạo hồ sơ nháp của chính họ): đồng ý tạo, và dọn lại sau lượt nếu case gốc yêu cầu.
-- **Mật khẩu: AI không gõ.** Người dùng đăng nhập, hoặc tự chạy script lưu phiên của dự án nếu có (Banking Lite: `scripts/auto_login.py <mã>`; phiên hết hạn sau 10 phút nên smoke dài phải đăng nhập lại, mỗi tài khoản một phiên). AI chỉ điền ô mã nhân viên.
-- Không nhập sai thông tin đăng nhập, không làm gì có thể khóa tài khoản (`memories/pitfalls/dont-trigger-lockouts.md`).
+## Cách A: có script `auto/` cho các case smoke (nên dùng, 0 token mỗi lượt)
+1. `python -X utf8 scripts/auto_login.py <mã…> --headless` (phiên ngắn, chạy ngay sau đó).
+2. `python -X utf8 scripts/run_tests.py --project <slug> --smoke`; đọc phần cuối kết quả, không đọc cả log.
+3. Ghi lượt: `python -X utf8 scripts/build_report.py add-run --project <slug> --build "<số bản>" --results-files <result-*.json> --status "N=Đạt kèm lỗi đã biết" --bug "N=BUG-nnn" --note "<câu đầy đủ: môi trường, bản, ngày, case nào không kết luận và vì sao>"` (N = cột # của bảng smoke). Ca ra `Không kết luận` giữ nguyên, không ép thành Đạt.
+4. Sinh trang: `python -X utf8 scripts/build_docs.py --all`; báo người dùng link `smoke-ket-qua.html`.
 
-**Chạy từng case, theo thứ tự bảng:**
-1. Đọc case gốc một lần: `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma TC-005 --day-du` (không mở cả file). Làm đúng điều kiện, bước, dữ liệu của case gốc; chỉ cần đạt các bước nêu ở cột "Đạt khi" của bảng tiêu chí.
-2. Đọc kết quả bằng văn bản trang (`get_page_text`/`read_page`) trước; chụp ảnh chỉ khi Không đạt hoặc cần bằng chứng (đỡ token).
-3. Chấm theo **ý chính**: `Đạt`; `Đạt kèm lỗi đã biết` (chỉ khi bảng tiêu chí ghi ngoại lệ cho đúng case đó và chỉ ý được miễn sai); `Không đạt`; `Bị chặn` (không chạy được vì lý do ngoài case: hết phiên, mất mạng…). Ý phụ lệch thì chỉ ghi nhận.
-4. **Không đạt thì dừng ngay**, các case sau để `Chưa chạy`. Nếu nghi do thao tác của mình (nhất là lượt hiệu chuẩn) thì làm lại **một** lần cẩn thận; vẫn lệch thì kiểm lại test case gốc với requirement trước khi kết luận build sai. Không thử lại nhiều lần.
-5. Ghi quan sát cụ thể (chữ, số thấy trên màn hình) cho case Không đạt và ngoại lệ; không bịa kết quả chưa thấy.
+## Cách B: chưa có script (chạy tay, AI không gõ mật khẩu)
+1. Đọc case gốc một lần: `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma TC-005 --day-du`. Chỉ cần đạt các bước ở cột "Đạt khi" của bảng tiêu chí.
+2. Đọc kết quả bằng văn bản trang trước; chụp ảnh chỉ khi Không đạt hoặc cần bằng chứng.
+3. Chấm theo ý chính: `Đạt`; `Đạt kèm lỗi đã biết` (chỉ khi tiêu chí ghi ngoại lệ cho đúng case và ý được miễn); `Không đạt`; `Bị chặn` (không chạy được vì lý do ngoài case). Ý phụ lệch chỉ ghi nhận.
+4. Không đạt thì dừng, các case sau `Chưa chạy`; nghi do thao tác của mình thì làm lại **một** lần, vẫn lệch thì kiểm lại test case gốc với requirement trước khi kết luận build sai.
+5. Ghi lượt bằng lệnh ở Cách A bước 3 (kết quả tự soạn thành file kết quả hoặc dùng `--status`).
 
-**Sau lượt chạy:** `python -X utf8 scripts/truy-vet-smoke.py ghi-luot <dự-án> --build "<số bản đọc ở chân trang>" --status "1=Đạt,2=Đạt kèm lỗi đã biết,3=Không đạt" --note "…"` (số là cột # của bảng; case không nêu = Chưa chạy; script tự tính Nhận/Trả build và ghi một dòng vào mục "Lượt chạy"). Rồi báo người dùng: nhận hay trả build, case lỗi và quan sát, ngoại lệ đã dùng, phạm vi chưa phủ. Muốn tạo bug thì hỏi người dùng rồi dùng `tao-bug-report`; không tự tạo.
-
-**Lượt hiệu chuẩn** (lần đầu, hoặc test case chưa chạy thật): chạy cùng người dùng và ghi thêm kết quả vào cột `Kết quả thực tế` + `Trạng thái` của test case gốc (không làm test case bị coi là đã sửa); case sai vì test case sai thì sửa test case theo `tao-checklist-test-case`. Rồi lưu script tự động cho case "Nên" vào cột `Tự động hóa` của test case gốc (`Có: <đường dẫn>`, chỉ ghi khi script đã chạy được, không chứa mật khẩu). **Lượt build thường không ghi đè** các cột của test case (giữ kết quả chạy sâu), chỉ ghi vào mục "Lượt chạy".
-
+## Sau lượt
+Báo: nhận hay trả build, case lỗi và quan sát cụ thể, ngoại lệ đã dùng, phạm vi chưa phủ. Muốn tạo bug thì hỏi rồi dùng `tao-bug-report`. Lượt hiệu chuẩn (lần đầu, test case chưa chạy thật): ghi thêm kết quả vào `Kết quả thực tế` + `Trạng thái` + `Tự động hóa` của test case gốc (không làm test case bị coi là đã sửa); case sai vì test case sai thì sửa test case theo `tao-checklist-test-case`. Lượt build thường không ghi đè các cột đó.
+`truy-vet-smoke.py ghi-luot` (mục "Lượt chạy" trong smoke-test.md) là cách cũ, chỉ dùng khi người dùng muốn giữ mục đó; bảng chính là `smoke-ket-qua`.

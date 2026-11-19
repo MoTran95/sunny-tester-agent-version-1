@@ -107,7 +107,7 @@ else:
         ok(f".env có {len(co)} khóa {prefix}… (không in giá trị)")
 
 print("5. Cấu hình Claude trong repo")
-for name in ("feature-exploration-report", "srs-from-website", "phan-tich-requirement"):
+for name in ("feature-exploration-report", "srs-from-website", "phan-tich-requirement", "tao-checklist-test-case", "tao-smoke-test", "tao-bug-report", "chay-test-tu-dong"):
     p = os.path.join(ROOT, ".claude", "skills", name, "SKILL.md")
     ok(f"skill {name}") if os.path.exists(p) else miss(f"thiếu skill {name}", "git pull lại repo")
 sp = os.path.join(ROOT, ".claude", "settings.json")
@@ -124,6 +124,18 @@ ok("hook git pre-commit đã bật (.githooks)") if code == 0 and out.strip() ==
 code, out = run([sys.executable, "-X", "utf8", "scripts/build_docs.py", "--all", "--check"])
 last = [l for l in out.strip().splitlines() if l.strip()][-1:] or [""]
 ok("trang HTML khớp file md và dữ liệu") if code == 0 else miss("có trang HTML cũ: " + last[0][:100], "python -X utf8 scripts/build_docs.py --all")
+brand_file = os.path.join(ROOT, "docs", "thuong-hieu", "brand.json")
+try:
+    brand = json.load(io.open(brand_file, encoding="utf-8")) if os.path.exists(brand_file) else {}
+except ValueError:
+    brand = {}
+logo_rel = brand.get("logo", "docs/thuong-hieu/logo-sunny-nhan-ra-nen-trong.png")
+if brand.get("logo_enabled", True) is False:
+    ok("logo tắt trong docs/thuong-hieu/brand.json")
+elif os.path.exists(os.path.join(ROOT, logo_rel)):
+    ok(f"logo thương hiệu: {logo_rel}")
+else:
+    warn(f"thiếu file logo {logo_rel} (trang vẫn sinh, không có logo)", "đặt file logo hoặc sửa docs/thuong-hieu/brand.json")
 fonts_dir = os.path.join(ROOT, "docs", "thuong-hieu", "fonts")
 if os.path.isdir(fonts_dir) and any(f.endswith(".woff2") for f in os.listdir(fonts_dir)):
     ok("font thương hiệu cục bộ (trang giống hệt khi không có mạng)")
