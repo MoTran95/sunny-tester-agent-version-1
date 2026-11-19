@@ -16,7 +16,7 @@
 
 ## 2. Kết luận
 
-**Tình trạng theo số liệu.** Tổng 81 test case của 2 tính năng: 37 đã có kết luận (46%), trong đó 22 Đạt, 1 Đạt kèm lỗi, 14 Không đạt; 2 bị chặn hoặc chưa kết luận được, 10 bỏ qua, 32 chưa chạy. 6 bug được ghi nhận trong các lượt của build này (tổng 7 bug đã ghi).
+**Tình trạng theo số liệu.** Tổng 81 test case của 2 tính năng: 37 đã có kết luận (46%), trong đó 22 Đạt, 1 Đạt kèm lỗi, 14 Không đạt; 2 bị chặn hoặc chưa kết luận được, 10 bỏ qua, 32 chưa chạy. 6 bug được ghi nhận trong các lượt của build này (tổng 7 bug đã ghi). Trạng thái bug: 1 Mở lại, 6 Chưa ghi.
 
 - Smoke test: Chưa đủ căn cứ nhận hay trả bản 1.3.0 theo bộ smoke ở lượt 2: 5 trên 7 case Đạt, 1 case Đạt kèm lỗi đã biết ([BUG-001](dang-nhap/bug/BUG-001.md)) và 1 case chưa kết luận được vì hồ sơ nháp dành riêng cho ca đó đã dùng hết.
 - Regression Tầng 1: Chưa nên coi Tầng 1 đạt: 10 trên 13 case đạt (có 1 case đạt kèm lỗi đã biết), 2 case không đạt và 1 case chưa kết luận được; một trong hai case không đạt là phát hiện mới của Khuyến nghị.
@@ -49,17 +49,17 @@ Mỗi test case lấy kết quả mới nhất trong các lượt của build n�
 
 ## 5. Bug
 
-| Bug | Tiêu đề | Mức độ nghiêm trọng | Case thấy lỗi ở build này |
-|---|---|---|---|
-| [BUG-001](dang-nhap/bug/BUG-001.md) | [Đăng nhập] Thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò | Rất nhỏ | [SM-02](dang-nhap/test-case.md#tc-001) (Smoke test); [RG-02](dang-nhap/test-case.md#tc-001) (Regression Tầng 1); [TC-001](dang-nhap/test-case.md#tc-001) (Test case Đăng nhập) |
-| [BUG-002](dang-nhap/bug/BUG-002.md) | [Đăng nhập] Câu báo sai mã nhân viên hoặc mật khẩu còn cụm Mã không gian (bản English còn chữ Workspace) | Rất nhỏ | [RG-04](dang-nhap/test-case.md#tc-004) (Regression Tầng 1); [TC-004](dang-nhap/test-case.md#tc-004) (Test case Đăng nhập); [TC-006](dang-nhap/test-case.md#tc-006) (Test case Đăng nhập); [TC-007](dang-nhap/test-case.md#tc-007) (Test case Đăng nhập); [TC-008](dang-nhap/test-case.md#tc-008) (Test case Đăng nhập); [TC-011](dang-nhap/test-case.md#tc-011) (Test case Đăng nhập); [TC-012](dang-nhap/test-case.md#tc-012) (Test case Đăng nhập); [TC-013](dang-nhap/test-case.md#tc-013) (Test case Đăng nhập); [TC-030](dang-nhap/test-case.md#tc-030) (Test case Đăng nhập); [TC-035](dang-nhap/test-case.md#tc-035) (Test case Đăng nhập); [TC-036](dang-nhap/test-case.md#tc-036) (Test case Đăng nhập) |
-| [BUG-004](dang-nhap/bug/BUG-004.md) | [Đăng nhập] Để trống ô Mật khẩu hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_small (password) | Rất nhỏ | [TC-009](dang-nhap/test-case.md#tc-009) (Test case Đăng nhập) |
-| [BUG-005](dang-nhap/bug/BUG-005.md) | [Đăng nhập] Để trống cả hai ô hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_small (password) | Rất nhỏ | [TC-010](dang-nhap/test-case.md#tc-010) (Test case Đăng nhập) |
-| [BUG-006](dang-nhap/bug/BUG-006.md) | [Đăng nhập] Nhập mã nhân viên 210 ký tự hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_big (employeeId) | Rất nhỏ | [TC-040](dang-nhap/test-case.md#tc-040) (Test case Đăng nhập) |
-| [BUG-007](dang-nhap/bug/BUG-007.md) | [Đăng nhập] Ô Mật khẩu vẫn giữ nguyên chữ đã gõ sau khi báo sai | Nhỏ | [TC-011](dang-nhap/test-case.md#tc-011) (Test case Đăng nhập) |
-| [BUG-008](dang-nhap/bug/BUG-008.md) | [Đăng nhập] Tài khoản bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất, đăng nhập đúng không đưa số lần sai về 0 | Nặng | — |
+| Bug | Tiêu đề | Mức độ nghiêm trọng | Trạng thái | Case thấy lỗi ở build này |
+|---|---|---|---|---|
+| [BUG-001](dang-nhap/bug/BUG-001.md) | [Đăng nhập] Thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò | Rất nhỏ | Mở lại (Ngày 2026-11-19, build 1.3.0. re-test lần 2 trên staging vẫn còn DEFAULT ở cả 3 tài khoản, /api/health vẫn báo 1.3.0.) | [SM-02](dang-nhap/test-case.md#tc-001) (Smoke test); [RG-02](dang-nhap/test-case.md#tc-001) (Regression Tầng 1); [TC-001](dang-nhap/test-case.md#tc-001) (Test case Đăng nhập) |
+| [BUG-002](dang-nhap/bug/BUG-002.md) | [Đăng nhập] Câu báo sai mã nhân viên hoặc mật khẩu còn cụm Mã không gian (bản English còn chữ Workspace) | Rất nhỏ | Chưa ghi | [RG-04](dang-nhap/test-case.md#tc-004) (Regression Tầng 1); [TC-004](dang-nhap/test-case.md#tc-004) (Test case Đăng nhập); [TC-006](dang-nhap/test-case.md#tc-006) (Test case Đăng nhập); [TC-007](dang-nhap/test-case.md#tc-007) (Test case Đăng nhập); [TC-008](dang-nhap/test-case.md#tc-008) (Test case Đăng nhập); [TC-011](dang-nhap/test-case.md#tc-011) (Test case Đăng nhập); [TC-012](dang-nhap/test-case.md#tc-012) (Test case Đăng nhập); [TC-013](dang-nhap/test-case.md#tc-013) (Test case Đăng nhập); [TC-030](dang-nhap/test-case.md#tc-030) (Test case Đăng nhập); [TC-035](dang-nhap/test-case.md#tc-035) (Test case Đăng nhập); [TC-036](dang-nhap/test-case.md#tc-036) (Test case Đăng nhập) |
+| [BUG-004](dang-nhap/bug/BUG-004.md) | [Đăng nhập] Để trống ô Mật khẩu hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_small (password) | Rất nhỏ | Chưa ghi | [TC-009](dang-nhap/test-case.md#tc-009) (Test case Đăng nhập) |
+| [BUG-005](dang-nhap/bug/BUG-005.md) | [Đăng nhập] Để trống cả hai ô hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_small (password) | Rất nhỏ | Chưa ghi | [TC-010](dang-nhap/test-case.md#tc-010) (Test case Đăng nhập) |
+| [BUG-006](dang-nhap/bug/BUG-006.md) | [Đăng nhập] Nhập mã nhân viên 210 ký tự hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_big (employeeId) | Rất nhỏ | Chưa ghi | [TC-040](dang-nhap/test-case.md#tc-040) (Test case Đăng nhập) |
+| [BUG-007](dang-nhap/bug/BUG-007.md) | [Đăng nhập] Ô Mật khẩu vẫn giữ nguyên chữ đã gõ sau khi báo sai | Nhỏ | Chưa ghi | [TC-011](dang-nhap/test-case.md#tc-011) (Test case Đăng nhập) |
+| [BUG-008](dang-nhap/bug/BUG-008.md) | [Đăng nhập] Tài khoản bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất, đăng nhập đúng không đưa số lần sai về 0 | Nặng | Chưa ghi | — |
 
-File bug chưa có trường trạng thái (mở hoặc đã đóng); đóng bug theo kế hoạch re-test do người dùng chốt.
+Trạng thái bug đọc từ mục Trạng thái trong file bug, do người test chốt sau khi re-test (skill lap-ke-hoach-retest). Bug ghi "Chưa ghi" là chưa ai chốt trong kho; trạng thái chính thức nằm ở công cụ của team.
 
 ## 6. Độ phủ requirement
 

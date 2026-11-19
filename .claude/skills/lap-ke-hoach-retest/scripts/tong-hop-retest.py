@@ -2,7 +2,8 @@
 """Bảng tổng hợp nhiều bug cần re-test: mức độ nghiêm trọng (giảm dần), lần re-test gần nhất, có kế hoạch/script chưa.
 
 Chỉ đọc, chỉ in ra màn hình (không tạo file nên không bị cũ). Bug chưa có mục `## Lịch sử re-test` ghi "Chưa re-test".
-Kho không có trường trạng thái bug (do công cụ của team giữ) nên mặc định liệt kê MỌI bug của dự án; chọn bug đã sửa bằng --bug.
+Mặc định liệt kê MỌI bug của dự án (kể cả bug chưa sửa); chọn bug đã sửa bằng --bug. Cột "Trạng thái" đọc mục `## Trạng thái`
+trong file bug (người dùng chốt, ghi bằng dat-trang-thai-bug.py); bug chưa có mục đó ghi "Chưa ghi".
 
 Ví dụ (từ gốc repo):
     python -X utf8 .claude/skills/lap-ke-hoach-retest/scripts/tong-hop-retest.py                 # dự án hiện tại (.du-an-hien-tai)
@@ -46,8 +47,16 @@ def plan_build(plan_file):
     return nums[0] if nums else m.group(1).strip()[:20]
 
 
-def next_step(plan, build, last):
+def bug_status(text):
+    """Trạng thái người dùng đã chốt ở mục `## Trạng thái` của file bug (ghi bằng dat-trang-thai-bug.py); chưa có thì 'Chưa ghi'."""
+    m = re.search(r"^## Trạng thái\s*\n+\s*\*\*([^*]+?)\.?\*\*", text, re.M)
+    return m.group(1).strip() if m else "Chưa ghi"
+
+
+def next_step(plan, build, last, status="Chưa ghi"):
     """Gợi ý việc tiếp theo, suy từ file có sẵn (chỉ là gợi ý: trạng thái chính thức do công cụ của team giữ)."""
+    if status == "Đóng":
+        return "Đã đóng; còn file kế hoạch thì hỏi người dùng xóa" if plan else "Đã đóng, không cần làm gì thêm"
     low = last.lower()
     if not plan:
         return "Lập kế hoạch" if low == "chưa re-test" else "Đã re-test nhưng chưa có kế hoạch: lập kế hoạch cho khớp"
@@ -84,18 +93,19 @@ def main():
         script = (feature / "auto" / f"retest-{code.lower()}.py").exists()
         last = last_retest(text)
         build = plan_build(feature / "retest" / f"{code}-ke-hoach.md")
-        rows.append((rank, code, title, sev, last, plan, script, feature.name, next_step(plan, build, last)))
+        status = bug_status(text)
+        rows.append((rank, code, title, sev, status, last, plan, script, feature.name, next_step(plan, build, last, status)))
     if not rows:
         print("Không có bug nào khớp.")
         return 0
 
     rows.sort(key=lambda r: (r[0], r[1]))
     print(f"Dự án {slug}: {len(rows)} bug, xếp theo mức độ nghiêm trọng giảm dần.\n")
-    print("| Mã bug | Tính năng | Tiêu đề | Mức độ | Re-test gần nhất | Kế hoạch | Script | Việc tiếp theo (gợi ý) |")
-    print("|---|---|---|---|---|---|---|---|")
-    for rank, code, title, sev, last, plan, script, feature, nxt in rows:
-        print(f"| {code} | {feature} | {title[:70]} | {sev} | {last} | {'có' if plan else 'chưa'} | {'có' if script else 'chưa'} | {nxt} |")
-    print("\nCột 'Kế hoạch' = có file kế hoạch đang theo dõi (kế hoạch bị xóa khi bug đóng, xem SKILL.md). Bug nào đã Đóng hay còn mở do công cụ của team giữ, không suy ra từ đây; cột gợi ý chỉ suy từ file có sẵn.")
+    print("| Mã bug | Tính năng | Tiêu đề | Mức độ | Trạng thái | Re-test gần nhất | Kế hoạch | Script | Việc tiếp theo (gợi ý) |")
+    print("|---|---|---|---|---|---|---|---|---|")
+    for rank, code, title, sev, status, last, plan, script, feature, nxt in rows:
+        print(f"| {code} | {feature} | {title[:70]} | {sev} | {status} | {last} | {'có' if plan else 'chưa'} | {'có' if script else 'chưa'} | {nxt} |")
+    print("\nCột 'Trạng thái' = điều người dùng đã chốt và ghi vào file bug (dat-trang-thai-bug.py); 'Chưa ghi' = chưa ai chốt trong kho. Trạng thái chính thức do công cụ của team giữ. Cột 'Kế hoạch' = có file kế hoạch đang theo dõi (xóa khi bug đóng, xem SKILL.md). Cột gợi ý chỉ suy từ file có sẵn.")
     return 0
 
 

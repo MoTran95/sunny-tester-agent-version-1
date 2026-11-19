@@ -11,13 +11,16 @@ import json
 import os
 import re
 
-from . import config, report as R
+from . import bug_page, config, report as R
 
 MD_NAME = "test-summary-report.md"
 HTML_NAME = "test-summary-report.html"
 APPROVAL_FILE = "duyet-build.json"
 DECISIONS = ["Nhận build", "Không nhận build", "Nhận có điều kiện"]
 DECISION_CLASS = {"Nhận build": "ok", "Không nhận build": "bad", "Nhận có điều kiện": "warn"}  # lớp badge; nút chọn dùng nut-<lớp> để không dính CSS badge
+
+BUG_STATUS_NOTE = ("Trạng thái bug đọc từ mục `Trạng thái` trong file bug, do người test chốt sau khi re-test (skill lap-ke-hoach-retest). "
+                   "Bug ghi \"Chưa ghi\" là chưa ai chốt trong kho; trạng thái chính thức nằm ở công cụ của team.").replace("`", "")
 
 # Nhóm trạng thái để đếm theo tính năng
 CATEGORIES = [("pass", "Đạt"), ("pass_issue", "Đạt kèm lỗi"), ("fail", "Không đạt"), ("open", "Bị chặn / Không kết luận"), ("skipped", "Bỏ qua"), ("not_run", "Chưa chạy")]
@@ -256,7 +259,9 @@ def build_model(cfg, build=None, author=None):
     bugs = []
     for f in bug_files:
         code = f.stem
-        bugs.append({"code": code, "title": R._bug_title(cfg, code), "severity": R._bug_severity(cfg, code) or "—", "found": found.get(code, []), "href": _rel(cfg, f.with_suffix(".html")), "href_md": _rel(cfg, f)})
+        status, status_note = bug_page.read_status(f.read_text(encoding="utf-8"))
+        bugs.append({"code": code, "title": R._bug_title(cfg, code), "severity": R._bug_severity(cfg, code) or "—", "status": status, "status_note": status_note,
+                     "found": found.get(code, []), "href": _rel(cfg, f.with_suffix(".html")), "href_md": _rel(cfg, f)})
     model["bugs"] = bugs
     model["case_map"] = {name: {b["id"]: (b["feature"], b["tc"]) for b in table} for name, (_, table) in suites.items()}
 
@@ -305,7 +310,23 @@ def _facts_sentence(model):
              f"{t['open']} bị chặn hoặc chưa kết luận được, {t['skipped']} bỏ qua, {t['not_run']} chưa chạy."]
     open_bugs = [b for b in model["bugs"] if b["found"]]
     parts.append(f"{len(open_bugs)} bug được ghi nhận trong các lượt của build này (tổng {len(model['bugs'])} bug đã ghi).")
+    if model["bugs"]:
+        parts.append("Trạng thái bug: " + _status_counts_text(model["bugs"]) + ".")
     return " ".join(parts)
+
+
+def _status_counts_text(bugs):
+    """Ví dụ '2 Đóng, 1 Mở lại, 4 Chưa ghi' theo thứ tự cố định."""
+    order = list(bug_page.BUG_STATUSES) + [bug_page.STATUS_UNSET]
+    counts = {}
+    for b in bugs:
+        counts[b["status"]] = counts.get(b["status"], 0) + 1
+    names = [s for s in order if s in counts] + [s for s in counts if s not in order]
+    return ", ".join(f"{counts[s]} {s}" for s in names)
+
+
+def _status_text(b):
+    return b["status"] + (f" ({b['status_note']})" if b["status_note"] else "")
 
 
 # ---------------------------------------------------------------- md
@@ -353,9 +374,9 @@ def build_md(cfg, model):
     d += _md_table(["Bộ test", "Lượt", "Thời điểm", "Kết quả", "Kết luận", "Trang kết quả"], [
         (r["title"], r["run"]["number"], r["run"]["timestamp"], r["counts"], r["run"]["verdict"], f"[mở]({r['href']})") for r in model["suite_rows"]])
     d += ["", "## 5. Bug", ""]
-    d += (_md_table(["Bug", "Tiêu đề", "Mức độ nghiêm trọng", "Case thấy lỗi ở build này"], [(f"[{b['code']}]({b['href_md']})", b["title"], b["severity"], "; ".join(lk.case_item(i, "md") for i in b["found"]) or "—") for b in model["bugs"]])
+    d += (_md_table(["Bug", "Tiêu đề", "Mức độ nghiêm trọng", "Trạng thái", "Case thấy lỗi ở build này"], [(f"[{b['code']}]({b['href_md']})", b["title"], b["severity"], _status_text(b), "; ".join(lk.case_item(i, "md") for i in b["found"]) or "—") for b in model["bugs"]])
           if model["bugs"] else ["Chưa có bug nào được ghi."])
-    d += ["", "File bug chưa có trường trạng thái (mở hoặc đã đóng); đóng bug theo kế hoạch re-test do người dùng chốt.", "", "## 6. Độ phủ requirement", ""]
+    d += ["", BUG_STATUS_NOTE, "", "## 6. Độ phủ requirement", ""]
     d += _md_table(["Tính năng", "Mã requirement", "Mã chưa có test case", "Trạng thái test case", "Truy vết"], [
         (c["name"], c["requirements"], lk.link(c["uncovered"], "md", feature=c["slug"]), c["state"], f"[mở]({c['href']})" if c["href"] else "—") for c in model["coverage"]])
     d += ["", "## 7. Rủi ro còn lại", ""]
@@ -506,9 +527,11 @@ def build_html(cfg, model):
         (e(r["title"]), r["run"]["number"], e(r["run"]["timestamp"]), e(r["counts"]), R._verdict_badge(r["run"]["verdict"]), f'<a href="{e(r["href"])}">Mở trang kết quả</a>') for r in model["suite_rows"]], hide=(5,)))
 
     out.append("<h2>5. Bug</h2>")
-    out.append(_table(["Bug", "Tiêu đề", "Mức độ nghiêm trọng", "Case thấy lỗi ở build này"], [
-        (f'<a href="{e(b["href"])}">{e(b["code"])}</a>', e(b["title"]), e(b["severity"]), "; ".join(lk.case_item(i, "html") for i in b["found"]) or "—") for b in model["bugs"]]) if model["bugs"] else "<p>Chưa có bug nào được ghi.</p>")
-    out.append('<p class="small">File bug chưa có trường trạng thái (mở hoặc đã đóng); đóng bug theo kế hoạch re-test do người dùng chốt.</p>')
+    out.append(_table(["Bug", "Tiêu đề", "Mức độ nghiêm trọng", "Trạng thái", "Case thấy lỗi ở build này"], [
+        (f'<a href="{e(b["href"])}">{e(b["code"])}</a>', e(b["title"]), e(b["severity"]),
+         bug_page.status_badge(b["status"]) + (f' <span class="small">{e(b["status_note"])}</span>' if b["status_note"] else ""),
+         "; ".join(lk.case_item(i, "html") for i in b["found"]) or "—") for b in model["bugs"]]) if model["bugs"] else "<p>Chưa có bug nào được ghi.</p>")
+    out.append(f'<p class="small">{e(BUG_STATUS_NOTE)}</p>')
 
     out.append("<h2>6. Độ phủ requirement</h2>")
     out.append(_table(["Tính năng", "Mã requirement", "Mã chưa có test case", "Trạng thái test case", "Truy vết"], [

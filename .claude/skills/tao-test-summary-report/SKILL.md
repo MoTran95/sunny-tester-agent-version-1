@@ -18,7 +18,7 @@ description: Tạo báo cáo tổng kết kiểm thử (test summary report) cho
 ## Quy trình
 1. **Sinh:** `python -X utf8 scripts/build_report.py summary [--build X] [--author "Tên"]` (máy không có `python` thì `python3`). Ra `testing/<slug>/test-summary-report.md` và `.html`; `build_docs.py` cũng tự sinh lại trang này. Người viết báo cáo mặc định là người chạy lượt mới nhất; người dùng muốn tên khác thì hỏi tên rồi dùng `--author`.
 2. **Đọc lại bản md** và kiểm: đủ 9 mục (thông tin chung, kết luận, kết quả theo tính năng, theo bộ test, bug, độ phủ requirement, rủi ro còn lại, đề xuất tiếp theo, duyệt build); mục 3 có đủ tính năng có test case; số bug khớp thư mục `bug/`.
-3. **Trả lời người dùng:** link trang HTML (không chỉ md), 3–4 số chính (tổng test case, đã có kết luận, Không đạt, bug), chỗ còn thiếu dữ liệu (lượt thiếu kết luận, bug chưa có trạng thái), và cách điền duyệt build + in PDF (bên dưới). Không dán cả bảng vào chat.
+3. **Trả lời người dùng:** link trang HTML (không chỉ md), 3–4 số chính (tổng test case, đã có kết luận, Không đạt, bug), chỗ còn thiếu dữ liệu (lượt thiếu kết luận, bug còn "Chưa ghi" trạng thái: hỏi người dùng chốt rồi ghi bằng `dat-trang-thai-bug.py` của skill `lap-ke-hoach-retest`, không tự đoán), và cách điền duyệt build + in PDF (bên dưới). Không dán cả bảng vào chat.
 4. **Sinh lại và kiểm:** `python -X utf8 scripts/build_docs.py --all` rồi `python -X utf8 scripts/kiem-tra-bo-nho.py` (báo lỗi nếu còn trang cũ).
 
 ## Duyệt build (người dùng làm, Claude không điền thay)
@@ -43,7 +43,7 @@ Nút **In / Lưu PDF** trên trang (hộp thoại in của trình duyệt, chọ
 - [ ] Build trong mục 1 đúng build người dùng cần; bộ test không có lượt ở build đó được ghi rõ.
 - [ ] Không có logo; không có quyết định, tên, ngày duyệt nào do Claude tự điền.
 - [ ] Mã trong báo cáo đều có link (trừ mã không tìm được nơi định nghĩa).
-- [ ] Đã nói rõ phần thiếu dữ liệu (lượt thiếu kết luận, bug chưa có trạng thái).
+- [ ] Đã nói rõ phần thiếu dữ liệu (lượt thiếu kết luận, bug còn "Chưa ghi" trạng thái: hỏi người dùng chốt rồi ghi bằng `dat-trang-thai-bug.py` của skill `lap-ke-hoach-retest`, không tự đoán).
 - [ ] `build_docs.py --all --check` báo khớp.
 
 ## Tệp trong skill

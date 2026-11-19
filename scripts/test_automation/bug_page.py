@@ -135,6 +135,25 @@ def render_section(md_lines, bug_dir):
     return "".join(out), "\n".join(plain).strip()
 
 
+# Trạng thái bug do người dùng chốt, ghi ở mục `## Trạng thái` của file bug (xem skill lap-ke-hoach-retest, script dat-trang-thai-bug.py).
+# Công cụ của team vẫn là bản chính thức; mục này là bản ghi lại trong kho để báo cáo tổng kết đọc.
+BUG_STATUSES = {"Mở": "bad", "Chờ re-test": "warn", "Mở lại": "bad", "Đóng": "ok"}
+STATUS_UNSET = "Chưa ghi"
+
+
+def read_status(md_text):
+    """(trạng thái, chi tiết) từ mục `## Trạng thái` của file bug; không có mục thì (STATUS_UNSET, '')."""
+    m = re.search(r"^## Trạng thái\s*\n+\s*\*\*([^*]+?)\.?\*\*[ \t]*([^\n]*)", md_text, re.M)
+    if not m:
+        return STATUS_UNSET, ""
+    return m.group(1).strip(), m.group(2).strip()
+
+
+def status_badge(status):
+    cls = BUG_STATUSES.get(status, "gray")
+    return f'<span class="badge {cls}">{html.escape(status)}</span>'
+
+
 def _section_badge(title, content):
     """Severity/Priority: lấy chữ in đậm đầu tiên làm huy hiệu."""
     m = re.search(r"\*\*([^*]+?)\.?\*\*", content)
@@ -171,6 +190,9 @@ def render_one(md_path):
             chips.append(_section_badge("Mức độ nghiêm trọng", "\n".join(content)))
         elif title in ("Mức độ ưu tiên đề xuất", "Priority đề xuất"):
             chips.append(_section_badge("Mức độ ưu tiên", "\n".join(content)))
+        elif title == "Trạng thái":
+            st = read_status(md.read_text(encoding="utf-8"))[0]
+            chips.insert(0, f'<span class="chip">Trạng thái: {status_badge(st)}</span>')
         elif title == "Tần suất":
             chips.append(f'<span class="chip">Tần suất: <b>{e(_plain_text(" ".join(x for x in content if x.strip())).rstrip("."))}</b></span>')
     p = ['<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',

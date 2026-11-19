@@ -21,6 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(SKILL)))
 OPTIONAL_SECTIONS = {"Test case liên quan"}
 SEVERITY = ("Nghiêm trọng", "Lớn", "Nặng", "Nhỏ", "Rất nhỏ")
 PRIORITY = ("Cao", "Trung bình", "Thấp")
+STATUS = ("Mở", "Chờ re-test", "Mở lại", "Đóng")
 FREQUENCY = re.compile(r"^(Luôn xảy ra|Thỉnh thoảng|Một lần|1/1|Chưa rõ)", re.I)
 VAGUE_ACTUAL = ["không hoạt động", "bị lỗi", "lỗi hệ thống", "không như mong đợi", "hoạt động sai", "chạy sai", "hiển thị sai"]
 ENGLISH_SEVERITY = re.compile(r"\b(Critical|Major|Minor|Trivial|Severity|Priority)\b")
@@ -98,6 +99,11 @@ def check(path, passwords, required):
             problems.append("`Mức độ ưu tiên đề xuất` phải bắt đầu bằng **Cao/Trung bình/Thấp**")
         if "đề xuất" not in pri.lower():
             problems.append("ưu tiên chỉ là đề xuất: ghi `(Đề xuất; team hoặc PO sẽ chốt.)`")
+    state = secs.get("Trạng thái", "").strip()   # mục tùy chọn do skill lap-ke-hoach-retest ghi, không có trong khuôn
+    if state:
+        m = re.match(r"\*\*([^*]+?)\.?\*\*", state)
+        if not m or m.group(1).strip() not in STATUS:
+            problems.append("`Trạng thái` phải bắt đầu bằng **Mở / Chờ re-test / Mở lại / Đóng** (in đậm); ghi bằng script dat-trang-thai-bug.py của skill lap-ke-hoach-retest")
     freq = secs.get("Tần suất", "").strip()
     if freq and not FREQUENCY.match(freq):
         problems.append("`Tần suất` phải bắt đầu bằng Luôn xảy ra / Thỉnh thoảng / Một lần / 1/1 / Chưa rõ")
