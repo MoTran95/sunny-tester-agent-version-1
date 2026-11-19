@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 from . import report as report_mod
+from . import theme as theme_mod
 from . import config
 
 _CSS_BUG = """
@@ -51,12 +52,22 @@ def _plain_text(line):
     return re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m: m.group(1) if m.group(2).startswith("#") else f"{m.group(1)} ({m.group(2)})", line)
 
 
+def _md_to_html(url, bug_dir):
+    """Link tới file md của repo (SRS, test case, bug khác…) → trang HTML sinh từ nó, giữ nguyên phần #neo."""
+    if re.match(r"^(https?:|mailto:|#)", url):
+        return url
+    path, sep, frag = url.partition("#")
+    if path.endswith(".md") and (Path(bug_dir) / path).resolve().exists():
+        return path[:-3] + ".html" + sep + frag
+    return url
+
+
 def _inline(line, bug_dir):
     e = html.escape(line, quote=False)
     e = re.sub(r"\[Giả định: (.+?)\]", lambda m: f'<span class="gd">Giả định: {m.group(1)}</span>', e)
     e = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e)
     e = re.sub(r"`([^`]+)`", r"<code>\1</code>", e)
-    e = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m: f'<a href="{html.escape(m.group(2))}">{m.group(1)}</a>', e)
+    e = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m: f'<a href="{html.escape(_md_to_html(m.group(2), bug_dir))}">{m.group(1)}</a>', e)
     return e
 
 
@@ -132,7 +143,7 @@ def _section_badge(title, content):
     return f'<span class="chip">{html.escape(title)}: <span class="badge {cls}">{html.escape(v)}</span></span>'
 
 
-def build_one(md_path):
+def render_one(md_path):
     md = Path(md_path)
     line = md.read_text(encoding="utf-8").splitlines()
     heading = next((d[2:].strip() for d in line if d.startswith("# ")), md.stem)
@@ -161,8 +172,7 @@ def build_one(md_path):
             chips.append(f'<span class="chip">Tần suất: <b>{e(_plain_text(" ".join(x for x in content if x.strip())).rstrip("."))}</b></span>')
     p = ['<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
          f"<title>{e(bug_code)} {e(_plain_text(heading))}</title>",
-         '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
-         '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">',
+         theme_mod.font_head(md.parent),
          f"<style>{report_mod._CSS}{_CSS_BUG}</style><script>{report_mod._JS_THEME}{_JS_COPY}</script></head><body>"
          '<button id="theme" class="theme" type="button">Chế độ tối</button><main>',
          (f'<div class="brand"><img src="{logo}" alt="Sunny Nhận Ra"></div>' if logo else ""),
@@ -179,9 +189,18 @@ def build_one(md_path):
         p.append(f'<section class="muc"><header><h2>{e(title)}</h2>'
                  f'<button class="btn nho" type="button" onclick="sao(this)" data-copy="{e(title + chr(10) + plain)}">Sao chép</button></header>{body_html}</section>')
     p.append('<div id="toast" class="toast"></div></main></body></html>')
-    out = md.with_suffix(".html")
-    out.write_text("".join(p), encoding="utf-8")
+    return md.with_suffix(".html"), "".join(p)
+
+
+def build_one(md_path):
+    out, text = render_one(md_path)
+    out.write_text(text, encoding="utf-8")
     return out
+
+
+def render_all(cfg):
+    """{đường dẫn html: nội dung} của mọi file bug (chưa ghi)."""
+    return dict(render_one(f) for f in sorted(cfg.project_dir.glob("**/bug/BUG-*.md")))
 
 
 def build_all(cfg):

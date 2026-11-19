@@ -326,6 +326,319 @@
           ]
         }
       }
+    },
+    {
+      "number": 2,
+      "build": "1.3.0",
+      "timestamp": "2026-11-19 11:34:35",
+      "run_by": "Sunny Tran",
+      "run_method": "Tự động (Playwright)",
+      "verdict": "Chưa đủ kết luận",
+      "note": "Chạy tự động bằng Playwright trên môi trường thử staging (https://staging-banking-lite.vercel.app/), bản 1.3.0, ngày 2026-11-19. Ca số 2 (TC-001) còn chữ DEFAULT trên thanh điều hướng: lỗi đã biết ở BUG-001, bộ smoke cho phép nhận build. Ca số 6 (TC-022 của tính năng Khuyến nghị LTV/DSR) không kết luận được vì hồ sơ nháp của riêng ca này đã dùng hết; cần tạo hồ sơ nháp mới trên staging (tạo dữ liệu thật nên cần bạn đồng ý) rồi chạy lại.",
+      "sources": [
+        "evidence/banking-lite/chay-test/result-20261119-113435.json"
+      ],
+      "results": {
+        "1": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-005-form-dang-nhap-20261119-113358.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Có ô `Mã nhân viên *` (bước 2)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Có ô `Mật khẩu *` (bước 2)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Có nút `Đăng nhập` (bước 4)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Chân trang ghi `Banking Lite · Phiên bản 1.3.0` (bước 5)",
+              "passed": true,
+              "note": "thấy: 1.3.0"
+            },
+            {
+              "kind": "minor",
+              "title": "Có dòng gợi ý `Chữ P và 6 chữ số, ví dụ P100001.` (bước 3)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Chữ gõ trong ô Mật khẩu hiện dạng chấm (bước 7)",
+              "passed": true,
+              "note": "kiểu ô: password"
+            }
+          ]
+        },
+        "2": {
+          "status": "Đạt kèm lỗi đã biết",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261119-113402.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-113402.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-113402.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-113402.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-001",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-001.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý phụ: Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Vào Danh sách việc (bước 4)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Thanh điều hướng hiện mã P100001 (bước 5)",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "Thanh điều hướng hiện vai trò Chuyên viên khách hàng (bước 5)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Không có thông báo đăng nhập thành công (bước 4)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "3": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/khuyen-nghi-ltv-dsr-tc-002-khung-tham-dinh-20261119-113408.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Khung Thẩm định đổi ngay khi nhập, không cần Lưu (bước 5)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Nhãn `Phê duyệt`",
+              "passed": true,
+              "note": "thấy: Phê duyệt"
+            },
+            {
+              "kind": "main",
+              "title": "DSR `40,80%`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Thặng dư `54.700.000 VND`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Lý do `Đáp ứng mọi quy tắc tín dụng.`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Dòng nhỏ `Xem trước: thẩm định chính thức chạy khi gửi, có dữ liệu CIC.`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Khoản trả mới `40.800.000 VND`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Thu nhập được tính `100.000.000 VND`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Chi phí được tính `4.500.000 VND`",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "4": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/khuyen-nghi-ltv-dsr-tc-023-khung-tham-dinh-20261119-113413.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "DSR `54,40%` (bước 5)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Nhãn `Chuyển cấp trên` (bước 5)",
+              "passed": true,
+              "note": "thấy: Chuyển cấp trên"
+            }
+          ]
+        },
+        "5": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/khuyen-nghi-ltv-dsr-tc-009-khung-tham-dinh-20261119-113419.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Thặng dư `2.999.999 VND` (bước 6)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Nhãn `Từ chối` (bước 6)",
+              "passed": true,
+              "note": "thấy: Từ chối"
+            },
+            {
+              "kind": "main",
+              "title": "Lý do `Từ chối: Thặng dư hằng tháng 2.999.999 VND thấp hơn 3.000.000 VND.`",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "6": {
+          "status": "Không kết luận",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "Điều kiện trước chưa đúng: Hồ sơ chưa nhập thu nhập (khung còn thông báo `Nhập đủ thông tin…`); ca này dùng hết một hồ sơ nháp",
+          "actual": []
+        },
+        "7": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261119-113429.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261119-113434.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "P200001: vào Danh sách việc (bước 4)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "P200001: thanh điều hướng hiện mã P200001 (bước 5)",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P200001 · Chuyên viên định giá · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "P200001: thanh điều hướng hiện vai trò Chuyên viên định giá (bước 5)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "P200001: bấm Đăng xuất về form Đăng nhập (bước 6)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "P300001: vào Danh sách việc (bước 9)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "P300001: thanh điều hướng hiện mã P300001 (bước 10)",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | Tích hợp | P300001 · Chuyên viên thẩm định tín dụng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "P300001: thanh điều hướng hiện vai trò Chuyên viên thẩm định tín dụng (bước 10)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -88,6 +88,12 @@ def main():
     luon = ["MEMORY.md", "user/working-preferences.md", "project/overview.md"]
     luon_kb = sum(os.path.getsize(os.path.join(MEM, f)) for f in luon) / 1024
     luon_kb += os.path.getsize(os.path.join(ROOT, "CLAUDE.md")) / 1024
+    # trang HTML sinh từ md và dữ liệu phải khớp nguồn (không cũ): sửa bằng python -X utf8 scripts/build_docs.py --all
+    import subprocess
+    r = subprocess.run([sys.executable, "-X", "utf8", os.path.join(ROOT, "scripts", "build_docs.py"), "--all", "--check"], capture_output=True, text=True, encoding="utf-8")
+    if r.returncode != 0:
+        chi_tiet = " | ".join(x.strip() for x in (r.stdout or r.stderr).strip().splitlines())[:500]
+        loi.append("trang HTML cũ hơn file md hoặc dữ liệu. Chạy: python -X utf8 scripts/build_docs.py --all (" + chi_tiet + ")")
     print(f"Tổng memories: {tong:.1f} KB · phần luôn đọc (CLAUDE.md + bản đồ + 2 file ★): {luon_kb:.1f} KB")
     if loi:
         print(f"\n{len(loi)} LỖI:")

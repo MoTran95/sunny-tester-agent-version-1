@@ -22,7 +22,7 @@ if hasattr(sys.stdout, "reconfigure"):
 import fake_server  # noqa: E402
 from playwright.sync_api import sync_playwright  # noqa: E402
 
-from test_automation import bug_page, config, docs_pages, context as context_module, failure_counter, report, results, runner, session  # noqa: E402
+from test_automation import bug_page, config, docs_pages, theme, context as context_module, failure_counter, report, results, runner, session  # noqa: E402
 
 FAILED = []
 
@@ -203,7 +203,29 @@ def main():
         check("docs: web link kept, inline code escaped", 'href="https://example.com/a"' in body and "<code>code &lt;b&gt;</code>" in body)
         check("docs: comment hidden, anchor kept", "hidden" not in body and '<a id="tc-001"></a>' in body)
         check("docs: wide table (6 cols) with status badges and escaped pipe", 'class="wrap lon"' in body and 'class="badge ok">Đạt' in body and 'class="badge bad">Không đạt' in body and "x|y" in body)
-        check("docs: nested list and ordered list", "<ul><li>one<ul><li>nested</li></ul></li><li>two</li></ul>" in body and "<ol><li>first</li>" in body)
+        check("docs: nested list and ordered list", body.count("<ul>") == 2 and "nested" in body and "<ol>" in body and body.count("<li id=") >= 4, body[-300:])
+        print("7. Line anchors, code links, sync freshness, offline fonts")
+        srs_dir = root / "srs" / "demo"
+        srs_dir.mkdir(parents=True)
+        (srs_dir / "feature.md").write_text(chr(10).join(["# SRS", "", "| Mã | Nội dung |", "|---|---|", "| `DEMO-S01-AC01` | Mở form |", "| `DEMO-R01` | Quy tắc |"]) + chr(10), encoding="utf-8")
+        (project / "feature" / "checklist.md").write_text("# Checklist" + chr(10) + chr(10) + "- Theo S01-AC01 và R01, xem [SRS](../../../srs/demo/feature.md#L5)" + chr(10), encoding="utf-8")
+        changed, _ = docs_pages.sync("demo")
+        check("sync writes pages on first run", len(changed) > 0, str(changed))
+        srs_html = (srs_dir / "feature.html").read_text(encoding="utf-8")
+        check("SRS table rows have line anchors", 'id="L5"' in srs_html and 'id="L6"' in srs_html)
+        checklist_html = (project / "feature" / "checklist.html").read_text(encoding="utf-8")
+        check("requirement codes link to the SRS row", 'class="ma" href="../../../srs/demo/feature.html#L5">S01-AC01</a>' in checklist_html, checklist_html[-400:])
+        check("md link with #L anchor points to the html page", 'feature.html#L5">SRS</a>' in checklist_html)
+        check("the defining cell does not link to itself", 'class="ma"' not in srs_html)
+        changed_again, _ = docs_pages.sync("demo", write=False)
+        check("second sync finds nothing stale (pages are idempotent)", changed_again == [], str(changed_again))
+        (srs_dir / "feature.md").write_text((srs_dir / "feature.md").read_text(encoding="utf-8") + "- thêm" + chr(10), encoding="utf-8")
+        check("editing the md makes the check report a stale page", len(docs_pages.sync("demo", write=False)[0]) > 0)
+        fonts = root / "docs" / "thuong-hieu" / "fonts"
+        fonts.mkdir(parents=True)
+        (fonts / "Fraunces-roman-latin.woff2").write_bytes(b"x")
+        (fonts / "fonts.json").write_text('[{"family": "Fraunces", "weight": "400 700", "style": "normal", "file": "Fraunces-roman-latin.woff2", "unicode_range": "U+0000-00FF", "subset": "latin"}]', encoding="utf-8")
+        check("local font files replace Google Fonts", "@font-face" in theme.font_head(srs_dir) and "googleapis" not in theme.font_head(srs_dir))
     finally:
         server.shutdown()
         shutil.rmtree(root, ignore_errors=True)

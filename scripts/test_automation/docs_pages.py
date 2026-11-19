@@ -3,15 +3,17 @@ và trang tổng `testing/<dự-án>/index.html` link tới mọi tài liệu, k
 
 - File md vẫn là bản gốc (AI đọc md). HTML sinh ra cạnh file md, đừng sửa tay: chạy `python -X utf8 scripts/build_docs.py`.
 - Không dùng AI để sinh: chỉ là chương trình đổi md sang HTML và đọc số liệu từ file có sẵn, nên xem hay cập nhật đều 0 token.
-- Bảng rộng giữ cố định hai cột đầu, có thanh cuộn ngang luôn hiện; có ô lọc dòng; trạng thái (Đạt, Không đạt…) hiện thành huy hiệu màu.
+- Giao diện (màu, font, bảng rộng, chế độ tối) lấy từ `theme.py`, dùng chung cho mọi dự án và mọi máy.
+- Mọi dòng, mọi dòng bảng, mọi mục danh sách có neo `id="L<số dòng md>"`, nên link kiểu `dang-nhap.md#L66` (truy vết) nhảy đúng chỗ.
+- Mã requirement (S01-AC02, R06, M06, E20), câu trả lời BA (TL-07), mã câu hỏi BA (B15), mã test case (TC-014) tự thành link tới đúng dòng định nghĩa.
+- `sync()` sinh lại mọi trang (tài liệu, kết quả chạy, trang bug, trang tổng) và so với file đang có; `--check` dùng để đảm bảo không bao giờ cũ.
 """
 import html
 import os
 import re
-import time
 from pathlib import Path
 
-from . import config
+from . import bug_page, config, theme
 from . import report as report_mod
 
 GENERATOR = '<meta name="generator" content="build_docs.py">'
@@ -22,26 +24,106 @@ DOC_LABELS = [("srs", "SRS"), ("bang-soat-requirement", "Bảng soát requiremen
               ("cau-hoi-cho-ba", "Câu hỏi cho BA"), ("checklist", "Checklist"), ("test-case", "Test case"), ("truy-vet", "Truy vết"),
               ("ket-qua-test-case", "Kết quả chạy")]
 
+CODE_DEF = re.compile(r"^(?:([A-Z]{2,6})-)?(S\d{2}-AC\d{2}|[RME]\d{2})$")
+CODE_RE = re.compile(r"(?<![\w./#-])((?:[A-Z]{2,6}-)?S\d{2}-AC\d{2}|(?:[A-Z]{2,6}-)?[RME]\d{2}|TL-\d{2}|TC-\d{3}|[ABC]\d{1,2})(?![\w-])")
+
 
 # ---------------------------------------------------------------- tìm tài liệu
+def projects():
+    """Các dự án có thư mục testing/<dự-án> (có auto-config.json hoặc test case)."""
+    t = config.ROOT / "testing"
+    return [d.name for d in sorted(t.iterdir()) if d.is_dir() and ((d / "auto-config.json").exists() or any(d.glob("*/test-case.md")))]
+
+
 def collect_sources(project):
     """Danh sách file md cần đổi sang HTML của một dự án."""
     root = config.ROOT
     found = []
-    for d in (root / "srs" / project,):
-        found += sorted(d.glob("*.md"))
+    found += sorted((root / "srs" / project).glob("*.md"))
     t = root / "testing" / project
     found += [f for f in sorted(t.glob("*.md")) if f.name != "smoke-ket-qua.md"]
     for sub in sorted(x for x in t.iterdir() if x.is_dir()):
         found += [f for f in sorted(sub.glob("*.md")) if f.name != "ket-qua-test-case.md"]
     e = root / "evidence" / project
-    for f in sorted(e.rglob("*.md")):
-        if not {"_src", "screenshots", "chay-test"} & set(f.relative_to(e).parts):
-            found.append(f)
-    for name in ("chay-test-tu-dong.md",):
-        if (root / "docs" / name).exists():
-            found.append(root / "docs" / name)
+    if e.exists():
+        for f in sorted(e.rglob("*.md")):
+            if not {"_src", "screenshots", "chay-test"} & set(f.relative_to(e).parts):
+                found.append(f)
+    found += [f for f in sorted((root / "srs").glob("*.md"))]   # tài liệu quy ước chung của mọi dự án (ví dụ id-and-source-rules.md)
+    found += [f for f in sorted((root / "testing").glob("*.md"))]   # chiến lược và quy ước test dùng chung
+    found += [f for f in sorted((root / "docs").glob("*.md"))]   # hướng dẫn cài đặt, chạy test, kiểm thử các thay đổi
     return found
+
+
+def feature_of(src, project):
+    parts = src.parts
+    if "features" in parts:
+        return src.parent.name
+    if "testing" in parts and src.parent.parent.name == project:
+        return src.parent.name
+    if "srs" in parts:
+        return src.stem
+    return None
+
+
+# ---------------------------------------------------------------- chỉ mục mã (mã → file + neo)
+def _first_cell(line):
+    cells = _split_row(line)
+    return re.sub(r'<a id="?[\w.-]+"?></a>|`', "", cells[0]).strip() if cells else ""
+
+
+def build_code_index(project):
+    """{(tính năng, mã): (file md, neo)}: nơi mỗi mã được định nghĩa, để mọi trang link tới đúng dòng."""
+    root = config.ROOT
+    codes = {}
+
+    def put(feature, code, md, anchor):
+        codes.setdefault((feature, code), (md, anchor))
+
+    for srs in sorted((root / "srs" / project).glob("*.md")):
+        feature = srs.stem
+        for n, line in enumerate(srs.read_text(encoding="utf-8").splitlines(), 1):
+            if line.startswith("|"):
+                cell = _first_cell(line)
+                m = CODE_DEF.match(cell)
+                if m:
+                    put(feature, cell, srs, f"L{n}")
+                    put(feature, m.group(2), srs, f"L{n}")
+    t = root / "testing" / project
+    for d in sorted(x for x in t.iterdir() if x.is_dir()):
+        feature = d.name
+        bs = d / "bang-soat-requirement.md"
+        if bs.exists():
+            for n, line in enumerate(bs.read_text(encoding="utf-8").splitlines(), 1):
+                if line.startswith("|") and re.match(r"^TL-\d{2}$", _first_cell(line)):
+                    put(feature, _first_cell(line), bs, f"L{n}")
+        ch = d / "cau-hoi-cho-ba.md"
+        if ch.exists():
+            for m in re.finditer(r'<a id="([a-c]\d{1,2})"></a>', ch.read_text(encoding="utf-8")):
+                put(feature, m.group(1).upper(), ch, m.group(1))
+        tc = d / "test-case.md"
+        if tc.exists():
+            for m in re.finditer(r'<a id="(tc-\d{3})"></a>', tc.read_text(encoding="utf-8")):
+                put(feature, m.group(1).upper(), tc, m.group(1))
+    return codes
+
+
+class DocCtx:
+    """Ngữ cảnh khi đổi một file md: file nguồn, tập file được đổi, chỉ mục mã, dòng đang xử lý."""
+
+    def __init__(self, src, converted, codes=None, feature=None):
+        self.src, self.converted, self.codes, self.feature, self.line = src, converted, codes or {}, feature, 0
+        self.is_srs = "srs" in src.parts
+
+    def code_href(self, token):
+        target = self.codes.get((self.feature, token))
+        if not target or (self.is_srs and re.match(r"^[ABC]\d", token)):
+            return None
+        md, anchor = target
+        if md.resolve() == self.src.resolve() and anchor == f"L{self.line}":
+            return None  # dòng định nghĩa chính nó: không tự link
+        rel = os.path.relpath(md.with_suffix(".html"), self.src.parent).replace("\\", "/")
+        return f"{rel}#{anchor}"
 
 
 # ---------------------------------------------------------------- markdown → HTML
@@ -56,37 +138,51 @@ def _fix_link(url, src, converted):
     path, sep, frag = url.partition("#")
     if path.endswith(".md"):
         target = (src.parent / path).resolve()
-        if target in converted:
+        generated = target.exists() and (target.stem.startswith("BUG-") or target.name in ("smoke-ket-qua.md", "ket-qua-test-case.md"))  # trang do build_report/bug_page sinh
+        if target in converted or generated:
             return path[:-3] + ".html" + (sep + frag if sep else "")
     return url
 
 
-def render_inline(text, src, converted):
+def render_inline(text, ctx):
     holders = []
 
     def hold(h):
         holders.append(h)
         return f"\x00{len(holders) - 1}\x00"
 
-    text = re.sub(r"`([^`]+)`", lambda m: hold("<code>" + html.escape(m.group(1), quote=False) + "</code>"), text)
+    def code_span(m):
+        inner = m.group(1)
+        href = ctx.code_href(inner.strip()) if CODE_RE.fullmatch(inner.strip()) else None
+        body = html.escape(inner, quote=False)
+        return hold(f'<code><a class="ma" href="{href}">{body}</a></code>' if href else f"<code>{body}</code>")
+
+    text = re.sub(r"`([^`]+)`", code_span, text)
     text = re.sub(r"<br\s*/?>", lambda m: hold("<br>"), text, flags=re.I)
     text = re.sub(r'<a id="?([\w.-]+)"?></a>', lambda m: hold(f'<a id="{m.group(1)}"></a>'), text)
     text = html.escape(text, quote=False)
+    text = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)", lambda m: hold(f'<img class="anh-md" src="{m.group(2)}" alt="{m.group(1)}">'), text)
     text = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)",
-                  lambda m: hold(f'<a href="{_fix_link(m.group(2), src, converted).replace(chr(34), "%22")}">{m.group(1)}</a>'), text)
+                  lambda m: hold(f'<a href="{_fix_link(m.group(2), ctx.src, ctx.converted).replace(chr(34), "%22")}">{m.group(1)}</a>'), text)
     text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"(?<![*\w])\*([^*\s][^*]*?)\*(?![*\w])", r"<em>\1</em>", text)
     text = re.sub(r"(?<![=\"\w/>])(https?://[^\s<)\x00]+[^\s<).,;\x00])", lambda m: f'<a href="{m.group(1)}">{m.group(1)}</a>', text)
+
+    def link_code(m):
+        href = ctx.code_href(m.group(1))
+        return hold(f'<a class="ma" href="{href}">{m.group(1)}</a>') if href else m.group(0)
+
+    text = CODE_RE.sub(link_code, text)
     while "\x00" in text:
         text = re.sub(r"\x00(\d+)\x00", lambda m: holders[int(m.group(1))], text)
     return text
 
 
-def _cell_html(cell, src, converted):
+def _cell_html(cell, ctx):
     plain = re.sub(r"`", "", cell).strip()
     if plain in STATUSES:
         return f'<span class="badge {STATUSES[plain]}">{html.escape(plain)}</span>'
-    return render_inline(cell.strip(), src, converted) or "—"
+    return render_inline(cell.strip(), ctx) or "—"
 
 
 def _split_row(line):
@@ -98,18 +194,21 @@ def _split_row(line):
     return [c.replace("\\|", "|") for c in cells]
 
 
-def _render_table(rows, src, converted):
-    header, body = rows[0], rows[2:]
+def _render_table(rows, ctx):
+    """rows: [(số dòng md, [ô])]; hàng 0 là tiêu đề, hàng 1 là dòng gạch ngăn."""
+    header, body = rows[0][1], rows[2:]
     n = len(header)
     wide = n >= 6
+    ctx.line = rows[0][0]
     empty_head = all(not h.strip() for h in header)
-    out = ['<div class="khu-bang"><div class="wrap' + (" lon" if wide else "") + '"><table>']
+    out = [f'<div class="khu-bang" id="L{rows[0][0]}"><div class="wrap' + (" lon" if wide else "") + '"><table>']
     if not empty_head:
-        out.append("<thead><tr>" + "".join(f"<th>{render_inline(h.strip(), src, converted)}</th>" for h in header) + "</tr></thead>")
+        out.append("<thead><tr>" + "".join(f"<th>{render_inline(h.strip(), ctx)}</th>" for h in header) + "</tr></thead>")
     out.append("<tbody>")
-    for r in body:
+    for ln, r in body:
+        ctx.line = ln
         cells = (r + [""] * n)[:n]
-        out.append("<tr>" + "".join(f'<td class="cot-nho">{_cell_html(c, src, converted)}</td>' if wide else f"<td>{_cell_html(c, src, converted)}</td>" for c in cells) + "</tr>")
+        out.append(f'<tr id="L{ln}">' + "".join(f'<td class="cot-nho">{_cell_html(c, ctx)}</td>' if wide else f"<td>{_cell_html(c, ctx)}</td>" for c in cells) + "</tr>")
     out.append('</tbody></table></div><div class="thanh-keo"><div></div></div></div>')
     return "".join(out)
 
@@ -117,35 +216,37 @@ def _render_table(rows, src, converted):
 _LIST_RE = re.compile(r"^(\s*)([-*]|\d+\.)\s+(.*)$")
 
 
-def _render_list(items, src, converted):
-    """items: [(indent, kind, text)] → HTML lồng nhau theo độ thụt."""
+def _render_list(items, ctx):
+    """items: [(dòng, độ thụt, kiểu, chữ)] → HTML lồng nhau theo độ thụt."""
     out, stack = [], []
-    for indent, kind, text in items:
+    for line, indent, kind, text in items:
+        ctx.line = line
+        tag = "ol" if kind[0].isdigit() else "ul"
         while stack and indent < stack[-1][0]:
             out.append(f"</li></{stack.pop()[1]}>")
-        tag = "ol" if kind[0].isdigit() else "ul"
         if stack and indent == stack[-1][0] and stack[-1][1] != tag:
-            out.append(f"</li></{stack.pop()[1]}>")   # đổi từ danh sách gạch đầu dòng sang đánh số (hoặc ngược lại): mở danh sách mới
+            out.append(f"</li></{stack.pop()[1]}>")   # đổi kiểu danh sách ở cùng mức: mở danh sách mới
         if stack and indent == stack[-1][0]:
             out.append("</li>")
         elif not stack or indent > stack[-1][0]:
             stack.append((indent, tag))
             out.append(f"<{tag}>")
-        out.append(f"<li>{render_inline(text, src, converted)}")
+        out.append(f'<li id="L{line}">{render_inline(text, ctx)}')
     while stack:
         out.append(f"</li></{stack.pop()[1]}>")
     return "".join(out)
 
 
-def render_markdown(md, src, converted):
+def render_markdown(md, src, converted, codes=None, feature=None):
     """→ (html thân trang, tiêu đề, [(mức, id, chữ)] của các đề mục)."""
+    ctx = DocCtx(src, converted, codes, feature)
     lines = md.splitlines()
     out, heads, used, title = [], [], set(), ""
     i = 0
     while i < len(lines):
-        raw = lines[i]
-        line = raw.rstrip()
+        line = lines[i].rstrip()
         stripped = line.strip()
+        ln = i + 1
         if not stripped:
             i += 1
             continue
@@ -153,6 +254,15 @@ def render_markdown(md, src, converted):
             while i < len(lines) and "-->" not in lines[i]:
                 i += 1
             i += 1
+            continue
+        if stripped.startswith("```"):
+            i += 1
+            code = []
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                code.append(lines[i])
+                i += 1
+            i += 1
+            out.append(f'<pre id="L{ln}"><code>{html.escape(chr(10).join(code), quote=False)}</code></pre>')
             continue
         m = re.match(r'^<a id="?([\w.-]+)"?></a>\s*$', stripped)
         if m:
@@ -171,26 +281,28 @@ def render_markdown(md, src, converted):
                 title = re.sub(r"[`*]", "", text)
             if 2 <= level <= 3:
                 heads.append((level, sid, re.sub(r"[`*]", "", text)))
-            out.append(f'<h{level} id="{sid}">{render_inline(text, src, converted)}</h{level}>')
+            ctx.line = ln
+            out.append(f'<h{level} id="{sid}"><a id="L{ln}"></a>{render_inline(text, ctx)}</h{level}>')
             i += 1
             continue
-        if re.match(r"^-{3,}$", stripped):
-            out.append("<hr>")
+        if re.match(r"^([-*_])\1{2,}$", stripped):
+            out.append(f'<hr id="L{ln}">')
             i += 1
             continue
         if stripped.startswith("|") and i + 1 < len(lines) and re.match(r"^\s*\|[\s:|-]+\|?\s*$", lines[i + 1]):
             rows = []
             while i < len(lines) and lines[i].strip().startswith("|"):
-                rows.append(_split_row(lines[i]))
+                rows.append((i + 1, _split_row(lines[i])))
                 i += 1
-            out.append(_render_table(rows, src, converted))
+            out.append(_render_table(rows, ctx))
             continue
         if stripped.startswith(">"):
             block = []
             while i < len(lines) and lines[i].strip().startswith(">"):
                 block.append(lines[i].strip().lstrip(">").strip())
                 i += 1
-            out.append("<blockquote>" + "<br>".join(render_inline(b, src, converted) for b in block if b) + "</blockquote>")
+            ctx.line = ln
+            out.append(f'<blockquote id="L{ln}">' + "<br>".join(render_inline(b, ctx) for b in block if b) + "</blockquote>")
             continue
         if _LIST_RE.match(line):
             items = []
@@ -198,9 +310,9 @@ def render_markdown(md, src, converted):
                 cur = lines[i].rstrip()
                 lm = _LIST_RE.match(cur)
                 if lm:
-                    items.append([len(lm.group(1).replace("\t", "    ")), lm.group(2), lm.group(3)])
+                    items.append([i + 1, len(lm.group(1).replace("\t", "    ")), lm.group(2), lm.group(3)])
                 elif cur.strip() and cur.startswith(" ") and items:
-                    items[-1][2] += " " + cur.strip()
+                    items[-1][3] += " " + cur.strip()
                 elif not cur.strip():
                     j = i + 1
                     while j < len(lines) and not lines[j].strip():
@@ -212,14 +324,15 @@ def render_markdown(md, src, converted):
                 else:
                     break
                 i += 1
-            out.append(_render_list([tuple(x) for x in items], src, converted))
+            out.append(_render_list([tuple(x) for x in items], ctx))
             continue
         para = [stripped]
         i += 1
-        while i < len(lines) and lines[i].strip() and not re.match(r"^(#{1,4}\s|\||>|-{3,}$|<!--)", lines[i].strip()) and not _LIST_RE.match(lines[i].rstrip()):
+        while i < len(lines) and lines[i].strip() and not re.match(r"^(#{1,4}\s|\||>|-{3,}$|<!--|```)", lines[i].strip()) and not _LIST_RE.match(lines[i].rstrip()):
             para.append(lines[i].strip())
             i += 1
-        out.append(f"<p>{render_inline(' '.join(para), src, converted)}</p>")
+        ctx.line = ln
+        out.append(f'<p id="L{ln}">{render_inline(" ".join(para), ctx)}</p>')
     return "".join(out), title, heads
 
 
@@ -229,9 +342,14 @@ main.rong{max-width:1840px}
 .doc h1{text-align:left;font-size:34px;margin:6px 0 14px}.doc h2{margin:34px 0 10px;padding-top:6px;border-top:1px solid var(--line)}.doc h3{font:700 18px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:24px 0 8px}
 .doc p,.doc ul,.doc ol,.doc blockquote{max-width:1100px}.doc ul,.doc ol{padding-left:24px}.doc li{margin:4px 0}
 .doc blockquote{margin:14px 0;padding:10px 16px;border-left:4px solid var(--amber);background:var(--amberbg);color:var(--amberfg);border-radius:0 10px 10px 0}
-.doc hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+.doc hr{border:0;border-top:1px solid var(--line);margin:26px 0}.doc pre{background:var(--graybg);padding:12px 16px;border-radius:10px;overflow-x:auto;font-size:13px}.doc pre code{background:none;padding:0}
+.anh-md{max-width:100%;border:1px solid var(--line);border-radius:8px}
 .khu-bang{margin:12px 0 18px}
 .doc table{min-width:0}.doc .lon table{min-width:1280px}
+a.ma{font-weight:700;text-decoration-style:dotted}
+[id^=L]{scroll-margin-top:90px}tr:target td,li:target,p:target,blockquote:target{background:var(--amberbg)!important;outline:2px solid var(--amber);outline-offset:-2px}
+tr:target td:first-child{box-shadow:inset 5px 0 0 var(--amber)}
+tr.dich td,li.dich,p.dich,blockquote.dich{background:var(--amberbg)!important;outline:2px solid var(--amber);outline-offset:-2px}tr.dich td:first-child{box-shadow:inset 5px 0 0 var(--amber)}
 .nav-doc{display:flex;flex-wrap:wrap;gap:6px 8px;margin:0 0 18px;font-size:14px}.nav-doc a,.nav-doc b{padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);text-decoration:none;color:var(--body)}
 .nav-doc b{background:var(--coral);border-color:var(--coral);color:#fff}.nav-doc a:hover{border-color:var(--coral);color:var(--coral)}
 .muc-luc{margin:0 0 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 18px}.muc-luc summary{cursor:pointer;font-weight:700}
@@ -252,21 +370,20 @@ tr.an{display:none}
 @media (max-width:700px){.the{grid-template-columns:1fr}.muc-luc ul{columns:1}}
 """
 
-_JS_FILTER = ("document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('loc-q');if(!q)return;var c=document.getElementById('loc-n');"
+_JS_HASH = ("function hl(){document.querySelectorAll('.dich').forEach(function(x){x.classList.remove('dich')});var h=decodeURIComponent(location.hash.slice(1));if(!h)return;"
+            "var e=document.getElementById(h);if(!e)return;e.classList.add('dich');e.scrollIntoView({block:'center'})}"
+            "document.addEventListener('DOMContentLoaded',function(){hl();addEventListener('hashchange',hl)});")
+
+_JS_FILTER = _JS_HASH + ("document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('loc-q');if(!q)return;var c=document.getElementById('loc-n');"
               "q.addEventListener('input',function(){var v=q.value.trim().toLowerCase(),n=0,t=0;document.querySelectorAll('.doc tbody tr').forEach(function(r){t++;"
               "var ok=!v||r.textContent.toLowerCase().indexOf(v)>=0;r.classList.toggle('an',!ok);if(ok)n++});c.textContent=v?(n+' / '+t+' dòng'):''})});")
 
 
-def _page(title, body, nav_html="", toc_html="", has_table=False, back=None, extra_head=""):
-    e = html.escape
-    logo = report_mod._logo_data_uri()
+def _page(title, body, page_dir, nav_html="", toc_html="", has_table=False):
+    logo = theme.logo_data_uri()
     flt = ('<div class="loc"><input id="loc-q" type="search" placeholder="Lọc dòng trong các bảng (gõ chữ hoặc mã)…"><span id="loc-n"></span></div>' if has_table else "")
-    return ('<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' + GENERATOR +
-            f"<title>{e(title)}</title>"
-            '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-            '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">'
-            f"<style>{report_mod._CSS}{_CSS_DOC}</style><script>{report_mod._JS_THEME}{report_mod._JS_DRAG_SCROLL}{_JS_FILTER}</script></head><body>"
-            '<button id="theme" class="theme" type="button">Chế độ tối</button><main class="rong doc">'
+    head = theme.page_head(title, page_dir, _CSS_DOC).replace("<head>", "<head>" + GENERATOR, 1).replace("</script></head>", f"</script><script>{_JS_FILTER}</script></head>", 1)
+    return (head + '<body><button id="theme" class="theme" type="button">Chế độ tối</button><main class="rong doc">'
             + (f'<div class="brand"><img src="{logo}" alt="Sunny Nhận Ra"></div>' if logo else "") + nav_html + toc_html + flt + body +
             '<p class="small" style="margin-top:36px">Trang tự sinh từ file markdown bằng <code>scripts/build_docs.py</code>; không sửa tay, hãy sửa file md rồi chạy lại.</p></main></body></html>')
 
@@ -275,48 +392,37 @@ def _rel(from_dir, target):
     return os.path.relpath(target, from_dir).replace("\\", "/")
 
 
-def feature_docs(project, feature):
-    """[(nhãn, đường dẫn tuyệt đối tới HTML)] các tài liệu của một tính năng, theo thứ tự đọc (tính theo file md có hoặc HTML có sẵn)."""
+def feature_docs(project, feature, exists):
+    """[(nhãn, đường dẫn HTML)] các tài liệu của một tính năng, theo thứ tự đọc. `exists(path)` cho biết trang HTML có (hoặc sẽ có)."""
     root = config.ROOT
     t = root / "testing" / project / feature
     cand = {"srs": root / "srs" / project / f"{feature}.html"}
     for key in ("bang-soat-requirement", "phan-tich-requirement", "cau-hoi-cho-ba", "checklist", "test-case", "truy-vet", "ket-qua-test-case"):
         cand[key] = t / f"{key}.html"
-    out = []
-    for key, label in DOC_LABELS:
-        h = cand.get(key)
-        if h is not None and (h.exists() or h.with_suffix(".md").exists() and key != "ket-qua-test-case"):
-            out.append((label, h))
-    if (root / "evidence" / project / "features" / feature / "bao-cao.md").exists():
-        out.append(("Nhật ký khám phá", root / "evidence" / project / "features" / feature / "bao-cao.html"))
+    out = [(label, cand[key]) for key, label in DOC_LABELS if key in cand and exists(cand[key])]
+    log = root / "evidence" / project / "features" / feature / "bao-cao.html"
+    if exists(log):
+        out.append(("Nhật ký khám phá", log))
     return out
 
 
-def build_doc(project, src, converted):
+def render_doc(project, src, converted, codes, exists):
     md = src.read_text(encoding="utf-8")
-    body, title, heads = render_markdown(md, src, converted)
+    feature = feature_of(src, project)
+    body, title, heads = render_markdown(md, src, converted, codes, feature)
     out = src.with_suffix(".html")
-    if out.exists() and GENERATOR not in out.read_text(encoding="utf-8", errors="ignore")[:600]:
-        return None  # file HTML làm tay trùng tên: không ghi đè
     root = config.ROOT
-    if "features" in src.parts:
-        feature = src.parent.name
-    elif "testing" in src.parts and src.parent.parent.name == project:
-        feature = src.parent.name
-    else:
-        feature = src.stem if "srs" in src.parts else None
     parts = ['<nav class="nav-doc">']
-    idx = root / "testing" / project / "index.html"
-    parts.append(f'<a href="{_rel(src.parent, idx)}">← Trang tổng</a>')
+    if project in src.parts:   # tài liệu dùng chung (docs/, srs/*.md) không gắn với một dự án: không có link về trang tổng
+        parts.append(f'<a href="{_rel(src.parent, root / "testing" / project / "index.html")}">← Trang tổng</a>')
     if feature:
-        for label, p in feature_docs(project, feature):
+        for label, p in feature_docs(project, feature, exists):
             parts.append(f"<b>{html.escape(label)}</b>" if p == out else f'<a href="{_rel(src.parent, p)}">{html.escape(label)}</a>')
     parts.append("</nav>")
     toc = ""
     if len(heads) >= 4:
         toc = '<details class="muc-luc"><summary>Mục lục</summary><ul>' + "".join(f'<li><a href="#{i}">{html.escape(t)}</a></li>' for lv, i, t in heads if lv == 2) + "</ul></details>"
-    out.write_text(_page(title or src.stem, body, "".join(parts), toc, has_table="<table>" in body), encoding="utf-8")
-    return out
+    return out, _page(title or src.stem, body, src.parent, "".join(parts), toc, has_table="<table>" in body)
 
 
 # ---------------------------------------------------------------- trang tổng
@@ -346,8 +452,11 @@ def _bar(counts):
     return f'<div class="bar-tt">{segs}</div><div class="chu-thich">{legend}</div>'
 
 
-def build_index(project):
-    cfg = config.load(project)
+def render_index(project, exists):
+    try:
+        cfg = config.load(project)
+    except config.ConfigError:
+        return None, None
     root = config.ROOT
     tdir = cfg.project_dir
     e = html.escape
@@ -370,55 +479,91 @@ def build_index(project):
         run_line = (f'Lượt {last["number"]} ({e(last["timestamp"][:10])}, bản {e(last["build"])}): {report_mod._verdict_badge(last["verdict"])}' if last else "Chưa có lượt chạy ghi lại")
         bug_items = "".join(
             f'<li><a href="{_rel(tdir, b.with_suffix(".html"))}">{e(b.stem)}</a> <span class="badge gray">{e(report_mod._bug_severity(cfg, b.stem) or "?")}</span> {e(report_mod._bug_title(cfg, b.stem))}</li>' for b in bugs) or "<li>Chưa có bug</li>"
-        title = names.get(f, f)
         cards.append(
-            f'<div class="card"><h3>{e(title)}</h3><div class="small">{n} test case · {auto} có script tự động</div>'
-            f"<h4>Tài liệu</h4>{_links(tdir, feature_docs(project, f))}"
+            f'<div class="card"><h3>{e(names.get(f, f))}</h3><div class="small">{n} test case · {auto} có script tự động</div>'
+            f"<h4>Tài liệu</h4>{_links(tdir, feature_docs(project, f, exists))}"
             f"<h4>Tiến độ test case</h4>{_bar(counts)}"
             f"<h4>Lượt chạy gần nhất</h4><div>{run_line}</div>"
             f'<h4>Bug đã ghi ({len(bugs)})</h4><ul class="bugs">{bug_items}</ul></div>')
     smoke_card = ""
-    sm = tdir / "smoke-test.md"
-    if sm.exists():
+    if (tdir / "smoke-test.md").exists():
         sdata = report_mod.read_results_data(cfg, "smoke")
         srun = sdata["runs"][-1] if sdata["runs"] else None
-        links = [("Bộ smoke test", tdir / "smoke-test.html")] + ([("Kết quả smoke", tdir / "smoke-ket-qua.html")] if (tdir / "smoke-ket-qua.html").exists() else [])
+        links = [("Bộ smoke test", tdir / "smoke-test.html"), ("Kết quả smoke", tdir / "smoke-ket-qua.html")]
         n_smoke = len(report_mod.read_smoke_table(cfg))
         srun_line = (f'Lượt {srun["number"]} ({e(srun["timestamp"][:10])}, bản {e(srun["build"])}): {report_mod._verdict_badge(srun["verdict"])}; {e(report_mod._count_statuses(srun))}' if srun else "Chưa có lượt chạy ghi lại")
-        smoke_card = f'<div class="card"><h3>Bộ smoke test</h3><div class="small">{n_smoke} case chọn từ các test case</div><h4>Tài liệu</h4>{_links(tdir, [x for x in links if x[1].exists()])}<h4>Lượt chạy gần nhất</h4><div>{srun_line}</div></div>'
+        smoke_card = f'<div class="card"><h3>Bộ smoke test</h3><div class="small">{n_smoke} case chọn từ các test case</div><h4>Tài liệu</h4>{_links(tdir, [x for x in links if exists(x[1])])}<h4>Lượt chạy gần nhất</h4><div>{srun_line}</div></div>'
     ev = root / "evidence" / project
-    ev_items = [(f"Báo cáo khám phá: {p.stem}", p) for p in sorted(ev.glob("*.html"))]
-    for p in sorted((ev / "features").glob("*/*.html")) if (ev / "features").exists() else []:
-        ev_items.append((f"{names.get(p.parent.name, p.parent.name)}: {p.stem}", p))
-    guide = [("Hướng dẫn chạy test tự động", root / "docs" / "chay-test-tu-dong.html")]
-    other = (f'<div class="card"><h3>Khám phá hệ thống và hướng dẫn</h3><h4>Báo cáo khám phá</h4>{_links(tdir, ev_items)}'
-             f'<h4>Hướng dẫn</h4>{_links(tdir, [x for x in guide if x[1].exists()])}</div>')
+    ev_items = [(f"Báo cáo khám phá: {p.stem}", p) for p in sorted(ev.glob("*.html"))] if ev.exists() else []
+    if (ev / "features").exists():
+        for p in sorted((ev / "features").glob("*/*.html")):
+            ev_items.append((f"{names.get(p.parent.name, p.parent.name)}: {p.stem}", p))
+        for p in sorted((ev / "features").glob("*/bao-cao.md")):
+            ev_items.append((f"Nhật ký khám phá: {names.get(p.parent.name, p.parent.name)}", p.with_suffix(".html")))
+    seen, ev_unique = set(), []
+    for label, p in ev_items:
+        if p not in seen and exists(p):
+            seen.add(p)
+            ev_unique.append((label, p))
+    guide = [("Hướng dẫn chạy test tự động", root / "docs" / "chay-test-tu-dong.html"), ("Cài đặt máy mới", root / "docs" / "cai-dat-may-moi.html"),
+             ("Kịch bản kiểm thử các thay đổi", root / "docs" / "kiem-thu-cac-thay-doi.html"), ("Quy tắc mã ID và nguồn", root / "srs" / "id-and-source-rules.html"),
+             ("Chiến lược phân tích requirement", root / "testing" / "chien-luoc-phan-tich-requirement.html")]
+    other = (f'<div class="card"><h3>Khám phá hệ thống và hướng dẫn</h3><h4>Báo cáo khám phá</h4>{_links(tdir, ev_unique)}'
+             f'<h4>Hướng dẫn và quy ước chung</h4>{_links(tdir, [x for x in guide if exists(x[1])])}</div>')
     stats = ('<div class="so-lieu">' + "".join(f"<div><b>{v}</b><span>{k}</span></div>" for k, v in (
         ("tính năng có test case", len(features)), ("test case", total_tc), ("đã chạy có kết luận", total_ran), ("không đạt", total_fail), ("bug đã ghi", total_bug))) + "</div>")
     body = (f'<h1>Trang tổng · {e(project)}</h1><p class="small">Hệ thống: <a href="{e(cfg.url)}/">{e(cfg.url)}</a>' + (f" · bản test {e(version)}" if version else "") +
-            f" · sinh lúc {time.strftime('%Y-%m-%d %H:%M')}. Mọi số liệu đọc từ file có sẵn; chạy lại <code>python -X utf8 scripts/build_docs.py</code> để cập nhật.</p>"
+            ". Mọi số liệu đọc từ file có sẵn; sau khi sửa tài liệu hoặc chạy test, chạy lại <code>python -X utf8 scripts/build_docs.py</code> để cập nhật.</p>"
             + stats + '<h2>Từng tính năng</h2><div class="the">' + "".join(cards) + "</div>" + '<h2>Bộ smoke và tài liệu chung</h2><div class="the">' + smoke_card + other + "</div>")
-    out = tdir / "index.html"
-    out.write_text(_page(f"Trang tổng {project}", body), encoding="utf-8")
-    return out
+    return tdir / "index.html", _page(f"Trang tổng {project}", body, tdir)
 
 
-def build_all(project):
+# ---------------------------------------------------------------- sinh và so sánh
+def render_all(project):
+    """Sinh (chưa ghi) mọi trang của dự án → ({đường dẫn: nội dung}, [file md bị bỏ qua vì có HTML làm tay trùng tên])."""
     sources = collect_sources(project)
     converted = {s.resolve() for s in sources}
-    done, skipped = [], []
+    codes = build_code_index(project)
+    pages, skipped, outs = {}, [], []
     for s in sources:
-        r = build_doc(project, s, converted)
-        (done if r else skipped).append(r or s)
-    index = build_index(project)
-    return done, skipped, index
+        out = s.with_suffix(".html")
+        if out.exists() and GENERATOR not in out.read_text(encoding="utf-8", errors="ignore")[:900]:
+            skipped.append(s)
+            continue
+        outs.append((s, out))
+    try:
+        cfg = config.load(project)
+    except config.ConfigError:
+        cfg = None
+    if cfg is not None:
+        rr = cfg.project_dir / "run-results"
+        for f in sorted(rr.glob("*.json")) if rr.exists() else []:
+            try:
+                pages.update(report_mod.render_pages(cfg, f.stem))
+            except config.ConfigError:
+                continue
+        pages.update(bug_page.render_all(cfg))
+    planned = {o for _, o in outs} | set(pages)
+
+    def exists(p):
+        return p in planned or Path(p).exists()
+
+    for s, out in outs:
+        pages.update([render_doc(project, s, converted, codes, exists)])
+    index_path, index_text = render_index(project, exists)
+    if index_path is not None:
+        pages[index_path] = index_text
+    return pages, skipped
 
 
-def stale(project):
-    """Các file md mới hơn HTML sinh từ nó (hoặc chưa có HTML)."""
-    out = []
-    for s in collect_sources(project):
-        h = s.with_suffix(".html")
-        if not h.exists() or h.stat().st_mtime < s.stat().st_mtime:
-            out.append(s)
-    return out
+def sync(project, write=True):
+    """Sinh lại mọi trang rồi so với file đang có. Trả ([file đổi hoặc chưa có], [md bị bỏ qua]); `write=False` chỉ so sánh."""
+    pages, skipped = render_all(project)
+    changed = []
+    for path, text in pages.items():
+        old = path.read_text(encoding="utf-8") if path.exists() else None
+        if old != text:
+            changed.append(path)
+            if write:
+                path.write_text(text, encoding="utf-8")
+    return changed, skipped

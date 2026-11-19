@@ -51,3 +51,6 @@ Chạy trong thư mục repo. Script kiểm Python, Pillow, Git, `.env` (không 
 ## Điều không đi theo repo (bình thường)
 - Lịch sử chat và bộ nhớ tự động của Claude nằm ở `C:\Users\<tên>\.claude\` của từng máy. Bộ nhớ quan trọng của dự án đã nằm trong `memories/` nên máy mới vẫn đủ ngữ cảnh.
 - Đăng nhập trình duyệt, cho phép trang web, bật/tắt plugin: làm lại trên từng máy (mục 4).
+
+## Hook git để trang HTML luôn khớp file md
+Chạy một lần trong mỗi bản clone: `git config core.hooksPath .githooks`. Từ đó mỗi lần commit, hook tự chạy `python -X utf8 scripts/build_docs.py --all --stage` để sinh lại mọi trang HTML (tài liệu, kết quả chạy, bug, trang tổng) và đưa vào commit. `python -X utf8 scripts/kiem-tra-may-moi.py` kiểm hook đã bật chưa. Giao diện và font: `docs/thuong-hieu/README.md`.

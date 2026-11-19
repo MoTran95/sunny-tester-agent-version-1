@@ -11,7 +11,7 @@
 1. Đọc `CLAUDE.md` (file này).
 2. Đọc `memories/MEMORY.md` — **bảng** `File | Khi | Chứa` cho AI. Chỉ 2 file ★ luôn đọc (`user/working-preferences.md`, `project/overview.md`).
 3. Mở **chỉ các file có cột "Khi" khớp việc** (phần chung + dự án hiện tại); không bỏ sót file bản đồ chỉ là liên quan, không đọc tràn lan. Dùng skill: đọc theo bảng "Đọc gì cho từng việc" trong `SKILL.md`.
-4. Làm việc. 5. Cập nhật memory trước khi kết thúc lượt, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py`. Nếu lượt này sửa file md của `srs/`, `testing/` hoặc `evidence/`: chạy thêm `python -X utf8 scripts/build_docs.py` để sinh lại trang HTML và trang tổng (`--check` chỉ báo trang cũ).
+4. Làm việc. 5. Cập nhật memory trước khi kết thúc lượt, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py`. Nếu lượt này sửa file md của `srs/`, `testing/` hoặc `evidence/`: chạy thêm `python -X utf8 scripts/build_docs.py --all` (sinh lại mọi trang HTML: tài liệu, kết quả chạy, bug, trang tổng). `kiem-tra-bo-nho.py` báo lỗi nếu còn trang cũ; hook pre-commit (`.githooks`, bật bằng `git config core.hooksPath .githooks`) tự sinh lại trước mỗi commit.
 
 Bản đồ mâu thuẫn code → tin code, sửa memory. Máy mới / "kiểm tra máy mới": `docs/cai-dat-may-moi.md`, `python -X utf8 scripts/kiem-tra-may-moi.py`. Phiên than nặng: nạp sẵn ~74 nghìn token, phần plugin tài khoản chỉ ~3–6%, không tắt được từ repo (`memories/project/session-speed.md`, `memories/user/connectors-and-plugins.md`).
 

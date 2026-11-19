@@ -117,6 +117,19 @@ try:
 except (OSError, ValueError, KeyError) as e:
     miss(".claude/settings.json lỗi hoặc thiếu", f"git pull lại repo ({e})")
 
+print("5b. Trang HTML luôn khớp file md (hook git, font)")
+code, out = run(["git", "config", "--get", "core.hooksPath"])
+ok("hook git pre-commit đã bật (.githooks)") if code == 0 and out.strip() == ".githooks" else miss(
+    "chưa bật hook pre-commit sinh lại trang HTML", "git config core.hooksPath .githooks")
+code, out = run([sys.executable, "-X", "utf8", "scripts/build_docs.py", "--all", "--check"])
+last = [l for l in out.strip().splitlines() if l.strip()][-1:] or [""]
+ok("trang HTML khớp file md và dữ liệu") if code == 0 else miss("có trang HTML cũ: " + last[0][:100], "python -X utf8 scripts/build_docs.py --all")
+fonts_dir = os.path.join(ROOT, "docs", "thuong-hieu", "fonts")
+if os.path.isdir(fonts_dir) and any(f.endswith(".woff2") for f in os.listdir(fonts_dir)):
+    ok("font thương hiệu cục bộ (trang giống hệt khi không có mạng)")
+else:
+    warn("chưa có file font cục bộ: trang lấy font từ Google Fonts (cần mạng)", "xem docs/thuong-hieu/README.md")
+
 print("6. Chạy thử script của skill")
 checks = [
     ("check-srs.py trên SRS Đăng nhập",
