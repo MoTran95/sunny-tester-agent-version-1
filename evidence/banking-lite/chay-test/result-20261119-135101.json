@@ -1,0 +1,45 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 13:51:01",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-042",
+      "code": "TC-042",
+      "title": "Đăng nhập, chờ 9 phút không thao tác, tải lại trang: vẫn đăng nhập",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 4: sau 543 giây vẫn ở Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4 (nhìn trang sau khi tải lại): phiên đã hết hạn khi mới chờ 9 phút, đáng ra vẫn đăng nhập (thời hạn là 10 phút)."
+        },
+        {
+          "kind": "main",
+          "title": "Bước 4: không hiện form Đăng nhập (không phải nhập lại)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-042-luc-dang-nhap-xong-20261119-134112.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-042-sau-9-phut-tai-lai-20261119-135015.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-042-kiem-20261119-135015.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 594.3
+    }
+  ]
+}

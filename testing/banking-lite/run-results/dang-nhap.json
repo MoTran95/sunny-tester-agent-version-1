@@ -1532,25 +1532,25 @@
           ]
         },
         "42": {
-          "status": "Chưa chạy",
+          "status": "Bỏ qua",
           "evidence": [],
           "evidence_error": [],
           "evidence_error_captions": {},
           "video": [],
           "bug": [],
           "blocked_by": [],
-          "note": "",
+          "note": "Code chưa làm phần thời hạn phiên 10 phút (người dùng xác nhận ngày 2026-11-19), nên chưa kiểm được ý phiên hết hạn sau 10 phút. Đã chạy thử bằng script: sau 543 giây tải lại trang vẫn đăng nhập (TC-042); sau khoảng 633 giây vẫn đăng nhập (TC-043), nhưng các lần chạy thử này chạy song song cùng tài khoản nên chưa tính là kết luận. Chạy lại khi code làm xong phần này (mỗi ca khoảng 11 phút).",
           "actual": []
         },
         "43": {
-          "status": "Chưa chạy",
+          "status": "Bỏ qua",
           "evidence": [],
           "evidence_error": [],
           "evidence_error_captions": {},
           "video": [],
           "bug": [],
           "blocked_by": [],
-          "note": "",
+          "note": "Code chưa làm phần thời hạn phiên 10 phút (người dùng xác nhận ngày 2026-11-19), nên chưa kiểm được ý phiên hết hạn sau 10 phút. Đã chạy thử bằng script: sau 543 giây tải lại trang vẫn đăng nhập (TC-042); sau khoảng 633 giây vẫn đăng nhập (TC-043), nhưng các lần chạy thử này chạy song song cùng tài khoản nên chưa tính là kết luận. Chạy lại khi code làm xong phần này (mỗi ca khoảng 11 phút).",
           "actual": []
         }
       },
@@ -1576,8 +1576,8 @@
           },
           {
             "cases": "TC-042, TC-043",
-            "status": "Chưa chạy",
-            "reason": "Kiểm thời hạn phiên 10 phút (còn đăng nhập sau 9 phút, hết hạn sau 10 phút 30 giây). Chưa có script vì BA chưa trả lời câu B15: 10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối, và màn hình hiện gì khi hết hạn."
+            "status": "Bỏ qua",
+            "reason": "Code chưa làm phần thời hạn phiên 10 phút (người dùng xác nhận ngày 2026-11-19), nên chưa kiểm được ý phiên hết hạn sau 10 phút. Đã chạy thử bằng script: sau 543 giây tải lại trang vẫn đăng nhập (TC-042); sau khoảng 633 giây vẫn đăng nhập (TC-043), nhưng các lần chạy thử này chạy song song cùng tài khoản nên chưa tính là kết luận. Chạy lại khi code làm xong phần này (mỗi ca khoảng 11 phút)."
           }
         ],
         "risks": [
@@ -1590,8 +1590,8 @@
             "detail": "10 ca về chặn đăng nhập chưa có kết quả. Chưa biết lần sai thứ 10 có bị chặn đúng lúc không, khi đang bị chặn mà nhập đúng thì có bị từ chối như BA yêu cầu không (ngày 2026-11-17 từng thấy hệ thống vẫn cho vào), và hết 5 phút có tự mở lại không."
           },
           {
-            "title": "Thời hạn phiên 10 phút chưa kiểm",
-            "detail": "Nếu phiên hết sớm hơn 10 phút, người dùng bị đưa về form đăng nhập giữa lúc đang làm hồ sơ và có thể mất dữ liệu chưa lưu; nếu phiên sống lâu hơn 10 phút thì phiên còn mở lâu hơn quy định. Cả hai trường hợp đều chưa được kiểm."
+            "title": "Thời hạn phiên 10 phút chưa được làm trong code",
+            "detail": "Người dùng đăng nhập rồi để yên hơn 10 phút thì phiên vẫn còn, chưa tự hết hạn như BA quy định. Hiện chưa kiểm được thêm vì code chưa làm phần này; khi làm xong cần kiểm cả hai phía: phiên không hết sớm hơn 10 phút (tránh mất dữ liệu đang nhập) và hết đúng sau 10 phút."
           },
           {
             "title": "Mật khẩu vẫn còn trong ô sau khi báo sai",
@@ -1602,8 +1602,10 @@
             "detail": "Mỗi ca chỉ chạy tự động một đến hai lần, trên trình duyệt Chrome, ở môi trường thử staging. Chưa chạy lặp để loại trừ lỗi chập chờn, chưa thử trình duyệt hoặc thiết bị khác. Sau khi Dev sửa bug, cần chạy lại các ca liên quan."
           }
         ],
-        "suggestion": "Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở BUG-008 và sửa; (2) đặt lại bộ đếm rồi chạy TC-014 và TC-021; (3) người kiểm thử tự làm 8 ca bị bỏ qua; (4) xin BA trả lời câu B15 để viết TC-042, TC-043; (5) chạy lại cả bộ sau khi Dev sửa 7 bug. Về nhận hay trả bản 1.3.0 cho tính năng này: đây là quyết định của người kiểm thử và PO; căn cứ chính là không có lỗi nào chặn việc đăng nhập bình thường, nhưng có 1 bug mức Nặng và 12 case chưa có kết quả."
-      }
+        "suggestion": "Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở BUG-008 và sửa; (2) đặt lại bộ đếm rồi chạy TC-014 và TC-021; (3) người kiểm thử tự làm 8 ca bị bỏ qua; (4) khi code làm xong thời hạn phiên và BA trả lời câu B15, chạy lại TC-042, TC-043 (script đã có); (5) chạy lại cả bộ sau khi Dev sửa 7 bug. Về nhận hay trả bản 1.3.0 cho tính năng này: đây là quyết định của người kiểm thử và PO; căn cứ chính là không có lỗi nào chặn việc đăng nhập bình thường, nhưng có 1 bug mức Nặng và 12 case chưa có kết quả."
+      },
+      "updated_at": "2026-11-19 14:10:58",
+      "updated_note": "chỉ đổi trạng thái TC-042, TC-043 sang Bỏ qua kèm lý do; các ca khác giữ kết quả chạy lúc 2026-11-19 11:00:31"
     }
   ]
 }

@@ -184,6 +184,24 @@ def add_run(cfg, suite, build, case_results, run_by="Sunny Tran", run_method="T�
     return run_record
 
 
+
+def _updated_text(run):
+    """Dòng 'Cập nhật lần cuối' (nếu lượt đã được chỉnh sau lúc chạy; khóa `updated_at` và `updated_note` trong dữ liệu lượt)."""
+    if not run.get("updated_at"):
+        return None
+    return run["updated_at"] + (f" ({run['updated_note']})" if run.get("updated_note") else "")
+
+
+def _updated_md(run):
+    text = _updated_text(run)
+    return [f"| Cập nhật lần cuối | {text} |"] if text else []
+
+
+def _updated_html(run, e):
+    text = _updated_text(run)
+    return [("Cập nhật lần cuối", e(text))] if text else []
+
+
 def read_test_case(cfg, feature, tc):
     """{'buoc': ..., 'mong_doi': ...} lấy từ dòng test case gốc (đọc theo TÊN cột, nên file 12 hay 13 cột đều được)."""
     f = cfg.project_dir / feature / "test-case.md"
@@ -285,7 +303,7 @@ def build_md(cfg, suite, data, table):
     new_text = data["runs"][-1]
     d += ["| | |", "|---|---|",
           f"| Build | **{new_text['build']}** |", f"| Lượt | {new_text['number']} / {len(data['runs'])} (lượt mới nhất) |",
-          f"| Thời điểm | {new_text['timestamp']} |", f"| Người chạy | {new_text['run_by']} |",
+          f"| Thời điểm | {new_text['timestamp']} |", *_updated_md(new_text), f"| Người chạy | {new_text['run_by']} |",
           f"| Cách chạy | {new_text['run_method']} |", f"| Kết luận | **{new_text['verdict']}** |",
           f"| Ghi chú | {new_text['note'] or '—'} |", ""]
     d += _conclusion_md(new_text)
@@ -441,7 +459,7 @@ def build_html(cfg, suite, data, table):
     new_text = data["runs"][-1]
     p.append('<div class="card"><dl class="meta">')
     for k, v in (("Build", f"<strong>{e(new_text['build'])}</strong>"), ("Lượt", f"{new_text['number']} / {len(data['runs'])} (mới nhất)"),
-                 ("Thời điểm", e(new_text["timestamp"])), ("Người chạy", e(new_text["run_by"])), ("Cách chạy", e(new_text["run_method"])),
+                 ("Thời điểm", e(new_text["timestamp"])), *_updated_html(new_text, e), ("Người chạy", e(new_text["run_by"])), ("Cách chạy", e(new_text["run_method"])),
                  ("Kết quả", e(_count_statuses(new_text))), ("Kết luận", _verdict_badge(new_text["verdict"])),
                  ("Ghi chú", e(new_text["note"]) or "—")):
         p.append(f"<dt>{k}</dt><dd>{v}</dd>")

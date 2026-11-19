@@ -7,6 +7,7 @@
 | Build | **1.3.0** |
 | Lượt | 1 / 1 (lượt mới nhất) |
 | Thời điểm | 2026-11-19 11:00:31 |
+| Cập nhật lần cuối | 2026-11-19 14:10:58 (chỉ đổi trạng thái TC-042, TC-043 sang Bỏ qua kèm lý do; các ca khác giữ kết quả chạy lúc 2026-11-19 11:00:31) |
 | Người chạy | Sunny Tran |
 | Cách chạy | Tự động (Playwright) |
 | Kết luận | **Có case không đạt** |
@@ -16,7 +17,7 @@
 
 Chưa thể kết luận đạt cho tính năng Đăng nhập ở bản 1.3.0. Các luồng chính (đăng nhập đúng, đăng xuất, mở link, tải lại trang, đổi ngôn ngữ) chạy đúng và không có lỗi nào làm người dùng không đăng nhập được. Nhưng còn 7 bug đang mở (5 bug mức Rất nhỏ, 1 bug mức Nhỏ, 1 bug mức Nặng) và 12 trong 43 case chưa có kết quả, trong đó có phần cách hệ thống chặn đăng nhập sau nhiều lần sai.
 
-Số liệu lượt này: 31 trên 43 case đã có kết quả (72%): 14 Không đạt, 17 Đạt, 2 Bị chặn, 8 Bỏ qua, 2 Chưa chạy.
+Số liệu lượt này: 31 trên 43 case đã có kết quả (72%): 14 Không đạt, 17 Đạt, 2 Bị chặn, 10 Bỏ qua.
 
 **Đã kiểm và đạt**
 
@@ -32,19 +33,19 @@ Số liệu lượt này: 31 trên 43 case đã có kết quả (72%): 14 Không
 |---|---|---|
 | TC-014, TC-021 | Bị chặn | Cần bộ đếm số lần sai của hệ thống đếm đúng như BA quy định. Lần chạy TC-014 cho thấy tài khoản P100001 bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất (BUG-008). Chạy tiếp lúc này có thể chặn tài khoản thêm 5 phút mỗi lần và kết quả không đáng tin. |
 | TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-022, TC-037 | Bỏ qua | Chính các bước của những ca này làm hệ thống chặn đăng nhập (lần sai thứ 10, nhập khi đang bị chặn, chờ hết chặn, bản English bị chặn, chặn theo từng tài khoản). Không chạy tự động để tránh chặn tài khoản test; người kiểm thử tự làm bằng tay khi cần. |
-| TC-042, TC-043 | Chưa chạy | Kiểm thời hạn phiên 10 phút (còn đăng nhập sau 9 phút, hết hạn sau 10 phút 30 giây). Chưa có script vì BA chưa trả lời câu B15: 10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối, và màn hình hiện gì khi hết hạn. |
+| TC-042, TC-043 | Bỏ qua | Code chưa làm phần thời hạn phiên 10 phút (người dùng xác nhận ngày 2026-11-19), nên chưa kiểm được ý phiên hết hạn sau 10 phút. Đã chạy thử bằng script: sau 543 giây tải lại trang vẫn đăng nhập (TC-042); sau khoảng 633 giây vẫn đăng nhập (TC-043), nhưng các lần chạy thử này chạy song song cùng tài khoản nên chưa tính là kết luận. Chạy lại khi code làm xong phần này (mỗi ca khoảng 11 phút). |
 
 **Rủi ro để người kiểm thử đánh giá**
 
 - **Người dùng thật có thể bị chặn đăng nhập sớm hơn quy định.** BA quy định chỉ chặn sau 10 lần sai liên tiếp và đăng nhập đúng đưa số lần sai về 0. Thực tế P100001 bị chặn 5 phút khi mới sai 5 lần kể từ lần đăng nhập đúng gần nhất. Nếu người dùng thật đăng nhập sai rải rác trong ngày thì có thể bị chặn nhầm. Chưa biết hệ thống đếm theo tài khoản, theo máy hay toàn hệ thống (BUG-008, đã có câu hỏi cho Dev).
 - **Cơ chế chặn đăng nhập chưa được kiểm trọn vẹn.** 10 ca về chặn đăng nhập chưa có kết quả. Chưa biết lần sai thứ 10 có bị chặn đúng lúc không, khi đang bị chặn mà nhập đúng thì có bị từ chối như BA yêu cầu không (ngày 2026-11-17 từng thấy hệ thống vẫn cho vào), và hết 5 phút có tự mở lại không.
-- **Thời hạn phiên 10 phút chưa kiểm.** Nếu phiên hết sớm hơn 10 phút, người dùng bị đưa về form đăng nhập giữa lúc đang làm hồ sơ và có thể mất dữ liệu chưa lưu; nếu phiên sống lâu hơn 10 phút thì phiên còn mở lâu hơn quy định. Cả hai trường hợp đều chưa được kiểm.
+- **Thời hạn phiên 10 phút chưa được làm trong code.** Người dùng đăng nhập rồi để yên hơn 10 phút thì phiên vẫn còn, chưa tự hết hạn như BA quy định. Hiện chưa kiểm được thêm vì code chưa làm phần này; khi làm xong cần kiểm cả hai phía: phiên không hết sớm hơn 10 phút (tránh mất dữ liệu đang nhập) và hết đúng sau 10 phút.
 - **Mật khẩu vẫn còn trong ô sau khi báo sai.** Sau mỗi lần nhập sai, ô Mật khẩu vẫn giữ nguyên các chấm (BUG-007). Nếu nhiều người dùng chung một máy thì người sau thấy ô còn chữ của người trước. Chưa kiểm xem chữ này có đọc ra được không.
 - **Độ tin cậy của kết quả.** Mỗi ca chỉ chạy tự động một đến hai lần, trên trình duyệt Chrome, ở môi trường thử staging. Chưa chạy lặp để loại trừ lỗi chập chờn, chưa thử trình duyệt hoặc thiết bị khác. Sau khi Dev sửa bug, cần chạy lại các ca liên quan.
 
 **Đề xuất (người kiểm thử hoặc PO quyết định)**
 
-Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở BUG-008 và sửa; (2) đặt lại bộ đếm rồi chạy TC-014 và TC-021; (3) người kiểm thử tự làm 8 ca bị bỏ qua; (4) xin BA trả lời câu B15 để viết TC-042, TC-043; (5) chạy lại cả bộ sau khi Dev sửa 7 bug. Về nhận hay trả bản 1.3.0 cho tính năng này: đây là quyết định của người kiểm thử và PO; căn cứ chính là không có lỗi nào chặn việc đăng nhập bình thường, nhưng có 1 bug mức Nặng và 12 case chưa có kết quả.
+Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở BUG-008 và sửa; (2) đặt lại bộ đếm rồi chạy TC-014 và TC-021; (3) người kiểm thử tự làm 8 ca bị bỏ qua; (4) khi code làm xong thời hạn phiên và BA trả lời câu B15, chạy lại TC-042, TC-043 (script đã có); (5) chạy lại cả bộ sau khi Dev sửa 7 bug. Về nhận hay trả bản 1.3.0 cho tính năng này: đây là quyết định của người kiểm thử và PO; căn cứ chính là không có lỗi nào chặn việc đăng nhập bình thường, nhưng có 1 bug mức Nặng và 12 case chưa có kết quả.
 
 ## Kết quả lượt mới nhất
 
@@ -91,14 +92,14 @@ Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở
 | TC-039 | Đã đăng nhập `P100001`, bấm English: vai trò đổi từ "Chuyên viên khách hàng" thành "Banker", số tiền hiện kiểu English (ví dụ `2,000,000,000`) (Ưu tiên Trung bình) | 1. Mở https://staging-banking-lite.vercel.app/.<br>2. Ở ô Mã nhân viên * nhập P100001.<br>3. Ở ô Mật khẩu * nhập mật khẩu đúng của P100001.<br>4. Bấm nút Đăng nhập.<br>5. Nhìn thanh trên cùng.<br>6. Bấm English.<br>7. Nhìn thanh trên cùng.<br>8. Nhìn các số tiền trên trang. | Bước 5: thanh trên cùng hiện vai trò Chuyên viên khách hàng.<br>Bước 7: thanh trên cùng hiện vai trò Banker (không còn Chuyên viên khách hàng).<br>Bước 8: số tiền hiện kiểu English, có dấu phẩy ngăn cách hàng nghìn, ví dụ 2,000,000,000. Số tiền cụ thể ở hồ sơ hay ô nào để đối chiếu: CẦN XÁC NHẬN (xem Câu hỏi cho BA, câu 3). | Đạt | [dang-nhap-tc-039-english-20261119-094235.png](../../../evidence/banking-lite/chay-test/dang-nhap-tc-039-english-20261119-094235.png) | — | 1 |
 | TC-040 | Nhập mã nhân viên rất dài (ví dụ 210 ký tự) + mật khẩu bất kỳ: ra câu chung, không còn dòng `validation.too_big (employeeId)`. Không kiểm độ dài tối đa (BA: độ dài không quy định ở đăng nhập) (Ưu tiên Thấp) | 1. Mở https://staging-banking-lite.vercel.app/.<br>2. Ở ô Mã nhân viên * nhập chữ P rồi 209 chữ số 1 liên tiếp (tổng 210 ký tự).<br>3. Ở ô Mật khẩu * nhập Sai@Matkhau1.<br>4. Bấm nút Đăng nhập.<br>5. Nhìn khung lỗi. | Bước 4: không đăng nhập; khung lỗi đỏ ghi "Mã nhân viên hoặc mật khẩu không đúng."; không hiện câu "Một số giá trị không hợp lệ."; không hiện dòng validation.too_big (employeeId). | Không đạt | [dang-nhap-tc-040-sau-nhap-sai-20261119-105921.png](../../../evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-105921.png)<br>🔴 [dang-nhap-tc-040-loi-20261119-105921.png](../../../evidence/banking-lite/chay-test/dang-nhap-tc-040-loi-20261119-105921.png) (tô đỏ chỗ lỗi): Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung.<br>🎬 [dang-nhap-tc-040-20261119-105922.webm](../../../evidence/banking-lite/chay-test/video/dang-nhap-tc-040-20261119-105922.webm) (video quay lại ca) | [BUG-006](bug/BUG-006.md) | 1 |
 | TC-041 | Nhìn form đăng nhập: không có ô chọn Workspace, không có quên mật khẩu, đăng ký, "ghi nhớ đăng nhập" (Ưu tiên Thấp) | 1. Mở https://staging-banking-lite.vercel.app/.<br>2. Nhìn các ô nhập và nút trên form.<br>3. Nhìn xung quanh form để tìm ô chọn Workspace, chức năng quên mật khẩu, đăng ký, "ghi nhớ đăng nhập". | Bước 2: form chỉ có ô Mã nhân viên *, ô Mật khẩu * và nút Đăng nhập.<br>Bước 3: không có ô chọn Workspace, không có chức năng quên mật khẩu, không có đăng ký, không có "ghi nhớ đăng nhập". | Đạt | [dang-nhap-tc-041-form-dang-nhap-20261119-094216.png](../../../evidence/banking-lite/chay-test/dang-nhap-tc-041-form-dang-nhap-20261119-094216.png) | — | 1 |
-| TC-042 | Đã đăng nhập, không thao tác gì khoảng 9 phút rồi tải lại trang (F5): vẫn đăng nhập (chưa đủ 10 phút nên phiên chưa hết hạn) (Ưu tiên Trung bình) | 1. Đăng nhập P100001, đợi vào tới Danh sách việc, rồi ghi giờ T0.<br>2. Không thao tác gì trên trang cho tới khi đồng hồ chỉ T0 + 9 phút.<br>3. Tải lại trang (nhấn F5).<br>4. Nhìn trang hiện ra. | Bước 4: vẫn đang đăng nhập, vẫn ở Danh sách việc; không hiện form Đăng nhập, không phải nhập lại. | Chưa chạy | — | — | 0 |
-| TC-043 | Đã đăng nhập, không thao tác gì hơn 10 phút (chọn 10 phút 30 giây) rồi tải lại trang (F5): phiên đã hết hạn, không còn đăng nhập. Màn hình hiện lúc này: CẦN XÁC NHẬN (Ưu tiên Trung bình) | 1. Đăng nhập P100001, đợi vào tới Danh sách việc, rồi ghi giờ T0.<br>2. Không thao tác gì trên trang cho tới khi đồng hồ chỉ T0 + 10 phút 30 giây.<br>3. Tải lại trang (nhấn F5).<br>4. Nhìn trang hiện ra. | Bước 4: phiên đã hết hạn, người dùng không còn được coi là đã đăng nhập. Màn hình hiện lúc này (form đăng nhập hay có thông báo): CẦN XÁC NHẬN (xem Câu hỏi cho BA, câu 4). | Chưa chạy | — | — | 0 |
+| TC-042 | Đã đăng nhập, không thao tác gì khoảng 9 phút rồi tải lại trang (F5): vẫn đăng nhập (chưa đủ 10 phút nên phiên chưa hết hạn) (Ưu tiên Trung bình) | 1. Đăng nhập P100001, đợi vào tới Danh sách việc, rồi ghi giờ T0.<br>2. Không thao tác gì trên trang cho tới khi đồng hồ chỉ T0 + 9 phút.<br>3. Tải lại trang (nhấn F5).<br>4. Nhìn trang hiện ra. | Bước 4: vẫn đang đăng nhập, vẫn ở Danh sách việc; không hiện form Đăng nhập, không phải nhập lại. | Bỏ qua | — | — | 0 |
+| TC-043 | Đã đăng nhập, không thao tác gì hơn 10 phút (chọn 10 phút 30 giây) rồi tải lại trang (F5): phiên đã hết hạn, không còn đăng nhập. Màn hình hiện lúc này: CẦN XÁC NHẬN (Ưu tiên Trung bình) | 1. Đăng nhập P100001, đợi vào tới Danh sách việc, rồi ghi giờ T0.<br>2. Không thao tác gì trên trang cho tới khi đồng hồ chỉ T0 + 10 phút 30 giây.<br>3. Tải lại trang (nhấn F5).<br>4. Nhìn trang hiện ra. | Bước 4: phiên đã hết hạn, người dùng không còn được coi là đã đăng nhập. Màn hình hiện lúc này (form đăng nhập hay có thông báo): CẦN XÁC NHẬN (xem Câu hỏi cho BA, câu 4). | Bỏ qua | — | — | 0 |
 
 ## Lịch sử các lượt
 
 | Lượt | Build | Thời điểm | Người chạy | Kết quả | Kết luận |
 |---|---|---|---|---|---|
-| 1 | 1.3.0 | 2026-11-19 11:00:31 | Sunny Tran | 14 Không đạt, 17 Đạt, 2 Bị chặn, 8 Bỏ qua, 2 Chưa chạy | Có case không đạt |
+| 1 | 1.3.0 | 2026-11-19 11:00:31 | Sunny Tran | 14 Không đạt, 17 Đạt, 2 Bị chặn, 10 Bỏ qua | Có case không đạt |
 
 ## Từng case qua các lượt (tối đa 8 lượt gần nhất)
 
@@ -145,7 +146,7 @@ Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở
 | TC-039 | Đạt |
 | TC-040 | Không đạt |
 | TC-041 | Đạt |
-| TC-042 | Chưa chạy |
-| TC-043 | Chưa chạy |
+| TC-042 | Bỏ qua |
+| TC-043 | Bỏ qua |
 
 Các bước và Kết quả mong đợi lấy từ test case gốc. Bị chặn: chưa test được vì bug khác (xem cột Bug). Số lần chạy: số lượt có kết luận Đạt, Đạt kèm lỗi đã biết, Đạt kèm ý phụ sai hoặc Không đạt; lượt Không kết luận và Chưa chạy không tính.
