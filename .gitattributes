@@ -1,0 +1,2 @@
+# Hook git phải giữ dấu xuống dòng LF, nếu không shell báo lỗi trên một số máy
+.githooks/* text eol=lf
