@@ -3,11 +3,12 @@
 
 | Đường dẫn | Vai trò |
 |---|---|
-| `.claude/skills/` | 9 skill (`SKILL.md`, `references/`, `assets/`, `scripts/`) |
+| `.claude/skills/` | 11 skill (`SKILL.md`, `references/`, `assets/`, `scripts/`) |
 | `.claude/settings.json` | Quyền cho phép sẵn (Edit trong thư mục dự án, chạy script soát, git đọc). Commit/push/xóa vẫn hỏi |
 | `memories/` | Bộ nhớ cho AI, bản đồ `MEMORY.md` |
 | `srs/` `testing/` `evidence/` | SRS; bảng soát/câu hỏi/checklist/test case/truy vết; khám phá + ảnh + báo cáo HTML (mỗi dự án có thư mục con `<slug>`) |
 | `docs/cai-dat-may-moi.md`, `docs/kiem-thu-cac-thay-doi.md` | Cài máy mới; kịch bản kiểm thử T1–T7 |
+| `testing/_template-test-plan.md` | Khuôn test plan dùng chung (người dùng chọn bản đầy đủ 2026-11-19, bản gọn 1–2 trang sẽ lược từ đây khi cần); `build_docs.py` tự sinh `.html` cạnh file |
 | `scripts/kiem-tra-may-moi.py` | Kiểm máy mới (Python, Pillow, Git, dự án, `.env`, skill, quyền, chạy thử script soát) |
 | `scripts/do-toc-do-phien.py` | Đo phiên gần nhất từ nhật ký: ngữ cảnh đầu, file đọc, phút tới lúc làm, mở dự án khác |
 | `scripts/kiem-tra-bo-nho.py` | Kiểm memory: mọi file có trong bản đồ, link không gãy, in cỡ |

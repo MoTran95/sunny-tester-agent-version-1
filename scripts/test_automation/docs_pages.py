@@ -380,9 +380,16 @@ _JS_FILTER = _JS_HASH + ("document.addEventListener('DOMContentLoaded',function(
               "var ok=!v||r.textContent.toLowerCase().indexOf(v)>=0;r.classList.toggle('an',!ok);if(ok)n++});c.textContent=v?(n+' / '+t+' dòng'):''})});")
 
 
-def _page(title, body, page_dir, nav_html="", toc_html="", has_table=False, project=None):
+_CSS_CLEAN = "@media print{#theme,.in-pdf{display:none!important}main.rong{max-width:none}body{background:#fff}}.in-pdf{float:right;margin:0 0 12px 12px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--body);font:inherit;cursor:pointer}"
+
+
+def _page(title, body, page_dir, nav_html="", toc_html="", has_table=False, project=None, clean=False):
+    """`clean=True`: tài liệu gửi ra ngoài (test plan): KHÔNG logo, KHÔNG thanh điều hướng nội bộ, KHÔNG dòng "trang tự sinh"; có nút In / Lưu PDF."""
     flt = ('<div class="loc"><input id="loc-q" type="search" placeholder="Lọc dòng trong các bảng (gõ chữ hoặc mã)…"><span id="loc-n"></span></div>' if has_table else "")
-    head = theme.page_head(title, page_dir, _CSS_DOC).replace("<head>", "<head>" + GENERATOR, 1).replace("</script></head>", f"</script><script>{_JS_FILTER}</script></head>", 1)
+    head = theme.page_head(title, page_dir, _CSS_DOC + (_CSS_CLEAN if clean else "")).replace("<head>", "<head>" + GENERATOR, 1).replace("</script></head>", f"</script><script>{_JS_FILTER}</script></head>", 1)
+    if clean:
+        return (head + '<body><button id="theme" class="theme" type="button">Chế độ tối</button><main class="rong doc">'
+                '<button class="in-pdf" type="button" onclick="window.print()">In / Lưu PDF</button>' + toc_html + flt + body + '</main></body></html>')
     return (head + '<body><button id="theme" class="theme" type="button">Chế độ tối</button><main class="rong doc">'
             + theme.brand_html(project) + nav_html + toc_html + flt + body +
             '<p class="small" style="margin-top:36px">Trang tự sinh từ file markdown bằng <code>scripts/build_docs.py</code>; không sửa tay, hãy sửa file md rồi chạy lại.</p></main></body></html>')
@@ -423,7 +430,8 @@ def render_doc(project, src, converted, codes, exists):
     if len(heads) >= 4:
         toc = '<details class="muc-luc"><summary>Mục lục</summary><ul>' + "".join(f'<li><a href="#{i}">{html.escape(t)}</a></li>' for lv, i, t in heads if lv == 2) + "</ul></details>"
     # tài liệu dùng chung (docs/, srs/*.md, testing/*.md) luôn dùng thương hiệu chung của repo để sinh ra giống nhau ở mọi dự án
-    return out, _page(title or src.stem, body, src.parent, "".join(parts), toc, has_table="<table>" in body, project=project if project in src.parts else None)
+    clean = src.stem.startswith(("test-plan", "_template-test-plan"))   # test plan là tài liệu gửi sếp/công ty: không logo (người dùng dặn 2026-11-19)
+    return out, _page(title or src.stem, body, src.parent, "".join(parts), toc, has_table="<table>" in body, project=project if project in src.parts else None, clean=clean)
 
 
 # ---------------------------------------------------------------- trang tổng
