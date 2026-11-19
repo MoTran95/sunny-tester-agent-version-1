@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 """Sinh file checklist.md và test-case.md từ dữ liệu JSON, để không phải gõ tay bảng Markdown (hay vỡ cột).
 
-  python -X utf8 sinh-bang.py gop --du-lieu <dl.json> --ra <test-case.md> [--nguoi-viet "Sunny Tran"] [--ghi-de]
+  python -X utf8 sinh-bang.py gop --du-lieu <dl.json> --ra <test-case.md> [--nguoi-viet "Tên"] [--ghi-de]
       (CÁCH MẶC ĐỊNH từ 2026-11-18: MỘT file, mỗi dòng gồm cả phần checklist và phần chi tiết test case)
   python -X utf8 sinh-bang.py checklist --du-lieu <dl.json> --ra <checklist.md> [--ghi-de]      (cách cũ, hai file)
   python -X utf8 sinh-bang.py test-case --du-lieu <dl.json> --checklist <checklist.md> --ra <test-case.md>
-                                        [--nguoi-viet "Sunny Tran"] [--ghi-de]
+                                        [--nguoi-viet "Tên"] [--ghi-de]
 
-Định dạng JSON xem assets/mau-du-lieu-gop.json (gop) và assets/mau-du-lieu-checklist.json, assets/mau-du-lieu-test-case.json (cách cũ).
+Định dạng JSON xem assets/mau-du-lieu-gop.json (gop). Lệnh checklist/test-case là cách hai file cũ, không dùng nữa (khuôn JSON của chúng đã bỏ 2026-11-19).
 - gop: mã TC-001... đánh theo thứ tự sau khi xếp Cao, Trung bình, Thấp. Ca có sẵn "ma" thì giữ mã đó (dùng khi cập nhật);
   ca chưa có "ma" lấy số kế tiếp. Bốn cột ghi khi chạy được GIỮ LẠI theo mã nếu file đã có.
 - checklist: mã TC-001... đánh theo thứ tự sau khi xếp Cao, Trung bình, Thấp (giữ thứ tự nhập trong cùng mức).
@@ -226,7 +226,7 @@ def main():
     g = sub.add_parser("gop")
     g.add_argument("--du-lieu", required=True)
     g.add_argument("--ra", required=True)
-    g.add_argument("--nguoi-viet", default="Sunny Tran")
+    g.add_argument("--nguoi-viet", default=None)
     g.add_argument("--ghi-de", action="store_true")
     c = sub.add_parser("checklist")
     c.add_argument("--du-lieu", required=True)
@@ -236,9 +236,14 @@ def main():
     t.add_argument("--du-lieu", required=True)
     t.add_argument("--checklist", required=True)
     t.add_argument("--ra", required=True)
-    t.add_argument("--nguoi-viet", default="Sunny Tran")
+    t.add_argument("--nguoi-viet", default=None)
     t.add_argument("--ghi-de", action="store_true")
     a = ap.parse_args()
+    if getattr(a, "nguoi_viet", "x") is None:
+        # Tên người test của máy này: `.nguoi-test` ở gốc repo (không ghi cứng tên ai).
+        sys.path.insert(0, str(Path(__file__).resolve().parents[4] / "scripts"))
+        from test_automation.config import default_author
+        a.nguoi_viet = default_author()
     {"gop": lenh_gop, "checklist": lenh_checklist, "test-case": lenh_test_case}[a.lenh](a)
 
 

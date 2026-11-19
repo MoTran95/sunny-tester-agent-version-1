@@ -50,7 +50,7 @@ def main():
     ap.add_argument("--suite", default="smoke", help="smoke (mặc định) hoặc slug tính năng, ví dụ dang-nhap: trang kết quả cho cả bộ test case của tính năng")
     ap.add_argument("--build")
     ap.add_argument("--results-files", nargs="+", help="các file result-*.json của run_tests.py, theo thứ tự thời gian")
-    ap.add_argument("--run-by", default="Sunny Tran")
+    ap.add_argument("--run-by", default=None, help="người chạy; mặc định lấy từ .nguoi-test")
     ap.add_argument("--run-method", default="Tự động (Playwright)")
     ap.add_argument("--author", help="summary: người viết báo cáo tổng kết (mặc định: người chạy lượt mới nhất)")
     ap.add_argument("--note", default="")
@@ -63,7 +63,8 @@ def main():
     args = ap.parse_args()
 
     try:
-        cfg = config.load(args.project)
+        # bug-pages và summary chỉ sinh trang, không cần phần đăng nhập của auto-config.json
+        cfg = config.load_for_docs(args.project) if args.command in ("bug-pages", "summary") else config.load(args.project)
         if args.command == "bug-pages":
             from test_automation import bug_page
 
@@ -73,6 +74,11 @@ def main():
         if args.command == "summary":
             from test_automation import summary_report
 
+            rr = cfg.project_dir / "run-results"
+            if not (rr.exists() and any(rr.glob("*.json"))):
+                print(f"Chưa có lượt chạy nào ở testing/{cfg.project}/run-results/: chưa làm được báo cáo tổng kết. "
+                      "Chạy test và ghi lượt trước (skill chay-test-tu-dong); không có số liệu thì không lập báo cáo.")
+                return 2
             written = summary_report.build_pages(cfg, args.build, args.author)
             print("Đã sinh: " + (", ".join(str(x.relative_to(config.ROOT)) for x in written) or "(chưa có lượt chạy nào để tổng hợp)"))
             return 0
@@ -93,7 +99,7 @@ def main():
             error_images = {number: v.split("+") for number, v in _parse_pairs(args.error_images).items()}
             error_captions = _parse_pairs(args.error_captions)
             blocked_by = {number: v.split("+") for number, v in _parse_pairs(args.blocked_by).items()}
-            run_record = report.add_run(cfg, args.suite, args.build, case_results, run_by=args.run_by, run_method=args.run_method,
+            run_record = report.add_run(cfg, args.suite, args.build, case_results, run_by=args.run_by or config.default_author(), run_method=args.run_method,
                                           note=args.note, status_override=_parse_pairs(args.status), bug=bug, sources=sources, add_error_images=error_images, error_captions=error_captions,
                                           timestamp=timestamp, blocked_by=blocked_by,
                                           conclusion=json.loads(Path(args.conclusion_file).read_text(encoding='utf-8')) if args.conclusion_file else None)

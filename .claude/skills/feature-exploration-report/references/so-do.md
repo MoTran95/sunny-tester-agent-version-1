@@ -4,8 +4,8 @@ Người dùng đã chốt **một** giao diện cho báo cáo khám phá: font,
 
 | Phần | Nằm ở đâu | Ai lo |
 |---|---|---|
-| Font thương hiệu Hanken Grotesk + Fraunces (SIL OFL) | `docs/thuong-hieu/fonts/` (tải bằng `scripts/tai-font.py`); `scripts/giao_dien.py` cắt theo chữ thật của báo cáo | `build-embed.py` nhúng vào file |
-| Bảng độ rộng chữ để vẽ hộp sơ đồ | `assets/fonts/do-rong-chu.json` (Hanken Grotesk 400/600/700), tạo lại bằng `scripts/tao-bang-do-rong.py` khi đổi font | `ve-so-do.py` đo chữ |
+| Font thương hiệu Be Vietnam Pro (SIL OFL) | `docs/thuong-hieu/fonts/` (tải bằng `scripts/tai-font.py`); `scripts/giao_dien.py` cắt theo chữ thật của báo cáo | `build-embed.py` nhúng vào file |
+| Bảng độ rộng chữ để vẽ hộp sơ đồ | `assets/fonts/do-rong-chu.json` (Be Vietnam Pro), tạo lại bằng `scripts/tao-bang-do-rong.py` khi đổi font | `ve-so-do.py` đo chữ |
 | Logo | `docs/thuong-hieu/brand.json` | `build-embed.py` chèn vào hero |
 | Màu, cỡ chữ, bố cục (CSS) | `assets/giao-dien-chuan.css` | `build-embed.py` chèn vào `<style id="giao-dien-chuan">` |
 | Ba kiểu sơ đồ | `scripts/ve-so-do.py` + nội dung trong file JSON | `build-embed.py` vẽ khi gặp `data-so-do` |

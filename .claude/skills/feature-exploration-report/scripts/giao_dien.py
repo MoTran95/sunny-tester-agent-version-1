@@ -1,7 +1,7 @@
 """Giao diện chuẩn của báo cáo khám phá, dùng chung với giao diện thương hiệu của repo.
 
 - CSS chuẩn: `assets/giao-dien-chuan.css` (bảng màu thương hiệu, cỡ chữ, bố cục).
-- Font thương hiệu: Hanken Grotesk (chữ thường) + Fraunces (tiêu đề) lấy từ `docs/thuong-hieu/fonts/` (do `scripts/tai-font.py` tải),
+- Font thương hiệu: Be Vietnam Pro (font tĩnh, mỗi độ đậm một file) lấy từ `docs/thuong-hieu/fonts/` (do `scripts/tai-font.py` tải),
   CẮT chỉ còn các ký tự thật sự có trong báo cáo rồi nhúng base64 → file nhẹ (khung xem trước giới hạn 512 KiB), giống hệt trên mọi máy.
   Thiếu font hoặc thiếu fontTools thì dùng font hệ thống và báo cảnh báo.
 - Logo: theo `docs/thuong-hieu/brand.json` (`test_automation.theme`), đặt ở góc trái đầu báo cáo; tắt được bằng `logo_enabled: false`.
@@ -75,10 +75,11 @@ def _subset(path, codepoints, axes=None):
     return out.getvalue()
 
 
-def _faces(family, chars, warn, axes=None, weight=None):
+def _faces(family, chars, warn, axes=None, weight=None, weights=None):
+    """`weights`: chỉ lấy các file có độ đậm này (font tĩnh, mỗi độ đậm một file)."""
     css = []
     for m in _manifest():
-        if m['family'] != family or m['style'] != 'normal':
+        if m['family'] != family or m['style'] != 'normal' or (weights and m['weight'] not in weights):
             continue
         rng = _ranges(m['unicode_range'])
         need = {c for c in chars if any(lo <= c <= hi for lo, hi in rng)}
@@ -102,15 +103,15 @@ def _text_of(page_html):
 
 
 def font_css(page_html, warn):
-    """Hanken Grotesk (chữ thường, độ đậm 400 đến 700) chỉ giữ ký tự thật dùng trong trang; Fraunces (tiêu đề) chỉ bản đậm 700 và chỉ ký tự có trong tiêu đề."""
+    """Be Vietnam Pro độ đậm 400 và 700 (chữ 600 trình duyệt dùng bản 700), chỉ giữ ký tự thật dùng trong trang; giữ báo cáo dưới 512 KiB."""
     body_chars = {ord(c) for c in _text_of(page_html)} | {32} | {ord(c) for c in '☐→·—…“”‘’'}
     heads = ' '.join(_html.unescape(re.sub(r'<[^>]+>', '', h)) for h in re.findall(r'<h[1-3][^>]*>(.*?)</h[1-3]>', page_html, flags=re.S))
     head_chars = {ord(c) for c in heads} | set(range(48, 58)) | {32}
     if not _manifest():
         warn.append('chưa có font thương hiệu ở docs/thuong-hieu/fonts: dùng font hệ thống (chạy scripts/tai-font.py)')
         return ''
-    return chr(10).join(_faces('Hanken Grotesk', body_chars, warn, axes={'wght': (400, 700)}, weight='400 700')
-                     + _faces('Fraunces', head_chars, warn, axes={'wght': 700, 'opsz': 36}, weight='700'))
+    return chr(10).join(_faces('Be Vietnam Pro', body_chars, warn, weights=('400',))
+                     + _faces('Be Vietnam Pro', body_chars | head_chars, warn, weights=('700',)))
 
 
 def project_of(path):

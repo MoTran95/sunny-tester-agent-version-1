@@ -8,6 +8,7 @@ red-box error screenshot with caption, session invalidation, run recording, repo
 Run it after any change to scripts/test_automation. Exit code 0 = all checks passed.
 """
 import json
+import re
 import shutil
 import sys
 import tempfile
@@ -172,8 +173,22 @@ def main():
         check("expired/missing session stops the run (exit 3)", exit_code == results.EXIT_SESSION, str(exit_code))
 
         print("5. Run record, report page, bug page")
-        run_record = report.add_run(cfg, "smoke", "9.9.9", data["results"], sources=[str(result_files[-1].relative_to(root))],
-                                    status_override={"1": "Đạt kèm lỗi đã biết"}, bug={"1": ["BUG-001"]})
+        # Lượt smoke cũng phải có kết luận: dựng kết luận mẫu, liệt kê đúng các case chưa có kết quả mà bộ kiểm báo.
+        smoke_conclusion = {"headline": "Chưa nhận bản 9.9.9 vì case số 1 còn lỗi đã biết và 4 case chưa có kết luận.",
+                            "passed": ["Các case có kết luận Đạt trong lượt này."], "not_tested": [], "risks": [],
+                            "suggestion": "Chạy lại các case chưa có kết luận sau khi có phiên đăng nhập mới."}
+        for _ in range(3):
+            try:
+                run_record = report.add_run(cfg, "smoke", "9.9.9", data["results"], sources=[str(result_files[-1].relative_to(root))],
+                                            status_override={"1": "Đạt kèm lỗi đã biết"}, bug={"1": ["BUG-001"]}, conclusion=smoke_conclusion)
+                break
+            except report.ConclusionError as error:
+                missing = re.findall(r"([A-Z]+-\d+) đang `([^`]+)` nhưng không được nêu", str(error))
+                if not missing:
+                    raise
+                for code, status in missing:
+                    smoke_conclusion["not_tested"].append({"cases": code, "status": status,
+                                                           "reason": "Ca mẫu của bài tự kiểm chưa có kết luận trong lượt chạy giả."})
         check("run with a failed case is recorded as reject build", run_record["verdict"] == report.REJECT_BUILD, run_record["verdict"])
         check("run number and history", run_record["number"] == 1 and len(report.read_results_data(cfg, "smoke")["runs"]) == 1)
         md = (project / "smoke-ket-qua.md").read_text(encoding="utf-8")
@@ -327,7 +342,7 @@ def main():
         check("a case without a result must be listed", any("TC-003" in x for x in report.validate_conclusion("feature", fake_table, fake_results, missing)))
         wrong = dict(good, not_tested=[dict(good["not_tested"][0], status="Chưa chạy"), good["not_tested"][1]])
         check("the listed status must match the real status", any("TC-002" in x for x in report.validate_conclusion("feature", fake_table, fake_results, wrong)))
-        check("smoke may be recorded without a conclusion", report.validate_conclusion("smoke", fake_table, fake_results, None) == [])
+        check("a smoke run without a conclusion is refused too", len(report.validate_conclusion("smoke", fake_table, fake_results, None)) == 1)
         manual_dir = root / "testing" / "demo-manual"
         manual_dir.mkdir(parents=True)
         (manual_dir / "auto-config.json").write_text(json.dumps({"env_prefix": "M", "default_url": "http://127.0.0.1:1",

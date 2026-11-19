@@ -34,7 +34,7 @@ python -X utf8 .claude/skills/feature-exploration-report/scripts/build-embed.py 
 ```
 
 Cần Pillow (`pip install pillow`). Script:
-- Thay `<style id="giao-dien-chuan">` bằng `assets/giao-dien-chuan.css` + font thương hiệu nhúng (Hanken Grotesk chữ thường, Fraunces tiêu đề; lấy từ `docs/thuong-hieu/fonts/`, **cắt chỉ còn chữ có trong báo cáo**, ~45 KB base64; cần `pip install fonttools brotli pillow`) → chữ giống nhau trên mọi máy, cùng bảng màu và font với mọi trang HTML khác của repo (`docs/thuong-hieu/README.md`). Chèn logo góc trái đầu báo cáo theo `docs/thuong-hieu/brand.json` (thu nhỏ ~6 KB; `logo_enabled: false` thì không có). Trước đây dùng `Segoe UI` rồi Open Sans (2026-11-18); đổi sang font thương hiệu 2026-11-19.
+- Thay `<style id="giao-dien-chuan">` bằng `assets/giao-dien-chuan.css` + font thương hiệu nhúng (Be Vietnam Pro) → chữ giống nhau trên mọi máy, cùng bảng màu và font với mọi trang HTML khác của repo (`docs/thuong-hieu/README.md`). Chèn logo góc trái đầu báo cáo theo `docs/thuong-hieu/brand.json` (thu nhỏ ~6 KB; `logo_enabled: false` thì không có). Trước đây dùng `Segoe UI` rồi Open Sans (2026-11-18); đổi sang font thương hiệu 2026-11-19.
 - Vẽ mọi `<div class="diag" data-so-do="…json">` bằng `ve-so-do.py`. In **Cảnh báo** khi còn SVG vẽ tay hoặc có `<style>` riêng đổi font/màu.
 - Nhúng mỗi ảnh **một lần** dưới dạng WebP thu nhỏ (mặc định 360px, q45) trong CSS (`.fNN`) → hiện được cả khi xem trước tĩnh. Nếu thư mục ảnh nằm cạnh file (mở bằng trình duyệt thường) thì JS tự thay bằng ảnh gốc nét.
 - Viết lại JS: phóng to ảnh khi bấm, liên kết “ảnh NN” mở ảnh, **thanh tab cuộn tới mục** (liên kết `#anchor` thuần không chạy trong khung xem trước dạng `data:`) + tô sáng tab đang xem.
@@ -47,7 +47,7 @@ Khung xem trước của app hiển thị file HTML như ảnh chụp tĩnh (`da
 ## Soát trước khi giao (bắt buộc)
 
 1. `--review <thư_mục>` → mở từng `sheet-XX.png`: khung có đúng ô được nói tới? số có đè chữ/đè số khác? Sửa toạ độ ở nguồn rồi build lại.
-2. Mở file thật trong khung xem trước (`file:///…`). Kiểm tra: ảnh hiện hết; số/khung không che chữ; thanh tab bấm cuộn đúng (8 tab); sơ đồ SVG không chồng chữ; chữ thường là Hanken Grotesk, tiêu đề là Fraunces (có chân), logo ở góc trái hero; kiểm cả khi tắt mạng. Build không còn dòng **Cảnh báo**.
+2. Mở file thật trong khung xem trước (`file:///…`). Kiểm tra: ảnh hiện hết; số/khung không che chữ; thanh tab bấm cuộn đúng (8 tab); sơ đồ SVG không chồng chữ; chữ thường và tiêu đề đều là Be Vietnam Pro (dấu tiếng Việt hiện đúng), logo ở góc trái hero; kiểm cả khi tắt mạng. Build không còn dòng **Cảnh báo**.
 3. Đối chiếu nội dung với nhật ký MD: mọi nguyên văn thông báo, con số, mã bản ghi khớp. Không có điều nào không có trong nhật ký/ảnh.
 4. Grep các từ cấm trong bảng thuật ngữ (`đường đi`, `dây chuyền`, `tick`, `giả lập`, `khối`, `huy hiệu`, `giải phẫu`…).
 5. Kiểm tra dung lượng ≤ 512 KiB.

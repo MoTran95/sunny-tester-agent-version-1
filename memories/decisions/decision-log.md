@@ -18,3 +18,5 @@
 | 2026-11-17 | SRS = Story + AC; ID `<FEATURE>-S01-AC01/-R/-M/-Q/-E`; bằng chứng bảng riêng có link + cách kiểm lại; khám phá đầy đủ | Không truy được nguồn `NK#n/BC-NN`; cần ID gắn test case; việc chừa trống làm SRS thiếu | Khuôn v1 (FR/BR); gộp thông báo vào từng AC (chép lặp) |
 | 2026-11-17 | Chỉ làm khám phá → SRS (MD); SRS sửa tại chỗ, khám phá tạo mới theo ngày; pilot Đăng nhập | Chuỗi 11 giai đoạn "chưa đúng", sai phải sửa nhiều | Kế hoạch 11 giai đoạn + cây `qa/…` + skill `sot-*`; SRS mới mỗi lần cập nhật |
 | 2026-11-17 | Bộ nhớ trong repo `memories/`, `MEMORY.md` là bản đồ, `CLAUDE.md` bắt buộc đọc | Ngữ cảnh bền vững, không sót, không phình | — |
+| 2026-11-19 | Font mọi trang HTML (trang tự sinh + báo cáo khám phá) đổi sang **Be Vietnam Pro** (tiêu đề và chữ thường), bỏ Fraunces + Hanken Grotesk | Người dùng: font cũ lỗi dấu tiếng Việt | Giữ font cũ. Báo cáo khám phá chỉ nhúng độ đậm 400 và 700 để dưới 512 KiB (bản v2 ~500 KiB) |
+| 2026-11-19 | Đăng nhập (`LOGIN`) gộp `checklist.md` vào `test-case.md`; bỏ chế độ hai file khỏi skill `tao-checklist-test-case` | Người dùng chốt khi rà soát token (skill dài vì chế độ cũ) | Giữ hai file cho LOGIN |

@@ -3,7 +3,6 @@
   "tien_to": "LOGIN",
   "srs": "srs/banking-lite/dang-nhap.md",
   "bang_soat": "testing/banking-lite/dang-nhap/bang-soat-requirement.md",
-  "checklist": "testing/banking-lite/dang-nhap/checklist.md",
   "test_case": "testing/banking-lite/dang-nhap/test-case.md",
   "ten_ngan": {
     "S01-AC01": "Mở hệ thống khi chưa đăng nhập",

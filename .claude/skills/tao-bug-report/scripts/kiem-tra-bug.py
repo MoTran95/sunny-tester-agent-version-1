@@ -9,6 +9,8 @@ mức độ nghiêm trọng bằng tiếng Việt (Nghiêm trọng, Lớn/Nặng
 tần suất đúng một trong các dạng; có ít nhất hai bước tái hiện đánh số; Kết quả thực tế không có câu chung chung;
 số nhãn `[Giả định: …]` trong thân bằng số mục ở cuối file; đường dẫn ảnh/video nêu trong file có thật (trừ video, vì video không vào git);
 không chứa giá trị mật khẩu nào trong `.env` (chỉ báo tên khóa, không in giá trị).
+Thang mức độ: mặc định như dưới; dự án có thang riêng của team thì khai ở `testing/<dự-án>/thang-muc-do-bug.json`
+({"severity": [...], "priority": [...]}, tên mức bằng tiếng Việt), script dùng thang đó.
 Thoát mã 1 nếu có lỗi.
 """
 import os
@@ -26,6 +28,18 @@ FREQUENCY = re.compile(r"^(Luôn xảy ra|Thỉnh thoảng|Một lần|1/1|Chưa
 VAGUE_ACTUAL = ["không hoạt động", "bị lỗi", "lỗi hệ thống", "không như mong đợi", "hoạt động sai", "chạy sai", "hiển thị sai"]
 ENGLISH_SEVERITY = re.compile(r"\b(Critical|Major|Minor|Trivial|Severity|Priority)\b")
 REASON_IN_TITLE = re.compile(r"\b(dù|theo BA|vì|bởi vì|do BA)\b", re.I)
+
+
+def project_scale(path):
+    """(severity, priority) của dự án chứa file bug: thang riêng của team nếu có `testing/<dự-án>/thang-muc-do-bug.json`."""
+    parts = os.path.abspath(path).replace("\\", "/").split("/")
+    if "testing" in parts and parts.index("testing") + 1 < len(parts):
+        f = os.path.join(ROOT, "testing", parts[parts.index("testing") + 1], "thang-muc-do-bug.json")
+        if os.path.exists(f):
+            import json
+            data = json.loads(read(f))
+            return tuple(data.get("severity") or SEVERITY), tuple(data.get("priority") or PRIORITY)
+    return SEVERITY, PRIORITY
 
 
 def read(path):
@@ -85,18 +99,19 @@ def check(path, passwords, required):
     for need in required:
         if need not in secs and need not in OPTIONAL_SECTIONS:
             problems.append(f"thiếu mục `## {need}`")
+    severity, priority = project_scale(path)
     sev = secs.get("Mức độ nghiêm trọng", "").strip()
     if sev:
         m = re.match(r"\*\*([^*]+?)\.?\*\*", sev)
-        if not m or m.group(1).strip().rstrip(".") not in SEVERITY:
-            problems.append("`Mức độ nghiêm trọng` phải bắt đầu bằng **Nghiêm trọng/Lớn/Nặng/Nhỏ/Rất nhỏ** (in đậm, tiếng Việt)")
+        if not m or m.group(1).strip().rstrip(".") not in severity:
+            problems.append(f"`Mức độ nghiêm trọng` phải bắt đầu bằng **{'/'.join(severity)}** (in đậm, tiếng Việt)")
     if ENGLISH_SEVERITY.search(sev + secs.get("Mức độ ưu tiên đề xuất", "")):
         problems.append("mức độ phải viết tiếng Việt, không dùng Severity/Priority/Critical/Major/Minor")
     pri = secs.get("Mức độ ưu tiên đề xuất", "").strip()
     if pri:
         m = re.match(r"\*\*([^*]+?)\*\*", pri)
-        if not m or m.group(1).strip() not in PRIORITY:
-            problems.append("`Mức độ ưu tiên đề xuất` phải bắt đầu bằng **Cao/Trung bình/Thấp**")
+        if not m or m.group(1).strip() not in priority:
+            problems.append(f"`Mức độ ưu tiên đề xuất` phải bắt đầu bằng **{'/'.join(priority)}**")
         if "đề xuất" not in pri.lower():
             problems.append("ưu tiên chỉ là đề xuất: ghi `(Đề xuất; team hoặc PO sẽ chốt.)`")
     state = secs.get("Trạng thái", "").strip()   # mục tùy chọn do skill lap-ke-hoach-retest ghi, không có trong khuôn
@@ -127,6 +142,9 @@ def check(path, passwords, required):
     for m in re.finditer(r"((?:evidence|docs)/[^\s`)\]]+?\.(?:png|jpg))", text):
         if not os.path.exists(os.path.join(ROOT, m.group(1))):
             problems.append(f"ảnh nêu trong file không có thật: {m.group(1)}")
+    for m in re.finditer(r"(evidence/[^\s`)\]]+?/video/[^\s`)\]]+?\.webm)", text):
+        problems.append(f"video nằm trong thư mục không vào git, máy khác sẽ không có: {m.group(1)}. "
+                        "Chép vào thư mục của bug: python -X utf8 .claude/skills/tao-bug-report/scripts/luu-bang-chung.py <file bug> --ghi")
     for key, value in passwords.items():
         if value in text:
             problems.append(f"file chứa giá trị mật khẩu của khóa `{key}` trong .env: xóa ngay (không in giá trị ở đây)")

@@ -49,6 +49,8 @@ Lệnh này tạo `.venv`, cài thư viện trong `scripts/requirements-tu-dong.
 
 ## 4. Chọn dự án và tạo file tài khoản test `.env`
 Repo chứa nhiều dự án (mỗi dự án là một hệ thống đang test, danh sách ở `memories/project/overview.md`). Mở phiên Claude đầu tiên trên máy mới, **Claude sẽ hỏi bạn đang làm dự án nào** rồi ghi vào file `.du-an-hien-tai` (chỉ nằm trên máy này, không commit). Các phiên sau không hỏi lại; muốn đổi thì nói tên dự án khác.
+
+**Tên người test:** tạo file `.nguoi-test` ở gốc repo, một dòng là tên của bạn (cũng không commit). Tên này được ghi vào cột Người viết của test case, người chạy của mỗi lượt và lịch sử thay đổi. Chưa có file thì ghi "Chưa ghi tên" (không lấy tên tài khoản Git).
 - Dự án đã có: chọn trong danh sách.
 - Dự án mới: Claude hỏi tên, URL, tên thư mục ngắn rồi tạo thư mục riêng (`scripts/tao-du-an.py`). Claude **không dùng kiến thức của dự án khác** (nghiệp vụ, tài khoản, từ ngữ, con số) cho dự án mới.
 

@@ -24,6 +24,7 @@ Thoát mã 1 nếu có lỗi; cảnh báo không làm thất bại.
 """
 import argparse
 import io
+import os
 import re
 import sys
 
@@ -104,7 +105,7 @@ def main():
     ap.add_argument("--cau-hoi")
     ap.add_argument("--ma", help="regex của mã requirement cần phủ, ví dụ RECO-S\\d\\d-AC\\d\\d")
     ap.add_argument("--tu-cam", help="danh sách từ cảnh báo, cách nhau dấu phẩy (mặc định: từ dịch máy hay gặp)")
-    ap.add_argument("--tim", help="chỉ liệt kê các dòng bảng soát nhắc tới những mã này (ví dụ A4,TL-04,LOGIN-R06), rồi thoát")
+    ap.add_argument("--tim", help="chỉ liệt kê các dòng bảng soát nhắc tới những mã này (ví dụ A4,TL-04,CART-R06), rồi thoát")
     a = ap.parse_args()
 
     errors, warns = [], []
@@ -251,6 +252,24 @@ def main():
                     warns.append(f"[câu hỏi {nid}] có từ nghe dịch máy: '{t}'")
             if INTERNAL_CODE.search(body):
                 warns.append(f"[câu hỏi {nid}] có mã nội bộ trong nội dung câu hỏi: {INTERNAL_CODE.search(body).group(0)}")
+
+    # 7. số ở mục Tổng kết khớp bảng soát (cùng cách đếm với ghi-tl.py; chỉ xét các nhãn khuôn có số đếm được)
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("ghi_tl", os.path.join(os.path.dirname(os.path.abspath(__file__)), "ghi-tl.py"))
+    gtl = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gtl)
+    bs_lines = bs.replace("\r\n", "\n").split("\n")
+    want = gtl.dem_tong_ket(bs_lines)
+    n_tk = 0
+    for cell, (i, val) in gtl.so_trong_tong_ket(bs_lines).items():
+        for label, n in want:
+            if gtl._khop_nhan(cell, label):
+                n_tk += 1
+                have = int(re.match(r"^\d+", val).group(0))
+                if have != n:
+                    errors.append(f"[bảng soát] dòng {i + 1}: Tổng kết '{cell}' ghi {have}, đếm từ bảng ra {n} "
+                                  f"(sửa bằng ghi-tl.py --chi-tong-ket)")
+    print(f"- số ở Tổng kết đã đối chiếu: {n_tk}")
 
     print()
     for w in warns:

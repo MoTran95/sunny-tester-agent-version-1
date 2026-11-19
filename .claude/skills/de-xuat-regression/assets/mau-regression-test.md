@@ -54,7 +54,7 @@ Nhãn nguồn: **Có trong tài liệu** · **Suy luận** (cần Dev xác nhậ
 
 ## Lượt chạy
 
-Mỗi lần chạy một tầng ghi một dòng bằng `python -X utf8 scripts/truy-vet-regression.py ghi-luot <dự-án> --tang "Tầng 1" --build "<số bản>" --ket-qua "dang-nhap/TC-005=Đạt,..." [--ghi-chu "..."]` (case của tầng không nêu coi là Chưa chạy). **Trang kết quả đầy đủ** (từng case, ảnh, bug, kết luận và rủi ro): `regression-tang-<N>-ket-qua.html`, sinh bằng `build_report.py add-run --suite regression-tang-<N>` (xem skill `de-xuat-regression`, mục "Chạy regression và ghi kết quả"). Kết quả từng case cũng nằm ở cột Trạng thái, Kết quả thực tế của test case gốc và thư mục `evidence/<dự-án>/chay-test/`.
+Mỗi lần chạy một tầng ghi một dòng bằng `python -X utf8 scripts/truy-vet-regression.py ghi-luot <dự-án> --tang "Tầng 1" --build "<số bản>" --ket-qua "<tính-năng>/TC-005=Đạt,..." [--ghi-chu "..."]` (case của tầng không nêu coi là Chưa chạy). **Trang kết quả đầy đủ** (từng case, ảnh, bug, kết luận và rủi ro): `regression-tang-<N>-ket-qua.html`, sinh bằng `build_report.py add-run --suite regression-tang-<N>` (xem skill `de-xuat-regression`, mục "Chạy regression và ghi kết quả"). Kết quả từng case cũng nằm ở cột Trạng thái, Kết quả thực tế của test case gốc và thư mục `evidence/<dự-án>/chay-test/`.
 
 <!-- LUOT-CHAY:BAT-DAU (tự sinh bởi scripts/truy-vet-regression.py ghi-luot, không sửa tay) -->
 <!-- LUOT-CHAY:KET-THUC -->

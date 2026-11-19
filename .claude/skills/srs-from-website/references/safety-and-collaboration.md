@@ -5,10 +5,10 @@ Các quy tắc dưới đây đến từ sự cố và chỉ dẫn thật trong 
 ## 1. Mật khẩu: người dùng gõ, mình đọc kết quả
 - Mình **không tự gõ mật khẩu**, kể cả mật khẩu sai/giả, và dù người dùng bảo "sai thì có sao đâu". Quy tắc áp dụng cho việc gõ vào ô mật khẩu, không phụ thuộc đúng hay sai; Playwright MCP hay công cụ khác cũng không đổi điều này.
 - Cách phối hợp đã chạy tốt:
-  1. Mình **điền sẵn ô Mã nhân viên** (`form_input`) và để ô mật khẩu trống/đang có chữ người dùng gõ.
+  1. Mình **điền sẵn ô tên đăng nhập** (`form_input`) và để ô mật khẩu trống/đang có chữ người dùng gõ.
   2. Mình nói rõ cho người dùng: gõ gì (ví dụ "một mật khẩu sai bất kỳ"), bấm gì, rồi báo "xong ca N". Bật khung trình duyệt nếu đang ẩn.
   3. Khi người dùng báo xong, mình đọc kết quả bằng `screenshot` + `read_network_requests` + `javascript_tool`, rồi ghi vào nhật ký.
-  4. Mình có thể đổi ô **mã nhân viên** và bấm nút gửi giữa các lần, vì ô mật khẩu vẫn giữ chữ người dùng đã gõ — nhưng chỉ khi việc lặp lại đó an toàn (mục 2).
+  4. Mình có thể đổi ô **tên đăng nhập** và bấm nút gửi giữa các lần, vì ô mật khẩu vẫn giữ chữ người dùng đã gõ — nhưng chỉ khi việc lặp lại đó an toàn (mục 2).
 - Có thể xóa ô mật khẩu (đặt rỗng) để thử ca "mật khẩu trống"; đó không phải nhập mật khẩu.
 - Mật khẩu test nằm ở `.env` (đã `.gitignore`): **không đọc, không chép** vào tài liệu, bộ nhớ hay chat.
 

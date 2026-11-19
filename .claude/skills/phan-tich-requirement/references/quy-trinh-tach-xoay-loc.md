@@ -45,7 +45,7 @@ Với mỗi đơn vị, hỏi "Nếu như…?" qua sáu nút. Nút nào không l
 - **Lý do bảo mật của màn hình đăng nhập:** chỉ báo đúng hoặc sai, không kiểm định dạng hay độ dài, không lộ ô nào sai. Nên không hỏi và không test độ dài, định dạng của mã hay mật khẩu ở màn hình đăng nhập (đó là việc của phần đăng ký).
 - **Đi theo câu chữ, không theo hệ thống.** Requirement ghi "10 lần sai liên tiếp thì bị chặn" → lần sai thứ 10 bị chặn; "liên tiếp" → đăng nhập đúng xen giữa đếm lại từ 0; không nhắc thời gian → chỉ đếm số lần. Hệ thống chặn ở lần thứ 11 thì là nghi lỗi, không phải lý do để hỏi BA.
 - **Hệ thống làm khác điều suy ra**: ghi "nghi lỗi, cần kiểm" kèm bằng chứng, không biến thành câu hỏi "quy tắc là gì".
-- **Áp lý do của câu trả lời cho mục cùng loại.** BA nói độ dài mã nhân viên thuộc phần đăng ký → độ dài, ký tự cho phép của mật khẩu cũng thuộc phần đăng ký; ở màn hình đăng nhập chỉ có đúng hoặc sai. Không hỏi lại.
+- **Áp lý do của câu trả lời cho mục cùng loại.** BA nói độ dài tên đăng nhập thuộc phần đăng ký → độ dài, ký tự cho phép của mật khẩu cũng thuộc phần đăng ký; ở màn hình đăng nhập chỉ có đúng hoặc sai. Không hỏi lại.
 - **Câu chỉ có trong mã nguồn không làm hành vi thành chưa rõ.** Bị đăng xuất thì về form đăng nhập để đăng nhập lại: SRS ghi rõ, đủ. Không hỏi "có phải báo câu X (chỉ thấy trong tệp giao diện) không".
 - SRS là bản nháp ghi lại hệ thống thì chữ "chưa rõ" trong đó có thể chỉ là chỗ chưa khám phá. Xét mục đích đã ghi rõ trước khi coi là mơ hồ.
 

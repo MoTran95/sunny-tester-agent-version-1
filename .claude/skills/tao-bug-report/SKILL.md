@@ -1,11 +1,11 @@
 ---
 name: tao-bug-report
-description: Viết bug report đầy đủ từ ghi chú lỗi thô của người dùng, hoặc từ một test case Không đạt khi người dùng nhờ "tạo bug". Ra file bug md kèm trang HTML có nút sao chép từng mục, ảnh lỗi tô đỏ, video; tiêu đề chỉ mô tả lỗi, mức độ nghiêm trọng bằng tiếng Việt, phạm vi ảnh hưởng, câu hỏi cho Dev đủ nghĩa, nhãn Giả định để người dùng kiểm lại. Không thêm thông tin ngoài ghi chú, không tự gộp nhiều lỗi, thiếu bước tái hiện hoặc môi trường thì hỏi trước (tối đa 3 câu). Dùng khi người dùng nói "tạo bug", "viết bug", "ghi bug", "báo lỗi", "test case X fail, tạo bug", "viết lại ghi chú này thành bug", hoặc sau khi nhờ chạy test mà test case Không đạt và họ bảo tạo bug. Không dùng để viết test case (tao-checklist-test-case), hỏi BA (phan-tich-requirement) hay khám phá website (srs-from-website).
+description: Viết bug report (file md + trang HTML có nút sao chép, ảnh lỗi tô đỏ, video) từ ghi chú lỗi hoặc ca test Không đạt; tự tạo khi lượt chạy có ca Không đạt (tra bug trùng trước); tạo trên Jira khi được nhờ. Không bịa, thiếu bước hoặc môi trường thì hỏi tối đa 3 câu. Dùng khi nghe "tạo bug", "viết bug", "báo lỗi", "TC-xxx fail", "tạo bug trên Jira". Không dùng để viết test case hay hỏi BA.
 ---
 
 # Tạo bug report
 
-Biến ghi chú lỗi thô (hoặc một test case Không đạt) thành bug report mà Dev đọc xong **tái hiện được ngay, không phải hỏi lại**. Tiếng Việt. Sản phẩm: `BUG-nnn.md` + trang `BUG-nnn.html` (nút Sao chép) + ảnh bằng chứng tô đỏ + video nếu có. Skill này chỉ **viết**: không tự chạy lại test, không khám phá thêm để "tìm thêm chi tiết" (người dùng không đủ lượt chạy lại, xem `memories/user/working-preferences.md`). Chỉ tạo bug **khi người dùng nhờ**; đang chạy test hộ mà test case Không đạt thì báo kết quả và **hỏi có tạo bug không**.
+Biến ghi chú lỗi thô (hoặc một test case Không đạt) thành bug report mà Dev đọc xong **tái hiện được ngay, không phải hỏi lại**. Tiếng Việt. Sản phẩm: `BUG-nnn.md` + trang `BUG-nnn.html` (nút Sao chép) + ảnh bằng chứng tô đỏ + video nếu có. Skill này chỉ **viết**: không tự chạy lại test, không khám phá thêm để "tìm thêm chi tiết" (người dùng không đủ lượt chạy lại, xem `memories/user/working-preferences.md`). **Khi nào tạo bug (người dùng chốt 2026-11-19):** khi người dùng nhờ, **và tự tạo luôn (không hỏi) khi một ca chạy test ra `Không đạt`** (ý chính sai, điều kiện trước đúng): mỗi nguyên nhân một bug, kèm ảnh lỗi tô đỏ và video của ca đó. **Không** tạo bug cho ca `Không kết luận` (script lỗi, phiên hết hạn, điều kiện trước sai, bộ đếm từ chối): báo lý do. Ca Không đạt: **chạy trước `python -X utf8 .claude/skills/tao-bug-report/scripts/tim-bug-lien-quan.py <dự-án> <tính-năng>/TC-xxx`**. Có bug đang mở cùng chỗ → **không tạo bug mới**, nối mã bug cũ vào lượt chạy và nói rõ; bug đã Đóng mà lỗi quay lại → đề xuất Mở lại (hỏi người dùng). Ca thuộc lượt hiệu chuẩn (test case chưa chạy thật lần nào), nguồn nháp, hoặc kết quả mong đợi `CẦN XÁC NHẬN` → vẫn tạo bug nhưng **dòng đầu ghi "Nghi lỗi, chờ xác nhận: có thể do test case hoặc requirement chưa chốt"** và nêu điều cần xác nhận ở "Câu hỏi còn mở". Bug lưu trong repo; **chỉ tạo trên Jira khi người dùng nhờ** (mục "Tạo trên Jira").
 
 ## Ba nguồn đầu vào
 
@@ -40,7 +40,7 @@ Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`): luôn đọ
 | Có mã test case | Dòng đó (`truy-vet.py tra … --ma TC-014`); **không đọc cả** `test-case.md` |
 | Có mã requirement hoặc câu trả lời BA | Đúng dòng đó trong SRS/bảng soát (`Grep` kèm `| cut -c1-300`) |
 | **Mọi lần viết bug** | `references/van-phong.md`; `assets/mau-bug-report.md` |
-| Chấm mức độ nghiêm trọng/ưu tiên | `references/thang-muc-do.md` |
+| Chấm mức độ nghiêm trọng/ưu tiên | `references/thang-muc-do.md`; dự án có `testing/<slug>/thang-muc-do-bug.json` thì dùng thang của team trong file đó |
 | Có ảnh/video, dựng trang HTML, nối bảng kết quả | `references/bang-chung-va-trang-html.md` |
 | Viết câu hỏi cho BA | `memories/conventions/ba-question-wording.md`, `memories/modules/<slug>/tu-ngu-cau-hoi-ba.md` |
 | Cần hiểu nghiệp vụ để chấm ảnh hưởng | `memories/modules/<slug>/feature-<tên>.md` |
@@ -50,10 +50,18 @@ Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`): luôn đọ
 2. **Kiểm cái chặn việc viết**: thiếu bước tái hiện, môi trường, hoặc kết quả thực tế quá chung → **hỏi tối đa 3 câu rồi dừng** (quy tắc 4, 5). Có mã test case thì bước và điều kiện trước lấy từ test case.
 3. **Tách hay gộp** (quy tắc 3): nhiều chỗ chung nguyên nhân đã xác nhận → một bug, mục "Phạm vi ảnh hưởng" liệt kê **từng chỗ** (màn hình, dữ liệu, kết quả sai); còn lại tách. Một bug thì ghi "Không có: chỉ một chỗ".
 4. **Viết** theo `assets/mau-bug-report.md` (đúng thứ tự và tên mục) và `references/van-phong.md`. Gắn `[Giả định: …]` ở chỗ tự thêm.
-5. **Lưu file**: `testing/<slug>/<feature>/bug/BUG-<nnn>.md` (chưa rõ feature: `testing/<slug>/bug/`); `nnn` là số kế tiếp trong thư mục; một bug một file. Mã `BUG-nnn` là mã nội bộ, mã của công cụ quản lý bug của team do người dùng ghi thêm. Trước khi lưu: ảnh lỗi đã tô đỏ và có câu chú thích "Lỗi ở bước N". Sau khi lưu: `python -X utf8 scripts/build_docs.py --all` dựng trang HTML; báo link trang HTML.
+5. **Lưu file và bằng chứng**: bug từ lượt chạy thì chạy `python -X utf8 .claude/skills/tao-bug-report/scripts/luu-bang-chung.py <file bug> --ket-qua <result-*.json> --ca <tính-năng>/tc-xxx --ghi` (thêm ảnh lỗi tô đỏ + video của ca vào mục Đính kèm, chép video vào `evidence/<slug>/bug/BUG-nnn/` để có trong repo; video gốc ở thư mục `video/` không vào git). **Bắt buộc có cả ảnh và video** cho bug từ lượt chạy; lượt không quay video thì dòng video ghi `Cần bổ sung`.  `testing/<slug>/<feature>/bug/BUG-<nnn>.md` (chưa rõ feature: `testing/<slug>/bug/`); `nnn` là số kế tiếp trong thư mục; một bug một file. Mã `BUG-nnn` là mã nội bộ, mã của công cụ quản lý bug của team do người dùng ghi thêm. Trước khi lưu: ảnh lỗi đã tô đỏ và có câu chú thích "Lỗi ở bước N". Sau khi lưu: `python -X utf8 scripts/build_docs.py --all` dựng trang HTML; báo **một link trang tổng** `testing/<slug>/index.html` (kèm điểm nhảy tới đúng phần, xem CLAUDE.md mục "Trả kết quả HTML"), không liệt kê nhiều file HTML.
 6. **Tự kiểm** (dưới), sửa hết rồi mới trả lời.
 7. **Cập nhật bộ nhớ** nếu có quy ước mới đáng ghi: `memories/modules/<slug>/feature-<tên>.md` hoặc `memories/project/skills.md`.
-8. **Trả lời** ngắn: link trang HTML và md; tiêu đề; mức độ nghiêm trọng + ưu tiên đề xuất; **danh sách Giả định** (in nguyên); **câu hỏi còn mở** cho BA/Dev; đính kèm còn thiếu. Nói rõ **chưa tái hiện lại** (chỉ viết theo ghi chú). Test case Không đạt: **hỏi có điền `Kết quả thực tế` và `Trạng thái` = Không đạt vào dòng test case không**, không tự sửa. Bug từ smoke/lượt chạy: hỏi có dựng lại lượt để nối bug vào bảng kết quả không. Commit chỉ khi người dùng nhờ.
+8. **Trả lời** ngắn: **một link trang tổng** `testing/<slug>/index.html` (kèm điểm nhảy tới đúng phần, xem CLAUDE.md mục "Trả kết quả HTML"), không liệt kê nhiều file HTML; tiêu đề; mức độ nghiêm trọng + ưu tiên đề xuất; **danh sách Giả định** (in nguyên); **câu hỏi còn mở** cho BA/Dev; đính kèm còn thiếu. Nói rõ **chưa tái hiện lại** (chỉ viết theo ghi chú). Test case Không đạt do mình chạy: kết quả đã ghi vào test case theo `chay-test-tu-dong`, không hỏi lại; test case Không đạt do người dùng tự chạy: hỏi có điền `Kết quả thực tế` và `Trạng thái` vào dòng test case không. Bug từ smoke/lượt chạy: hỏi có dựng lại lượt để nối bug vào bảng kết quả không. Commit chỉ khi người dùng nhờ.
+
+## Tạo trên Jira (chỉ khi người dùng nhờ)
+Mặc định bug chỉ nằm trong repo. Người dùng nói "tạo bug 01 trên Jira", "đẩy bug lên Jira" thì:
+1. Cần connector Atlassian (Jira). Chưa kết nối/chưa đăng nhập thì nói người dùng bật và đăng nhập (qua `/mcp` trong app), không tìm cách khác.
+2. Hỏi (một lần, đủ ngữ cảnh) những gì chưa biết: dự án Jira (project key), loại issue (Bug), trường bắt buộc riêng của team. Ghi câu trả lời vào `memories/modules/<slug>/overview.md` để lần sau không hỏi lại.
+3. Tạo issue từ đúng file bug md: tiêu đề = dòng `#` (bỏ `[Module]` nếu team không dùng), mô tả = các mục theo thứ tự trong file (môi trường, điều kiện trước, các bước, kết quả mong đợi, kết quả thực tế, phạm vi ảnh hưởng, tần suất, câu hỏi còn mở), mức độ nghiêm trọng/ưu tiên map sang trường của Jira nếu team có. **Đính kèm ảnh lỗi tô đỏ và video** nếu connector cho phép; không cho thì ghi đường dẫn trong mô tả và nhắc người dùng đính tay. Không đưa mật khẩu, dữ liệu cá nhân thật, nhãn `[Giả định: …]` chưa được người dùng duyệt thì hỏi trước khi gửi.
+4. Ghi mã Jira vào file bug (dòng `Mã Jira: <KEY-123> (<link>)` dưới tiêu đề), `build_docs.py --all`, báo người dùng link Jira và link trang tổng.
+Bug đã có mã Jira thì không tạo trùng; người dùng nhờ cập nhật thì sửa issue đó.
 
 ## Tự kiểm trước khi trả lời
 Chạy trước: `python -X utf8 .claude/skills/tao-bug-report/scripts/kiem-tra-bug.py <file bug>` (kiểm khuôn, mức độ tiếng Việt, tần suất, câu chung chung, đếm nhãn Giả định, ảnh có thật, không có mật khẩu); sửa hết lỗi rồi mới làm danh sách dưới (script không thay việc đọc lại).
@@ -69,7 +77,9 @@ Chạy trước: `python -X utf8 .claude/skills/tao-bug-report/scripts/kiem-tra-
 - [ ] Trang HTML đã dựng lại sau lần sửa md cuối; bug từ smoke/lượt chạy đã được hỏi để nối vào bảng kết quả.
 
 ## Tệp trong skill
-- `scripts/kiem-tra-bug.py` — kiểm tự động một hoặc mọi bug của dự án (`--du-an`).
+- `scripts/kiem-tra-bug.py` — kiểm tự động một hoặc mọi bug của dự án (`--du-an`); báo lỗi khi video còn trỏ vào thư mục không vào git.
+- `scripts/tim-bug-lien-quan.py` — tìm bug đã có nhắc test case (trước khi tạo bug từ lượt chạy), báo bug đang mở để nối thay vì tạo trùng.
+- `scripts/luu-bang-chung.py` — thêm ảnh lỗi + video của ca vào bug, chép video vào `evidence/<slug>/bug/BUG-nnn/`.
 - `assets/mau-bug-report.md` — hình dạng file bug (ví dụ trung lập, đủ nhãn Giả định, câu hỏi BA/Dev, phạm vi ảnh hưởng, ảnh tô đỏ kèm lỗi ở bước nào).
 - `references/` — `van-phong.md`, `thang-muc-do.md`, `bang-chung-va-trang-html.md`.
 - Công cụ dùng chung của repo: `scripts/build_docs.py`, `scripts/build_report.py` (`add-run`, `bug-pages`), `scripts/mark_error.py`, `scripts/test_automation/bug_page.py`, `docs/chay-test-tu-dong.md`.

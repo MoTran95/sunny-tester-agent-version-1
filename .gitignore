@@ -8,3 +8,4 @@ __pycache__/
 # video và ảnh tạm của lượt chạy test (nặng; chỉ giữ máy local, đính kèm tay vào bug)
 evidence/**/video/
 evidence/**/video-tmp/
+.nguoi-test

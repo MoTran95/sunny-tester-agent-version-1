@@ -1,21 +1,16 @@
 # Sở thích làm việc của người dùng (LUÔN ĐỌC)
-Chi tiết viết tài liệu: `document-preferences.md`.
+Chi tiết viết tài liệu: `document-preferences.md`. Quy tắc đã có ở `CLAUDE.md` (dự án hiện tại, MarkItDown, trả một link trang tổng, memory chỉ cho AI) không chép lại ở đây.
 
-- Tiếng Việt. Người dùng là **tester**. Nói bằng giọng nói nên có từ lệch ("thiết khai", "sự khoai mạnh") → hỏi lại, không đoán.
-- **Từng bước nhỏ rồi ghép**; chưa rõ thì **hỏi, không suy diễn, không bịa**. Chỉ test **functional** (không tự suy diễn bảo mật/hiệu năng).
-- **Cách đặt câu hỏi cho người dùng (dặn 2026-11-19):** viết câu **đủ ngữ cảnh, từ ngữ rõ ràng**, người đọc không cần lật lại chat cũng hiểu mình đang hỏi gì và vì sao; khi có thể thì **đưa các lựa chọn theo logic** (kèm hệ quả ngắn của từng lựa chọn, có một đề xuất) để họ chọn, dùng công cụ hỏi có nút chọn khi có. **Không hỏi lại điều đã có câu trả lời** (trong chat, `memories/`, skill, tài liệu dự án): tra trước, chỉ hỏi cái còn thiếu thật sự.
-- **Quyết định 2026-11-19 (người dùng, áp dụng mọi dự án):** Claude được chạy cả ca đăng nhập và nhập sai bằng runner tự động; script đọc `.env`; **bỏ qua** (để người dùng tự làm) mọi ca mà chính bước làm có thể chặn hệ thống; **tên hàm/biến/khóa JSON trong code dùng tiếng Anh** (thông báo, tài liệu, trạng thái Đạt/Không đạt vẫn tiếng Việt). Chỉ nhập tài khoản test vào địa chỉ do người dùng nêu và có nhãn môi trường thử (staging…); mật khẩu chỉ script đọc, Claude không đọc ra, không ghi lại, không nhập sang địa chỉ khác. **Số lần nhập sai cho phép và thời gian chặn không có số mặc định: lấy từ requirement của dự án hoặc hỏi người test** (`project/tu-dong-hoa-test.md`). Địa chỉ test và số liệu riêng từng dự án chỉ nằm ở `modules/<slug>/`.
-- **Không gõ mật khẩu** (kể cả sai): mình điền ô tên đăng nhập, người dùng gõ. Tài khoản test ở `.env` gốc repo (`.gitignore`, khóa có tiền tố theo dự án); không chép mật khẩu ra nơi khác.
-- Ngoại lệ đã chốt 2026-11-18: script `scripts/auto_login.py` đọc `.env` để đăng nhập; từ 2026-11-19 Claude được chạy luôn script này khi địa chỉ do người dùng nêu và có nhãn thử; địa chỉ không có nhãn thử thì không chạy, nhờ người dùng tự chạy. Chi tiết `project/tu-dong-hoa-test.md`.
-- **Nhiều dự án:** máy mới hỏi dự án (ghi `.du-an-hien-tai`); chỉ dùng kiến thức dự án hiện tại: `conventions/nhieu-du-an.md`.
-- **An toàn hệ thống đang test:** không khóa hệ thống/tài khoản, không đổi dữ liệu người khác, không kích hoạt giới hạn. Số lần nhập sai cho phép do requirement hoặc người test chốt, **không tự đặt con số**; chưa biết thì hỏi. Thao tác có thể lặp gây khóa → làm tay từng lần rồi dừng hỏi; runner tự động đếm cộng dồn và từ chối vượt trần đã khai (chưa khai thì từ chối mọi lần nhập sai); không tự nâng ngưỡng; dữ liệu giả không phải lý do an toàn; lỡ kích hoạt báo ngay (`pitfalls/dont-trigger-lockouts.md`).
-- **Đã khám phá rồi thì không khám phá lại** (tốn token, người dùng không đủ chạy lại); chỉ khi người dùng nói rõ feature đã đổi/khám phá lại, và chỉ phần đổi: `project/srs-process.md`.
-- **Bug lọt production mà chưa có test case chặn đúng bug đó → viết case mới và đưa vào bộ regression** (dặn 2026-11-19; Tầng 1 nếu hỏng thì chặn việc khác, không thì vùng Tầng 2; ghi mã bug ở cột Nguồn của test case và đầu cột "Lý do chọn" của bảng tầng; kết quả mong đợi theo bản sửa đã xác nhận, chưa có thì `CẦN XÁC NHẬN`; phải duyệt bảng 7 cột trong chat trước khi ghi vào test-case.md): skill `de-xuat-regression`.
-- **Mọi chỗ truy vết phải có link bấm được** (dặn 2026-11-19): mã requirement → đúng dòng SRS/bảng soát, mã TC → đúng dòng test-case.md (`truy-vet.py`, `truy-vet-smoke.py`, `truy-vet-regression.py` tự sinh). Chữ không link là lỗi.
-- **Commit/push chỉ khi người dùng nhờ** (kể cả sau tạo dự án/sửa bộ nhớ).
-- Đọc Word/PPT/HTML/PDF chữ/nhiều file → đổi sang Markdown bằng MarkItDown (ra thư mục tạm) rồi đọc; không dùng cho .txt/.md, Excel lớn, PDF scan: `project/cong-cu-markitdown.md`.
-- Tài liệu **đọc là hiểu**: tiếng Việt thường, câu đủ ý, thuật ngữ IT đúng; không dùng Given/When/Then, FR/BR, NK#… hay mã nội bộ làm tên cột/nhãn/nội dung chính.
-- Kết quả dài → **lưu file trong repo**, chat chỉ tóm tắt + link; không dán cả bảng vào chat.
-- Connector/plugin không dùng cho kiểm thử: mặc định tắt, **hỏi trước khi bật** (`connectors-and-plugins.md`).
-- Notion lưu hành trình làm việc (để dạy người mới, làm content); có feedback/lỗi lớn mới thì bổ sung nếu được nhờ: `project/notion-journey-page.md`.
-- Bộ nhớ này chỉ cho AI đọc; tài liệu cho người đọc (srs/, testing/, evidence/, docs/, báo cáo HTML) giữ nguyên dạng đầy đủ.
+- Tiếng Việt. Người dùng là **tester**, nói bằng giọng nói nên có từ lệch → hỏi lại nghĩa, không đoán.
+- **Từng bước nhỏ rồi ghép**; chưa rõ thì **hỏi, không suy diễn, không bịa**. Chỉ test **functional**.
+- **Hỏi người dùng:** câu đủ ngữ cảnh (không cần lật chat cũ), đưa lựa chọn theo logic kèm hệ quả và một đề xuất, dùng hộp chọn khi có; **Không hỏi lại điều đã có câu trả lời** trong chat, `memories/`, skill, tài liệu dự án.
+- **Mật khẩu và chạy tự động (chốt 2026-11-19, mọi dự án):** **Không gõ mật khẩu** (kể cả sai), không đọc ra, không ghi; chỉ script (`auto_login.py`, runner) đọc `.env`, và chỉ trên địa chỉ người dùng nêu có nhãn môi trường thử. Được chạy ca đăng nhập/nhập sai bằng runner; **bỏ qua cho người dùng tự làm** mọi ca mà chính bước làm có thể chặn hệ thống. Tên hàm/biến/khóa JSON tiếng Anh; thông báo, tài liệu tiếng Việt. Chi tiết `project/tu-dong-hoa-test.md`.
+- **An toàn hệ thống đang test:** không khóa, không đổi dữ liệu người khác, không kích hoạt giới hạn. **Ngưỡng (số lần sai, thời gian chặn…): không tự đặt con số**, lấy từ requirement hoặc hỏi người test; runner đếm cộng dồn, từ chối vượt trần đã khai; lỡ kích hoạt thì báo ngay (`pitfalls/dont-trigger-lockouts.md`).
+- **Đã khám phá rồi thì không khám phá lại**, trừ khi người dùng nói rõ phần nào đổi (`project/srs-process.md`).
+- **Thứ tự quy trình (chốt 2026-11-19):** phân tích requirement → **test plan** → test case → smoke, regression (xong thì "Cập nhật test plan") → chạy → bug → re-test → báo cáo tổng kết. Hướng dẫn cho người dùng chỉ viết ở `docs/bat-dau.md` (có "Lời chào trong chat": tự xưng **trợ lý Sunny Testing**); đổi cách dùng repo thì sửa trang đó cùng lượt.
+- **Cách gọi:** "phân tích requirement", "bảng phân tích requirement" (không "soát"); nhắc SRS với người mới thì nói rõ là gì, vì sao cần.
+- **Bug (chốt 2026-11-19):** chạy test ra **Không đạt** thật → tạo bug luôn kèm ảnh + video (skill `tao-bug-report`, tra bug trùng trước); **Jira chỉ khi người dùng nhờ**. Bug lọt production chưa có case chặn → viết case mới vào regression (skill `de-xuat-regression`).
+- **Truy vết:** mọi mã requirement/TC trong tài liệu phải là link bấm được; chữ không link là lỗi.
+- **Commit/push chỉ khi người dùng nhờ.** Kết quả dài lưu file, chat chỉ tóm tắt + link.
+- Tài liệu **đọc là hiểu**: tiếng Việt thường, câu đủ ý; không Given/When/Then, FR/BR hay mã nội bộ làm nhãn/nội dung chính.
+- Connector/plugin mặc định tắt, **hỏi trước khi bật** (`connectors-and-plugins.md`). Notion: `project/notion-journey-page.md` (chỉ khi được nhờ).

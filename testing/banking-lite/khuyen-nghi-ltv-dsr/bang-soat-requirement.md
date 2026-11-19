@@ -1,4 +1,4 @@
-# Bảng soát requirement — Khuyến nghị thẩm định xem trước LTV/DSR (Banking Lite)
+# Bảng phân tích requirement — Khuyến nghị thẩm định xem trước LTV/DSR (Banking Lite)
 
 | | |
 |---|---|

@@ -12,7 +12,7 @@ Dùng:
       Thoát mã 1 nếu có việc cần làm.
   python -X utf8 scripts/truy-vet-regression.py ghi-luot <dự-án> --tang "Tầng 1" --build "1.3.0" --ket-qua "dang-nhap/TC-005=Đạt,..." [--ghi-chu "..."]
       Ghi MỘT lượt chạy của một tầng vào mục "Lượt chạy" (case của tầng không nêu = Chưa chạy). Chỉ ghi khối này.
-  python -X utf8 scripts/truy-vet-regression.py chot <dự-án> -m "đã làm gì" [--nguoi "Sunny Tran"]
+  python -X utf8 scripts/truy-vet-regression.py chot <dự-án> -m "đã làm gì" [--nguoi "Tên"]  (mặc định: .nguoi-test)
       Chốt mốc mới: "bộ regression hiện tại đã khớp test case và requirement hiện tại". Ghi dòng lịch sử,
       làm mới mục Truy vết (vùng -> mã requirement) và mốc. Chốt SAU khi đã chốt truy vết từng tính năng.
 
@@ -32,6 +32,12 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+def _default_author():
+    """Tên người test của máy này: `.nguoi-test` (xem scripts/test_automation/config.py)."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from test_automation.config import default_author
+    return default_author()
+
 spec = importlib.util.spec_from_file_location("truy_vet_smoke", ROOT / "scripts" / "truy-vet-smoke.py")
 sm = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sm)
@@ -188,13 +194,15 @@ def main():
     ap.add_argument("lenh", choices=["kiem", "chot", "ghi-luot"])
     ap.add_argument("du_an")
     ap.add_argument("-m", "--mo-ta", default="")
-    ap.add_argument("--nguoi", default="Sunny Tran")
+    ap.add_argument("--nguoi", default=None)
     ap.add_argument("--tang", default="", help="với ghi-luot: Tầng 1, Tầng 2 hoặc Tầng 3")
     ap.add_argument("--build", default="", help="với ghi-luot: số bản đọc ở chân trang hệ thống")
     ap.add_argument("--ket-qua", default="", help="với ghi-luot: dang-nhap/TC-005=Đạt,khuyen-nghi-ltv-dsr/TC-001=Không đạt,...")
     ap.add_argument("--ghi-chu", default="", help="với ghi-luot: quan sát cụ thể, mã bug...")
     ap.add_argument("--ngay", default=None, help="chỉ dùng khi thử: ép ngày, không ghi giờ")
     a = ap.parse_args()
+    if getattr(a, "nguoi", "x") is None:
+        a.nguoi = _default_author()
 
     du_an_dir = ROOT / "testing" / a.du_an
     rg_p = du_an_dir / "regression-test.md"

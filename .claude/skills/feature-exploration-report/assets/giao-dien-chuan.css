@@ -1,6 +1,6 @@
 /* GIAO DIỆN CHUẨN của báo cáo khám phá (font, màu, bố cục) — dùng chung cho MỌI dự án.
    Cùng bảng màu và font với mọi trang HTML khác của repo (scripts/test_automation/theme.py, docs/thuong-hieu/README.md):
-   nền kem #E8DFD0, chữ nâu, nhấn đỏ san hô, chữ thường Hanken Grotesk, tiêu đề Fraunces.
+   nền kem #E8DFD0, chữ nâu, nhấn đỏ san hô, chữ Be Vietnam Pro (cả tiêu đề và chữ thường).
    build-embed.py chèn file này + font thương hiệu (cắt theo chữ có trong báo cáo) + logo khi build,
    nên báo cáo trông giống hệt nhau trên mọi máy. Màu vai trò (p1..p5, ext, sys) và màu sơ đồ giữ nguyên.
    Không chép CSS này vào file nguồn; không đổi màu/font trong từng báo cáo.
@@ -9,8 +9,8 @@
   --bg:#E8DFD0; --card:#F2EDE5; --ink:#3A2E26; --mute:#6F6154; --line:#D1C9BB;
   --brand:#C24E3A; --brand2:#F8E4DE; --red:#E5252A; --warn:#F6E6C3; --warnline:#E6CC93;
   --p1:#177a5c; --p2:#b7791f; --p3:#2b6cb0; --p4:#b83280; --p5:#2c7a7b; --ext:#6b46c1; --sys:#4a5568;
-  --font:"Hanken Grotesk","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
-  --font-h:Fraunces,Georgia,"Times New Roman",serif;
+  --font:"Be Vietnam Pro","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --font-h:"Be Vietnam Pro","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}

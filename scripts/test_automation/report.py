@@ -161,7 +161,7 @@ def _find_bug_file(cfg, code):
     return str(pairs[0].relative_to(config.ROOT)).replace("\\", "/") if pairs else None
 
 
-def add_run(cfg, suite, build, case_results, run_by="Sunny Tran", run_method="Tự động (Playwright)",
+def add_run(cfg, suite, build, case_results, run_by=None, run_method="Tự động (Playwright)",
               note="", status_override=None, bug=None, sources=None, timestamp=None, add_error_images=None, error_captions=None, blocked_by=None, conclusion=None):
     """Thêm một lượt vào dữ liệu rồi sinh lại md + html.
 
@@ -218,7 +218,7 @@ def add_run(cfg, suite, build, case_results, run_by="Sunny Tran", run_method="T�
     run_record = {
         "number": len(data["runs"]) + 1, "build": build,
         "timestamp": timestamp or time.strftime("%Y-%m-%d %H:%M:%S"),
-        "run_by": run_by, "run_method": run_method, "verdict": verdict, "note": note,
+        "run_by": run_by or config.default_author(), "run_method": run_method, "verdict": verdict, "note": note,
         "sources": [_normalize_path(n) for n in (sources or [])], "results": results,
     }
     if conclusion:
@@ -264,8 +264,8 @@ def validate_conclusion(suite, table, results, conclusion):
     """Kiểm kết luận và rủi ro theo quy tắc đã chốt (xem skill chay-test-tu-dong, references/quy-tac-da-chot.md mục 5). Trả danh sách lỗi."""
     problems = []
     if not conclusion:
-        if suite != "smoke":
-            problems.append("thiếu kết luận và rủi ro (--conclusion-file): bắt buộc cho lượt theo tính năng")
+        # Bắt buộc với mọi bộ, kể cả smoke (2026-11-19: thiếu thì báo cáo tổng kết mất dòng của smoke).
+        problems.append("thiếu kết luận và rủi ro (--conclusion-file): bắt buộc cho mọi lượt (smoke, regression, tính năng)")
         return problems
     for key, kind in (("headline", str), ("passed", list), ("not_tested", list), ("risks", list), ("suggestion", str)):
         if not isinstance(conclusion.get(key), kind):

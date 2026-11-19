@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-19 15:23:30 (+07:00) (chỉ kiểm, chưa đổi mốc) |
+| Lần chạy gần nhất | 2026-11-19 20:45:57 (+07:00) (chốt mốc mới) |
 | Requirement | srs/banking-lite/dang-nhap.md (cập nhật 2026-11-18); bảng soát (cập nhật 2026-11-18), câu trả lời đến TL-14 |
-| Checklist, test case | [checklist.md](checklist.md), [test-case.md](test-case.md) |
-| Mốc đã chốt | 2026-11-19 09:37:27 (+07:00) (khi đó: SRS 2026-11-18, bảng soát 2026-11-18, TL đến TL-14) |
+| Test case (đã gồm checklist) | [test-case.md](test-case.md) |
+| Mốc đã chốt | 2026-11-19 20:45:57 (+07:00) (khi đó: SRS 2026-11-18, bảng soát 2026-11-18, TL đến TL-14) |
 
 ## 1. Tóm tắt
 - Mã requirement: 40 trong SRS, 14 câu trả lời (TL). Test case: 43.
@@ -20,12 +20,12 @@
 ## 2. Khi requirement đổi, làm gì
 1. Sửa SRS hoặc ghi câu trả lời mới của BA vào bảng soát (như mọi lần).
 2. Chạy `python -X utf8 scripts/truy-vet.py kiem banking-lite dang-nhap`. Script liệt kê mã đã đổi và các test case chuyển sang **Cần xem lại**.
-3. Mở từng test case đó (bảng 6 dưới đây), sửa checklist và test case cho khớp.
+3. Mở từng test case đó (bảng 6 dưới đây), sửa test case cho khớp (checklist nằm chung bảng).
 4. Chạy `python -X utf8 scripts/truy-vet.py chot banking-lite dang-nhap -m "đã làm gì, vì sao"`. Script ghi một dòng lịch sử và chốt mốc mới.
 5. Muốn xem từng chữ đã đổi, dùng lịch sử git (commit sau mỗi lần chốt).
 
 ## 3. Bảng tra mã
-Mã trong cột Nguồn của checklist và test case bỏ tiền tố `LOGIN-`. `S01-AC02` là story 1, tình huống 2; `R` là quy tắc; `M` là thông báo; `TL` là câu trả lời của BA (TL-12, TL-13 là điều suy ra, người dùng xác nhận).
+Mã trong cột Nguồn của checklist và test case bỏ tiền tố `LOGIN-`. `S01-AC02` là story 1, tình huống 2; `R` là quy tắc; `M` là thông báo; `TL` là câu trả lời của BA.
 
 | Mã | Tên ngắn | Nguyên văn (rút gọn) | Mở ở đâu |
 |---|---|---|---|
@@ -248,3 +248,4 @@ Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc b�
 | 2026-11-18 16:09:52 (+07:00) | `f396f56` + sửa chưa commit | — | test-case | Test case thêm 4 cột: Ưu tiên, Kết quả thực tế, Trạng thái, Người viết (bảng 11 cột, script đọc cột theo tên). Nội dung các test case không đổi. | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-13 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038, TC-039, TC-040, TC-041; bỏ 0 |
 | 2026-11-18 17:48:27 (+07:00) | `384d97b` + sửa chưa commit | 2026-11-18 | checklist, test-case | Thêm TC-042, TC-043 cho LOGIN-S01-AC09 (phiên hết hạn sau 10 phút, TL-14); 41 test case cũ không đổi | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-14 | S01-AC09 (mới), TL-14 (mới) | mới 2; sửa 0; bỏ 0 |
 | 2026-11-19 09:37:27 (+07:00) | `85176fc` + sửa chưa commit | — | checklist, test-case | Đổi địa chỉ test sang https://staging-banking-lite.vercel.app (địa chỉ cũ đã bị gỡ), không đổi nội dung test | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-14 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038, TC-039, TC-040, TC-041, TC-042, TC-043; bỏ 0 |
+| 2026-11-19 20:45:57 (+07:00) | `1c2d80a` + sửa chưa commit | — | test-case | Gộp checklist.md vào test-case.md (thêm cột Kỹ thuật từ checklist, dời mục Chưa đưa vào); nội dung 43 test case không đổi | SRS 2026-11-18; bảng soát 2026-11-18; TL đến TL-14 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038, TC-039, TC-040, TC-041, TC-042, TC-043; bỏ 0 |

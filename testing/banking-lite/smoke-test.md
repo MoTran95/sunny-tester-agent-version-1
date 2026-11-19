@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Ngày lập | 2026-11-18 |
-| Cập nhật lần cuối | 2026-11-19 15:23:39 (+07:00) (cập nhật: Thêm link bấm được cho mã requirement ở mục Truy vết, không đổi nội dung test) |
+| Cập nhật lần cuối | 2026-11-19 20:46:02 (+07:00) (cập nhật: Đăng nhập gộp checklist vào test-case.md (thêm cột Kỹ thuật); case smoke không đổi (xem lại/sửa dang-nhap/TC-005, dang-nhap/TC-001, dang-nhap/TC-002)) |
 | Người lập | Sunny Tran |
 | Hệ thống | Banking Lite, https://staging-banking-lite.vercel.app/ |
 | Thời gian mục tiêu (tham khảo, không cứng) | **khoảng 15 phút** (người dùng chốt) |
@@ -43,7 +43,7 @@
 
 ## Tiêu chí trả build
 
-Chạy theo thứ tự bảng. **Case nào Không đạt thì dừng ngay, trả build, không chạy tiếp.** "Đạt" chỉ xét **ý chính** (theo số bước của case gốc); ý phụ chỉ ghi vào Kết quả thực tế, không dừng. *Phần tách ý chính/ý phụ là đề xuất, chờ người dùng duyệt.*
+Chạy theo thứ tự bảng. **Case nào Không đạt thì dừng ngay, trả build, không chạy tiếp.** "Đạt" chỉ xét **ý chính** (theo số bước của case gốc); ý phụ chỉ ghi vào Kết quả thực tế, không dừng. *Phần tách ý chính/ý phụ đã được người dùng duyệt (2026-11-19).*
 
 | Case | Đạt khi (ý chính; ý phụ ghi trong ngoặc) | Không đạt thì dừng vì |
 |---|---|---|
@@ -76,13 +76,13 @@ Bảng tự sinh khi chốt (đừng sửa tay). Chỉ mã có điểm nhảy tr
 <!-- TRUY-VET:BAT-DAU (tự sinh bởi scripts/truy-vet-smoke.py, không sửa tay) -->
 | # | Test case gốc | Requirement mà test case dựa vào |
 |---|---|---|
-| 1 | [Đăng nhập · TC-005](dang-nhap/test-case.md#tc-005) | [M07](../../srs/banking-lite/dang-nhap.md#L113) Nhãn, nút, gợi ý, chân trang<br>[R01](../../srs/banking-lite/dang-nhap.md#L95) Mã nhân viên: định dạng<br>[R08](../../srs/banking-lite/dang-nhap.md#L102) Thuộc tính ô nhập<br>[S01-AC01](../../srs/banking-lite/dang-nhap.md#L45) Mở hệ thống khi chưa đăng nhập<br>[TL-04](dang-nhap/bang-soat-requirement.md#tl-04) BA: tự cắt khoảng trắng, p hoa thường đều được |
-| 2 | [Đăng nhập · TC-001](dang-nhap/test-case.md#tc-001) | [R05](../../srs/banking-lite/dang-nhap.md#L99) Hiển thị sau đăng nhập<br>[S01-AC02](../../srs/banking-lite/dang-nhap.md#L46) Đăng nhập đúng<br>[TL-05](dang-nhap/bang-soat-requirement.md#tl-05) BA: bỏ mã không gian<br>[TL-07](dang-nhap/bang-soat-requirement.md#tl-07) BA: bỏ DEFAULT trên thanh trên |
+| 1 | [Đăng nhập · TC-005](dang-nhap/test-case.md#tc-005) | [M07](../../srs/banking-lite/dang-nhap.md#login-m07) Nhãn, nút, gợi ý, chân trang<br>[R01](../../srs/banking-lite/dang-nhap.md#login-r01) Mã nhân viên: định dạng<br>[R08](../../srs/banking-lite/dang-nhap.md#login-r08) Thuộc tính ô nhập<br>[S01-AC01](../../srs/banking-lite/dang-nhap.md#login-s01-ac01) Mở hệ thống khi chưa đăng nhập<br>[TL-04](dang-nhap/bang-soat-requirement.md#tl-04) BA: tự cắt khoảng trắng, p hoa thường đều được |
+| 2 | [Đăng nhập · TC-001](dang-nhap/test-case.md#tc-001) | [R05](../../srs/banking-lite/dang-nhap.md#login-r05) Hiển thị sau đăng nhập<br>[S01-AC02](../../srs/banking-lite/dang-nhap.md#login-s01-ac02) Đăng nhập đúng<br>[TL-05](dang-nhap/bang-soat-requirement.md#tl-05) BA: bỏ mã không gian<br>[TL-07](dang-nhap/bang-soat-requirement.md#tl-07) BA: bỏ DEFAULT trên thanh trên |
 | 3 | [Khuyến nghị LTV/DSR · TC-002](khuyen-nghi-ltv-dsr/test-case.md#tc-002) | [M02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m02) Không có lý do<br>[M03](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m03) Dòng xem trước<br>[S01-AC02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s01-ac02) Đạt mọi quy tắc<br>[S03-AC01](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s03-ac01) DSR và thặng dư cơ bản |
 | 4 | [Khuyến nghị LTV/DSR · TC-023](khuyen-nghi-ltv-dsr/test-case.md#tc-023) | [R02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-r02) DSR<br>[S01-AC03](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s01-ac03) DSR trên 50% |
 | 5 | [Khuyến nghị LTV/DSR · TC-009](khuyen-nghi-ltv-dsr/test-case.md#tc-009) | [M07](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m07) Thặng dư thấp<br>[R03](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-r03) Thặng dư tối thiểu<br>[S01-AC09](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s01-ac09) Thặng dư thiếu 1 đồng |
 | 6 | [Khuyến nghị LTV/DSR · TC-022](khuyen-nghi-ltv-dsr/test-case.md#tc-022) | [M11](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-m11) Đã lưu<br>[S05-AC01](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#reco-s05-ac01) Đầu trang sau khi lưu |
-| 7 | [Đăng nhập · TC-002](dang-nhap/test-case.md#tc-002) | [S01-AC02](../../srs/banking-lite/dang-nhap.md#L46) Đăng nhập đúng |
+| 7 | [Đăng nhập · TC-002](dang-nhap/test-case.md#tc-002) | [S01-AC02](../../srs/banking-lite/dang-nhap.md#login-s01-ac02) Đăng nhập đúng |
 <!-- TRUY-VET:KET-THUC -->
 
 ## Khi requirement hoặc test case đổi
@@ -94,6 +94,7 @@ Chạy `python -X utf8 scripts/truy-vet-smoke.py kiem banking-lite` (chỉ đọ
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet-smoke.py, không sửa tay) -->
 | Thời điểm | Việc | Người | Nội dung | Số case · tổng phút (ước lượng) | Commit |
 |---|---|---|---|---|---|
+| 2026-11-19 20:46:02 (+07:00) | Cập nhật | Sunny Tran | Đăng nhập gộp checklist vào test-case.md (thêm cột Kỹ thuật); case smoke không đổi (xem lại/sửa dang-nhap/TC-005, dang-nhap/TC-001, dang-nhap/TC-002) | 7 case · 10.5 phút | `1c2d80a` + sửa chưa commit |
 | 2026-11-19 15:23:39 (+07:00) | Cập nhật | Sunny Tran | Thêm link bấm được cho mã requirement ở mục Truy vết, không đổi nội dung test | 7 case · 10.5 phút | `1d7d560` + sửa chưa commit |
 | 2026-11-19 09:37:30 (+07:00) | Cập nhật | Sunny Tran | Đổi địa chỉ test sang staging-banking-lite.vercel.app, không đổi nội dung test (xem lại/sửa dang-nhap/TC-005, dang-nhap/TC-001, khuyen-nghi-ltv-dsr/TC-002, khuyen-nghi-ltv-dsr/TC-023, khuyen-nghi-ltv-dsr/TC-009, khuyen-nghi-ltv-dsr/TC-022, dang-nhap/TC-002) | 7 case · 10.5 phút | `85176fc` + sửa chưa commit |
 | 2026-11-18 20:52:17 (+07:00) | Cập nhật | Sunny Tran | Thêm giao thức chạy smoke (references/chay-smoke.md) và mục Lượt chạy; lệnh ghi-luot | 7 case · 10.5 phút | `b4aa480` + sửa chưa commit |
@@ -101,4 +102,4 @@ Chạy `python -X utf8 scripts/truy-vet-smoke.py kiem banking-lite` (chỉ đọ
 | 2026-11-18 20:01:17 (+07:00) | Cập nhật | Sunny Tran | Gộp mốc vào chính smoke-test.md (bỏ file trạng thái riêng), nêu mục đích smoke, thời gian chỉ là mục tiêu tham khảo, kiem chỉ đọc | 7 case · 10.5 phút | `b4aa480` + sửa chưa commit |
 | 2026-11-18 19:54:27 (+07:00) | Tạo | Sunny Tran | Lập bộ smoke 7 case (15 phút) từ test case Đăng nhập và Khuyến nghị LTV/DSR; dòng 2 chấp nhận Đạt kèm lỗi đã biết (chữ DEFAULT) | 7 case · 10.5 phút | `cf37198` + sửa chưa commit |
 <!-- LICH-SU:KET-THUC -->
-<!-- SMOKE-MOC: {"case":{"dang-nhap/TC-005":{"r":"05a52b0df990","ma":{"M07":["d7c4552a3a88","da39a3ee5e6b"],"R01":["0b762b63fb39","e92d1ddc9d42"],"R08":["7bba4ba50532","da39a3ee5e6b"],"S01-AC01":["d13831240388","da39a3ee5e6b"],"TL-04":["872b30229470",null]}},"dang-nhap/TC-001":{"r":"31d7cb656f37","ma":{"R05":["c6a67abebd4a","54252341552a"],"S01-AC02":["08ac33d9778f","77693246d074"],"TL-05":["42a89a86e071",null],"TL-07":["c738acb48580",null]}},"khuyen-nghi-ltv-dsr/TC-002":{"r":"6681a787750d","ma":{"M02":["a0cfc54cf81c","da39a3ee5e6b"],"M03":["03e173a7af08","da39a3ee5e6b"],"S01-AC02":["e3a41c4cc822","da39a3ee5e6b"],"S03-AC01":["dffce2b59092","da39a3ee5e6b"]}},"khuyen-nghi-ltv-dsr/TC-023":{"r":"aa055890da83","ma":{"R02":["b9978d62c370","da39a3ee5e6b"],"S01-AC03":["cdd38ef22c13","da39a3ee5e6b"]}},"khuyen-nghi-ltv-dsr/TC-009":{"r":"33f97653d87f","ma":{"M07":["d015cb137888","da39a3ee5e6b"],"R03":["5fcd2e15a9f3","da39a3ee5e6b"],"S01-AC09":["dcdf8c8b87c7","da39a3ee5e6b"]}},"khuyen-nghi-ltv-dsr/TC-022":{"r":"b36ee9ae5da3","ma":{"M11":["b28f98ecb030","da39a3ee5e6b"],"S05-AC01":["f36aa740a105","da39a3ee5e6b"]}},"dang-nhap/TC-002":{"r":"61c779adf849","ma":{"S01-AC02":["08ac33d9778f","77693246d074"]}}}} -->
+<!-- SMOKE-MOC: {"case":{"dang-nhap/TC-005":{"r":"1a8640c07516","ma":{"M07":["d7c4552a3a88","da39a3ee5e6b"],"R01":["0b762b63fb39","e92d1ddc9d42"],"R08":["7bba4ba50532","da39a3ee5e6b"],"S01-AC01":["d13831240388","da39a3ee5e6b"],"TL-04":["872b30229470",null]}},"dang-nhap/TC-001":{"r":"4a4e452a9a12","ma":{"R05":["c6a67abebd4a","54252341552a"],"S01-AC02":["08ac33d9778f","77693246d074"],"TL-05":["42a89a86e071",null],"TL-07":["c738acb48580",null]}},"khuyen-nghi-ltv-dsr/TC-002":{"r":"6681a787750d","ma":{"M02":["a0cfc54cf81c","da39a3ee5e6b"],"M03":["03e173a7af08","da39a3ee5e6b"],"S01-AC02":["e3a41c4cc822","da39a3ee5e6b"],"S03-AC01":["dffce2b59092","da39a3ee5e6b"]}},"khuyen-nghi-ltv-dsr/TC-023":{"r":"aa055890da83","ma":{"R02":["b9978d62c370","da39a3ee5e6b"],"S01-AC03":["cdd38ef22c13","da39a3ee5e6b"]}},"khuyen-nghi-ltv-dsr/TC-009":{"r":"33f97653d87f","ma":{"M07":["d015cb137888","da39a3ee5e6b"],"R03":["5fcd2e15a9f3","da39a3ee5e6b"],"S01-AC09":["dcdf8c8b87c7","da39a3ee5e6b"]}},"khuyen-nghi-ltv-dsr/TC-022":{"r":"b36ee9ae5da3","ma":{"M11":["b28f98ecb030","da39a3ee5e6b"],"S05-AC01":["f36aa740a105","da39a3ee5e6b"]}},"dang-nhap/TC-002":{"r":"f170051e7c9e","ma":{"S01-AC02":["08ac33d9778f","77693246d074"]}}}} -->

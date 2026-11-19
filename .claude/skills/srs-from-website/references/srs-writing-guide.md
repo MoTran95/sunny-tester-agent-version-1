@@ -13,7 +13,7 @@ Ba phần, tiếng Việt thường, câu đầy đủ:
 
 Một AC = **một** tình huống kiểm chứng được. Có "và" nối hai hành vi khác nhau thì tách. Chỉ nêu giá trị cụ thể đã thử, kèm phạm vi ("mới thử với một link/một tài khoản").
 
-**Cột "Liên quan": ID có đủ mã feature.** Viết `RECO-R01`, hoặc dải `RECO-R01–R04` (gạch dài – hoặc —, hoặc "đến"; dải AC: `RECO-S01-AC03–AC05`): `scripts/check-srs.py` mở dải thành từng ID rồi kiểm như tham chiếu thường (ID giữa dải chưa định nghĩa → lỗi; dải ngược → lỗi). **Không** dùng dạng rút gọn không có mã (`R01`, `AC04`) — script bỏ qua nên không kiểm được. Không dùng gạch ngang `-` làm dấu dải (lẫn với dấu gạch trong ID).
+**Cột "Liên quan": ID có đủ mã feature.** Viết `CART-R01`, hoặc dải `CART-R01–R04` (gạch dài – hoặc —, hoặc "đến"; dải AC: `CART-S01-AC03–AC05`): `scripts/check-srs.py` mở dải thành từng ID rồi kiểm như tham chiếu thường (ID giữa dải chưa định nghĩa → lỗi; dải ngược → lỗi). **Không** dùng dạng rút gọn không có mã (`R01`, `AC04`) — script bỏ qua nên không kiểm được. Không dùng gạch ngang `-` làm dấu dải (lẫn với dấu gạch trong ID).
 
 Tốt: *Nhập mã không có thật (`P999999`) + mật khẩu bất kỳ → cùng khung lỗi như AC01: hệ thống không cho biết mã sai hay mật khẩu sai.*
 Chưa tốt: *Hệ thống xử lý đúng khi đăng nhập sai.* (không kiểm chứng được, "đúng" là phán xét.)

@@ -19,8 +19,8 @@ Chế độ sáng/tối theo hệ điều hành, có nút đổi tay (nhớ tron
 
 ## Font
 
-- Tiêu đề: **Fraunces** (có chân, đậm). Chữ thường: **Hanken Grotesk**. Cả hai dùng giấy phép SIL OFL (dùng tự do, được đưa vào repo).
-- Font nằm sẵn trong repo ở `docs/thuong-hieu/fonts/` (10 file `.woff2` bản biến thiên, đủ tiếng Việt, khoảng 380 KB, kèm `fonts.json`), nên trang giống hệt trên mọi máy kể cả khi không có mạng. `theme.py` tự dùng chúng.
+- **Be Vietnam Pro** cho cả tiêu đề và chữ thường (đổi từ Fraunces + Hanken Grotesk ngày 2026-11-19 vì dấu tiếng Việt hiển thị lỗi). Font thiết kế cho tiếng Việt, giấy phép SIL OFL (dùng tự do, được đưa vào repo).
+- Font nằm sẵn trong repo ở `docs/thuong-hieu/fonts/` (15 file `.woff2`: độ đậm 400, 500, 600, 700 và nghiêng 400, mỗi độ đậm ba tập ký tự gồm tiếng Việt, khoảng 230 KB, kèm `fonts.json`), nên trang giống hệt trên mọi máy kể cả khi không có mạng. `theme.py` tự dùng chúng.
 - Tải lại hoặc cập nhật: `python -X utf8 scripts/tai-font.py` (tải từ Google Fonts), rồi `python -X utf8 scripts/build_docs.py --all`. Chưa có `fonts.json` thì trang tạm lấy font từ Google Fonts (cần mạng).
 
 ## Logo

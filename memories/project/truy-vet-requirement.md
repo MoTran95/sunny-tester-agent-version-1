@@ -47,4 +47,4 @@
 - Sửa script qua heredoc Bash/Python: `\n` thành xuống dòng thật làm vỡ chuỗi. Dùng Edit hoặc `chr(92)+"n"`; sau sửa chạy `ast.parse`.
 - Cột Nguồn của TC phải ghi đúng mã (`S02-AC07`, `R06`, `M05`, `TL-11`); mã trong giải thích ngoặc cũng bị tính là nguồn.
 - Script chỉ ghi mã nào đổi, không ghi nội dung cũ.
-- Tính năng mới: copy `truy-vet-cau-hinh.json`, đổi đường dẫn/tiền tố/tên ngắn; SRS phải theo khuôn mã `` `PREFIX-S01-AC01` ``. Chạy `kiem` rồi `chot` lần đầu.
+- Tính năng mới: `truy-vet.py khoi-tao <dự-án> <tính-năng> --tien-to <MÃ> --ten "<Tên>"` (2026-11-19; không copy từ dự án khác; ghi luôn `ten-tinh-nang.json`); SRS phải theo khuôn mã `` `PREFIX-S01-AC01` ``. Chạy `kiem` rồi `chot` lần đầu.

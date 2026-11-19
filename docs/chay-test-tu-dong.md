@@ -54,10 +54,10 @@ Thêm `--project <slug>` nếu không muốn dùng dự án trong `.du-an-hien-t
 
 ## Bảng kết quả smoke và trang web
 
-Chạy cả bộ smoke và ghi luôn thành một lượt (số bản lấy ở chân trang, đổi `version` trong `auto-data.json` khi build mới):
+Chạy cả bộ smoke và ghi luôn thành một lượt. Lượt nào cũng phải có file kết luận và rủi ro (`--conclusion-file`); chưa có thì lệnh chỉ chạy, in ra lệnh `build_report.py add-run` để ghi lượt sau khi viết kết luận (số bản lấy ở chân trang, đổi `version` trong `auto-data.json` khi build mới):
 
 ```powershell
-python -X utf8 scripts/run_tests.py --smoke --record-run --build 1.3.0
+python -X utf8 scripts/run_tests.py --smoke --record-run --build 1.3.0 --conclusion-file <kết-luận.json>
 ```
 
 Lệnh này ghi thêm một lượt vào `testing/<dự-án>/run-results/smoke.json`, rồi tự sinh lại hai file:

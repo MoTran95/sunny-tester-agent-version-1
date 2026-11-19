@@ -15,7 +15,7 @@ Làm phần MÁY MÓC của bước "Khi có câu trả lời"; phần cần hi�
         "id": "TL-14",                            # bỏ trống thì lấy số kế tiếp
         "noi_dung": "Nguyên văn câu BA trả lời (kèm 'mình hiểu …' nếu có)",
         "nguon": "BA trả lời, người dùng chuyển lại trong chat",   # mặc định như vậy; script thêm ngày + "Chưa có link ticket…"
-        "ap_dung": ["B4", "LOGIN-S02-AC08"],      # câu hỏi (A1, B4…) và mã requirement
+        "ap_dung": ["B4", "CART-S02-AC08"],      # câu hỏi (A1, B4…) và mã requirement
         "con_lai": "Khác hệ thống hiện tại: …",   # ô "Còn lại"; bỏ trống thì ghi —
         "tra_loi": {"B4": "câu trả lời nguyên văn"},          # chèn "**BA trả lời:** … (TL-14)" ở các dòng có câu B4 và điền vào file câu hỏi
         "so_voi_he_thong": {"B4": "khác. Hệ thống đang …"}    # (tùy chọn) dòng "So với hệ thống hiện tại" ở file câu hỏi
@@ -86,8 +86,14 @@ def header_for(lines, i):
     return cells(lines[j - 1]) if j > 0 and SEPLINE.match(lines[j].strip()) else []
 
 
-def tong_ket(lines, sec, notes):
-    """Tính các số đã kiểm đối chiếu với tay (LOGIN: 35/4/0/39, theo TL 22, khác 17) và sửa số đầu ô."""
+# Mã requirement ở ô đầu: có hoặc không có dấu `, có thể có thẻ neo <a id> phía trước (khuôn cho phép cả hai).
+UNIT_CODE = re.compile(r'^(?:<a id="[^"]*"></a>\s*)?`?[A-Z][A-Z0-9]*-(S\d\d-AC\d\d|R\d\d|M\d\d)`?$')
+
+
+def dem_tong_ket(lines, sec=None):
+    """Đếm các số của mục Tổng kết từ bảng soát (mục 5, 6). Trả [(nhãn, số)], rỗng nếu không thấy đơn vị có mã nào.
+    Dùng chung cho ghi-tl.py (sửa số) và kiem-tra.py (báo lệch)."""
+    sec = sec or sections(lines)
     units, hdr = {}, None
     for i, l in enumerate(lines):
         if sec[i] not in ("5. ", "6. ") or not l.startswith("|") or SEPLINE.match(l.strip()):
@@ -96,7 +102,7 @@ def tong_ket(lines, sec, notes):
             hdr = cells(l)
             continue
         c = cells(l)
-        m = re.match(r"^`[A-Z]+-(S\d\d-AC\d\d|R\d\d|M\d\d)`$", c[0])
+        m = UNIT_CODE.match(c[0])
         if m and hdr and "Trạng thái" in hdr and len(c) == len(hdr):
             units.setdefault(m.group(1), []).append(c[hdr.index("Trạng thái")])
     ok = sum(1 for s in units.values() if any(x.startswith("✅") for x in s) and not any(x.startswith("❓") for x in s))
@@ -104,22 +110,80 @@ def tong_ket(lines, sec, notes):
     only_q = sum(1 for s in units.values() if not any(x.startswith("✅") for x in s))
     tl = sum(1 for s in units.values() if any("theo TL" in x for x in s))
     khac = sum(1 for s in units.values() if any(("⚠️" in x or "khác TL" in x or "khác hệ thống" in x) for x in s))
-    want = [("Đơn vị chỉ có phần ✅", ok), ("Đơn vị có cả ✅ và ❓", both), ("Đơn vị chỉ có ❓", only_q),
-            ("Tổng (đơn vị có mã)", len(units)), ("Đơn vị có dòng ✅ nhờ câu trả lời", tl), ("Trong đó có dòng khác hệ thống hiện tại", khac)]
+    if not units:
+        return []
+    # Khuôn cũ đếm riêng AC (nhãn "AC chỉ có phần ✅", "Tổng AC"…): đếm trên các mã S..-AC.. để đối chiếu được cả bảng cũ
+    ac = {k: v for k, v in units.items() if "-AC" in k}
+    ok_ac = sum(1 for s in ac.values() if any(x.startswith("✅") for x in s) and not any(x.startswith("❓") for x in s))
+    both_ac = sum(1 for s in ac.values() if any(x.startswith("✅") for x in s) and any(x.startswith("❓") for x in s))
+    only_q_ac = sum(1 for s in ac.values() if not any(x.startswith("✅") for x in s))
+    return [("Đơn vị chỉ có phần ✅", ok), ("Đơn vị có cả ✅ và ❓", both), ("Đơn vị chỉ có ❓", only_q),
+            ("Tổng", len(units)), ("Đơn vị có dòng ✅ nhờ câu trả lời", tl), ("Trong đó có dòng khác hệ thống hiện tại", khac),
+            ("AC chỉ có phần ✅", ok_ac), ("AC có cả ✅ và ❓", both_ac), ("AC chỉ có ❓", only_q_ac), ("Tổng AC", len(ac))]
+
+
+def so_trong_tong_ket(lines, sec=None):
+    """{nhãn trong want: (số dòng, ô số)} các dòng mục 4 khớp nhãn (nhãn 'Tổng' khớp cả 'Tổng (đơn vị có mã)')."""
+    sec = sec or sections(lines)
+    found = {}
+    for i, l in enumerate(lines):
+        if sec[i] != "4. " or not l.startswith("|"):
+            continue
+        c = cells(l)
+        if len(c) > 1 and re.match(r"^\d+", c[1]):
+            found[c[0]] = (i, c[1])
+    return found
+
+
+def _khop_nhan(cell, label):
+    if label == "Tổng":
+        return cell == "Tổng" or cell.startswith("Tổng (")
+    return cell == label or cell.startswith(label + " ") or cell.startswith(label + "(")
+
+
+def tong_ket(lines, sec, notes):
+    """Tính lại các số đã kiểm được và sửa số đầu ô ở mục Tổng kết."""
+    want = dem_tong_ket(lines, sec)
+    if not want:
+        notes.append("Tổng kết: không thấy dòng nào có mã requirement ở bảng soát (mục 5, 6) nên KHÔNG sửa số nào; kiểm khuôn bảng")
+        return
     n_doi = 0
     for i, l in enumerate(lines):
         if sec[i] != "4. " or not l.startswith("|"):
             continue
         c = cells(l)
         for label, val in want:
-            if c and c[0].startswith(label) and len(c) > 1 and re.match(r"^\d+", c[1]):
+            if c and _khop_nhan(c[0], label) and len(c) > 1 and re.match(r"^\d+", c[1]):
                 if int(re.match(r"^\d+", c[1]).group(0)) != val:
                     lines[i] = set_cell(l, 1, re.sub(r"^\d+", str(val), c[1], count=1))
                     n_doi += 1
                     notes.append(f"Tổng kết: '{label}' đổi {c[1][:12]} → {val}")
-    notes.append(f"Tổng kết đã tính lại: chỉ ✅ {ok}, cả hai {both}, chỉ ❓ {only_q}, tổng {len(units)}, theo TL {tl}, khác {khac}"
+    v = dict(want)
+    notes.append(f"Tổng kết đã tính lại: chỉ ✅ {v['Đơn vị chỉ có phần ✅']}, cả hai {v['Đơn vị có cả ✅ và ❓']}, chỉ ❓ {v['Đơn vị chỉ có ❓']}, "
+                 f"tổng {v['Tổng']}, theo TL {v['Đơn vị có dòng ✅ nhờ câu trả lời']}, khác {v['Trong đó có dòng khác hệ thống hiện tại']}"
                  + (" (không số nào đổi)" if not n_doi else ""))
     notes.append("Hai số 'dòng suy ra' và 'mục không mã ở phụ lục' không tính tự động: đếm tay nếu có đổi.")
+
+
+def tao_bang_tl(lines, notes):
+    """Bảng soát chưa có câu trả lời nào: bỏ dòng "Chưa có câu trả lời nào.", bảo đảm mục 3 có tiêu đề bảng.
+    Trả số dòng mà dòng TL mới sẽ chèn NGAY SAU (dòng gạch phân cách của bảng)."""
+    sec = sections(lines)
+    idx = [i for i, l in enumerate(lines) if sec[i] == "3. "]
+    if not idx:
+        sys.exit("Không thấy mục '## 3. Câu trả lời đã nhận' trong bảng soát (khuôn assets/mau-bang-soat.md)")
+    for i in reversed(idx):
+        if "Chưa có câu trả lời nào" in lines[i]:
+            del lines[i]
+    sec = sections(lines)
+    idx = [i for i, l in enumerate(lines) if sec[i] == "3. "]
+    for i in idx:
+        if lines[i].startswith("| Mã |") and i + 1 < len(lines) and SEPLINE.match(lines[i + 1].strip()):
+            return i + 1
+    head = idx[0]  # dòng "## 3. ..."
+    lines[head + 1:head + 1] = ["| Mã | Nội dung trả lời | Nguồn | Áp dụng cho | Còn lại |", "|---|---|---|---|---|"]
+    notes.append("Mục 3: chưa có bảng câu trả lời, đã dựng bảng")
+    return head + 2
 
 
 def main():
@@ -154,9 +218,10 @@ def main():
         # ---- 1. dòng TL ở mục 3 ----
         rows = [i for i, l in enumerate(lines) if re.match(r"^\| TL-\d\d \|", l)]
         if not rows:
-            sys.exit("Không thấy bảng 'Câu trả lời đã nhận' (dòng bắt đầu bằng | TL-xx |)")
-        have = {re.match(r"^\| (TL-\d\d) \|", lines[i]).group(1) for i in rows}
-        tid = tl.get("id") or "TL-%02d" % (max(int(x[3:]) for x in have) + 1)
+            rows = [tao_bang_tl(lines, notes)]  # câu trả lời đầu tiên: dựng bảng mục 3 (chỉ có dòng tiêu đề)
+            sec = sections(lines)
+        have = {re.match(r"^\| (TL-\d\d) \|", lines[i]).group(1) for i in rows if re.match(r"^\| TL-\d\d \|", lines[i])}
+        tid = tl.get("id") or "TL-%02d" % (max([int(x[3:]) for x in have] or [0]) + 1)
         if tid in have:
             notes.append(f"{tid} đã có ở mục 3: bỏ qua việc thêm dòng (không ghi đè)")
         else:

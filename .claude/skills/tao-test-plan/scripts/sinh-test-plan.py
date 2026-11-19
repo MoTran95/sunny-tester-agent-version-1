@@ -235,7 +235,7 @@ def render(slug, ten="test-plan"):
     used = set()
     src = re.sub(r"\A<!--.*?-->\s*", "", read(nguon), flags=re.S)   # khối chú thích hướng dẫn đầu file nguồn không vào bản sinh
     text = expand(src, info, load_answers(slug, ten), used)
-    return text.rstrip("\n") + "\n", info, used
+    return text.strip("\n") + "\n", info, used   # bỏ cả dòng trống đầu file (sau khi xóa khối chú thích)
 
 
 def gon(text, ten="test-plan"):

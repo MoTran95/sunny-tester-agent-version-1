@@ -20,13 +20,13 @@ CSS_BASE = """
 :root[data-theme=dark]{color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}
 :root[data-theme=dark] .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 "Hanken Grotesk","Instrument Sans","Segoe UI",system-ui,sans-serif;padding:40px 16px 56px}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;padding:40px 16px 56px}
 main{max-width:1100px;margin:0 auto}
 .brand{text-align:left;margin:0 0 16px}.brand img{height:60px;width:auto;display:block}
 .eyebrow{text-align:center;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin:0 0 10px}
-h1{font:700 40px/1.15 Fraunces,Georgia,"Times New Roman",serif;color:var(--text);text-align:center;margin:0 0 8px}
+h1{font:700 40px/1.15 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text);text-align:center;margin:0 0 8px}
 h1 em{font-style:italic;color:var(--coral)}
-h2{font:700 22px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:36px 0 12px}
+h2{font:700 22px/1.3 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text);margin:36px 0 12px}
 .sub{text-align:center;color:var(--muted);margin:0 0 26px;font-size:14px}
 code{background:var(--graybg);padding:1px 6px;border-radius:5px;font-size:13px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
@@ -48,10 +48,10 @@ a:hover{text-decoration-color:var(--coral)}
 .num{text-align:center}.nw{white-space:nowrap}
 .small{font-size:13px;color:var(--muted)}
 ul.ev{margin:0;padding-left:16px}
-.note{font:400 18px/1.6 Fraunces,Georgia,serif;color:var(--text);text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;margin:36px 0 0}
+.note{font:400 18px/1.6 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text);text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;margin:36px 0 0}
 main.rong{max-width:1840px}
 .thumb.kiem{border-color:#1B8F3A}.cap-ok{color:var(--green);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.vid{display:block;margin-top:6px;max-width:250px;border-radius:8px;background:#000}
-.kl h3{font:700 16px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:18px 0 6px}.kl p{margin:6px 0}.kl ul{margin:6px 0;padding-left:22px}.kl li{margin:5px 0}.kl-dau{font-size:17px;color:var(--text);font-weight:500}.kl-bang{min-width:0;width:100%}.kl-bang td{font-size:14.5px}
+.kl h3{font:700 16px/1.3 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text);margin:18px 0 6px}.kl p{margin:6px 0}.kl ul{margin:6px 0;padding-left:22px}.kl li{margin:5px 0}.kl-dau{font-size:17px;color:var(--text);font-weight:500}.kl-bang{min-width:0;width:100%}.kl-bang td{font-size:14.5px}
 .lon table{min-width:1280px;border-collapse:separate;border-spacing:0}.lon td:nth-child(2){min-width:230px}
 .khu-bang{position:relative}.lon{scrollbar-width:none;cursor:grab}.lon::-webkit-scrollbar{display:none}.lon.keo{cursor:grabbing;user-select:none}
 .thanh-keo{position:sticky;bottom:0;z-index:6;overflow-x:auto;overflow-y:hidden;height:18px;background:var(--bg);border:1px solid var(--line);border-radius:10px;margin-top:6px}
@@ -137,7 +137,7 @@ def brand_html(project=None):
 FONTS_DIR = "docs/thuong-hieu/fonts"
 GOOGLE_FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-    '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">'
+    '<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">'
 )
 def font_head(page_dir):
     """Thẻ nạp font cho trang nằm ở `page_dir`: font cục bộ nếu có `docs/thuong-hieu/fonts/fonts.json` (do scripts/tai-font.py tạo,

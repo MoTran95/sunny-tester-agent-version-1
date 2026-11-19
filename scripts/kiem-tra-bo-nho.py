@@ -108,6 +108,33 @@ def main():
         r4 = subprocess.run([sys.executable, "-X", "utf8", bug_script, "--du-an"], capture_output=True, text=True, encoding="utf-8")
         if r4.returncode != 0:
             loi.append("bug chưa đúng quy tắc: " + " | ".join(x.strip() for x in r4.stdout.strip().splitlines() if "đạt" not in x)[:600])
+    # Truy vết và test plan (chỉ đọc, không ghi file): requirement đổi mà test case/smoke/regression chưa cập nhật,
+    # hoặc test plan lệch số liệu, thì báo lỗi ngay thay vì chờ có người nhớ chạy lệnh (rà soát 2026-11-19, A1, A2)
+    py = [sys.executable, "-X", "utf8"]
+    for slug in sorted(d for d in os.listdir(os.path.join(ROOT, "testing")) if os.path.isdir(os.path.join(ROOT, "testing", d))):
+        tdir = os.path.join(ROOT, "testing", slug)
+        for feat in sorted(os.listdir(tdir)):
+            if os.path.exists(os.path.join(tdir, feat, "truy-vet-cau-hinh.json")):
+                rt = subprocess.run(py + [os.path.join(ROOT, "scripts", "truy-vet.py"), "kiem", slug, feat, "--chi-doc"],
+                                    capture_output=True, text=True, encoding="utf-8")
+                m = re.search(r"TÓM TẮT: ma_doi=(\d+) can_xem_lai=(\d+) tc_bo=(\d+)", rt.stdout or "")
+                if m and any(int(x) for x in m.groups()):
+                    loi.append(f"truy vết {slug}/{feat}: {m.group(1)} mã requirement đổi, {m.group(2)} test case cần xem lại, "
+                               f"{m.group(3)} test case đã bỏ. Xem: python -X utf8 scripts/truy-vet.py kiem {slug} {feat}")
+                elif not m:
+                    loi.append(f"truy vết {slug}/{feat} chạy lỗi: " + (rt.stdout + rt.stderr).strip()[-300:])
+        for name, script in (("smoke-test.md", "truy-vet-smoke.py"), ("regression-test.md", "truy-vet-regression.py")):
+            if os.path.exists(os.path.join(tdir, name)):
+                rs = subprocess.run(py + [os.path.join(ROOT, "scripts", script), "kiem", slug], capture_output=True, text=True, encoding="utf-8")
+                if rs.returncode != 0:
+                    viec = [x.strip() for x in rs.stdout.splitlines() if x.strip().startswith(("-", "!"))][:4]
+                    loi.append(f"{name} của {slug} cần cập nhật theo test case/requirement: " + " | ".join(viec)[:400]
+                               + f". Xem: python -X utf8 scripts/{script} kiem {slug}")
+        if os.path.exists(os.path.join(tdir, "test-plan-nguon.txt")):
+            tp = os.path.join(ROOT, ".claude", "skills", "tao-test-plan", "scripts", "sinh-test-plan.py")
+            rp = subprocess.run(py + [tp, "kiem", slug], capture_output=True, text=True, encoding="utf-8")
+            if rp.returncode != 0:
+                loi.append(f"test plan của {slug} lệch số liệu hoặc nguồn (nói 'Cập nhật test plan'): " + rp.stdout.strip()[:300])
     print(f"Tổng memories: {tong:.1f} KB · phần luôn đọc (CLAUDE.md + bản đồ + 2 file ★): {luon_kb:.1f} KB")
     if loi:
         print(f"\n{len(loi)} LỖI:")

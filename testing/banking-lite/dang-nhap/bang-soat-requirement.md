@@ -1,4 +1,4 @@
-# Bảng soát requirement — Đăng nhập (Banking Lite)
+# Bảng phân tích requirement — Đăng nhập (Banking Lite)
 
 | | |
 |---|---|

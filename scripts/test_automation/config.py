@@ -21,6 +21,18 @@ class ConfigError(Exception):
     pass
 
 
+def default_author():
+    """Tên người test của máy này (ghi vào cột Người viết, lượt chạy, lịch sử): dòng đầu file `.nguoi-test` ở gốc repo
+    (không commit, mỗi máy một file). Chưa có thì "Chưa ghi tên" (không lấy tên tài khoản Git: có thể là biệt danh, lọt vào
+    tài liệu gửi ra ngoài). Claude hỏi tên rồi tạo file này (CLAUDE.md bước 0)."""
+    f = ROOT / ".nguoi-test"
+    if f.exists():
+        name = f.read_text(encoding="utf-8").strip().splitlines()[:1]
+        if name and name[0].strip():
+            return name[0].strip()
+    return "Chưa ghi tên"
+
+
 def read_env():
     path = ROOT / ".env"
     if not path.exists():
@@ -127,6 +139,38 @@ def load(project=None):
     if placeholders:
         raise ConfigError(f"{f.relative_to(ROOT)} còn chỗ chưa điền (dạng <…>): {', '.join(placeholders)}")
     return Config(project, data, read_env())
+
+
+def load_for_docs(project=None):
+    """Cấu hình đủ để SINH TRANG (bug, trang tổng, kết quả, báo cáo tổng kết), không cần phần đăng nhập.
+
+    Dự án mới chưa điền `auto-config.json` (còn `<…>`, thiếu khóa, chưa có file) vẫn có trang tài liệu;
+    chỉ việc chạy test tự động mới cần `load()` đầy đủ. `cfg.ready` = False khi cấu hình chạy test chưa xong,
+    `cfg.not_ready_reason` nói vì sao.
+    """
+    project = project or current_project()
+    try:
+        cfg = load(project)
+        cfg.ready, cfg.not_ready_reason = True, ""
+        return cfg
+    except ConfigError as error:
+        reason = str(error)
+    f = ROOT / "testing" / project / "auto-config.json"
+    try:
+        data = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+    except ValueError:
+        data = {}
+    data = dict(data)
+    data.setdefault("env_prefix", project.upper().replace("-", "_"))
+    url = data.get("default_url", "")
+    data["default_url"] = "" if (not isinstance(url, str) or "<" in url) else url
+    login_cfg = dict(data.get("login") or {})
+    login_cfg.setdefault("session_check_api", "")
+    login_cfg.setdefault("session_minutes", 0)
+    data["login"] = login_cfg
+    cfg = Config(project, data, read_env())
+    cfg.ready, cfg.not_ready_reason = False, reason
+    return cfg
 
 
 def _placeholder_keys(value, path=""):

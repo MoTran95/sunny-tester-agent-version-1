@@ -43,13 +43,18 @@ def main():
     rel = lambda p: p.relative_to(config.ROOT)  # noqa: E731
     for s in total_skipped:
         print(f"  (bỏ qua, có file HTML làm tay trùng tên: {rel(s)})")
+    unlinked = [x for project in names for x in docs_pages.UNLINKED.get(project, [])]
+    for f in unlinked[:15]:
+        print(f"  LỖI: trang tổng index.html chưa có link tới {rel(f)} (người dùng chỉ mở trang tổng là phải tới được mọi trang)")
     if args.check:
+        if unlinked:
+            return 1
         if total_changed:
             print(f"{len(total_changed)} trang HTML đang cũ hoặc chưa có. Chạy: python -X utf8 scripts/build_docs.py" + (" --all" if args.all else ""))
             for f in total_changed[:10]:
                 print("  -", rel(f))
             return 1
-        print("Mọi trang HTML (tài liệu, kết quả, bug, trang tổng) đều khớp với file nguồn.")
+        print("Mọi trang HTML (tài liệu, kết quả, bug, trang tổng) đều khớp với file nguồn, và đều có link từ trang tổng.")
         return 0
     print(f"Đã cập nhật {len(total_changed)} trang HTML/md sinh tự động ({len(names)} dự án).")
     if args.stage and total_changed:

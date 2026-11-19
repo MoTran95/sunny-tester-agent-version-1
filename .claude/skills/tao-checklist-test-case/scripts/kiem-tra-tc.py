@@ -150,7 +150,8 @@ def kiem_test_case(path, ck_rows, ck_order):
             L(f"Test case {m}: Các bước phải đánh số 1, 2, 3… liên tục, mỗi bước một dòng")
         ket = r.get("Kết quả mong đợi", "")
         for k, v in r.items():
-            if k in ("Mã", "Tự động hóa"):  # tên script thường đặt theo mã TC (auto/TC-001.py)
+            if k in ("Mã", "Tự động hóa", "Kết quả thực tế", "Trạng thái", "Người viết"):
+                # tên script đặt theo mã TC; cột ghi khi chạy được nhắc ca khác ("cùng lỗi với TC-001"), quy tắc tự đứng chỉ cho phần thiết kế
                 continue
             if re.search(r"\b(như|giống|xem|theo)\s+TC-\d+", v, re.I) or re.search(r"TC-\d+", v):
                 L(f"Test case {m}: cột {k} nhắc mã TC khác (mỗi case phải tự đứng)")

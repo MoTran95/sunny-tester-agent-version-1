@@ -1,4 +1,4 @@
-# Bảng soát requirement — <tên feature> (<hệ thống>)
+# Bảng phân tích requirement — <tên feature> (<hệ thống>)
 
 | | |
 |---|---|

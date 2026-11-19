@@ -1,6 +1,6 @@
 ---
 name: tao-smoke-test
-description: Đề xuất bộ smoke test cho hệ thống đang test, chọn từ các test case đã có (hoặc bộ người dùng đưa vào), ra MỘT file smoke-test.md gồm bảng 7 cột (# | Smoke case | Mã case gốc | Phần | Vì sao chọn | Thời gian ước tính | Nên tự động hoá?), tổng thời gian ước tính, tiêu chí trả build, kèm link về test case gốc, truy vết requirement và lịch sử để cập nhật khi requirement đổi. Dùng khi người dùng (thường là tester) nói "đề xuất smoke test", "lập bộ smoke", "smoke test cho hệ thống", "chọn case smoke", "cập nhật smoke test", "smoke theo build/release note", "chạy smoke". Không dùng để viết test case (dùng tao-checklist-test-case), tạo bug (tao-bug-report) hay soát requirement (phan-tich-requirement).
+description: Đề xuất, cập nhật và chạy bộ smoke test (một file smoke-test.md) chọn từ test case có sẵn — case mà hỏng thì việc test khác vô nghĩa, kèm thời gian ước tính và tiêu chí trả build. Dùng khi nghe "đề xuất smoke test", "lập bộ smoke", "cập nhật smoke test", "chạy smoke". Không dùng để viết test case hay chọn regression.
 ---
 
 # Tạo và cập nhật bộ smoke test
@@ -73,7 +73,7 @@ Không có link tới dòng, không có truy vết tự động. Cột Mã case 
 
 ## Trả lời người dùng
 
-File dài lưu trong repo; chat chỉ **tóm tắt + link** (bảng case ngắn, tổng thời gian ước lượng, hành trình then chốt chưa phủ, case/ý cần người dùng chốt, vài dòng case đã xem xét rồi loại kèm lý do; danh sách loại **không ghi vào file**, vì suy ra được từ cờ). Không dán cả file. Commit chỉ khi người dùng nhờ.
+File dài lưu trong repo; chat chỉ **tóm tắt + link** (bảng case ngắn, tổng thời gian ước lượng, hành trình then chốt chưa phủ, case/ý cần người dùng chốt, vài dòng case đã xem xét rồi loại kèm lý do; danh sách loại **không ghi vào file**, vì suy ra được từ cờ). Không dán cả file. Dự án đã có `testing/<dự-án>/test-plan.md` thì cuối câu trả lời nhắc người dùng nói "Cập nhật test plan" để test plan có số liệu mới (test plan lập ở bước 2, trước khi có bộ này). Commit chỉ khi người dùng nhờ.
 
 ## Đọc gì cho từng việc
 

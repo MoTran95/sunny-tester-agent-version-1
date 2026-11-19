@@ -21,7 +21,9 @@ GENERATOR = '<meta name="generator" content="build_docs.py">'
 _CELL_SPLIT = re.compile(r"(?<!\\)\|")
 STATUSES = {"Đạt": "ok", "Không đạt": "bad", "Bị chặn": "warn", "Bỏ qua": "gray", "Chưa chạy": "gray", "Đạt kèm ý phụ sai": "warn", "Đạt kèm lỗi đã biết": "warn"}
 
-DOC_LABELS = [("srs", "SRS"), ("bang-soat-requirement", "Bảng soát requirement"), ("phan-tich-requirement", "Phân tích requirement"),
+GUIDE_PAGES = ["bat-dau", "cai-dat-may-moi", "chay-test-tu-dong"]  # docs/<tên>.md hiện ở mục "Hướng dẫn và quy ước chung" của trang tổng
+
+DOC_LABELS = [("srs", "SRS"), ("bang-soat-requirement", "Bảng phân tích requirement"), ("phan-tich-requirement", "Phân tích requirement"),
               ("cau-hoi-cho-ba", "Câu hỏi cho BA"), ("checklist", "Checklist"), ("test-case", "Test case"), ("truy-vet", "Truy vết"),
               ("ket-qua-test-case", "Kết quả chạy")]
 
@@ -340,7 +342,7 @@ def render_markdown(md, src, converted, codes=None, feature=None):
 # ---------------------------------------------------------------- khung trang
 _CSS_DOC = """
 main.rong{max-width:1840px}
-.doc h1{text-align:left;font-size:34px;margin:6px 0 14px}.doc h2{margin:34px 0 10px;padding-top:6px;border-top:1px solid var(--line)}.doc h3{font:700 18px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:24px 0 8px}
+.doc h1{text-align:left;font-size:34px;margin:6px 0 14px}.doc h2{margin:34px 0 10px;padding-top:6px;border-top:1px solid var(--line)}.doc h3{font:700 18px/1.3 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text);margin:24px 0 8px}
 .doc p,.doc ul,.doc ol,.doc blockquote{max-width:1100px}.doc ul,.doc ol{padding-left:24px}.doc li{margin:4px 0}
 .doc blockquote{margin:14px 0;padding:10px 16px;border-left:4px solid var(--amber);background:var(--amberbg);color:var(--amberfg);border-radius:0 10px 10px 0}
 .doc hr{border:0;border-top:1px solid var(--line);margin:26px 0}.doc pre{background:var(--graybg);padding:12px 16px;border-radius:10px;overflow-x:auto;font-size:13px}.doc pre code{background:none;padding:0}
@@ -359,7 +361,7 @@ tr.dich td,li.dich,p.dich,blockquote.dich{background:var(--amberbg)!important;ou
 .loc span{color:var(--muted);font-size:13px}
 tr.an{display:none}
 .the{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px;margin:12px 0 8px}
-.the .card h3{margin:0 0 4px;font:700 20px/1.3 Fraunces,Georgia,serif;color:var(--text)}
+.the .card h3{margin:0 0 4px;font:700 20px/1.3 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text)}
 .the .card h4{margin:14px 0 6px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .links{display:flex;flex-wrap:wrap;gap:6px}.links a{padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg);text-decoration:none;font-size:13.5px}.links a:hover{border-color:var(--coral)}
 .links .none{padding:4px 11px;border-radius:999px;border:1px dashed var(--line);color:var(--muted);font-size:13.5px}
@@ -367,7 +369,7 @@ tr.an{display:none}
 .bar-tt .s-ok{background:var(--green)}.bar-tt .s-bad{background:var(--coral)}.bar-tt .s-warn{background:var(--amber)}.bar-tt .s-gray{background:var(--graybg)}
 .chu-thich{display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0 0;font-size:13px;color:var(--muted)}
 .bugs{margin:4px 0 0;padding:0;list-style:none}.bugs li{margin:5px 0;font-size:14px}
-.so-lieu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 6px}.so-lieu div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}.so-lieu b{display:block;font:700 26px/1.1 Fraunces,Georgia,serif;color:var(--text)}.so-lieu span{font-size:13px;color:var(--muted)}
+.so-lieu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 6px}.so-lieu div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}.so-lieu b{display:block;font:700 26px/1.1 "Be Vietnam Pro","Segoe UI",system-ui,sans-serif;color:var(--text)}.so-lieu span{font-size:13px;color:var(--muted)}
 @media (max-width:700px){.the{grid-template-columns:1fr}.muc-luc ul{columns:1}}
 """
 
@@ -408,10 +410,27 @@ def feature_docs(project, feature, exists):
     for key in ("bang-soat-requirement", "phan-tich-requirement", "cau-hoi-cho-ba", "checklist", "test-case", "truy-vet", "ket-qua-test-case"):
         cand[key] = t / f"{key}.html"
     out = [(label, cand[key]) for key, label in DOC_LABELS if key in cand and exists(cand[key])]
+    # tài liệu khác của tính năng (không có trong danh sách trên) cũng phải có link từ trang tổng
+    known = {Path(x).name for x in cand.values()}
+    for md in sorted(t.glob("*.md")) if t.exists() else []:
+        page = md.with_suffix(".html")
+        if page.name not in known and exists(page):
+            out.append((_doc_title(md), page))
     log = root / "evidence" / project / "features" / feature / "bao-cao.html"
     if exists(log):
         out.append(("Nhật ký khám phá", log))
     return out
+
+
+def _doc_title(md):
+    """Tiêu đề cấp 1 của file md (bỏ dấu #), không có thì tên file."""
+    try:
+        for line in md.read_text(encoding="utf-8").splitlines()[:15]:
+            if line.startswith("# "):
+                return re.sub(r"[`*]", "", line[2:]).strip()
+    except OSError:
+        pass
+    return md.stem
 
 
 def render_doc(project, src, converted, codes, exists):
@@ -463,10 +482,7 @@ def _bar(counts):
 
 
 def render_index(project, exists):
-    try:
-        cfg = config.load(project)
-    except config.ConfigError:
-        return None, None
+    cfg = config.load_for_docs(project)  # trang tổng không cần phần đăng nhập của auto-config.json
     root = config.ROOT
     tdir = cfg.project_dir
     e = html.escape
@@ -490,7 +506,7 @@ def render_index(project, exists):
         bug_items = "".join(
             f'<li><a href="{_rel(tdir, b.with_suffix(".html"))}">{e(b.stem)}</a> <span class="badge gray">{e(report_mod._bug_severity(cfg, b.stem) or "?")}</span> {e(report_mod._bug_title(cfg, b.stem))}</li>' for b in bugs) or "<li>Chưa có bug</li>"
         cards.append(
-            f'<div class="card"><h3>{e(names.get(f, f))}</h3><div class="small">{n} test case · {auto} có script tự động</div>'
+            f'<div class="card" id="tn-{e(f)}"><h3>{e(names.get(f, f))}</h3><div class="small">{n} test case · {auto} có script tự động</div>'
             f"<h4>Tài liệu</h4>{_links(tdir, feature_docs(project, f, exists))}"
             f"<h4>Tiến độ test case</h4>{_bar(counts)}"
             f"<h4>Lượt chạy gần nhất</h4><div>{run_line}</div>"
@@ -502,7 +518,7 @@ def render_index(project, exists):
         links = [("Bộ smoke test", tdir / "smoke-test.html"), ("Kết quả smoke", tdir / "smoke-ket-qua.html")]
         n_smoke = len(report_mod.read_smoke_table(cfg))
         srun_line = (f'Lượt {srun["number"]} ({e(srun["timestamp"][:10])}, bản {e(srun["build"])}): {report_mod._verdict_badge(srun["verdict"])}; {e(report_mod._count_statuses(srun))}' if srun else "Chưa có lượt chạy ghi lại")
-        smoke_card = f'<div class="card"><h3>Bộ smoke test</h3><div class="small">{n_smoke} case chọn từ các test case</div><h4>Tài liệu</h4>{_links(tdir, [x for x in links if exists(x[1])])}<h4>Lượt chạy gần nhất</h4><div>{srun_line}</div></div>'
+        smoke_card = f'<div class="card" id="smoke"><h3>Bộ smoke test</h3><div class="small">{n_smoke} case chọn từ các test case</div><h4>Tài liệu</h4>{_links(tdir, [x for x in links if exists(x[1])])}<h4>Lượt chạy gần nhất</h4><div>{srun_line}</div></div>'
     regression_card = ""
     if (tdir / "regression-test.md").exists():
         rg_lines, rg_links = [], [("Bộ regression test", tdir / "regression-test.html")]
@@ -517,11 +533,16 @@ def render_index(project, exists):
                 rg_lines.append(f'Tầng {n}, lượt {rrun["number"]} ({e(rrun["timestamp"][:10])}, bản {e(rrun["build"])}): {report_mod._verdict_badge(rrun["verdict"])}; {e(report_mod._count_statuses(rrun))}')
         rg_run = "<br>".join(rg_lines) or "Chưa có lượt chạy ghi lại"
         n_t1 = len(report_mod.read_regression_table(cfg, "regression-tang-1"))
-        regression_card = (f'<div class="card"><h3>Bộ regression test</h3><div class="small">Ba tầng: lõi ({n_t1} case), vùng bị ảnh hưởng, toàn bộ</div>'
+        regression_card = (f'<div class="card" id="regression"><h3>Bộ regression test</h3><div class="small">Ba tầng: lõi ({n_t1} case), vùng bị ảnh hưởng, toàn bộ</div>'
                            f'<h4>Tài liệu</h4>{_links(tdir, [x for x in rg_links if exists(x[1])])}<h4>Lượt chạy gần nhất</h4><div>{rg_run}</div></div>')
+    plan_pages = sorted({p.with_suffix(".html") for p in tdir.glob("test-plan*.md")} | set(tdir.glob("test-plan*.html")))
+    plan_items = [(("Phiếu điền thông tin test plan" if p.stem.endswith("-phieu") else _doc_title(p.with_suffix(".md"))), p)
+                  for p in plan_pages if exists(p)]
+    plan_card = (f'<div class="card" id="test-plan"><h3>Kế hoạch kiểm thử (test plan)</h3><div class="small">Bản đầy đủ, bản gọn, phiếu điền thông tin</div>'
+                 f'<h4>Tài liệu</h4>{_links(tdir, plan_items)}</div>') if plan_items else ""
     summary_card = ""
     if exists(tdir / "test-summary-report.html"):
-        summary_card = ('<div class="card"><h3>Báo cáo tổng kết kiểm thử</h3><div class="small">Tổng hợp mọi lượt chạy của build mới nhất; có form người test và người duyệt build, nút in PDF</div>'
+        summary_card = ('<div class="card" id="bao-cao-tong-ket"><h3>Báo cáo tổng kết kiểm thử</h3><div class="small">Tổng hợp mọi lượt chạy của build mới nhất; có form người test và người duyệt build, nút in PDF</div>'
                         f'<h4>Tài liệu</h4>{_links(tdir, [("Báo cáo tổng kết kiểm thử", tdir / "test-summary-report.html")])}</div>')
     ev = root / "evidence" / project
     ev_items = [(f"Báo cáo khám phá: {p.stem}", p) for p in sorted(ev.glob("*.html"))] if ev.exists() else []
@@ -535,16 +556,18 @@ def render_index(project, exists):
         if p not in seen and exists(p):
             seen.add(p)
             ev_unique.append((label, p))
-    guide = [("Hướng dẫn chạy test tự động", root / "docs" / "chay-test-tu-dong.html"), ("Cài đặt máy mới", root / "docs" / "cai-dat-may-moi.html"),
-             ("Kịch bản kiểm thử các thay đổi", root / "docs" / "kiem-thu-cac-thay-doi.html"), ("Quy tắc mã ID và nguồn", root / "srs" / "id-and-source-rules.html"),
-             ("Chiến lược phân tích requirement", root / "testing" / "chien-luoc-phan-tich-requirement.html")]
-    other = (f'<div class="card"><h3>Khám phá hệ thống và hướng dẫn</h3><h4>Báo cáo khám phá</h4>{_links(tdir, ev_unique)}'
+    # Hướng dẫn chung cho người đọc: chỉ hai trang này (người dùng chốt 2026-11-19; tài liệu nội bộ, khuôn,
+    # đánh giá skill không đưa lên trang tổng vì người khác không cần đọc)
+    guide = [(_doc_title(root / "docs" / f"{name}.md"), root / "docs" / f"{name}.html") for name in GUIDE_PAGES]
+    other = (f'<div class="card" id="huong-dan"><h3>Khám phá hệ thống và hướng dẫn</h3><h4>Báo cáo khám phá</h4>{_links(tdir, ev_unique)}'
              f'<h4>Hướng dẫn và quy ước chung</h4>{_links(tdir, [x for x in guide if exists(x[1])])}</div>')
     stats = ('<div class="so-lieu">' + "".join(f"<div><b>{v}</b><span>{k}</span></div>" for k, v in (
         ("tính năng có test case", len(features)), ("test case", total_tc), ("đã chạy có kết luận", total_ran), ("không đạt", total_fail), ("bug đã ghi", total_bug))) + "</div>")
-    body = (f'<h1>Trang tổng · {e(project)}</h1><p class="small">Hệ thống: <a href="{e(cfg.url)}/">{e(cfg.url)}</a>' + (f" · bản test {e(version)}" if version else "") +
+    system = f'<a href="{e(cfg.url)}/">{e(cfg.url)}</a>' if cfg.url else "chưa khai địa chỉ (điền <code>auto-config.json</code> trước khi chạy test tự động)"
+    body = (f'<h1>Trang tổng · {e(project)}</h1><p class="small">Hệ thống: {system}' + (f" · bản test {e(version)}" if version else "") +
             ". Mọi số liệu đọc từ file có sẵn; sau khi sửa tài liệu hoặc chạy test, chạy lại <code>python -X utf8 scripts/build_docs.py</code> để cập nhật.</p>"
-            + stats + '<h2>Từng tính năng</h2><div class="the">' + "".join(cards) + "</div>" + '<h2>Bộ smoke và tài liệu chung</h2><div class="the">' + summary_card + smoke_card + regression_card + other + "</div>")
+            + stats + '<h2 id="tinh-nang">Từng tính năng</h2><div class="the">' + "".join(cards) + "</div>"
+            + '<h2 id="bo-test">Kế hoạch, bộ smoke, regression và tài liệu chung</h2><div class="the">' + plan_card + summary_card + smoke_card + regression_card + other + "</div>")
     return tdir / "index.html", _page(f"Trang tổng {project}", body, tdir, project=project)
 
 
@@ -563,10 +586,7 @@ def render_all(project):
             skipped.append(s)
             continue
         outs.append((s, out))
-    try:
-        cfg = config.load(project)
-    except config.ConfigError:
-        cfg = None
+    cfg = config.load_for_docs(project)  # trang bug, kết quả, báo cáo tổng kết không cần phần đăng nhập
     if cfg is not None:
         rr = cfg.project_dir / "run-results"
         for f in sorted(rr.glob("*.json")) if rr.exists() else []:
@@ -586,7 +606,31 @@ def render_all(project):
     index_path, index_text = render_index(project, exists)
     if index_path is not None:
         pages[index_path] = index_text
+        UNLINKED[project] = _unlinked(project, index_path, index_text, planned)
     return pages, skipped
+
+
+UNLINKED = {}  # dự án -> [trang HTML của dự án mà trang tổng chưa có link], do render_all tính
+
+
+def _unlinked(project, index_path, index_text, planned):
+    """Trang HTML của dự án (testing/, srs/, evidence/ của dự án; bỏ thư mục nguồn `_src`) mà trang tổng không link tới.
+    Người dùng chỉ mở trang tổng là tới được mọi trang, nên trang nào thiếu link là lỗi."""
+    root = config.ROOT
+    hrefs = {os.path.normpath(os.path.join(index_path.parent, h.split("#")[0]))
+             for h in re.findall(r'href="([^"#:]+?\.html)(?:#[^"]*)?"', index_text)}
+    pages = set(p for p in planned if str(p).endswith(".html"))
+    for folder in (root / "testing" / project, root / "srs" / project, root / "evidence" / project):
+        if folder.exists():
+            pages |= set(folder.rglob("*.html"))
+    out = []
+    for p in sorted(pages):
+        rel_parts = Path(p).relative_to(root).parts
+        if len(rel_parts) < 2 or rel_parts[1] != project or "_src" in rel_parts or Path(p).name == "index.html":
+            continue
+        if os.path.normpath(str(p)) not in hrefs:
+            out.append(Path(p))
+    return out
 
 
 def sync(project, write=True):

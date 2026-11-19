@@ -1,6 +1,6 @@
 ---
 name: feature-exploration-report
-description: Khám phá một feature/hệ thống bằng thao tác thật rồi lập báo cáo HTML dễ đọc cho người mới — vai trò tài khoản, ảnh khoanh nút đánh số, sơ đồ luồng có số bước, luồng end-to-end, điểm mơ hồ kèm bằng chứng. Dùng khi người dùng (thường là tester) nói "khám phá feature", "báo cáo khám phá", "làm báo cáo cho feature X", "tạo/cập nhật báo cáo HTML", hoặc muốn mô tả vai trò/luồng của một hệ thống chưa có tài liệu. Không dùng cho báo cáo lỗi (bug report) hay test case.
+description: Lập báo cáo khám phá dạng HTML cho người mới từ lượt khám phá thật (vai trò, ảnh khoanh nút đánh số, sơ đồ luồng, điểm mơ hồ kèm bằng chứng). Dùng khi nghe "báo cáo khám phá", "làm báo cáo HTML cho feature X", "mô tả vai trò, luồng của hệ thống". Không dùng cho SRS (srs-from-website), bug hay test case.
 ---
 
 # Báo cáo khám phá feature (HTML)
@@ -16,7 +16,7 @@ Ngôn ngữ: **tiếng Việt**, dùng đúng thuật ngữ IT, dễ hiểu (xem
 3. **Mật khẩu:** không tự gõ mật khẩu; người dùng tự đăng nhập từng tài khoản trong cửa sổ trình duyệt. Không ghi mật khẩu vào báo cáo, bộ nhớ hay chat.
 4. **Hỏi trước khi tạo/sửa dữ liệu thật, tải file, gửi thứ có thể ra ngoài** (SMS, email…). Dữ liệu test do mình tạo thì ghi rõ mã để người dùng nhận ra.
 5. **Hỏi người dùng khi chưa rõ**, đừng tự quyết (xem mục 7 của báo cáo).
-6. **Giữ đúng giao diện đã chốt, ở mọi dự án:** không viết CSS, không đổi màu/font trong báo cáo, không vẽ SVG sơ đồ bằng tay. Font (Hanken Grotesk, Fraunces), màu, CSS, logo do `build-embed.py` chèn (từ `assets/` và `docs/thuong-hieu/`), cùng giao diện thương hiệu với mọi trang HTML khác của repo. Sơ đồ viết bằng JSON (`data-so-do`), `ve-so-do.py` vẽ. Cần kiểu sơ đồ mới thì hỏi người dùng trước. Chi tiết: `references/so-do.md`.
+6. **Giữ đúng giao diện đã chốt, ở mọi dự án:** không viết CSS, không đổi màu/font trong báo cáo, không vẽ SVG sơ đồ bằng tay. Font (Be Vietnam Pro), màu, CSS, logo do `build-embed.py` chèn (từ `assets/` và `docs/thuong-hieu/`), cùng giao diện thương hiệu với mọi trang HTML khác của repo. Sơ đồ viết bằng JSON (`data-so-do`), `ve-so-do.py` vẽ. Cần kiểu sơ đồ mới thì hỏi người dùng trước. Chi tiết: `references/so-do.md`.
 7. **Đã khám phá rồi thì KHÔNG khám phá lại.** Nếu đã có `evidence/<hệ thống>/features/<feature>/bao-cao.md` (hoặc báo cáo tổng) và ảnh, và mục 0 "Bảng phủ" của nhật ký không còn ô trống (khuôn ở `srs-from-website/assets/exploration-log-template.md`), dựng/sửa báo cáo HTML **từ đó**, không mở trình duyệt, không chụp lại. Chỉ khám phá lại khi **người dùng nói rõ** "khám phá lại" hoặc "feature đã đổi" (và phần nào đổi → chỉ làm phần đó). Thiếu bằng chứng → ghi "không có ảnh" và hỏi người dùng, không tự chụp bù. *Người dùng hết token để chạy lại.*
 
 ## Đọc gì cho từng việc
@@ -47,12 +47,6 @@ Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview
 
 Sửa **file nguồn `*.src.html`**, chạy lại build — không sửa file đã build. Lỗi hay gặp: khung vẽ sai ô (không phải chỉ chồng số) → soát bằng `--review`. Đổi từ ngữ → áp cho toàn bộ báo cáo, rồi grep lại các từ cũ.
 
-## Giữ ngữ cảnh gọn khi soát
-Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một lần `cat` dài bị trả tiền lại ở mọi lượt sau (nhật ký: các phiên nặng có 190–240 KB kết quả lệnh, phần lớn là `cat` bộ nhớ và `grep` dòng bảng soát dài 700 ký tự).
-- Script soát của skill chỉ in vài trăm byte kết luận. **Đạt (0 lỗi) thì không đọc lại file vừa sinh** để "soát cho chắc"; chỉ đọc đúng dòng script báo (`Read` với `offset`/`limit`).
-- Không `cat` file bằng Bash. Dùng `Read` đoạn cần, hoặc `Grep` kèm `| cut -c1-200`. Cần xem vài mã (SRS, bảng soát, test case): `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma ...`.
-- Lệnh có thể in nhiều: thêm `| head -40`.
-- Soát tay chỉ phần script không kiểm được (câu chữ đọc có hiểu không, ý nghĩa): lấy mẫu vài dòng, không đọc cả file.
 
 ## Tệp trong skill
 
@@ -61,7 +55,7 @@ Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một l
 - `references/evidence-and-build.md` — chụp ảnh, đặt tên, khoanh nút, build, soát, các bẫy đã gặp.
 - `references/so-do.md` — giao diện chuẩn, cách viết JSON cho ba kiểu sơ đồ (tổng quan, tuần tự, trạng thái), bảng màu.
 - `assets/report-template.src.html` — khung HTML nguồn (thanh tab, mẫu step/flow/điểm mơ hồ, chỗ đặt sơ đồ).
-- `assets/giao-dien-chuan.css` — CSS chuẩn duy nhất (màu, cỡ chữ, bố cục); `assets/fonts/do-rong-chu.json` — bảng độ rộng chữ của Hanken Grotesk; `scripts/giao_dien.py` — nạp font thương hiệu (cắt theo chữ thật), logo, CSS.
+- `assets/giao-dien-chuan.css` — CSS chuẩn duy nhất (màu, cỡ chữ, bố cục); `assets/fonts/do-rong-chu.json` — bảng độ rộng chữ của Be Vietnam Pro; `scripts/giao_dien.py` — nạp font thương hiệu (cắt theo chữ thật), logo, CSS.
 - `assets/so-do-mau/` — ba file JSON mẫu (nội dung trung lập) để chép sang dự án.
 - `scripts/build-embed.py` — chèn CSS + font chuẩn, vẽ sơ đồ từ JSON, nhúng ảnh thu nhỏ, tự đặt số thứ tự, JS thanh tab, kiểm tra giới hạn 512 KiB.
 - `scripts/ve-so-do.py` — vẽ sơ đồ theo mẫu đã chốt; chạy riêng để xem thử.

@@ -37,7 +37,7 @@ KIEU_TT = {   # kiểu ô trạng thái: nền, viền, chữ
 NOTE_FILL, NOTE_LINE, NOTE_INK = '#fff6e0', '#f0c36d', '#6b4a00'
 ARROW, ARROW_RET, LIFELINE = '#334', '#777', '#b9c4c0'
 
-# ---------- đo chữ bằng độ rộng thật của font Hanken Grotesk (bảng tạo bằng tao-bang-do-rong.py) ----------
+# ---------- đo chữ bằng độ rộng thật của font Be Vietnam Pro (bảng tạo bằng tao-bang-do-rong.py) ----------
 _W = json.load(io.open(os.path.join(ASSETS, 'fonts', 'do-rong-chu.json'), encoding='utf-8'))['rong']
 
 def tw(s, size, weight=400):

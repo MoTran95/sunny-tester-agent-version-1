@@ -1,6 +1,6 @@
 ---
 name: srs-from-website
-description: Khám phá một website/web app bằng thao tác thật rồi viết tài liệu SRS bằng Markdown cho từng feature, kiểu User story + tiêu chí chấp nhận (AC), mỗi yêu cầu có ID cố định và bằng chứng truy được (ảnh, Network, tệp giao diện, nhật ký). Dùng bất cứ khi nào người dùng (thường là tester) nói "tạo SRS từ website", "viết SRS/requirement cho feature X", "khám phá rồi làm tài liệu yêu cầu", "chuyển khám phá thành SRS", "cập nhật SRS vì feature đổi", "soát SRS", kể cả khi họ không nói chữ SRS mà muốn có tài liệu mô tả hành vi hệ thống để sau này viết test case. Không dùng cho báo cáo khám phá dạng HTML (dùng feature-exploration-report), báo cáo lỗi, hay viết test case.
+description: Viết SRS (tài liệu đặc tả yêu cầu dạng Story + tiêu chí chấp nhận, mã cố định, có bằng chứng) bằng cách khám phá website thật, hoặc chuyển từ tài liệu yêu cầu dạng văn bản; cập nhật và soát SRS. Dùng khi nghe "viết SRS", "tạo SRS từ website", "chuyển tài liệu yêu cầu thành SRS", "requirement chưa có mã", "cập nhật SRS vì feature đổi", "soát SRS". Không dùng cho báo cáo khám phá HTML, test case hay bug.
 ---
 
 # SRS từ website (Markdown, Story + AC)
@@ -27,6 +27,7 @@ Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview
 | Việc | Đọc | Không cần đọc |
 |---|---|---|
 | Khám phá + viết SRS cho feature mới | Bộ nhớ: `memories/modules/<hệ thống>/exploration-findings.md`, `feature-<tên>.md` nếu có, `memories/pitfalls/dont-trigger-lockouts.md`. Khi khám phá: `references/exploration-checklist.md`, `references/safety-and-collaboration.md`, `assets/exploration-log-template.md`. Khi viết: `srs/_template.md`, `srs/id-and-source-rules.md`, `references/srs-writing-guide.md` | SRS và nhật ký của feature khác (chỉ mở một đoạn nếu cần xem mẫu); `scripts/check-srs.py` (chỉ chạy) |
+| Chuyển tài liệu yêu cầu (văn bản, chưa có mã) thành SRS, không khám phá | Tài liệu gốc (cả file); `srs/_template.md`, `srs/id-and-source-rules.md` (mục 2e), `references/srs-writing-guide.md` | `references/exploration-checklist.md`, `safety-and-collaboration.md` (không mở trình duyệt) |
 | Cập nhật SRS vì feature đổi | SRS hiện có, nhật ký gốc của feature, bộ nhớ của feature, `references/srs-writing-guide.md` mục 6, `references/safety-and-collaboration.md` | `srs/_template.md` (SRS đã theo khuôn), feature khác |
 | Soát một SRS có sẵn | Chạy `scripts/check-srs.py`; đọc SRS ở các dòng script báo. Sửa thì đọc thêm `references/srs-writing-guide.md` | Nhật ký và ảnh, trừ khi phải kiểm lại một nguyên văn |
 | Sửa chính skill này | `memories/project/skills.md`, `memories/project/srs-process.md`, file cần sửa | SRS và bằng chứng |
@@ -45,21 +46,19 @@ File trên ~30 KB mà chỉ cần một phần: tìm bằng Grep rồi đọc đ
 4. **Viết SRS** `srs/<hệ thống>/<feature>.md`: đọc `srs/_template.md` + `srs/id-and-source-rules.md` (nguồn chuẩn), rồi `references/srs-writing-guide.md`. Thứ tự gợi ý: bảng bằng chứng → story + AC → quy tắc dữ liệu/thông báo → câu hỏi cho team → chưa khám phá → lịch sử thay đổi.
 5. **Soát**:
    ```bash
-   python -X utf8 .claude/skills/srs-from-website/scripts/check-srs.py srs/<hệ thống>/<feature>.md
+   python -X utf8 .claude/skills/srs-from-website/scripts/check-srs.py srs/<hệ thống>/<feature>.md --them-neo
    ```
+   `--them-neo` chèn thẻ neo `<a id="<mã chữ thường>"></a>` vào ô ID của mọi dòng AC/R/M/Q còn thiếu (cột Nguồn của test case link tới đúng dòng nhờ thẻ này; không chèn thì script cảnh báo).
    Script báo ID trùng/gãy, AC thiếu bằng chứng hoặc nhãn, liên kết tệp gãy, từ bị cấm, và in số liệu. Script hiểu dải ID `MÃ-R01–R04` nhưng không kiểm ID rút gọn thiếu mã (`R01`) — xem `references/srs-writing-guide.md` mục 2. Sửa hết lỗi, rồi soát tay: nguyên văn thông báo khớp nhật ký; số liệu ở "Lịch sử thay đổi" khớp file; mở thử vài liên kết ảnh.
 6. **Cập nhật bộ nhớ** (`memories/modules/<hệ thống>/feature-<ten>.md` + dòng trong `MEMORY.md`): điều học được, bẫy mới, trạng thái SRS.
 7. **Trả lời người dùng**: file đã tạo (link), điều đã/chưa kiểm tra và lý do, các câu cần họ trả lời, việc họ cần làm tiếp. Nếu lỡ kích hoạt khóa/giới hạn → nói thẳng ở đầu.
 
+## Chỉ có tài liệu yêu cầu (không khám phá)
+Người dùng đưa requirement dạng văn bản chưa có mã (Word, PDF, ticket, đoạn dán) và cần mã cố định cho bảng soát, test case, truy vết. **Không mở trình duyệt.** Làm theo `srs/id-and-source-rules.md` mục 2e: lưu bản gốc vào `evidence/<hệ thống>/tai-lieu/`; viết SRS theo khuôn, mỗi ý của tài liệu một AC/quy tắc/thông báo, **chép đúng câu chữ**, nhãn `theo tài liệu`; chỗ tài liệu không rõ → `chưa rõ` + Q (không tự điền); bằng chứng là một dòng E loại `tài liệu yêu cầu` trỏ tới bản gốc. Rồi soát bằng `check-srs.py --them-neo` như bước 5. Xong thì đề nghị bước tiếp là `phan-tich-requirement` trên chính SRS này.
+
 ## Cập nhật SRS khi feature đổi
 Chỉ khi người dùng nói feature đã đổi. Sửa **tại chỗ**, giữ ID, thêm dòng ở "Lịch sử thay đổi"; khám phá lại **chỉ phần đổi** vào **bộ ảnh/nhật ký mới** (không ghi đè). Đổi ý nghĩa → ID mới, mục cũ `đã bỏ`. Chi tiết: `references/srs-writing-guide.md` mục 6.
 
-## Giữ ngữ cảnh gọn khi soát
-Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một lần `cat` dài bị trả tiền lại ở mọi lượt sau (nhật ký: các phiên nặng có 190–240 KB kết quả lệnh, phần lớn là `cat` bộ nhớ và `grep` dòng bảng soát dài 700 ký tự).
-- Script soát của skill chỉ in vài trăm byte kết luận. **Đạt (0 lỗi) thì không đọc lại file vừa sinh** để "soát cho chắc"; chỉ đọc đúng dòng script báo (`Read` với `offset`/`limit`).
-- Không `cat` file bằng Bash. Dùng `Read` đoạn cần, hoặc `Grep` kèm `| cut -c1-200`. Cần xem vài mã (SRS, bảng soát, test case): `python -X utf8 scripts/truy-vet.py tra <dự-án> <tính-năng> --ma ...`.
-- Lệnh có thể in nhiều: thêm `| head -40`.
-- Soát tay chỉ phần script không kiểm được (câu chữ đọc có hiểu không, ý nghĩa): lấy mẫu vài dòng, không đọc cả file.
 
 ## Quy ước để trang HTML tự link (đã chốt; `scripts/build_docs.py` dựa vào đây)
 

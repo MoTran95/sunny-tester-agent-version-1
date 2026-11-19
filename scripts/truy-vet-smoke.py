@@ -10,7 +10,7 @@ Dùng:
       Thời gian vượt mục tiêu chỉ là lưu ý, không phải lỗi (mục đích smoke quan trọng hơn thời gian).
       Cũng chỉ LƯU Ý (không phải lỗi): test case gốc có ⚠️ (đang lệch hệ thống), "cố ý nhập sai N lần", tác dụng phụ khó
       đảo ngược, không có mã requirement; requirement nháp; case chưa chạy thật; dòng 'Case mới'/'Ngoài repo' (không truy vết được).
-  python -X utf8 scripts/truy-vet-smoke.py chot <dự-án> -m "đã làm gì" [--nguoi "Sunny Tran"]
+  python -X utf8 scripts/truy-vet-smoke.py chot <dự-án> -m "đã làm gì" [--nguoi "Tên"]  (mặc định: .nguoi-test)
       Chốt mốc mới: "bộ smoke hiện tại đã khớp test case và requirement hiện tại". Thêm một dòng vào
       "Lịch sử tạo và cập nhật" và làm mới mục "Truy vết". Chốt sau khi đã chốt truy vết từng tính năng.
 
@@ -36,6 +36,12 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+def _default_author():
+    """Tên người test của máy này: `.nguoi-test` (xem scripts/test_automation/config.py)."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from test_automation.config import default_author
+    return default_author()
+
 spec = importlib.util.spec_from_file_location("truy_vet", ROOT / "scripts" / "truy-vet.py")
 tv = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tv)
@@ -224,12 +230,14 @@ def main():
     ap.add_argument("lenh", choices=["kiem", "chot", "ghi-luot"])
     ap.add_argument("du_an")
     ap.add_argument("-m", "--mo-ta", default="")
-    ap.add_argument("--nguoi", default="Sunny Tran")
+    ap.add_argument("--nguoi", default=None)
     ap.add_argument("--build", default="", help="với ghi-luot: số bản đọc ở chân trang hệ thống")
     ap.add_argument("--ket-qua", default="", help="với ghi-luot: 1=Đạt,2=Không đạt,...")
     ap.add_argument("--ghi-chu", default="", help="với ghi-luot: quan sát cụ thể, mã bug...")
     ap.add_argument("--ngay", default=None, help="chỉ dùng khi thử: ép ngày, không ghi giờ")
     a = ap.parse_args()
+    if getattr(a, "nguoi", "x") is None:
+        a.nguoi = _default_author()
 
     du_an_dir = ROOT / "testing" / a.du_an
     sm_p = du_an_dir / "smoke-test.md"

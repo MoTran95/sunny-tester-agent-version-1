@@ -16,5 +16,5 @@
 - RECO: 4 script (TC-002, 009, 022, 023) đã Đạt ở lượt đầu; `reco_common.py` tìm khung `Thẩm định` theo chữ.
 - Trang tổng `testing/banking-lite/index.html`; hai tính năng `dang-nhap`, `khuyen-nghi-ltv-dsr`; `gui-tham-dinh` chỉ có khám phá.
 - Chồng chéo chưa gộp: `truy-vet-smoke.py ghi-luot` (mục "Lượt chạy" trong smoke-test.md) vs `smoke-ket-qua.*` (bản chính).
-- `feature-exploration-report` đã thống nhất giao diện với thương hiệu (2026-11-19): bảng màu kem/nâu/đỏ san hô, font Hanken Grotesk + Fraunces nhúng đã cắt, logo hero, dùng `brand.json`; chưa có chế độ tối (sơ đồ SVG nền trắng cố định); báo cáo `v2` build ở `--thumb-q 41` để còn dưới 512 KiB.
+- `feature-exploration-report` đã thống nhất giao diện với thương hiệu (2026-11-19): bảng màu kem/nâu/đỏ san hô, font Be Vietnam Pro nhúng đã cắt, logo hero, dùng `brand.json`; chưa có chế độ tối (sơ đồ SVG nền trắng cố định); báo cáo `v2` build ở `--thumb-q 41` để còn dưới 512 KiB.
 - 2026-11-19: thêm phần Kết luận và rủi ro vào lượt smoke 2 (`run-results/smoke.json`, viết từ kết quả và ghi chú của lượt, chỉ thêm khóa `conclusion`, không đổi kết quả) để báo cáo tổng kết có dòng của smoke; SM-06 vẫn Không kết luận, cần hồ sơ nháp mới (tạo dữ liệu thật, hỏi người dùng trước).

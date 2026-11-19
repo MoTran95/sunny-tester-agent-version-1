@@ -4,15 +4,17 @@
 Kiểm tra:
   - ID định nghĩa trùng nhau
   - Tham chiếu tới ID chưa được định nghĩa
-  - AC thiếu story cha, thiếu nhãn (đã thấy / chưa rõ / đã bỏ) hoặc thiếu bằng chứng
+  - AC thiếu story cha, thiếu nhãn (đã thấy / theo tài liệu / đã xác nhận / chưa rõ / đã bỏ) hoặc thiếu bằng chứng
   - Dải ID (`MÃ-R01–R04`, `MÃ-S01-AC03–AC05`) được mở thành từng ID rồi kiểm như tham chiếu thường
   - Liên kết bằng chứng #eNN không có mỏ neo <a id="eNN">
   - Liên kết tệp tương đối (ảnh, nhật ký) không tồn tại
   - Dòng bằng chứng không có liên kết tệp
   - Từ/ký hiệu bị cấm làm tên cột hoặc nhãn (cảnh báo)
+  - Dòng AC/quy tắc/thông báo/câu hỏi thiếu thẻ neo <a id="<mã chữ thường>"> ở ô đầu (cảnh báo):
+    test case link tới đúng dòng SRS nhờ thẻ này. `--them-neo` tự chèn thẻ còn thiếu (ghi vào file).
 In số liệu để đối chiếu với mục "Lịch sử thay đổi".
 
-Dùng:  python -X utf8 check-srs.py srs/<hệ thống>/<feature>.md
+Dùng:  python -X utf8 check-srs.py srs/<hệ thống>/<feature>.md [--them-neo]
 Thoát mã 1 nếu có lỗi (cảnh báo không làm thoát mã 1).
 """
 import argparse
@@ -21,7 +23,7 @@ import sys
 from pathlib import Path
 from urllib.parse import unquote
 
-LABELS = ("đã thấy", "chưa rõ", "đã bỏ")
+LABELS = ("đã thấy", "theo tài liệu", "đã xác nhận", "chưa rõ", "đã bỏ")
 # (mẫu, gợi ý). Chỉ cảnh báo: có thể nằm trong đoạn giải thích hợp lệ.
 FORBIDDEN = [
     (r"\bCho trước\b", "không dùng 'Cho trước/Khi/Thì' làm tên cột"),
@@ -37,6 +39,16 @@ ROW_ID = re.compile(r'^\|\s*(?:<a id="[^"]+"></a>)?`([A-Z][A-Z0-9]*-[A-Z0-9-]+)`
 HEAD_ID = re.compile(r"^#{2,4}\s+`([A-Z][A-Z0-9]*-S\d+)`")
 LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+)\)")
 ANCHOR = re.compile(r'<a id="([^"]+)"></a>')
+
+
+def file_exists(base, rel):
+    """Tệp tương đối có tồn tại không. Chuẩn hóa `..` trước (đường dẫn thô `srs/x/../../evidence/...` dễ vượt
+    giới hạn 260 ký tự của Windows khi repo nằm sâu), và dùng tiền tố đường dẫn dài của Windows khi cần."""
+    import os
+    full = os.path.normpath(os.path.abspath(os.path.join(str(base), rel)))
+    if os.name == "nt" and len(full) >= 240 and not full.startswith("\\\\?\\"):
+        full = "\\\\?\\" + full
+    return os.path.exists(full)
 
 
 def kind(i):
@@ -74,9 +86,29 @@ def make_expander(code_re, errors):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("srs", help="đường dẫn file SRS (.md)")
+    ap.add_argument("--them-neo", action="store_true",
+                    help="chèn thẻ neo vào ô đầu các dòng AC/R/M/Q (<mã chữ thường>) và bằng chứng E (e01) còn thiếu, rồi soát")
     args = ap.parse_args()
     path = Path(args.srs)
-    text = path.read_text(encoding="utf-8")
+    raw = path.read_bytes()
+    text = raw.decode("utf-8")
+    if args.them_neo:
+        added = 0
+
+        def add_anchor(m):
+            nonlocal added
+            i = m.group(1)
+            k = kind(i)
+            if k not in ("AC", "R", "M", "Q", "E"):
+                return m.group(0)
+            added += 1
+            # dòng bằng chứng dùng neo ngắn `e01` (khuôn link [E01](#e01)); dòng khác dùng cả mã, chữ thường
+            anchor = re.sub(r"^.*-E", "e", i) if k == "E" else i.lower()
+            return f'| <a id="{anchor}"></a>`{i}`'
+        text = re.sub(r"(?m)^\|\s*`([A-Z][A-Z0-9]*-[A-Z0-9-]+)`", add_anchor, text)
+        if added:
+            path.write_bytes(text.encode("utf-8"))
+        print(f"Đã chèn {added} thẻ neo.")
     lines = text.split("\n")
 
     errors, warns = [], []
@@ -157,7 +189,7 @@ def main():
             if not rel or (n, rel) in checked:
                 continue
             checked.add((n, rel))
-            if not (base / rel).exists():
+            if not file_exists(base, rel):
                 errors.append(f"dòng {n}: liên kết tệp không tồn tại: {rel}")
 
     # ID đã định nghĩa nhưng không ai tham chiếu (cảnh báo nhẹ cho R, M, E)
@@ -182,6 +214,16 @@ def main():
         for pat, hint in FORBIDDEN:
             if re.search(pat, line):
                 warns.append(f"dòng {n}: '{pat}' — {hint}")
+
+    # Thẻ neo cho dòng AC/R/M/Q (để test case link tới đúng dòng)
+    no_anchor = []
+    for n, line in enumerate(lines, 1):
+        m = ROW_ID.match(line)
+        if m and kind(m.group(1)) in ("AC", "R", "M", "Q") and not line.lstrip("| ").startswith("<a id="):
+            no_anchor.append(m.group(1))
+    if no_anchor:
+        warns.append(f"{len(no_anchor)} dòng thiếu thẻ neo (ví dụ {no_anchor[0]}); test case sẽ không link tới đúng dòng. "
+                     f"Chạy lại với --them-neo để tự chèn")
 
     counts = {}
     for i in defined:

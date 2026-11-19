@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tải font thương hiệu (Fraunces, Hanken Grotesk, giấy phép SIL OFL) từ Google Fonts về `docs/thuong-hieu/fonts/`
+"""Tải font thương hiệu (Be Vietnam Pro, giấy phép SIL OFL; đổi từ Fraunces + Hanken Grotesk ngày 2026-11-19 vì dấu tiếng Việt hiển thị lỗi) từ Google Fonts về `docs/thuong-hieu/fonts/`
 để các trang HTML dùng font cục bộ, giống hệt trên mọi máy kể cả khi không có mạng.
 
     python -X utf8 scripts/tai-font.py
@@ -16,8 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DEST = ROOT / "docs" / "thuong-hieu" / "fonts"
-CSS_URL = ("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700"
-           "&family=Hanken+Grotesk:wght@400..700&display=swap")
+CSS_URL = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"  # để Google trả woff2
 
 
@@ -43,12 +42,17 @@ def main():
         weight = re.search(r"font-weight:\s*([\d ]+)", body).group(1).strip()
         rng = re.search(r"unicode-range:\s*([^;]+);", body).group(1).strip()
         url = re.search(r"url\((https://[^)]+\.woff2)\)", body).group(1)
-        name = f"{fam.replace(' ', '')}-{'italic' if style == 'italic' else 'roman'}-{subset}.woff2"
+        # Be Vietnam Pro là font tĩnh (mỗi độ đậm một file) nên tên file có cả độ đậm
+        name = f"{fam.replace(' ', '')}-{'italic' if style == 'italic' else 'roman'}-{weight.replace(' ', '-')}-{subset}.woff2"
         if not (DEST / name).exists():
             data = get(url)
             (DEST / name).write_bytes(data)
             total += len(data)
         manifest.append({"family": fam, "weight": weight, "style": style, "file": name, "unicode_range": rng, "subset": subset})
+    keep = {m["file"] for m in manifest}
+    for old in DEST.glob("*.woff2"):   # bỏ file của font cũ không còn dùng
+        if old.name not in keep:
+            old.unlink()
     (DEST / "fonts.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
     size = sum((DEST / m["file"]).stat().st_size for m in manifest)
     print(f"Đã có {len(manifest)} file font ({size // 1024} KB) ở {DEST.relative_to(ROOT)}; mới tải {total // 1024} KB. Ghi fonts.json.")

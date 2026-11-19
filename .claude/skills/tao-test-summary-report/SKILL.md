@@ -1,6 +1,6 @@
 ---
 name: tao-test-summary-report
-description: Tạo báo cáo tổng kết kiểm thử (test summary report) cho một build, tổng hợp mọi lượt chạy smoke, regression và test case từng tính năng, bug, độ phủ requirement, rủi ro còn lại; ra `test-summary-report.md` và trang HTML không logo, có form cho người test đề xuất và người duyệt build quyết định (Nhận / Không nhận / Nhận có điều kiện), tải file `duyet-build.json` về repo, nút In / Lưu PDF để gửi công ty; mọi mã test case, bug, requirement đều có link. Dùng khi người dùng (thường là tester) nói "tạo test summary report", "làm báo cáo tổng kết kiểm thử", "báo cáo tổng kết build", "tổng hợp kết quả test để gửi công ty", "cập nhật báo cáo tổng kết", "ghi quyết định duyệt build", "người duyệt build", "xuất PDF báo cáo tổng kết". Không dùng để chạy test hoặc ghi lượt chạy (chay-test-tu-dong), viết bug (tao-bug-report), chọn smoke (tao-smoke-test) hay regression (de-xuat-regression).
+description: Tạo báo cáo tổng kết kiểm thử cho một build từ các lượt chạy (smoke, regression, tính năng), bug và độ phủ requirement; trang HTML có form duyệt build và nút In / Lưu PDF. Dùng khi nghe "test summary report", "báo cáo tổng kết kiểm thử", "báo cáo tổng kết build", "ghi quyết định duyệt build". Không dùng để chạy test, viết bug hay chọn smoke/regression.
 ---
 
 # Tạo báo cáo tổng kết kiểm thử (test summary report)
@@ -18,7 +18,7 @@ description: Tạo báo cáo tổng kết kiểm thử (test summary report) cho
 ## Quy trình
 1. **Sinh:** `python -X utf8 scripts/build_report.py summary [--build X] [--author "Tên"]` (máy không có `python` thì `python3`). Ra `testing/<slug>/test-summary-report.md` và `.html`; `build_docs.py` cũng tự sinh lại trang này. Người viết báo cáo mặc định là người chạy lượt mới nhất; người dùng muốn tên khác thì hỏi tên rồi dùng `--author`.
 2. **Đọc lại bản md** và kiểm: đủ 9 mục (thông tin chung, kết luận, kết quả theo tính năng, theo bộ test, bug, độ phủ requirement, rủi ro còn lại, đề xuất tiếp theo, duyệt build); mục 3 có đủ tính năng có test case; số bug khớp thư mục `bug/`.
-3. **Trả lời người dùng:** link trang HTML (không chỉ md), 3–4 số chính (tổng test case, đã có kết luận, Không đạt, bug), chỗ còn thiếu dữ liệu (lượt thiếu kết luận, bug còn "Chưa ghi" trạng thái: hỏi người dùng chốt rồi ghi bằng `dat-trang-thai-bug.py` của skill `lap-ke-hoach-retest`, không tự đoán), và cách điền duyệt build + in PDF (bên dưới). Không dán cả bảng vào chat.
+3. **Trả lời người dùng:** **một link trang tổng** `testing/<slug>/index.html` (kèm điểm nhảy tới đúng phần, xem CLAUDE.md mục "Trả kết quả HTML"), không liệt kê nhiều file HTML, 3–4 số chính (tổng test case, đã có kết luận, Không đạt, bug), chỗ còn thiếu dữ liệu (lượt thiếu kết luận, bug còn "Chưa ghi" trạng thái: hỏi người dùng chốt rồi ghi bằng `dat-trang-thai-bug.py` của skill `lap-ke-hoach-retest`, không tự đoán), và cách điền duyệt build + in PDF (bên dưới). Không dán cả bảng vào chat.
 4. **Sinh lại và kiểm:** `python -X utf8 scripts/build_docs.py --all` rồi `python -X utf8 scripts/kiem-tra-bo-nho.py` (báo lỗi nếu còn trang cũ).
 
 ## Duyệt build (người dùng làm, Claude không điền thay)
@@ -48,7 +48,3 @@ Nút **In / Lưu PDF** trên trang (hộp thoại in của trình duyệt, chọ
 
 ## Tệp trong skill
 - `references/khuon-duyet-build.md`: khuôn `duyet-build.json` và các trường.
-
-**Đã thử (2026-11-19):** gọi skill bằng câu "tạo test summary report cho build mới nhất" và làm đúng các bước: kiểm đầu vào, sinh, đọc đủ 9 mục, ghi quyết định theo khuôn rồi xóa, in PDF bằng Playwright (giả lập in; 8 trang rút còn 6 sau khi ẩn câu hướng dẫn, phụ lục, cột link). Phát hiện: lượt smoke thiếu phần Kết luận và rủi ro nên mục 2 không có dòng của smoke (`add-run` chỉ bắt buộc phần này với bộ tính năng và regression); đã bổ sung cho lượt smoke 2 của dự án thử (viết từ dữ liệu lượt, kiểm bằng `report.validate_conclusion`, thêm thẳng vào `run-results/smoke.json`).
-
-**Chưa thử:** gọi từ phiên mới hoàn toàn (xem có bị nhầm với `chay-test-tu-dong` không); hộp thoại in thật của trình duyệt (mới thử giả lập in); dự án thứ hai có nhiều tính năng; ngày trên ô chọn ngày hiện theo ngôn ngữ trình duyệt (bản PDF thử ra `11/19/2026` do trình duyệt tiếng Anh).

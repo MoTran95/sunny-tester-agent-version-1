@@ -148,10 +148,11 @@ def main(argv=None):
     ap.add_argument("--no-video", action="store_true", help="không quay video (mặc định quay mọi ca, chỉ giữ video của ca Không đạt hoặc Đạt kèm ý phụ sai)")
     ap.add_argument("--headed", action="store_true", help="hiện cửa sổ trình duyệt (gỡ lỗi)")
     ap.add_argument("--record-run", action="store_true",
-                    help="(chỉ với --smoke) ghi kết quả thành một lượt mới và sinh lại smoke-ket-qua.md + .html")
+                    help="(chỉ với --smoke) ghi kết quả thành một lượt mới và sinh lại smoke-ket-qua.md + .html; cần --conclusion-file")
+    ap.add_argument("--conclusion-file", help="file JSON kết luận và rủi ro của lượt (bắt buộc khi --record-run)")
     ap.add_argument("--bug-build", help="số bản lúc bug được tạo (re-test): in so với số phiên bản hệ thống đang chạy trước khi chạy ca")
     ap.add_argument("--build", help="số bản đang test, bắt buộc khi --record-run (mặc định lấy `version` trong auto-data.json)")
-    ap.add_argument("--run-by", default="Sunny Tran", help="người chạy, ghi vào lượt")
+    ap.add_argument("--run-by", default=None, help="người chạy, ghi vào lượt; mặc định lấy từ .nguoi-test")
     args = ap.parse_args(argv)
     if args.reset_failure_counter:
         cfg = config.load(args.project)
@@ -236,8 +237,17 @@ def main(argv=None):
         build = args.build or cfg.test_data.get("version")
         if not build:
             print("Không ghi lượt: thiếu --build (và auto-data.json không có `version`).")
+        elif not args.conclusion_file:
+            print("Chưa ghi lượt: lượt smoke cần phần Kết luận và rủi ro. Viết file JSON kết luận rồi chạy:\n"
+                  f"  python -X utf8 scripts/build_report.py add-run --suite smoke --build {build} "
+                  f"--results-files {f.relative_to(config.ROOT)} --conclusion-file <kết-luận.json>")
         else:
-            run_record = report.add_run(cfg, "smoke", build, [asdict(kq) for kq in result_list], run_by=args.run_by,
-                                          sources=[str(f.relative_to(config.ROOT))])
-            print(f"Đã ghi lượt {run_record['number']} (build {build}): {run_record['verdict']} — xem testing/{cfg.project}/smoke-ket-qua.md và .html")
+            import json as _json
+            try:
+                run_record = report.add_run(cfg, "smoke", build, [asdict(kq) for kq in result_list], run_by=args.run_by or config.default_author(),
+                                              sources=[str(f.relative_to(config.ROOT))],
+                                              conclusion=_json.loads(open(args.conclusion_file, encoding="utf-8").read()))
+                print(f"Đã ghi lượt {run_record['number']} (build {build}): {run_record['verdict']} — xem testing/{cfg.project}/smoke-ket-qua.md và .html")
+            except report.ConclusionError as error:
+                print(error)
     return results.exit_code(result_list)

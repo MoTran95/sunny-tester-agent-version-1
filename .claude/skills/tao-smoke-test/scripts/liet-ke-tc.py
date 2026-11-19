@@ -44,6 +44,28 @@ def doc(path):
     return out
 
 
+def srs_nhap(test_case_file):
+    """SRS của tính năng ghi Tình trạng là nháp hoặc chưa xác nhận (bảng đầu SRS theo khuôn srs/_template.md)."""
+    import json
+    srs = None
+    cfg = test_case_file.parent / "truy-vet-cau-hinh.json"
+    if cfg.exists():
+        try:
+            srs = ROOT / json.loads(cfg.read_text(encoding="utf-8")).get("srs", "")
+        except ValueError:
+            srs = None
+    if not srs or not srs.is_file():
+        srs = ROOT / "srs" / test_case_file.parent.parent.name / (test_case_file.parent.name + ".md")
+    if not srs.is_file():
+        return False
+    for line in srs.read_text(encoding="utf-8").splitlines()[:30]:
+        if line.startswith("| Tình trạng |"):
+            if re.search(r"đã (?:có )?xác nhận", line, re.I) and not re.search(r"chưa (?:có )?xác nhận", line, re.I):
+                return False   # "nháp, đã có xác nhận của BA" không còn là nguồn nháp
+            return bool(re.search(r"nháp|chưa (?:có )?xác nhận", line, re.I))
+    return False
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("du_an")
@@ -58,7 +80,8 @@ def main():
         sys.exit(f"Không thấy testing/{a.du_an}/*/test-case.md")
     for f in files:
         rows = doc(f)
-        nhap = " | NGUỒN NHÁP (requirement chưa BA xác nhận)" if re.search(r"chưa BA xác nhận|\(nháp", f.read_text(encoding="utf-8")[:3000]) else ""
+        nhap = (" | NGUỒN NHÁP (requirement chưa BA xác nhận)"
+                if re.search(r"chưa BA xác nhận|\(nháp", f.read_text(encoding="utf-8")[:3000]) or srs_nhap(f) else "")
         chay = sum(1 for r in rows if r.get("Trạng thái") in ("Đạt", "Không đạt"))
         print(f"== {f.parent.name} ({len(rows)} test case, đã chạy thật {chay}) — {f.relative_to(ROOT).as_posix()}{nhap}")
         for r in rows:

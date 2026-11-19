@@ -11,7 +11,7 @@ Dùng:
                                 [--shots-rel screenshots] [--review <thư_mục_xuất_tranh_ghép>]
 Giao diện chuẩn (để báo cáo trông giống nhau trên mọi máy, mọi dự án):
   - Khối <style id="giao-dien-chuan"></style> trong nguồn được thay bằng assets/giao-dien-chuan.css
-    + font thương hiệu (Hanken Grotesk, Fraunces) cắt theo chữ có trong báo cáo, + logo theo docs/thuong-hieu/brand.json.
+    + font thương hiệu (Be Vietnam Pro) cắt theo chữ có trong báo cáo, + logo theo docs/thuong-hieu/brand.json.
     Nguồn cũ không có khối này: khối <style> đầu tiên bị thay.
   - <div class="diag" data-so-do="so-do/x.json"></div> → vẽ sơ đồ bằng ve-so-do.py theo mẫu đã chốt.
 Quy ước ảnh: tên file bắt đầu bằng số thứ tự 2 chữ số, vd `14-<ma-tai-khoan>-<ten-man-hinh>.jpg` (số = "Ảnh 14" trong báo cáo).

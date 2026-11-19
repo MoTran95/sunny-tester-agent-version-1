@@ -1,6 +1,6 @@
 ---
 name: lap-ke-hoach-retest
-description: Lập kế hoạch re-test (confirmation testing) cho bug đã sửa (bảng 5 cột: bước tái hiện, biến thể, bằng chứng, Đóng/Mở lại), kiểm bằng script, chạy re-test, ghi lịch sử re-test vào bug, tổng hợp nhiều bug và liệt kê chỗ cần cập nhật khi bug đóng. Dùng khi tester nói "verify bug", "test lại bug 01", "kế hoạch re-test", "build đã sửa rồi test lại", "đóng bug được chưa", "ghi lại lần re-test". Không dùng để viết bug mới (tao-bug-report), viết test case (tao-checklist-test-case) hay chọn regression cho cả đợt phát hành (de-xuat-regression).
+description: Lập kế hoạch và chạy re-test bug đã sửa, ghi lịch sử re-test và trạng thái Đóng/Mở lại vào bug, tổng hợp nhiều bug. Dùng khi nghe "test lại bug 01", "verify bug", "build đã sửa rồi test lại", "đóng bug được chưa", "ghi lại lần re-test", "tổng hợp re-test". Không dùng để viết bug mới hay chọn regression cho cả đợt.
 ---
 
 # Lập kế hoạch và chạy re-test bug đã sửa
@@ -58,5 +58,3 @@ Theo `chay-test-tu-dong` (`.claude/skills/chay-test-tu-dong/references/quy-tac-d
 
 ## Khi người dùng chốt bug ĐÓNG
 Chạy `python -X utf8 .claude/skills/lap-ke-hoach-retest/scripts/can-cap-nhat-khi-dong.py testing/<slug>/<tính-năng>/bug/BUG-nnn.md`: liệt kê mọi dòng trong tài liệu dự án còn nhắc bug đó, kèm gợi ý (ca "Đạt kèm lỗi đã biết" ở smoke/regression/test case → đổi lại Đạt; ca **Bị chặn** vì bug này → **chạy lại**; trạng thái Không đạt → kiểm lại). Đọc kết quả cùng người dùng, **việc đổi trạng thái do người dùng chốt**; sửa md nguồn rồi `build_docs.py --all` và `kiem-tra-bo-nho.py`. Ghi trạng thái **Đóng** vào file bug bằng `dat-trang-thai-bug.py` (bước 5b ở trên) để test summary hiện đúng, và nhắc người dùng ghi ở công cụ của team. Gợi ý chỉ là gợi ý (dòng nhắc nhiều bug có thể bị gắn nhầm). Cuối cùng xử lý file kế hoạch và script re-test theo mục "Chỗ lưu và vòng đời kế hoạch".
-
-**Đã thử (2026-11-19):** phiên mới nhận "test lại bug 01" gọi đúng skill này ngay đầu tiên, không nhầm sang `tao-bug-report`/`de-xuat-regression`/`chay-test-tu-dong`; chế độ chỉ lập kế hoạch trong chat chạy được. **Chưa thử:** các câu khác ("verify bug 01 đã sửa chưa", "đóng bug được chưa"); dự án thứ hai (mới dùng Banking Lite, BUG-001); phiên mới làm theo mục "Lượt đầu" vừa viết.

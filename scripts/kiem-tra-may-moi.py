@@ -90,13 +90,20 @@ if os.path.exists(cur):
 else:
     warn("chưa chọn dự án trên máy này", "mở phiên Claude, Claude sẽ hỏi đang làm dự án nào (hoặc tạo dự án mới)")
 
+nt = os.path.join(ROOT, ".nguoi-test")
+if os.path.exists(nt) and io.open(nt, encoding="utf-8").read().strip():
+    ok("tên người test (.nguoi-test): " + io.open(nt, encoding="utf-8").read().strip().splitlines()[0])
+else:
+    warn("chưa có tên người test (.nguoi-test); cột Người viết và lượt chạy sẽ ghi 'Chưa ghi tên'",
+         "tạo file .nguoi-test ở gốc repo, một dòng là tên của bạn (hoặc để Claude hỏi lần đầu)")
+
 print("4. Tài khoản test (.env) của dự án hiện tại")
 env_path, mau_path = os.path.join(ROOT, ".env"), os.path.join(ROOT, ".env.example")
 prefix = slug.upper().replace("-", "_") + "_" if slug else None
 if not prefix:
     warn("bỏ qua vì chưa chọn dự án", "chọn dự án trước")
 elif not os.path.exists(env_path):
-    miss(".env chưa có", "chép .env.example thành .env rồi tự điền mật khẩu (không gửi qua chat)")
+    warn(".env chưa có (chỉ cần khi chạy test tự động)", "khi cần chạy test: chép .env.example thành .env rồi tự điền mật khẩu (không gửi qua chat)")
 else:
     env = read_env(env_path)
     mau = {k: v for k, v in (read_env(mau_path) if os.path.exists(mau_path) else {}).items() if k.startswith(prefix)}
@@ -222,22 +229,28 @@ if sys.platform == "win32":
              "git config --global core.longpaths true (đặt TRƯỚC khi clone ở máy mới)")
 
 print("6. Chạy thử script của skill")
-checks = [
-    ("check-srs.py trên SRS Đăng nhập",
-     [sys.executable, "-X", "utf8", ".claude/skills/srs-from-website/scripts/check-srs.py", "srs/banking-lite/dang-nhap.md"]),
-    ("kiem-tra.py trên bảng soát Đăng nhập",
-     [sys.executable, "-X", "utf8", ".claude/skills/phan-tich-requirement/scripts/kiem-tra.py",
-      "--nguon", "srs/banking-lite/dang-nhap.md",
-      "--bang-soat", "testing/banking-lite/dang-nhap/bang-soat-requirement.md",
-      "--cau-hoi", "testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md"]),
-]
+# Chạy thử trên SRS và bảng soát của DỰ ÁN HIỆN TẠI (không dùng dự án khác làm mẫu)
+checks = []
+srs_dir = os.path.join(ROOT, "srs", slug) if slug else ""
+for name in (sorted(f for f in os.listdir(srs_dir) if f.endswith(".md")) if srs_dir and os.path.isdir(srs_dir) else [])[:3]:
+    feature = name[:-3]
+    srs_rel = f"srs/{slug}/{name}"
+    checks.append((f"check-srs.py trên {srs_rel}",
+                   [sys.executable, "-X", "utf8", ".claude/skills/srs-from-website/scripts/check-srs.py", srs_rel]))
+    bs = f"testing/{slug}/{feature}/bang-soat-requirement.md"
+    ch = f"testing/{slug}/{feature}/cau-hoi-cho-ba.md"
+    if os.path.exists(os.path.join(ROOT, bs)) and os.path.exists(os.path.join(ROOT, ch)):
+        checks.append((f"kiem-tra.py trên {bs}",
+                       [sys.executable, "-X", "utf8", ".claude/skills/phan-tich-requirement/scripts/kiem-tra.py",
+                        "--nguon", srs_rel, "--bang-soat", bs, "--cau-hoi", ch]))
+if not checks:
+    ok("bỏ qua chạy thử: dự án hiện tại chưa có SRS" if slug else "bỏ qua chạy thử: chưa chọn dự án")
 for label, args in checks:
-    if not os.path.exists(os.path.join(ROOT, "srs", "banking-lite", "dang-nhap.md")):
-        ok("bỏ qua chạy thử trên dự án mẫu Banking Lite (repo không còn dự án này)")
-        break
     code, out = run(args)
     last = [l for l in out.strip().splitlines() if l.strip()][-1:] or [""]
-    ok(f"{label}: {last[0]}") if code == 0 else miss(f"{label} chạy lỗi: {last[0][:120]}", "xem lỗi ở trên, thường do thiếu Python/Pillow")
+    ok(f"{label}: {last[0]}") if code == 0 else warn(
+        f"{label}: {last[0][:120]}",
+        "chạy lại lệnh để xem dòng LỖI: lỗi nội dung tài liệu thì sửa tài liệu; báo thiếu thư viện thì làm lại mục cài đặt")
 
 print()
 print(f"Kết quả: {len(thieu)} mục THIẾU, {len(canh_bao)} mục LƯU Ý.")

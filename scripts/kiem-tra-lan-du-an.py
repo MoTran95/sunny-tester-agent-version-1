@@ -4,9 +4,12 @@
     python -X utf8 scripts/kiem-tra-lan-du-an.py
 
 Mỗi dự án có "dấu hiệu nhận ra": tên thư mục (slug), tiền tố `.env`, tên miền của địa chỉ test, tên hiển thị
-(bảng trong memories/project/overview.md), mã tài khoản test (khóa `<TIỀN_TỐ>_<MÃ>_PASSWORD` trong .env.example).
+(bảng trong memories/project/overview.md), mã tài khoản test (khóa `<TIỀN_TỐ>_<MÃ>_PASSWORD` trong .env.example),
+nhãn ô đăng nhập (`login.id_labels` trong auto-config.json), mã tính năng dạng `<MÃ>-S01`, `<MÃ>-R02` (khóa `tien_to`
+trong truy-vet-cau-hinh.json).
 Hai kiểm tra:
-1. Skill dùng chung (`.claude/skills/`) KHÔNG được chứa dấu hiệu của bất kỳ dự án nào (skill phải đúng cho mọi dự án).
+1. Chỗ dùng chung KHÔNG được chứa dấu hiệu của bất kỳ dự án nào: skill (`.claude/skills/`), khuôn dùng chung
+   (`srs/*.md` ở gốc, `testing/_template*`), script tạo dự án (`scripts/tao-du-an.py`).
 2. Thư mục riêng của dự án P (`memories/modules/P`, `srs/P`, `testing/P`, `evidence/P`) KHÔNG được chứa dấu hiệu của dự án Q khác.
 Chỉ đọc file văn bản (md, json, py, txt, csv); bỏ qua HTML sinh tự động. Thoát mã 1 nếu có chỗ lẫn.
 """
@@ -60,6 +63,19 @@ def markers(slug, names, env_example):
         host = urlparse(str(cfg.get("default_url", ""))).hostname or ""
         if host and "<" not in host:
             found.append(("tên miền địa chỉ test", re.compile(re.escape(host), re.I)))
+        for label in (cfg.get("login") or {}).get("id_labels", []):
+            label = str(label).strip()
+            if label and "<" not in label and len(label) >= 6:
+                found.append((f"nhãn ô đăng nhập '{label}'", re.compile(r"(?<![\w])" + re.escape(label) + r"(?![\w])", re.I)))
+    for tv in sorted((os.path.join(ROOT, "testing", slug, d, "truy-vet-cau-hinh.json")
+                      for d in (os.listdir(os.path.join(ROOT, "testing", slug)) if os.path.isdir(os.path.join(ROOT, "testing", slug)) else []))):
+        if os.path.exists(tv):
+            try:
+                code = str(json.loads(read(tv)).get("tien_to", "")).strip()
+            except ValueError:
+                code = ""
+            if code:
+                found.append((f"mã tính năng {code}", re.compile(r"(?<![\w-])" + re.escape(code) + r"-(?:S\d\d|R\d\d|M\d\d|Q\d\d|E\d\d)")))
     if not prefix:
         prefix = slug.upper().replace("-", "_")
     found.append(("tiền tố .env", re.compile(r"(?<![\w])" + re.escape(prefix) + r"_")))
@@ -103,9 +119,16 @@ def main():
     all_markers = {s: markers(s, names, env_example) for s in slugs}
     problems = []
     skills_dir = os.path.join(ROOT, ".claude", "skills")
-    if os.path.isdir(skills_dir):
-        for f, line, label, slug in scan(text_files(skills_dir), all_markers):
-            problems.append(f"skill dùng chung chứa thông tin dự án `{slug}` ({label}): {f}:{line}")
+    shared = list(text_files(skills_dir)) if os.path.isdir(skills_dir) else []
+    srs_root = os.path.join(ROOT, "srs")
+    if os.path.isdir(srs_root):
+        shared += [os.path.join(srs_root, f) for f in os.listdir(srs_root) if f.lower().endswith(TEXT_EXT)]
+    test_root = os.path.join(ROOT, "testing")
+    if os.path.isdir(test_root):
+        shared += [os.path.join(test_root, f) for f in os.listdir(test_root) if f.startswith("_template") and f.lower().endswith(TEXT_EXT)]
+    shared.append(os.path.join(ROOT, "scripts", "tao-du-an.py"))
+    for f, line, label, slug in scan([x for x in shared if os.path.exists(x)], all_markers):
+        problems.append(f"chỗ dùng chung chứa thông tin dự án `{slug}` ({label}): {f}:{line}")
     for p in slugs:
         folders = [os.path.join(ROOT, d, p) for d in ("memories/modules", "srs", "testing", "evidence")]
         files = [f for folder in folders if os.path.isdir(folder) for f in text_files(folder)]

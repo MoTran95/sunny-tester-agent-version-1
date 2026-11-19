@@ -47,7 +47,7 @@ def main():
             "env_prefix": prefix,
             "default_url": url or "<địa chỉ hệ thống đang test, phải có nhãn môi trường thử như staging, dev, test>",
             "login": {
-                "id_labels": ["<nhãn ô tên đăng nhập, ví dụ Mã nhân viên>"],
+                "id_labels": ["<nhãn ô tên đăng nhập, ví dụ Tên đăng nhập>"],
                 "button_labels": ["<nhãn nút đăng nhập, ví dụ Đăng nhập>"],
                 "login_api": "</đường dẫn API đăng nhập, lấy bằng scripts/inspect_page.py>",
                 "session_check_api": "</đường dẫn API kiểm phiên, ví dụ /api/me>",
@@ -139,8 +139,21 @@ _Điền khi có._
 
     io.open(os.path.join(ROOT, ".du-an-hien-tai"), "w", encoding="utf-8", newline="\n").write(slug + "\n")
     print("dự án hiện tại trên máy này:", slug)
-    print(f"\nViệc còn lại: người dùng tự thêm tài khoản vào .env với tiền tố {env_prefix}")
-    print(f"Điền các chỗ <…> trong testing/{slug}/auto-config.json (nhãn ô, API: dùng scripts/inspect_page.py) trước khi chạy test tự động.")
+    # Sinh trang tổng ngay (có sẵn mục Hướng dẫn) để gửi người dùng một link duy nhất
+    import subprocess
+    r = subprocess.run([sys.executable, "-X", "utf8", os.path.join(ROOT, "scripts", "build_docs.py"), "--project", slug],
+                       capture_output=True, text=True, encoding="utf-8", cwd=ROOT)
+    index = os.path.join(ROOT, "testing", slug, "index.html")
+    if os.path.exists(index):
+        print("trang tổng:", os.path.relpath(index, ROOT).replace(os.sep, "/"), "(gửi người dùng link này, kèm #huong-dan)")
+    else:
+        print("CHƯA sinh được trang tổng:", (r.stdout + r.stderr).strip()[-300:])
+
+    print("\nViệc còn lại:")
+    print(f"- Mỗi tính năng có SRS: python -X utf8 scripts/truy-vet.py khoi-tao {slug} <tính-năng> --tien-to <MÃ> --ten \"<Tên tính năng>\" "
+          "(tạo cấu hình truy vết, ghi tên tính năng cho trang HTML và test plan).")
+    print(f"- Chỉ khi chạy test tự động: thêm tài khoản vào .env (tiền tố {env_prefix}) và điền các chỗ <…> trong "
+          f"testing/{slug}/auto-config.json (nhãn ô, API: dùng scripts/inspect_page.py). Viết tài liệu, bug, test plan không cần hai việc này.")
     return 0
 
 

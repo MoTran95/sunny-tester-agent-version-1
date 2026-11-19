@@ -14,10 +14,15 @@ Dùng:
       hiện tại/chỗ còn mở, câu trả lời liên quan, test case và trạng thái truy vết. Dùng thay cho việc
       đọc cả SRS, bảng soát, test-case.md. Mã nhận cả có tiền tố (LOGIN-R06) lẫn TC-14.
 
-Ví dụ: python -X utf8 scripts/truy-vet.py kiem banking-lite dang-nhap
+  python -X utf8 scripts/truy-vet.py khoi-tao <dự-án> <tính-năng> --tien-to <MÃ> --ten "<Tên tính năng>" [--srs <file SRS>]
+      Tạo truy-vet-cau-hinh.json cho tính năng mới (đường dẫn mặc định: srs/<dự-án>/<tính-năng>.md,
+      bảng soát và test-case.md trong testing/<dự-án>/<tính-năng>/) và ghi tên tính năng vào
+      testing/<dự-án>/ten-tinh-nang.json (trang HTML, test plan hiện tên này). Không ghi đè cấu hình có sẵn.
+
+Ví dụ: python -X utf8 scripts/truy-vet.py kiem <dự-án> <tính-năng>
 
 Cần trong thư mục testing/<dự-án>/<tính-năng>/ file truy-vet-cau-hinh.json (đường dẫn, tiền tố mã,
-tên ngắn của từng mã). File trạng thái truy-vet-trang-thai.json do script tự tạo; không sửa tay.
+tên ngắn của từng mã; tạo bằng lệnh khoi-tao). File trạng thái truy-vet-trang-thai.json do script tự tạo; không sửa tay.
 Cách tính "mã đổi": băm nội dung dòng của mã trong SRS (bỏ cột bằng chứng/nhãn) và dòng TL trong
 bảng soát (chỉ cột mã + nội dung trả lời). Đổi link, đổi ngày không làm mã bị tính là đổi.
 """
@@ -254,9 +259,49 @@ def tra(a, cfg, srs_t, bs_t, cur, ba, tcs, ma_st, tc_st, tc_of, problems):
     return 0
 
 
+def _bo_gio(text):
+    """Bỏ phần chỉ đổi theo giờ chạy (dòng 'Lần chạy gần nhất', '(chạy <giờ>)') để biết nội dung có đổi thật không."""
+    text = re.sub(r"(?m)^\| Lần chạy gần nhất \|.*$", "", text)
+    return re.sub(r"\(chạy [^)]*\)", "(chạy)", text)
+
+
+def write_if_changed(path, text, read_only=False):
+    """Chỉ ghi khi nội dung đổi thật (không tính giờ chạy) để không tạo thay đổi giả trong git; read_only thì không ghi."""
+    old = read(path) if path.exists() else None
+    if read_only or (old is not None and _bo_gio(old) == _bo_gio(text)):
+        return False
+    path.write_text(text, encoding="utf-8")
+    return True
+
+
+def khoi_tao(a, d, cfg_p):
+    """Tạo cấu hình truy vết cho một tính năng; ghi tên tính năng vào ten-tinh-nang.json của dự án."""
+    if not a.tien_to or not a.ten:
+        sys.exit("khoi-tao cần --tien-to <MÃ> và --ten \"<Tên tính năng>\"")
+    srs = a.srs or f"srs/{a.du_an}/{a.tinh_nang}.md"
+    if not (ROOT / srs).exists():
+        sys.exit(f"Chưa có SRS {srs}: viết SRS trước (skill srs-from-website) hoặc truyền --srs")
+    if cfg_p.exists():
+        print(f"Đã có {cfg_p.relative_to(ROOT)}: không ghi đè.")
+    else:
+        d.mkdir(parents=True, exist_ok=True)
+        rel_d = f"testing/{a.du_an}/{a.tinh_nang}"
+        cfg = {"ten_tinh_nang": a.ten, "tien_to": a.tien_to.upper(), "srs": srs,
+               "bang_soat": f"{rel_d}/bang-soat-requirement.md", "test_case": f"{rel_d}/test-case.md", "ten_ngan": {}}
+        cfg_p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Đã tạo {cfg_p.relative_to(ROOT)} (tên ngắn từng mã để trống: script tự cắt từ SRS; muốn đẹp hơn thì điền 'ten_ngan').")
+    names_p = ROOT / "testing" / a.du_an / "ten-tinh-nang.json"
+    names = json.loads(read(names_p)) if names_p.exists() and read(names_p).strip() else {}
+    if names.get(a.tinh_nang) != a.ten:
+        names[a.tinh_nang] = a.ten
+        names_p.write_text(json.dumps(names, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Đã ghi tên tính năng vào {names_p.relative_to(ROOT)}: {a.tinh_nang} = {a.ten}")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("lenh", choices=["kiem", "chot", "tra"])
+    ap.add_argument("lenh", choices=["kiem", "chot", "tra", "khoi-tao"])
     ap.add_argument("du_an")
     ap.add_argument("tinh_nang")
     ap.add_argument("--ma", default="", help="với lệnh tra: các mã cần xem, cách nhau dấu phẩy (S02-AC07,R06,TL-11,TC-014)")
@@ -265,13 +310,20 @@ def main():
     ap.add_argument("--doi", default="checklist,test-case")
     ap.add_argument("--ngay", default=None, help="chỉ dùng khi thử: ép ngày, không ghi giờ")
     ap.add_argument("--ngay-ba", default=None, help="ngày BA trả lời (YYYY-MM-DD), nếu biết")
+    ap.add_argument("--chi-doc", action="store_true", help="với lệnh kiem: không ghi file nào, chỉ in (dùng trong kiem-tra-bo-nho.py)")
+    ap.add_argument("--tien-to", help="với lệnh khoi-tao: mã feature trong SRS, ví dụ LOGIN")
+    ap.add_argument("--ten", help="với lệnh khoi-tao: tên tính năng cho người đọc")
+    ap.add_argument("--srs", help="với lệnh khoi-tao: đường dẫn SRS (mặc định srs/<dự-án>/<tính-năng>.md)")
     a = ap.parse_args()
 
     d = ROOT / "testing" / a.du_an / a.tinh_nang
     cfg_p = d / "truy-vet-cau-hinh.json"
     st_p = d / "truy-vet-trang-thai.json"
+    if a.lenh == "khoi-tao":
+        return khoi_tao(a, d, cfg_p)
     if not cfg_p.exists():
-        sys.exit(f"Chưa có {cfg_p}")
+        sys.exit(f"Chưa có {cfg_p.relative_to(ROOT)}. Tạo bằng: python -X utf8 scripts/truy-vet.py khoi-tao "
+                 f"{a.du_an} {a.tinh_nang} --tien-to <MÃ> --ten \"<Tên tính năng>\"")
     cfg = json.loads(read(cfg_p))
     srs_t, bs_t = read(ROOT / cfg["srs"]), read(ROOT / cfg["bang_soat"])
     # Cấu hình không có khóa "checklist" = file gộp (checklist nằm chung bảng test case, từ 2026-11-18)
@@ -287,7 +339,7 @@ def main():
             v["ba_hash"] = h([x for e in ba.get(k, {}).get("ba", []) for x in (e["text"], e["stt"])])
     cur.update(tls)
     for k, v in cur.items():
-        v["ten"] = cfg["ten_ngan"].get(k) or cut(v["nghia"] or v["nguyen_van"], 40)
+        v["ten"] = cfg.get("ten_ngan", {}).get(k) or cut(v["nghia"] or v["nguyen_van"], 40)
     ck = parse_tc(ck_t)
     tcs = parse_tc(tc_t)
 
@@ -446,7 +498,7 @@ def main():
     L.append(f"4. Chạy `python -X utf8 scripts/truy-vet.py chot {a.du_an} {a.tinh_nang} -m \"đã làm gì, vì sao\"`. Script ghi một dòng lịch sử và chốt mốc mới.")
     L.append("5. Muốn xem từng chữ đã đổi, dùng lịch sử git (commit sau mỗi lần chốt).\n")
     L.append("## 3. Bảng tra mã")
-    L.append("Mã trong cột Nguồn của checklist và test case bỏ tiền tố `" + cfg["tien_to"] + "-`. `S01-AC02` là story 1, tình huống 2; `R` là quy tắc; `M` là thông báo; `TL` là câu trả lời của BA (TL-12, TL-13 là điều suy ra, người dùng xác nhận).\n")
+    L.append("Mã trong cột Nguồn của checklist và test case bỏ tiền tố `" + cfg["tien_to"] + "-`. `S01-AC02` là story 1, tình huống 2; `R` là quy tắc; `M` là thông báo; `TL` là câu trả lời của BA.\n")
     L.append("| Mã | Tên ngắn | Nguyên văn (rút gọn) | Mở ở đâu |\n|---|---|---|---|")
     for c in all_codes:
         if c not in cur:
@@ -482,7 +534,7 @@ def main():
         if c in cur:
             tname = cur[c]["ten"]
         else:
-            tname = cfg["ten_ngan"].get(c, "")
+            tname = cfg.get("ten_ngan", {}).get(c, "")
         if not ts:
             tshow = "⚠️ chưa có test case" if (not c.startswith("TL") and c in cur) else "—"
         else:
@@ -509,7 +561,7 @@ def main():
                  f"mới {len(e.get('tc_moi', []))}; sửa {', '.join(e.get('tc_sua', [])) or 0}; bỏ {', '.join(e.get('tc_bo', [])) or 0} |")
     if not state["lich_su"]:
         L.append("| (chưa có) | | | | | | | |")
-    (d / "truy-vet.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    write_if_changed(d / "truy-vet.md", "\n".join(L) + "\n", a.chi_doc)
 
     # ---------- chèn khối lịch sử vào checklist / test case ----------
     for kind, key in (("checklist", "checklist"), ("test-case", "test_case")):
@@ -533,7 +585,7 @@ def main():
             t = re.sub(re.escape(START) + r".*?" + re.escape(END), lambda m: blk, t, flags=re.S)
         else:
             t = t.rstrip("\n") + "\n\n" + blk + "\n"
-        p.write_text(t, encoding="utf-8")
+        write_if_changed(p, t, a.chi_doc)
 
     # ---------- in ra console ----------
     print(f"[{a.lenh}] {a.du_an}/{a.tinh_nang}  {fmt_dt(now_iso, today)}")
@@ -551,13 +603,15 @@ def main():
         print("  Test case đã bỏ khỏi file:", ", ".join(tc_bo))
     for p in problems:
         print("  VẤN ĐỀ:", p)
-    print("  Đã ghi:", (d / "truy-vet.md").relative_to(ROOT))
+    print("  Chỉ đọc, không ghi file." if a.chi_doc else f"  truy-vet.md: {(d / 'truy-vet.md').relative_to(ROOT)}")
     sm = ROOT / "testing" / a.du_an / "smoke-test.md"
     if sm.exists() and f"{a.tinh_nang}/test-case.md#" in read(sm) and (a.lenh == "chot" or ma_doi or any(v != "Còn đúng" for v in tc_st.values())):
         print(f"  Smoke test có dùng test case của tính năng này: chạy `python -X utf8 scripts/truy-vet-smoke.py kiem {a.du_an}` để xem smoke có cần cập nhật không.")
     rg = ROOT / "testing" / a.du_an / "regression-test.md"
     if rg.exists() and f"{a.tinh_nang}/test-case.md#" in read(rg) and (a.lenh == "chot" or ma_doi or any(v != "Còn đúng" for v in tc_st.values())):
         print(f"  Bộ regression có dùng test case của tính năng này: chạy `python -X utf8 scripts/truy-vet-regression.py kiem {a.du_an}` để xem tầng/vùng nào cần chạy lại hoặc cập nhật.")
+    can_xem = sum(1 for v in tc_st.values() if v != "Còn đúng")
+    print(f"  TÓM TẮT: ma_doi={len(ma_doi)} can_xem_lai={can_xem} tc_bo={len(tc_bo)} van_de={len(problems)}")
     bad = ma_doi or chua_co_tc or tc_bo or problems or any(v != "Còn đúng" for v in tc_st.values())
     sys.exit(1 if bad and a.lenh == "kiem" else 0)
 

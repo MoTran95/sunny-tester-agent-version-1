@@ -7,7 +7,7 @@ Người đọc phải nhìn ảnh là thấy ngay lỗi ở đâu. Giữ ảnh 
 - Trong "Đính kèm cần có" mỗi ảnh lỗi ghi một dòng, ví dụ: `- [x] Ảnh đã tô đỏ chỗ DEFAULT (lỗi ở bước 5 của các bước tái hiện): evidence/<dự-án>/…/x-loi.png`. Khuôn chú thích: **"Lỗi ở bước N (việc đang làm): thấy <gì>, đáng ra <đúng là gì>."**
 
 ## Video
-Ca Không đạt chạy tự động có video `.webm` ở `evidence/<dự-án>/chay-test/video/` (không vào git; nhắc người dùng đính tay vào công cụ quản lý bug). Ghi một dòng: `- [x] Video quay lại các bước, TC-xxx: <đường dẫn>`; trang bug hiện trình phát. Chưa có video thì ghi `Cần bổ sung`; không chạy lại ca có thể gây chặn hay đổi dữ liệu chỉ để lấy video.
+Ca Không đạt chạy tự động có video `.webm` ở `evidence/<dự-án>/chay-test/video/` (thư mục này không vào git). **Chép vào thư mục của bug bằng `scripts/luu-bang-chung.py`** (`evidence/<dự-án>/bug/BUG-nnn/`, có vào git) để bug mở ở máy nào cũng có video; script tự ghi dòng `- [x] Video quay lại các bước …: <đường dẫn>` và dòng ảnh lỗi tô đỏ; trang bug hiện trình phát. Chưa có video thì ghi `Cần bổ sung`; không chạy lại ca có thể gây chặn hay đổi dữ liệu chỉ để lấy video.
 
 ## Trang HTML của bug
 Sau khi lưu file md: `python -X utf8 scripts/build_docs.py --all` (hoặc riêng `build_report.py bug-pages`) dựng `BUG-nnn.html` cạnh file md. Trang **tự sinh, không sửa tay**; sửa md rồi chạy lại. Có: huy hiệu mức độ nghiêm trọng/ưu tiên/tần suất; mỗi mục một thẻ có nút **Sao chép** (dán công cụ quản lý bug, chat), "Sao chép tiêu đề", "Sao chép cả bug (md)"; ảnh nhỏ (ảnh `-loi` viền đỏ), video có trình phát; `[Giả định: …]` tô vàng; chế độ sáng/tối; logo theo `docs/thuong-hieu/brand.json`. Báo link trang HTML cho người dùng (không chỉ link md).
