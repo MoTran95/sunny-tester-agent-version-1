@@ -139,7 +139,7 @@ def _section_badge(title, content):
     if not m:
         return ""
     v = m.group(1).strip()
-    cls = "bad" if v.lower() in ("critical", "major", "cao", "nghiêm trọng", "lớn") else "warn" if v.lower() in ("minor", "trung bình", "nhỏ") else "gray"
+    cls = "bad" if v.lower() in ("critical", "major", "cao", "nghiêm trọng", "lớn", "nặng") else "warn" if v.lower() in ("minor", "trung bình", "nhỏ") else "gray"
     return f'<span class="chip">{html.escape(title)}: <span class="badge {cls}">{html.escape(v)}</span></span>'
 
 
