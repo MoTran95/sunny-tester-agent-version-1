@@ -1,6 +1,6 @@
 ---
 name: tao-test-plan
-description: Lập kế hoạch kiểm thử (test plan) cho một dự án/đợt test/bản build theo khuôn 12 mục (mục tiêu, phạm vi trong/ngoài, cách kiểm thử, môi trường và dữ liệu, tiêu chí bắt đầu/kết thúc/tạm dừng, phân công và lịch, quản lý bug, sản phẩm bàn giao, rủi ro, truy vết requirement ↔ test case, phê duyệt). Ra `testing/<dự-án>/test-plan.md` và trang HTML không logo, có nút In / Lưu PDF, viết như tài liệu thật gửi sếp/công ty, CHỈ có kế hoạch, không ghi kết quả test. Tự điền từ tài liệu có sẵn của dự án, chỗ chưa biết (con số tiêu chí, tên người, ngày, công cụ) thì hỏi người test rồi mới điền, không tự đặt. Dùng khi người dùng (thường là tester) nói "lập test plan", "làm kế hoạch kiểm thử", "sếp yêu cầu test plan", "viết test plan cho build X", "cập nhật test plan", "điền thông tin vào test plan", "bản gọn test plan". Không dùng để chạy test (chay-test-tu-dong), viết báo cáo kết quả (tao-test-summary-report), chọn smoke (tao-smoke-test) hay regression (de-xuat-regression).
+description: Lập kế hoạch kiểm thử (test plan, kế hoạch test) cho một dự án, đợt test hoặc bản build theo khuôn 12 mục; ra `testing/<dự-án>/test-plan.md` và HTML không logo, có nút In / Lưu PDF, viết như tài liệu thật gửi sếp, chỉ có kế hoạch, không ghi kết quả test. Số liệu tự đọc từ tài liệu dự án; chỗ chưa biết (ngưỡng tiêu chí, tên người, ngày, công cụ) hỏi người test qua phiếu thông tin rồi mới điền, không tự đặt. Dùng khi nghe "lập test plan", "làm kế hoạch kiểm thử", "sếp yêu cầu test plan", "cập nhật test plan", "điền thông tin test plan", "bản gọn test plan", "xuất PDF test plan". Không dùng để chạy test, viết báo cáo kết quả (tao-test-summary-report), chọn smoke hay regression.
 ---
 
 # Lập kế hoạch kiểm thử (test plan)
@@ -11,39 +11,47 @@ description: Lập kế hoạch kiểm thử (test plan) cho một dự án/đ�
 Đọc `.du-an-hien-tai` (chưa có thì làm theo `CLAUDE.md` bước 0). Chỉ đọc `memories/modules/<slug>/`, `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/` của dự án đó. Skill này không chứa thông tin dự án nào.
 
 ## Quy tắc người dùng đã chốt (2026-11-19)
-1. **Không ghi kết quả test**: không số case đã chạy/Đạt/Không đạt, không mã bug đã ghi, không "lượt chạy", không cột "Hiện trạng", không "Tình trạng thực hiện". Rủi ro viết dạng "có thể", dựa trên requirement và khám phá. Script kiểm bắt các mẫu này.
-2. **Viết như bản thật** gửi được ngay: không khung "bản nháp", không nhãn "Giả định H…", không "soạn bằng Claude". Điều người lập tự quyết (phạm vi, thứ tự) viết thẳng; điều đang coi là đúng gom ở mục 9.2 "Giả định".
-3. **Không logo**, không thanh điều hướng nội bộ, không dòng "Trang tự sinh…" (tên file `test-plan*.md` tự dùng kiểu gửi ra ngoài trong `docs_pages.py`, `clean=True`). Có nút In / Lưu PDF.
-4. **Không tự đặt con số hay tên người**: ngưỡng tiêu chí kết thúc (số bug còn mở, tỉ lệ Đạt, số tầng regression), tên BA/Dev/người duyệt, ngày bắt đầu và hạn, mã kế hoạch, số bản trình duyệt, công cụ bug. Chưa có thì ghi `……………` rồi hỏi người test (bước 4). Con số nào đã có sẵn ở dự án (trần nhập sai, thời gian chặn, thời hạn phiên) thì lấy từ `memories/modules/<slug>/` và `testing/<slug>/auto-config.json`.
-5. Điều người test quyết "tùy người quyết theo nguồn lực/thời gian" thì ghi đúng như vậy kèm nơi ghi lại (báo cáo tổng kết ghi phần đã chạy, chưa chạy, lý do), không ép thành con số.
-6. **Mọi tài liệu nhắc tới có link bấm được** (requirement, test case, smoke, regression, truy vết). File kết quả chưa có thì ghi tên trong dấu `…` không link.
-7. Văn phong: tiếng Việt thường, câu đủ ý, thuật ngữ IT đúng; không Given/When/Then, không mã nội bộ làm nội dung chính. Mật khẩu không ghi vào tài liệu.
+1. **Không ghi kết quả test**: không số case đã chạy/Đạt/Không đạt, không mã bug đã ghi, không "lượt chạy", không cột "Hiện trạng". Rủi ro viết dạng "có thể", dựa trên requirement và khám phá, **không rút từ lượt chạy** (kể cả đổi chữ thành "có thể"). Script kiểm bắt các mẫu này.
+2. **Viết như bản thật** gửi được ngay: không khung "bản nháp", không nhãn "Giả định H…". Điều người lập tự quyết viết thẳng; điều đang coi là đúng gom ở mục 9.2.
+3. **Không logo**, không thanh điều hướng nội bộ, không dòng "Trang tự sinh…" (file `test-plan*.md` tự dùng kiểu gửi ra ngoài: `docs_pages.py` `clean=True`). Có nút In / Lưu PDF; ô chờ điền `……………` được tô để dễ thấy.
+4. **Không tự đặt con số hay tên người**: ngưỡng tiêu chí kết thúc, tên BA/Dev/người duyệt, ngày, mã kế hoạch, số bản trình duyệt, công cụ bug. Chưa có thì để ô trống rồi hỏi người test. Số đã có sẵn ở dự án (trần nhập sai, thời gian chặn, thời hạn phiên) lấy từ `memories/modules/<slug>/` và `testing/<slug>/auto-config.json`.
+5. Điều người test quyết "tùy người quyết theo nguồn lực/thời gian" thì ghi đúng như vậy kèm nơi ghi lại (báo cáo tổng kết), không ép thành con số.
+6. **Mọi tài liệu nhắc tới có link bấm được**; file kết quả chưa có thì ghi tên trong dấu `…` không link.
+7. Văn phong: tiếng Việt thường, câu đủ ý, không Given/When/Then, không mã nội bộ làm nội dung chính. Mật khẩu không ghi vào tài liệu.
+
+## Cách làm việc: một nguồn, ba lớp
+`test-plan.md` là file **sinh ra**, không sửa tay. Số liệu và câu trả lời không gõ vào file chữ:
+- `testing/<slug>/test-plan-nguon.txt`: phần chữ do Claude viết (khuôn `assets/mau-test-plan-nguon.txt`), có các dấu `{{…}}` (danh sách ở đầu `scripts/sinh-test-plan.py`).
+- Số liệu (số test case, mã requirement, bộ smoke/regression, độ phủ, mã chưa có case, link SRS) do **script đọc từ tài liệu dự án** mỗi lần sinh. `kiem` báo lệch nếu số đổi hoặc ai sửa tay.
+- `testing/<slug>/test-plan-thong-tin.json`: câu trả lời của người test (khóa → chữ; khóa ở `references/khoa-thong-tin.json`). Thiếu khóa thì ô để `……………`. Cập nhật test plan không mất câu trả lời.
 
 ## Quy trình
-1. **Xác định đợt test:** hệ thống, bản build, tính năng trong phạm vi, ai yêu cầu. Tra `memories/` và `testing/<slug>/` trước; chỉ hỏi cái thiếu (bước 4). Đợt/bản build mới giữ bản cũ: đặt `test-plan-<build>.md`; lần đầu dùng `test-plan.md`.
-2. **Thu thập từ repo** (bảng "Nguồn điền từng mục" ở `references/thong-tin-can-hoi.md`): requirement/SRS, bảng soát, test case, smoke, regression, truy vết, `memories/modules/<slug>/`, `auto-config.json`. **Không đọc file kết quả** (`*-ket-qua.md`, `run-results/`, bug, `test-summary-report.md`) để điền kế hoạch; chỉ liệt kê tên chúng ở mục 8 (sản phẩm bàn giao).
-3. **Viết:** sao khuôn `testing/_template-test-plan.md` thành `testing/<slug>/test-plan.md`, bỏ khối chú thích đầu và chữ nghiêng hướng dẫn, điền theo nguồn. Chưa có smoke/regression/test case thì ghi "Chưa có" ở phạm vi và rủi ro, hoặc đề nghị người dùng làm trước bằng skill tương ứng; không bịa.
-4. **Hỏi người test các chỗ còn trống.** Chạy `python -X utf8 .claude/skills/tao-test-plan/scripts/kiem-tra-test-plan.py <slug>` (máy không có `python` thì `python3`): mục "CÒN TRỐNG" là danh sách ô chờ điền. Hỏi theo nhóm trong `references/thong-tin-can-hoi.md`: mỗi câu đủ ngữ cảnh (đang ở mục nào, vì sao cần), có lựa chọn khi có cách làm phổ biến, không hỏi lại điều đã có trong chat/memory. **Bẫy đã gặp:** khi cần người dùng gõ số hoặc tên, hỏi bằng tin nhắn thường trong chat; hộp hỏi có nút chọn (`AskUserQuestion`) không chuyển phần chữ gõ ở ô "Other" về cho Claude. Hộp hỏi chỉ dùng cho lựa chọn có sẵn. Dừng chờ trả lời; câu nào chưa trả lời thì để `……………`.
-5. **Điền câu trả lời** đúng nguyên văn người dùng (không làm tròn, không thêm). Điều người dùng nêu thêm có tính quy tắc → ghi vào `memories/modules/<slug>/` hoặc skill.
-6. **Sinh và kiểm:** `python -X utf8 scripts/build_docs.py --all` (sinh trang HTML), kiểm lại bằng script ở bước 4 (phải 0 LỖI), rồi `python -X utf8 scripts/kiem-tra-bo-nho.py`.
-7. **Trả lời người dùng:** link trang HTML, phần nào đã điền từ tài liệu, danh sách ô còn trống (nếu còn), nêu rõ mục 2.2 (ngoài phạm vi) và mục 9 (rủi ro) là chỗ sếp đọc kỹ nhất. Không dán cả bảng vào chat. Commit chỉ khi người dùng nhờ.
+1. **Xác định đợt test:** hệ thống, bản build, tính năng trong phạm vi, ai yêu cầu. Tra `memories/` và `testing/<slug>/` trước, chỉ hỏi cái thiếu. Đợt/bản build mới giữ bản cũ: thêm `--ten test-plan-<build>` vào mọi lệnh `sinh-test-plan.py` / `kiem-tra-test-plan.py --file test-plan-<build>.md` (nguồn, JSON, md, phiếu đều đặt theo tên đó); lần đầu dùng tên mặc định `test-plan`.
+2. **Thu thập từ repo** (bảng "Nguồn điền từng mục" ở `references/thong-tin-can-hoi.md`). **Ranh giới dữ liệu:** được đọc phần *kế hoạch* của tài liệu: requirement/SRS, bảng soát, câu hỏi BA, test case (mã, tình huống, ưu tiên, kỹ thuật, cờ), bảng bộ smoke và bộ regression, truy vết, memory dự án. **Không đọc phần kết quả:** cột `Kết quả thực tế`/`Trạng thái`/`Tự động hóa` của test case, mục `Lượt chạy` của smoke/regression, `*-ket-qua.md`, `run-results/`, bug, `test-summary-report.md`; chỉ ghi tên các file kết quả ở mục 8. Số test case lấy từ số dòng, không từ trạng thái.
+3. **Viết nguồn:** chạy `sinh-test-plan.py khoi-tao <slug>` (tạo `testing/<slug>/test-plan-nguon.txt` từ `assets/mau-test-plan-nguon.txt`; **nếu đã có thì KHÔNG ghi đè**: sửa trực tiếp file đang có), rồi thay các chỗ `<…>` bằng nội dung từ tài liệu dự án, bỏ khối chú thích đầu và dòng chữ nghiêng hướng dẫn. Tên tính năng/thư mục trong `{{tc:…}}` lấy từ thư mục có `test-case.md`. Chưa có smoke/regression/test case thì ghi "Chưa có" ở phạm vi và rủi ro, hoặc đề nghị làm trước bằng skill tương ứng; không bịa.
+4. **Sinh lần đầu:** `python -X utf8 .claude/skills/tao-test-plan/scripts/sinh-test-plan.py sinh <slug>` (máy không có `python` thì `python3`). Rồi `python -X utf8 scripts/build_docs.py --all` để ra HTML.
+5. **Hỏi người test các chỗ còn trống:** tạo phiếu `… sinh-test-plan.py phieu <slug>` → `testing/<slug>/test-plan-phieu.html` (form các ô còn thiếu, có nút Tải file `test-plan-thong-tin.json`); người test điền một lần, đặt file vào `testing/<slug>/`. Nếu họ trả lời ngay trong chat thì ghi bằng `sinh-test-plan.py dat <slug> khóa=giá trị …` (gộp vào JSON, kiểm khóa, in "cũ -> mới"); ghi **nguyên văn** điều họ nói, không làm tròn hay thêm; câu trả lời mơ hồ thì hỏi lại; ghi xong **đọc lại từng ô cho họ xác nhận** trước khi `sinh`. Đặt ô trống lại bằng `khóa=` (giá trị rỗng). Hỏi theo `references/thong-tin-can-hoi.md` (đủ ngữ cảnh, không hỏi lại điều đã có). **Bẫy:** hộp chọn `AskUserQuestion` không chuyển chữ gõ ở ô "Other" về Claude, nên số/tên hỏi bằng phiếu hoặc tin nhắn thường; hộp chọn chỉ cho lựa chọn có sẵn, và **không đưa con số làm lựa chọn cho ngưỡng**.
+6. **Điền và kiểm:** `sinh-test-plan.py sinh <slug>` lại, `build_docs.py --all`, rồi `python -X utf8 .claude/skills/tao-test-plan/scripts/kiem-tra-test-plan.py <slug>` (phải 0 LỖI; mục "CÒN TRỐNG" là chỗ người test chưa cung cấp, không phải lỗi), rồi `python -X utf8 scripts/kiem-tra-bo-nho.py`.
+7. **Mục 9 gồm 9.1 (rủi ro, phụ thuộc: bảng) và 9.2 (giả định: gạch đầu dòng)**; khuôn nguồn đã có sẵn cả hai, không gộp giả định vào bảng 9.1.
+8. **Trả lời người dùng:** link trang HTML, phần đã điền từ tài liệu, danh sách ô còn trống, nói rõ mục 2.2 (ngoài phạm vi) và mục 9 (rủi ro) là chỗ sếp đọc kỹ nhất. Không dán cả bảng. Commit chỉ khi người dùng nhờ.
 
-## Bản gọn (1–2 trang)
-Khi sếp cần xem nhanh: giữ bảng đầu và mục 1, 2, 3, 5, 9, 10; bỏ phần còn lại. Lưu `test-plan-gon.md` (kiểm bằng `--file test-plan-gon.md` sẽ báo thiếu mục: bình thường, chỉ để đối chiếu). **Chưa thử.**
-
-## Cập nhật test plan
-Requirement/test case đổi hoặc build mới: sửa tại chỗ, thêm dòng vào mục 12 (ngày, người sửa, nội dung, lý do), cập nhật "Cập nhật lần cuối", chạy lại `scripts/truy-vet.py kiem <slug> <tính-năng>` để làm lại bảng truy vết mục 10, rồi bước 6.
+## Việc khác
+- **Bản gọn (1–2 trang):** `sinh-test-plan.py gon <slug>` → `test-plan-gon.md` (bảng đầu + mục 1, 2, 3, 5, 9, 10; giữ số mục của bản đầy đủ). Kiểm: `kiem-tra-test-plan.py <slug> --file test-plan-gon.md`.
+- **PDF:** `python -X utf8 .claude/skills/tao-test-plan/scripts/xuat-pdf.py <slug>` → `testing/<slug>/test-plan.pdf` bằng Chrome/Edge có sẵn (không cần cài thêm; link tương đối trong PDF không bấm được ở máy khác). Không có trình duyệt thì mở HTML bấm In / Lưu PDF. Chưa có xuất Word.
+- **Cập nhật:** requirement/test case đổi hoặc build mới: chạy `scripts/truy-vet.py kiem <slug> <tính-năng>`, sửa nguồn/JSON, thêm dòng ở mục 12 (ngày, người sửa, nội dung, lý do) và đổi "Cập nhật lần cuối", rồi `sinh`, `build_docs.py --all`, kiểm.
+- **Dự án chưa có nguồn** (test plan viết tay từ khuôn `testing/_template-test-plan.md`): script kiểm báo "LƯU Ý chưa có test-plan-nguon.txt"; nên chuyển sang nguồn.
 
 ## Tự kiểm trước khi trả lời
-- [ ] Script kiểm báo 0 LỖI; trang HTML không logo.
-- [ ] Không có kết quả test nào (số case, bug, lượt chạy).
+- [ ] `kiem-tra-test-plan.py` 0 LỖI (gồm "khớp bản sinh"); trang HTML không logo.
+- [ ] Không có kết quả test nào (số case chạy, bug, lượt chạy); rủi ro không rút từ lượt chạy.
 - [ ] Không con số, tên người, ngày nào do Claude tự đặt; chỗ chưa biết còn `……………`.
-- [ ] Mục 2.2 (ngoài phạm vi) có lý do và rủi ro; mục 9 có cột "Cách giảm / ai quyết".
+- [ ] Mục 2.2 có lý do và rủi ro; mục 9 có cột "Cách giảm / ai quyết".
 - [ ] Mã requirement/test case/tài liệu đều có link, không link gãy.
 
 ## Tệp trong skill
-- `references/thong-tin-can-hoi.md`: nguồn điền từng mục, danh sách thông tin phải hỏi người test, cách đặt câu hỏi.
-- `scripts/kiem-tra-test-plan.py`: kiểm đúng khuôn, không kết quả, không nhãn nháp, link, HTML; in danh sách chỗ còn trống.
-- Khuôn: `testing/_template-test-plan.md` (dùng chung mọi dự án, tự sinh HTML).
+- `assets/mau-test-plan-nguon.txt`: khuôn nguồn (có dấu `{{…}}`).
+- `references/thong-tin-can-hoi.md`: nguồn điền từng mục, thông tin phải hỏi người test, cách đặt câu hỏi. `references/khoa-thong-tin.json`: khóa, nhóm, câu hỏi của phiếu.
+- `scripts/sinh-test-plan.py` (`khoi-tao` / `dat` / `sinh` / `kiem` / `gon` / `phieu`), `scripts/kiem-tra-test-plan.py`, `scripts/xuat-pdf.py`.
+- Khuôn đọc cho người: `testing/_template-test-plan.md` (dùng chung, tự sinh HTML).
 
-**Đã thử (2026-11-19):** lập `testing/<dự-án>/test-plan.md` từ khuôn (dự án đầu tiên ghi ở `memories/MEMORY.md`), bỏ kết quả test theo lời người dùng, kiểm bằng script (0 lỗi; thử cố tình thêm 7 lỗi bắt đủ). **Chưa thử:** gọi từ phiên mới hoàn toàn (xem có bị nhầm với `tao-test-summary-report`/`tao-smoke-test` không); dự án thứ hai; bản gọn; in PDF thật.
+**Đã thử (2026-11-19):** Banking Lite chạy trọn quy trình (nguồn → sinh → kiểm; sửa tay `test-plan.md` thì `kiem` báo lệch; số smoke/regression/truy vết khớp tay); dự án thứ hai giả (khuôn → sinh, bản gọn 6 mục, phiếu 16 ô, câu trả lời vào đúng ô); PDF bằng Chrome (11 trang). **Chưa thử:** gọi từ phiên mới hoàn toàn; hộp thoại in thật; dự án thật thứ hai; xuất Word.

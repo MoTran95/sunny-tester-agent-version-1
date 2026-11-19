@@ -1,5 +1,6 @@
 <!--
 KHUÔN TEST PLAN (kế hoạch kiểm thử) — bản đầy đủ, dùng chung mọi dự án (2026-11-19).
+- Khuôn này để NGƯỜI ĐỌC hiểu cấu trúc. Khi dùng thật, theo skill tao-test-plan: viết `testing/<dự-án>/test-plan-nguon.txt` từ `.claude/skills/tao-test-plan/assets/mau-test-plan-nguon.txt`, rồi `sinh-test-plan.py sinh` ra test-plan.md (số liệu tự đọc từ tài liệu dự án, câu trả lời người test lưu ở test-plan-thong-tin.json).
 - Mỗi dự án/mỗi đợt test một file: testing/<dự-án>/test-plan.md (đợt mới → sao khuôn này, đặt tên test-plan-<bản-build>.md nếu cần giữ nhiều bản).
 - Viết TRƯỚC khi test (kế hoạch). **Test plan KHÔNG ghi kết quả test** (số case đã chạy/đạt/không đạt, bug đã thấy, trạng thái lượt chạy): người dùng dặn 2026-11-19 "test plan là phần chưa test". Kết quả chỉ nằm ở test-summary-report.md và các file kết quả. Rủi ro viết dạng "có thể", dựa trên requirement/khám phá, không dựa trên lượt chạy. Kết quả sau khi test nằm ở test-summary-report.md; hai file dùng cùng khung nên đọc cạnh nhau là khớp.
 - Chỉ ghi điều có nguồn: tài liệu của dự án, lời sếp/BA, hoặc điều đã thấy trên hệ thống. Chưa biết → ghi "Chưa rõ" và đưa vào mục 9 hoặc hỏi người test, KHÔNG đoán.
@@ -130,14 +131,23 @@ KHUÔN TEST PLAN (kế hoạch kiểm thử) — bản đầy đủ, dùng chung
 | Bug report | Trong lúc test | <link> |
 | Báo cáo tổng kết kiểm thử (có quyết định nhận build) | Cuối đợt | <link> |
 
-## 9. Rủi ro, giả định, phụ thuộc, câu hỏi còn mở
+## 9. Rủi ro, giả định, phụ thuộc
 
-| Loại | Nội dung | Ảnh hưởng đến đợt test | Cách giảm / ai quyết | Nhãn nguồn |
-|---|---|---|---|---|
-| Rủi ro | <ví dụ requirement chưa BA xác nhận> | <test case có thể phải viết lại> | <hỏi BA ngày…> | Có trong tài liệu / Suy luận / Giả định |
-| Giả định | <điều đang coi là đúng khi lập kế hoạch> | | | |
-| Phụ thuộc | <chờ Dev sửa bug, chờ release note, môi trường dùng chung…> | | | |
-| Câu hỏi còn mở | <câu hỏi cho sếp / BA / Dev> | | | |
+*Rủi ro viết dạng "có thể", dựa trên requirement và khám phá, KHÔNG rút từ lượt chạy.*
+
+**9.1. Rủi ro và phụ thuộc**
+
+| Loại | Nội dung | Ảnh hưởng | Cách giảm / ai quyết |
+|---|---|---|---|
+| Rủi ro | <ví dụ requirement chưa BA xác nhận> | <test case có thể phải viết lại> | <hỏi BA trước khi chạy> |
+| Rủi ro | <ví dụ môi trường dùng chung dữ liệu; chưa có release note; chỉ một trình duyệt> | <ảnh hưởng> | <cách giảm> |
+| Phụ thuộc | <chờ Dev trả lời câu hỏi, chờ release note…> | <ảnh hưởng> | <ai quyết> |
+
+**9.2. Giả định**
+*Mỗi gạch một điều đang coi là đúng khi lập kế hoạch; điều nào sai thì kế hoạch phải sửa.*
+- <ví dụ: chỉ test chức năng>
+- <ví dụ: môi trường test phản ánh đúng bản build cần test>
+- <ví dụ: tích hợp bên ngoài chưa thiết lập nên không thuộc đợt test này>
 
 ## 10. Truy vết requirement ↔ test case
 

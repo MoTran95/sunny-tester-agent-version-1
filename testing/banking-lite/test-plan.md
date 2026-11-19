@@ -43,14 +43,14 @@
 | Thẩm định chính thức lúc Gửi thẩm định | Chưa có test case; chỉ kiểm bước xem trước ở bước Tài chính | Kết quả xem trước và kết quả chính thức có thể lệch nhau mà không ai thấy |
 | Bảo mật, hiệu năng, tải | Đợt này chỉ test chức năng | Không đánh giá được |
 | Trình duyệt khác Chrome, thiết bị di động | Chỉ dùng Chrome | Lỗi riêng từng trình duyệt hoặc thiết bị không được phát hiện |
-| 7 mã requirement Khuyến nghị chưa có test case: M09, M10, R12, S03-AC11, S04-AC01, S04-AC04, S05-AC02 | Chưa viết case (xem [truy vết](khuyen-nghi-ltv-dsr/truy-vet.md)) | Phần định giá, CIC và vài quy tắc của Khuyến nghị không được kiểm |
+| Các mã requirement chưa có test case (7 mã, danh sách ở mục 10) | Chưa viết case (xem [truy vết](khuyen-nghi-ltv-dsr/truy-vet.md)) | Phần định giá, CIC và vài quy tắc của Khuyến nghị không được kiểm |
 
 ## 3. Cách kiểm thử
 
 | Lớp test | Để làm gì | Chạy khi nào | Cách làm | Bộ case |
 |---|---|---|---|---|
 | Smoke | Build có đủ ổn để test sâu không | Ngay khi nhận build | Tự động (Playwright), có thể làm tay | [smoke-test.md](smoke-test.md): 7 case, khoảng 12,5 phút |
-| Test từng tính năng | Từng tính năng đúng theo requirement | Sau khi smoke Đạt | Tự động phần lớn; ca có thể làm khóa tài khoản do người kiểm thử làm tay | Đăng nhập 43 case, Khuyến nghị 38 case |
+| Test từng tính năng | Từng tính năng đúng theo requirement | Sau khi smoke Đạt | Tự động phần lớn; ca có thể làm khóa tài khoản do người kiểm thử làm tay | 43 case: [test-case.md](dang-nhap/test-case.md) (Đăng nhập); 38 case: [test-case.md](khuyen-nghi-ltv-dsr/test-case.md) (Khuyến nghị) |
 | Regression | Chỗ đã đúng còn đúng sau khi build đổi | Khi build có thay đổi | Tự động; vùng chặn đăng nhập làm tay | [regression-test.md](regression-test.md): Tầng 1 (13 case lõi), Tầng 2 (13 vùng, 68 case), Tầng 3 (toàn bộ 81 case). Người kiểm thử duyệt việc chọn tầng trước khi chạy |
 | Re-test | Bug đã sửa có hết thật không | Khi Dev báo đã sửa | Làm theo kế hoạch re-test của từng bug | Kế hoạch lập khi có bug cần re-test |
 
@@ -72,7 +72,7 @@
 
   Mật khẩu lưu riêng trong kho tài khoản test của dự án, không ghi vào tài liệu.
 - **Dữ liệu cần chuẩn bị:** mỗi ca Khuyến nghị cần một hồ sơ nháp đúng điều kiện trước. Hồ sơ nháp tạo bằng script `testing/banking-lite/auto/create_draft_application.py`. Ca có bấm `Lưu` (ví dụ TC-014, TC-022) làm hồ sơ không còn ở trạng thái đầu, nên mỗi ca cần một hồ sơ nháp riêng và phải tạo lại trước mỗi lượt chạy. Tạo hồ sơ là tạo dữ liệu thật trên staging, chỉ làm khi người kiểm thử đồng ý.
-- **Chỗ dễ khóa hệ thống:** theo requirement, tài khoản bị chặn 5 phút khi nhập sai nhiều lần. Trần nhập sai cho script là 9 lần cộng dồn. Để tránh chặn nhầm, các ca nhập sai xả bộ đếm bằng một lần đăng nhập đúng xen kẽ. Tám ca mà chính bước làm sẽ chặn hệ thống (TC-015…020, 022, 037) do người kiểm thử tự làm tay.
+- **Chỗ dễ khóa hệ thống:** theo requirement, tài khoản bị chặn 5 phút khi nhập sai nhiều lần. Trần nhập sai cho script là 9 lần cộng dồn. Để tránh chặn nhầm, các ca nhập sai xả bộ đếm bằng một lần đăng nhập đúng xen kẽ. Các ca mà chính bước làm sẽ chặn hệ thống (TC-015…020, 022, 037) do người kiểm thử tự làm tay.
 
 ## 5. Tiêu chí bắt đầu, kết thúc, tạm dừng
 
@@ -112,13 +112,13 @@
 
 | Việc | Người làm | Bắt đầu | Hạn | Thời gian chạy | Ghi chú |
 |---|---|---|---|---|---|
-| Soát requirement, hỏi BA | Sunny Tran | …… | …… | — | Khuyến nghị cần BA xác nhận requirement nháp |
-| Viết, cập nhật test case | Sunny Tran | …… | …… | — | 7 mã requirement Khuyến nghị chưa có case |
-| Chạy smoke | Sunny Tran | …… | …… | Khoảng 12,5 phút | Gồm 2 phút chuẩn bị hồ sơ nháp |
-| Chạy test từng tính năng | Sunny Tran | …… | …… | TC-042, TC-043 mỗi ca khoảng 11 phút | 8 ca làm tay |
-| Chạy regression | Sunny Tran | …… | …… | — | Theo tầng đã duyệt |
-| Re-test bug đã sửa | Sunny Tran | …… | …… | — | Khi Dev giao bản sửa |
-| Lập báo cáo tổng kết, gửi duyệt build | Sunny Tran | …… | …… | — | Báo cáo tự sinh; người duyệt điền form quyết định |
+| Soát requirement, hỏi BA | Sunny Tran | …………… | …………… | — | Khuyến nghị cần BA xác nhận requirement nháp |
+| Viết, cập nhật test case | Sunny Tran | …………… | …………… | — | Các mã requirement chưa có case ở mục 10 |
+| Chạy smoke | Sunny Tran | …………… | …………… | Khoảng 12,5 phút | Gồm 2 phút chuẩn bị hồ sơ nháp |
+| Chạy test từng tính năng | Sunny Tran | …………… | …………… | TC-042, TC-043 mỗi ca khoảng 11 phút | Các ca làm tay ở mục 4 |
+| Chạy regression | Sunny Tran | …………… | …………… | — | Theo tầng đã duyệt |
+| Re-test bug đã sửa | Sunny Tran | …………… | …………… | — | Khi Dev giao bản sửa |
+| Lập báo cáo tổng kết, gửi duyệt build | Sunny Tran | …………… | …………… | — | Báo cáo tự sinh; người duyệt điền form quyết định |
 
 **Người liên hệ:** BA: …………… · Dev: …………… · Người duyệt build: ……………
 
@@ -147,8 +147,8 @@
 | Loại | Nội dung | Ảnh hưởng | Cách giảm / ai quyết |
 |---|---|---|---|
 | Rủi ro | Requirement Khuyến nghị là bản nháp, BA chưa xác nhận | 38 case Khuyến nghị có thể phải sửa; case Không đạt cần kiểm lại case trước khi kết luận | Gửi BA xác nhận trước khi chạy |
-| Rủi ro | Chưa biết hệ thống đếm lần nhập sai đúng như BA quy định chưa (đếm theo tài khoản, đăng nhập đúng đưa về 0) | Chạy ca nhập sai có thể chặn tài khoản test 5 phút | Xả bộ đếm xen kẽ; làm tay ca chặn đăng nhập |
-| Rủi ro | Phần thời hạn phiên 10 phút (TC-042, TC-043) có thể chưa được code làm | Hai ca này chưa kiểm được | Hỏi Dev trước khi chạy |
+| Rủi ro | Các ca nhập sai nhiều lần có thể kích hoạt chặn đăng nhập 5 phút | Tài khoản test bị chặn, các ca sau không chạy được | Xả bộ đếm bằng đăng nhập đúng xen kẽ; làm tay ca chặn đăng nhập |
+| Rủi ro | Thời hạn phiên 10 phút (TC-042, TC-043): mỗi ca phải chờ khoảng 11 phút và chưa xác nhận với Dev phần này đã triển khai | Mất thời gian chờ mà ca có thể không chạy được nếu phần này chưa có | Hỏi Dev trước khi chạy |
 | Rủi ro | Staging dùng chung dữ liệu; hồ sơ nháp có thể bị dùng hết hoặc bị người khác đổi | Ca Khuyến nghị cho kết quả sai do điều kiện trước | Tạo hồ sơ nháp mới trước mỗi lượt, khi người kiểm thử đồng ý |
 | Rủi ro | Mỗi ca chỉ chạy 1–2 lần, chỉ trên Chrome | Không loại được lỗi chập chờn hoặc lỗi riêng từng trình duyệt | Chạy lặp ca nghi ngờ; thêm trình duyệt khi cần |
 | Rủi ro | Chưa có release note | Regression chọn theo vùng chức năng, không theo thay đổi thật của build | Xin release note từ Dev |
@@ -165,16 +165,16 @@
 | Tính năng | Requirement | Test case | Chưa có test case | Smoke | Regression Tầng 1 | Truy vết |
 |---|---|---|---|---|---|---|
 | Đăng nhập | 40 mã, 14 câu trả lời của BA | 43 | Không có | 3 ca (TC-001, 002, 005) | 7 ca (TC-001…005, 023, 026) | [mở](dang-nhap/truy-vet.md) |
-| Khuyến nghị LTV/DSR | 61 mã, 2 câu trả lời | 38 | 7 mã: [M09](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L154), [M10](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L155), [R12](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L141), [S03-AC11](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L93), [S04-AC01](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L102), [S04-AC04](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L105), [S05-AC02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L115) | 4 ca (TC-002, 009, 022, 023) | 6 ca (TC-001, 002, 009, 014, 022, 023) | [mở](khuyen-nghi-ltv-dsr/truy-vet.md) |
+| Khuyến nghị LTV/DSR | 61 mã, 2 câu trả lời của BA | 38 | [M09](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L154), [M10](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L155), [R12](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L141), [S03-AC11](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L93), [S04-AC01](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L102), [S04-AC04](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L105), [S05-AC02](../../srs/banking-lite/khuyen-nghi-ltv-dsr.md#L115) | 4 ca (TC-002, 009, 022, 023) | 6 ca (TC-001, 002, 009, 014, 022, 023) | [mở](khuyen-nghi-ltv-dsr/truy-vet.md) |
 
-**Độ phủ theo kế hoạch:** Đăng nhập 40/40 mã requirement có test case; Khuyến nghị 54/61.
+**Độ phủ theo kế hoạch:** Đăng nhập 40/40; Khuyến nghị LTV/DSR 54/61 mã requirement có test case.
 
 ## 11. Phê duyệt kế hoạch
 
 | Vai trò | Họ tên | Quyết định (Duyệt / Cần sửa) | Ngày | Ý kiến |
 |---|---|---|---|---|
 | Người lập | Sunny Tran | | | |
-| Người duyệt kế hoạch | | | | |
+| Người duyệt kế hoạch | …………… | | | |
 
 ## 12. Lịch sử cập nhật
 

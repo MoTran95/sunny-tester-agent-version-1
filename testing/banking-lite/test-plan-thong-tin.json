@@ -1,0 +1,4 @@
+{
+  "tc_bat_buoc": "Do người kiểm thử quyết định theo nguồn lực và thời gian của đợt test; báo cáo tổng kết ghi rõ phần đã chạy, phần chưa chạy và lý do",
+  "regression_tang": "Số tầng chạy do người kiểm thử quyết định theo nguồn lực và thời gian; báo cáo tổng kết ghi rõ tầng đã chạy"
+}

@@ -11,6 +11,7 @@ Thoát mã 1 nếu có LỖI.
 """
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -64,7 +65,10 @@ def main():
         m = re.match(r"^##\s+(\d+)\.\s+(.*)", ln)
         if m:
             heads[int(m.group(1))] = (i, m.group(2))
+    gon = a.file.endswith("-gon.md")
     for n, kw in SECTIONS:
+        if gon and n not in (1, 2, 3, 5, 9, 10):
+            continue
         if n not in heads:
             errors.append(f"thiếu mục {n} ({kw})")
         elif kw.lower() not in heads[n][1].lower():
@@ -88,6 +92,18 @@ def main():
         if not (f.parent / target).exists():
             line = raw[: m.start()].count("\n") + 1
             errors.append(f"dòng {line}: link gãy → {target}")
+
+    if "{{" in raw:
+        errors.append("còn dấu {{…}} chưa được thay: chạy lại `sinh-test-plan.py sinh`")
+    stem = f.stem
+    nguon = f.parent / f"{stem}-nguon.txt"
+    if nguon.exists() and not gon:
+        r = subprocess.run([sys.executable, "-X", "utf8", str(Path(__file__).with_name("sinh-test-plan.py")), "kiem", a.project, "--ten", stem], capture_output=True, text=True, encoding="utf-8")
+        if r.returncode != 0:
+            errors.append((r.stdout + r.stderr).strip().splitlines()[-1] if (r.stdout + r.stderr).strip() else "test-plan.md lệch bản sinh từ nguồn")
+    elif not gon:
+        print(f"LƯU Ý  chưa có {stem}-nguon.txt: số liệu trong test plan đang gõ tay, không tự đối chiếu được với nguồn (nên chuyển sang nguồn, xem SKILL.md bước 3)")
+        print()
 
     html = f.with_suffix(".html")
     if not html.exists():
