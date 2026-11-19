@@ -68,7 +68,7 @@ Các ca này còn ❓ trong [bảng soát](bang-soat-requirement.md) và [câu h
 
 <!-- LICH-SU:BAT-DAU (tự sinh bởi scripts/truy-vet.py, không sửa tay) -->
 ## Lịch sử thay đổi
-Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-18 19:52:41 (+07:00)): Còn đúng 43. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
+Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; câu trả lời của BA đến TL-14. Trạng thái truy vết (chạy 2026-11-19 10:41:10 (+07:00)): Còn đúng 43. Chi tiết từng test case và bảng tra mã: [truy-vet.md](truy-vet.md).
 
 | Thời điểm chốt (giờ máy) | Commit gốc | Nội dung | Test case mới / sửa / bỏ |
 |---|---|---|---|
@@ -78,4 +78,5 @@ Dựa trên: SRS cập nhật 2026-11-18; bảng soát cập nhật 2026-11-18; 
 | 2026-11-18 15:48:00 (+07:00) | `46feb45` + sửa chưa commit | Lịch sử truy vết ghi thời điểm chốt chính xác (giờ phút giây, múi giờ), commit gốc, ngày BA trả lời. Không đổi nội dung test case. | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 15:55:25 (+07:00) | `46feb45` + sửa chưa commit | SRS: mọi TL-xx, B4, B8 thành link bấm được tới bảng soát và câu hỏi cho BA (62 link, 0 hỏng); thêm điểm nhảy cho 13 dòng TL và 24 câu hỏi. Không đổi nội dung yêu cầu hay test case. | mới 0; sửa 0; bỏ 0 |
 | 2026-11-18 17:48:27 (+07:00) | `384d97b` + sửa chưa commit | Thêm TC-042, TC-043 cho LOGIN-S01-AC09 (phiên hết hạn sau 10 phút, TL-14); 41 test case cũ không đổi | mới 2; sửa 0; bỏ 0 |
+| 2026-11-19 09:37:27 (+07:00) | `85176fc` + sửa chưa commit | Đổi địa chỉ test sang https://staging-banking-lite.vercel.app (địa chỉ cũ đã bị gỡ), không đổi nội dung test | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038, TC-039, TC-040, TC-041, TC-042, TC-043; bỏ 0 |
 <!-- LICH-SU:KET-THUC -->

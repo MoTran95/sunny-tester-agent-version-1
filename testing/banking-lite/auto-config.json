@@ -1,0 +1,18 @@
+{
+  "env_prefix": "BANKING_LITE",
+  "default_url": "https://staging-banking-lite.vercel.app",
+  "login": {
+    "id_labels": [
+      "Mã nhân viên",
+      "Employee ID"
+    ],
+    "button_labels": [
+      "Đăng nhập",
+      "Sign in"
+    ],
+    "login_api": "/api/auth/sign-in",
+    "session_check_api": "/api/me",
+    "session_minutes": 10,
+    "max_consecutive_failures": 9
+  }
+}

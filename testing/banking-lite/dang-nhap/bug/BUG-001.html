@@ -1,0 +1,199 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BUG-001 [Đăng nhập] Thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"><style>
+/* Màu lấy mẫu từ ảnh thương hiệu (đỏ #C24E3A, vàng #E8A53C, xanh #2E7D32, nâu #3A2E26); nền và thẻ hạ độ sáng cho đỡ chói.
+   Chế độ tối theo hệ điều hành, có nút đổi tay (lưu trong trình duyệt). */
+:root{color-scheme:light;--bg:#E8DFD0;--card:#F2EDE5;--text:#3A2E26;--body:#463B34;--muted:#6F6154;--line:#D1C9BB;--coral:#C24E3A;--amber:#D9902A;--amberbg:#F6E6C3;--amberfg:#8A5A0E;--warnline:#E6CC93;--green:#2E7D32;--greenbg:#E1EDE3;--greenline:#BBD6C2;--pinkbg:#F8E4DE;--pinkline:#E0B0A4;--graybg:#DCD4C6;--grayfg:#5F5246}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}:root:not([data-theme=light]) .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}
+:root[data-theme=dark] .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 "Hanken Grotesk","Instrument Sans","Segoe UI",system-ui,sans-serif;padding:40px 16px 56px}
+main{max-width:1100px;margin:0 auto}
+.brand{text-align:center;margin:0 0 14px}.brand img{height:68px;width:auto}
+.eyebrow{text-align:center;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin:0 0 10px}
+h1{font:700 40px/1.15 Fraunces,Georgia,"Times New Roman",serif;color:var(--text);text-align:center;margin:0 0 8px}
+h1 em{font-style:italic;color:var(--coral)}
+h2{font:700 22px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:36px 0 12px}
+.sub{text-align:center;color:var(--muted);margin:0 0 26px;font-size:14px}
+code{background:var(--graybg);padding:1px 6px;border-radius:5px;font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:8px 24px;margin:0}
+dl.meta dt{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dl.meta dd{margin:0}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+a{color:var(--coral);text-decoration-color:var(--pinkline);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--coral)}
+.badge{display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap;border:1px solid transparent}
+.ok{background:var(--greenbg);color:var(--green);border-color:var(--greenline)}
+.warn{background:var(--amberbg);color:var(--amberfg);border-color:var(--warnline)}
+.bad{background:var(--pinkbg);color:var(--coral);border-color:var(--pinkline)}
+.gray{background:var(--graybg);color:var(--grayfg);border-color:var(--line)}
+.num{text-align:center}.nw{white-space:nowrap}
+.small{font-size:13px;color:var(--muted)}
+ul.ev{margin:0;padding-left:16px}
+.note{font:400 18px/1.6 Fraunces,Georgia,serif;color:var(--text);text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;margin:36px 0 0}
+main.rong{max-width:1840px}
+.thumb.kiem{border-color:#1B8F3A}.cap-ok{color:var(--green);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.vid{display:block;margin-top:6px;max-width:250px;border-radius:8px;background:#000}
+.kl h3{font:700 16px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:18px 0 6px}.kl p{margin:6px 0}.kl ul{margin:6px 0;padding-left:22px}.kl li{margin:5px 0}.kl-dau{font-size:17px;color:var(--text);font-weight:500}.kl-bang{min-width:0;width:100%}.kl-bang td{font-size:14.5px}
+.lon table{min-width:1280px;border-collapse:separate;border-spacing:0}.lon td:nth-child(2){min-width:230px}
+.khu-bang{position:relative}.lon{scrollbar-width:none;cursor:grab}.lon::-webkit-scrollbar{display:none}.lon.keo{cursor:grabbing;user-select:none}
+.thanh-keo{position:sticky;bottom:0;z-index:6;overflow-x:auto;overflow-y:hidden;height:18px;background:var(--bg);border:1px solid var(--line);border-radius:10px;margin-top:6px}
+.thanh-keo>div{height:1px}
+.lon th:nth-child(1),.lon td:nth-child(1){position:sticky;left:0;z-index:2;background:var(--card);width:76px;min-width:76px}
+.lon th:nth-child(2),.lon td:nth-child(2){position:sticky;left:76px;z-index:2;background:var(--card);box-shadow:3px 0 0 var(--line)}
+.lon th:nth-child(1),.lon th:nth-child(2){background:var(--bg);z-index:3}
+.goi-y{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.cap-loi{color:var(--coral);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.cot-nho{font-size:13.5px;line-height:1.5;min-width:170px}.cot-nho div+div{margin-top:4px}.cot-nho code{font-size:12px}
+.thuc-te .dung{color:var(--green)}.thuc-te .sai{color:var(--coral);font-weight:700}
+ul.ev li.loi{list-style:none;margin:8px 0 0 -16px}.thumb{display:block;margin-top:6px;max-width:210px;border:3px solid #E5252A;border-radius:8px}
+.theme{position:absolute;top:12px;right:12px;z-index:5;background:var(--card);color:var(--body);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:700 12px/1 inherit;font-family:inherit;letter-spacing:.06em;cursor:pointer}
+.theme:hover{border-color:var(--coral);color:var(--coral)}
+@media (max-width:600px){h1{font-size:30px}body{padding-top:28px}}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 22px}
+.btn{background:var(--card);color:var(--body);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:700 13px/1 inherit;font-family:inherit;cursor:pointer}
+.btn:hover{border-color:var(--coral);color:var(--coral)}
+.btn.chinh{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn.nho{padding:5px 12px;font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 22px}
+.chip{font-size:13px;color:var(--muted)}.chip b{color:var(--text)}
+section.muc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 22px;margin:0 0 14px}
+section.muc header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 6px}
+section.muc h2{margin:0;font-size:18px}
+section.muc p{margin:8px 0}section.muc ul,section.muc ol{margin:8px 0;padding-left:22px}section.muc li{margin:4px 0}
+blockquote{margin:0 0 20px;padding:10px 16px;border-left:4px solid var(--amber);background:var(--amberbg);color:var(--amberfg);border-radius:0 10px 10px 0}
+.gd{background:var(--amberbg);color:var(--amberfg);border:1px solid var(--warnline);border-radius:6px;padding:0 6px;font-size:14px}
+li.tick{list-style:none;margin-left:-22px}li.tick .o{display:inline-block;width:1.4em}
+.anh{display:block;margin:4px 0;max-width:250px;border:1px solid var(--line);border-radius:8px}
+.gal{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0 4px}.gal a{display:block}
+.anh.loi{border:3px solid #E5252A}
+.vid{display:block;max-width:420px;border-radius:8px;background:#000}
+.nhan-loi{display:inline-block;background:#E5252A;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;margin-right:6px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.hien{opacity:1}
+</style><script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('smoke-theme');if(t)r.setAttribute('data-theme',t)}catch(e){}document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('theme');function eff(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}function lab(){b.textContent=eff()==='dark'?'Chế độ sáng':'Chế độ tối'}lab();b.onclick=function(){var n=eff()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('smoke-theme',n)}catch(e){}lab()}})})();
+function sao(btn){var t=btn.getAttribute('data-copy');var done=function(){var z=document.getElementById('toast');z.textContent='Đã sao chép';z.classList.add('hien');setTimeout(function(){z.classList.remove('hien')},1400)};
+if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,function(){du(t,done)})}else{du(t,done)}}
+function du(t,done){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(a)}
+</script></head><body><button id="theme" class="theme" type="button">Chế độ tối</button><main><p class="eyebrow">Bug report · BUG-001</p><h1 style="font-size:30px">[Đăng nhập] Thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò</h1><div class="chips"><span class="chip">Mức độ nghiêm trọng: <span class="badge gray">Rất nhỏ</span></span><span class="chip">Mức độ ưu tiên: <span class="badge gray">Thấp</span></span><span class="chip">Tần suất: <b>Luôn xảy ra: P100001 thấy 2/2 lần chạy TC-001 tự động (2026-11-18 lúc 20:52 và 21:16); P200001 1/1 lần và P300001 1/1 lần (2026-11-18 lúc 21:16, trong TC-002)</b></span></div><div class="bar"><button class="btn chinh" type="button" onclick="sao(this)" data-copy="[Đăng nhập] Thanh điều hướng vẫn hiện chữ DEFAULT sau mã và vai trò">Sao chép tiêu đề</button><button class="btn" type="button" onclick="sao(this)" data-copy="# [Đăng nhập] Thanh điều hướng vẫn hiện chữ `DEFAULT` sau mã và vai trò
+
+## Test case liên quan
+[Đăng nhập · TC-001](../test-case.md#tc-001) (Không đạt ở ý &quot;không còn chữ `DEFAULT`&quot;). Cùng chữ này cũng hiện ở [TC-002](../test-case.md#tc-002) nhưng ca đó không kiểm chữ `DEFAULT` nên vẫn Đạt. Smoke case số 2 trong [smoke-test.md](../../smoke-test.md), ghi &quot;Đạt kèm lỗi đã biết&quot;. Yêu cầu của BA: [TL-07](../bang-soat-requirement.md#tl-07).
+
+## Môi trường
+- Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang `Banking Lite · Phiên bản 1.3.0`), địa chỉ `https://banking-lite.vercel.app/`, giao diện Tiếng Việt
+- Trình duyệt: Chrome 157.0.8103.78 trên Windows 11
+- Số build: 1.3.0
+- Tài khoản: `P100001` (Chuyên viên khách hàng), `P200001` (Chuyên viên định giá), `P300001` (Chuyên viên thẩm định tín dụng)
+
+## Điều kiện trước
+- Theo TC-001: dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt
+- Tài khoản `P100001` đang hoạt động, không bị chặn, số lần nhập sai liên tiếp bằng 0
+
+## Các bước tái hiện
+1. Mở `https://banking-lite.vercel.app/` (chưa đăng nhập).
+2. Ở ô `Mã nhân viên *` nhập `P100001`; ở ô `Mật khẩu *` nhập mật khẩu đúng của tài khoản này (do người kiểm thử nhập, không ghi trong tài liệu).
+3. Bấm nút `Đăng nhập`.
+4. Chờ trang `Danh sách việc` tải xong (trang hiện &quot;Đang tải…&quot; vài giây trước đó).
+5. Nhìn thanh điều hướng ở đầu trang, phía bên phải, cạnh nút `Tiếng Việt` / `English` / `Đăng xuất`.
+
+(Các bước 1 đến 5 là bước 1 đến 5 của TC-001.)
+
+## Kết quả mong đợi
+Thanh điều hướng hiện mã `P100001` và vai trò `Chuyên viên khách hàng`, không có chữ `DEFAULT`.
+
+## Kết quả thực tế
+Ở bước 5, thanh điều hướng hiện nguyên văn `P100001 · Chuyên viên khách hàng · DEFAULT`. Cả thanh điều hướng đọc được là: `Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất`.
+
+Làm lại với hai tài khoản còn lại (cùng cách mở trang sau khi đăng nhập):
+- `P200001`: `P200001 · Chuyên viên định giá · DEFAULT`
+- `P300001`: `P300001 · Chuyên viên thẩm định tín dụng · DEFAULT` (thanh điều hướng có thêm menu `Tích hợp`)
+
+Phần còn lại của TC-001 đúng như mong đợi: vào được `Danh sách việc`, mã và vai trò hiện đúng, không có thông báo &quot;đăng nhập thành công&quot;.
+
+## Phạm vi ảnh hưởng
+Cùng một thanh điều hướng, thấy chữ `DEFAULT` ở cả ba tài khoản test:
+- `P100001` (Chuyên viên khách hàng): `... · DEFAULT`
+- `P200001` (Chuyên viên định giá): `... · DEFAULT`
+- `P300001` (Chuyên viên thẩm định tín dụng): `... · DEFAULT`
+
+Ngoài thanh điều hướng, yêu cầu của BA còn nhắc trường `workspace` trong `/api/me` (xem câu hỏi cho Dev). Trường này chưa được kiểm ở lượt chạy này nên chưa đưa vào bug.
+
+## Ảnh hưởng nghiệp vụ
+Mọi người dùng sau khi đăng nhập đều thấy thêm chữ `DEFAULT` sau vai trò trên thanh điều hướng. Đăng nhập, vai trò và `Danh sách việc` vẫn đúng. [Giả định: chữ `DEFAULT` không làm sai quyền hay dữ liệu hiển thị ở màn hình khác, vì ghi chú chỉ nói tới thanh điều hướng]
+
+## Mức độ nghiêm trọng
+**Rất nhỏ.** Chỉ là chữ thừa trên thanh điều hướng; không có thao tác nào bị chặn và kết quả nghiệp vụ chính (vào đúng `Danh sách việc` với đúng mã, vai trò) vẫn đúng. [Giả định: chữ `DEFAULT` không làm người dùng thao tác nhầm]
+
+## Mức độ ưu tiên đề xuất
+**Thấp** — không chặn việc test nào; bộ smoke đã chốt ngoại lệ &quot;Đạt kèm lỗi đã biết&quot; cho ý này. (Đề xuất; team hoặc PO sẽ chốt.)
+
+## Tần suất
+Luôn xảy ra: `P100001` thấy 2/2 lần chạy TC-001 tự động (2026-11-18 lúc 20:52 và 21:16); `P200001` 1/1 lần và `P300001` 1/1 lần (2026-11-18 lúc 21:16, trong TC-002).
+
+## Đính kèm cần có
+- [x] Ảnh thanh điều hướng `P100001` (bản chạy 21:16): `evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650.png`; ảnh đã tô đỏ chỗ `DEFAULT` (lỗi ở bước 5 của các bước tái hiện): `evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650-loi.png`
+- [x] Ảnh thanh điều hướng `P100001` (bản chạy 20:52): `evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236.png`; ảnh đã tô đỏ chỗ `DEFAULT` (lỗi ở bước 5 của các bước tái hiện): `evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236-loi.png`
+- [x] Ảnh thanh điều hướng `P200001`: `evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656.png`; ảnh đã tô đỏ chỗ `DEFAULT` (lỗi ở bước 5 của các bước tái hiện): `evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656-loi.png`
+- [x] Ảnh thanh điều hướng `P300001`: `evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704.png`; ảnh đã tô đỏ chỗ `DEFAULT` (lỗi ở bước 5 của các bước tái hiện): `evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704-loi.png`
+- [x] Kết quả lần chạy tự động (có chữ thanh điều hướng nguyên văn): `evidence/banking-lite/chay-test/result-20261118-211705.json`
+- [x] Video quay lại các bước (lần chạy 2026-11-19 trên staging): `evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-105907.webm`
+- [x] Ảnh đã tô đỏ chỗ `DEFAULT` (lần chạy 2026-11-19 trên staging, lỗi ở bước 5): `evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png`
+- [ ] Kết quả trả về của `/api/me` sau khi đăng nhập (để Dev xem trường `workspace`) — `Cần bổ sung`
+
+## Câu hỏi còn mở
+**Cho BA:**
+- (Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-07.)
+
+**Cho Dev:**
+- Theo bảng soát yêu cầu, ngoài chữ `DEFAULT` trên thanh điều hướng, `/api/me` (lệnh hệ thống gọi để lấy thông tin người đang đăng nhập) cũng đang trả thêm trường `workspace` có giá trị `DEFAULT`. BA đã chốt bỏ cả hai chỗ. Lần chạy này mình mới xem thanh điều hướng, chưa xem `/api/me`. Anh/chị cho mình hỏi: chữ `DEFAULT` trên thanh điều hướng có phải đang lấy từ chính trường `workspace` đó không, tức là một nguyên nhân và sửa một chỗ là hết cả hai? Nếu đúng thì mình giữ một bug này và bổ sung phần `/api/me`. Nếu hai chỗ độc lập thì mình tách thêm một bug riêng cho `/api/me`.
+
+## Thông tin đã gắn nhãn Giả định (cần kiểm lại)
+1. Chữ `DEFAULT` không làm sai quyền hay dữ liệu hiển thị ở màn hình khác (mục Ảnh hưởng nghiệp vụ).
+2. Chữ `DEFAULT` không làm người dùng thao tác nhầm (mục Mức độ nghiêm trọng).
+">Sao chép cả bug (md)</button></div><section class="muc"><header><h2>Test case liên quan</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Test case liên quan
+Đăng nhập · TC-001 (../test-case.md#tc-001) (Không đạt ở ý &quot;không còn chữ DEFAULT&quot;). Cùng chữ này cũng hiện ở TC-002 (../test-case.md#tc-002) nhưng ca đó không kiểm chữ DEFAULT nên vẫn Đạt. Smoke case số 2 trong smoke-test.md (../../smoke-test.md), ghi &quot;Đạt kèm lỗi đã biết&quot;. Yêu cầu của BA: TL-07 (../bang-soat-requirement.md#tl-07).">Sao chép</button></header><p><a href="../test-case.md#tc-001">Đăng nhập · TC-001</a> (Không đạt ở ý "không còn chữ <code>DEFAULT</code>"). Cùng chữ này cũng hiện ở <a href="../test-case.md#tc-002">TC-002</a> nhưng ca đó không kiểm chữ <code>DEFAULT</code> nên vẫn Đạt. Smoke case số 2 trong <a href="../../smoke-test.md">smoke-test.md</a>, ghi "Đạt kèm lỗi đã biết". Yêu cầu của BA: <a href="../bang-soat-requirement.md#tl-07">TL-07</a>.</p></section><section class="muc"><header><h2>Môi trường</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Môi trường
+- Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang Banking Lite · Phiên bản 1.3.0), địa chỉ https://banking-lite.vercel.app/, giao diện Tiếng Việt
+- Trình duyệt: Chrome 157.0.8103.78 trên Windows 11
+- Số build: 1.3.0
+- Tài khoản: P100001 (Chuyên viên khách hàng), P200001 (Chuyên viên định giá), P300001 (Chuyên viên thẩm định tín dụng)">Sao chép</button></header><ul><li>Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang <code>Banking Lite · Phiên bản 1.3.0</code>), địa chỉ <code>https://banking-lite.vercel.app/</code>, giao diện Tiếng Việt</li><li>Trình duyệt: Chrome 157.0.8103.78 trên Windows 11</li><li>Số build: 1.3.0</li><li>Tài khoản: <code>P100001</code> (Chuyên viên khách hàng), <code>P200001</code> (Chuyên viên định giá), <code>P300001</code> (Chuyên viên thẩm định tín dụng)</li></ul></section><section class="muc"><header><h2>Điều kiện trước</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Điều kiện trước
+- Theo TC-001: dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt
+- Tài khoản P100001 đang hoạt động, không bị chặn, số lần nhập sai liên tiếp bằng 0">Sao chép</button></header><ul><li>Theo TC-001: dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt</li><li>Tài khoản <code>P100001</code> đang hoạt động, không bị chặn, số lần nhập sai liên tiếp bằng 0</li></ul></section><section class="muc"><header><h2>Các bước tái hiện</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Các bước tái hiện
+1. Mở https://banking-lite.vercel.app/ (chưa đăng nhập).
+2. Ở ô Mã nhân viên * nhập P100001; ở ô Mật khẩu * nhập mật khẩu đúng của tài khoản này (do người kiểm thử nhập, không ghi trong tài liệu).
+3. Bấm nút Đăng nhập.
+4. Chờ trang Danh sách việc tải xong (trang hiện &quot;Đang tải…&quot; vài giây trước đó).
+5. Nhìn thanh điều hướng ở đầu trang, phía bên phải, cạnh nút Tiếng Việt / English / Đăng xuất.
+(Các bước 1 đến 5 là bước 1 đến 5 của TC-001.)">Sao chép</button></header><ol><li>Mở <code>https://banking-lite.vercel.app/</code> (chưa đăng nhập).</li><li>Ở ô <code>Mã nhân viên *</code> nhập <code>P100001</code>; ở ô <code>Mật khẩu *</code> nhập mật khẩu đúng của tài khoản này (do người kiểm thử nhập, không ghi trong tài liệu).</li><li>Bấm nút <code>Đăng nhập</code>.</li><li>Chờ trang <code>Danh sách việc</code> tải xong (trang hiện "Đang tải…" vài giây trước đó).</li><li>Nhìn thanh điều hướng ở đầu trang, phía bên phải, cạnh nút <code>Tiếng Việt</code> / <code>English</code> / <code>Đăng xuất</code>.</li></ol><p>(Các bước 1 đến 5 là bước 1 đến 5 của TC-001.)</p></section><section class="muc"><header><h2>Kết quả mong đợi</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Kết quả mong đợi
+Thanh điều hướng hiện mã P100001 và vai trò Chuyên viên khách hàng, không có chữ DEFAULT.">Sao chép</button></header><p>Thanh điều hướng hiện mã <code>P100001</code> và vai trò <code>Chuyên viên khách hàng</code>, không có chữ <code>DEFAULT</code>.</p></section><section class="muc"><header><h2>Kết quả thực tế</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Kết quả thực tế
+Ở bước 5, thanh điều hướng hiện nguyên văn P100001 · Chuyên viên khách hàng · DEFAULT. Cả thanh điều hướng đọc được là: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất.
+Làm lại với hai tài khoản còn lại (cùng cách mở trang sau khi đăng nhập):
+- P200001: P200001 · Chuyên viên định giá · DEFAULT
+- P300001: P300001 · Chuyên viên thẩm định tín dụng · DEFAULT (thanh điều hướng có thêm menu Tích hợp)
+Phần còn lại của TC-001 đúng như mong đợi: vào được Danh sách việc, mã và vai trò hiện đúng, không có thông báo &quot;đăng nhập thành công&quot;.">Sao chép</button></header><p>Ở bước 5, thanh điều hướng hiện nguyên văn <code>P100001 · Chuyên viên khách hàng · DEFAULT</code>. Cả thanh điều hướng đọc được là: <code>Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất</code>.</p><p>Làm lại với hai tài khoản còn lại (cùng cách mở trang sau khi đăng nhập):</p><ul><li><code>P200001</code>: <code>P200001 · Chuyên viên định giá · DEFAULT</code></li><li><code>P300001</code>: <code>P300001 · Chuyên viên thẩm định tín dụng · DEFAULT</code> (thanh điều hướng có thêm menu <code>Tích hợp</code>)</li></ul><p>Phần còn lại của TC-001 đúng như mong đợi: vào được <code>Danh sách việc</code>, mã và vai trò hiện đúng, không có thông báo "đăng nhập thành công".</p></section><section class="muc"><header><h2>Phạm vi ảnh hưởng</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Phạm vi ảnh hưởng
+Cùng một thanh điều hướng, thấy chữ DEFAULT ở cả ba tài khoản test:
+- P100001 (Chuyên viên khách hàng): ... · DEFAULT
+- P200001 (Chuyên viên định giá): ... · DEFAULT
+- P300001 (Chuyên viên thẩm định tín dụng): ... · DEFAULT
+Ngoài thanh điều hướng, yêu cầu của BA còn nhắc trường workspace trong /api/me (xem câu hỏi cho Dev). Trường này chưa được kiểm ở lượt chạy này nên chưa đưa vào bug.">Sao chép</button></header><p>Cùng một thanh điều hướng, thấy chữ <code>DEFAULT</code> ở cả ba tài khoản test:</p><ul><li><code>P100001</code> (Chuyên viên khách hàng): <code>... · DEFAULT</code></li><li><code>P200001</code> (Chuyên viên định giá): <code>... · DEFAULT</code></li><li><code>P300001</code> (Chuyên viên thẩm định tín dụng): <code>... · DEFAULT</code></li></ul><p>Ngoài thanh điều hướng, yêu cầu của BA còn nhắc trường <code>workspace</code> trong <code>/api/me</code> (xem câu hỏi cho Dev). Trường này chưa được kiểm ở lượt chạy này nên chưa đưa vào bug.</p></section><section class="muc"><header><h2>Ảnh hưởng nghiệp vụ</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Ảnh hưởng nghiệp vụ
+Mọi người dùng sau khi đăng nhập đều thấy thêm chữ DEFAULT sau vai trò trên thanh điều hướng. Đăng nhập, vai trò và Danh sách việc vẫn đúng. [Giả định: chữ DEFAULT không làm sai quyền hay dữ liệu hiển thị ở màn hình khác, vì ghi chú chỉ nói tới thanh điều hướng]">Sao chép</button></header><p>Mọi người dùng sau khi đăng nhập đều thấy thêm chữ <code>DEFAULT</code> sau vai trò trên thanh điều hướng. Đăng nhập, vai trò và <code>Danh sách việc</code> vẫn đúng. <span class="gd">Giả định: chữ <code>DEFAULT</code> không làm sai quyền hay dữ liệu hiển thị ở màn hình khác, vì ghi chú chỉ nói tới thanh điều hướng</span></p></section><section class="muc"><header><h2>Mức độ nghiêm trọng</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Mức độ nghiêm trọng
+Rất nhỏ. Chỉ là chữ thừa trên thanh điều hướng; không có thao tác nào bị chặn và kết quả nghiệp vụ chính (vào đúng Danh sách việc với đúng mã, vai trò) vẫn đúng. [Giả định: chữ DEFAULT không làm người dùng thao tác nhầm]">Sao chép</button></header><p><strong>Rất nhỏ.</strong> Chỉ là chữ thừa trên thanh điều hướng; không có thao tác nào bị chặn và kết quả nghiệp vụ chính (vào đúng <code>Danh sách việc</code> với đúng mã, vai trò) vẫn đúng. <span class="gd">Giả định: chữ <code>DEFAULT</code> không làm người dùng thao tác nhầm</span></p></section><section class="muc"><header><h2>Mức độ ưu tiên đề xuất</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Mức độ ưu tiên đề xuất
+Thấp — không chặn việc test nào; bộ smoke đã chốt ngoại lệ &quot;Đạt kèm lỗi đã biết&quot; cho ý này. (Đề xuất; team hoặc PO sẽ chốt.)">Sao chép</button></header><p><strong>Thấp</strong> — không chặn việc test nào; bộ smoke đã chốt ngoại lệ "Đạt kèm lỗi đã biết" cho ý này. (Đề xuất; team hoặc PO sẽ chốt.)</p></section><section class="muc"><header><h2>Tần suất</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Tần suất
+Luôn xảy ra: P100001 thấy 2/2 lần chạy TC-001 tự động (2026-11-18 lúc 20:52 và 21:16); P200001 1/1 lần và P300001 1/1 lần (2026-11-18 lúc 21:16, trong TC-002).">Sao chép</button></header><p>Luôn xảy ra: <code>P100001</code> thấy 2/2 lần chạy TC-001 tự động (2026-11-18 lúc 20:52 và 21:16); <code>P200001</code> 1/1 lần và <code>P300001</code> 1/1 lần (2026-11-18 lúc 21:16, trong TC-002).</p></section><section class="muc"><header><h2>Đính kèm cần có</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Đính kèm cần có
+- Ảnh thanh điều hướng P100001 (bản chạy 21:16): evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650.png; ảnh đã tô đỏ chỗ DEFAULT (lỗi ở bước 5 của các bước tái hiện): evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650-loi.png
+- Ảnh thanh điều hướng P100001 (bản chạy 20:52): evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236.png; ảnh đã tô đỏ chỗ DEFAULT (lỗi ở bước 5 của các bước tái hiện): evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236-loi.png
+- Ảnh thanh điều hướng P200001: evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656.png; ảnh đã tô đỏ chỗ DEFAULT (lỗi ở bước 5 của các bước tái hiện): evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656-loi.png
+- Ảnh thanh điều hướng P300001: evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704.png; ảnh đã tô đỏ chỗ DEFAULT (lỗi ở bước 5 của các bước tái hiện): evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704-loi.png
+- Kết quả lần chạy tự động (có chữ thanh điều hướng nguyên văn): evidence/banking-lite/chay-test/result-20261118-211705.json
+- Video quay lại các bước (lần chạy 2026-11-19 trên staging): evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-105907.webm
+- Ảnh đã tô đỏ chỗ DEFAULT (lần chạy 2026-11-19 trên staging, lỗi ở bước 5): evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png
+- Kết quả trả về của /api/me sau khi đăng nhập (để Dev xem trường workspace) — Cần bổ sung">Sao chép</button></header><ul><li class="tick"><span class="o">☑</span>Ảnh thanh điều hướng <code>P100001</code> (bản chạy 21:16): <code>evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650.png</code>; ảnh đã tô đỏ chỗ <code>DEFAULT</code> (lỗi ở bước 5 của các bước tái hiện): <code>evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650-loi.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650.png" target="_blank" rel="noopener"><img class="anh" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650.png" alt="dang-nhap-tc-001-danh-sach-viec-20261118-211650.png"></a><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650-loi.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261118-211650-loi.png" alt="dang-nhap-tc-001-danh-sach-viec-20261118-211650-loi.png"></a></div></li><li class="tick"><span class="o">☑</span>Ảnh thanh điều hướng <code>P100001</code> (bản chạy 20:52): <code>evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236.png</code>; ảnh đã tô đỏ chỗ <code>DEFAULT</code> (lỗi ở bước 5 của các bước tái hiện): <code>evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236-loi.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236.png" target="_blank" rel="noopener"><img class="anh" src="../../../../evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236.png" alt="dang-nhap-TC-001-20261118-205236.png"></a><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236-loi.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-TC-001-20261118-205236-loi.png" alt="dang-nhap-TC-001-20261118-205236-loi.png"></a></div></li><li class="tick"><span class="o">☑</span>Ảnh thanh điều hướng <code>P200001</code>: <code>evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656.png</code>; ảnh đã tô đỏ chỗ <code>DEFAULT</code> (lỗi ở bước 5 của các bước tái hiện): <code>evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656-loi.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656.png" target="_blank" rel="noopener"><img class="anh" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656.png" alt="dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656.png"></a><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656-loi.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656-loi.png" alt="dang-nhap-tc-002-p200001-danh-sach-viec-20261118-211656-loi.png"></a></div></li><li class="tick"><span class="o">☑</span>Ảnh thanh điều hướng <code>P300001</code>: <code>evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704.png</code>; ảnh đã tô đỏ chỗ <code>DEFAULT</code> (lỗi ở bước 5 của các bước tái hiện): <code>evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704-loi.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704.png" target="_blank" rel="noopener"><img class="anh" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704.png" alt="dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704.png"></a><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704-loi.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704-loi.png" alt="dang-nhap-tc-002-p300001-danh-sach-viec-20261118-211704-loi.png"></a></div></li><li class="tick"><span class="o">☑</span>Kết quả lần chạy tự động (có chữ thanh điều hướng nguyên văn): <code>evidence/banking-lite/chay-test/result-20261118-211705.json</code></li><li class="tick"><span class="o">☑</span>Video quay lại các bước (lần chạy 2026-11-19 trên staging): <code>evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-105907.webm</code><div class="gal"><div><video class="vid" controls preload="metadata" src="../../../../evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-105907.webm"></video><div class="small">Video: dang-nhap-tc-001-p100001-20261119-105907.webm</div></div></div></li><li class="tick"><span class="o">☑</span>Ảnh đã tô đỏ chỗ <code>DEFAULT</code> (lần chạy 2026-11-19 trên staging, lỗi ở bước 5): <code>evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png" alt="dang-nhap-tc-001-loi-20261119-105907.png"></a></div></li><li class="tick"><span class="o">☐</span>Kết quả trả về của <code>/api/me</code> sau khi đăng nhập (để Dev xem trường <code>workspace</code>) — <code>Cần bổ sung</code></li></ul></section><section class="muc"><header><h2>Câu hỏi còn mở</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Câu hỏi còn mở
+Cho BA:
+- (Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-07.)
+Cho Dev:
+- Theo bảng soát yêu cầu, ngoài chữ DEFAULT trên thanh điều hướng, /api/me (lệnh hệ thống gọi để lấy thông tin người đang đăng nhập) cũng đang trả thêm trường workspace có giá trị DEFAULT. BA đã chốt bỏ cả hai chỗ. Lần chạy này mình mới xem thanh điều hướng, chưa xem /api/me. Anh/chị cho mình hỏi: chữ DEFAULT trên thanh điều hướng có phải đang lấy từ chính trường workspace đó không, tức là một nguyên nhân và sửa một chỗ là hết cả hai? Nếu đúng thì mình giữ một bug này và bổ sung phần /api/me. Nếu hai chỗ độc lập thì mình tách thêm một bug riêng cho /api/me.">Sao chép</button></header><p><strong>Cho BA:</strong></p><ul><li>(Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-07.)</li></ul><p><strong>Cho Dev:</strong></p><ul><li>Theo bảng soát yêu cầu, ngoài chữ <code>DEFAULT</code> trên thanh điều hướng, <code>/api/me</code> (lệnh hệ thống gọi để lấy thông tin người đang đăng nhập) cũng đang trả thêm trường <code>workspace</code> có giá trị <code>DEFAULT</code>. BA đã chốt bỏ cả hai chỗ. Lần chạy này mình mới xem thanh điều hướng, chưa xem <code>/api/me</code>. Anh/chị cho mình hỏi: chữ <code>DEFAULT</code> trên thanh điều hướng có phải đang lấy từ chính trường <code>workspace</code> đó không, tức là một nguyên nhân và sửa một chỗ là hết cả hai? Nếu đúng thì mình giữ một bug này và bổ sung phần <code>/api/me</code>. Nếu hai chỗ độc lập thì mình tách thêm một bug riêng cho <code>/api/me</code>.</li></ul></section><section class="muc"><header><h2>Thông tin đã gắn nhãn Giả định (cần kiểm lại)</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Thông tin đã gắn nhãn Giả định (cần kiểm lại)
+1. Chữ DEFAULT không làm sai quyền hay dữ liệu hiển thị ở màn hình khác (mục Ảnh hưởng nghiệp vụ).
+2. Chữ DEFAULT không làm người dùng thao tác nhầm (mục Mức độ nghiêm trọng).">Sao chép</button></header><ol><li>Chữ <code>DEFAULT</code> không làm sai quyền hay dữ liệu hiển thị ở màn hình khác (mục Ảnh hưởng nghiệp vụ).</li><li>Chữ <code>DEFAULT</code> không làm người dùng thao tác nhầm (mục Mức độ nghiêm trọng).</li></ol></section><div id="toast" class="toast"></div></main></body></html>

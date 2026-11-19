@@ -1,0 +1,586 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 09:42:58",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-032",
+      "code": "TC-032",
+      "title": "Tải lại trang khi đã đăng nhập: vẫn đăng nhập, không phải nhập lại",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: vẫn ở Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-032-sau-tai-lai-20261119-094208.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 3.7
+    },
+    {
+      "case_id": "dang-nhap/tc-033",
+      "code": "TC-033",
+      "title": "Đã đăng nhập mở /login: hiện Danh sách việc, địa chỉ vẫn là /login",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ vẫn là `/login`",
+          "passed": true,
+          "note": "địa chỉ: /login",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-033-mo-login-20261119-094211.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 2.6
+    },
+    {
+      "case_id": "dang-nhap/tc-034",
+      "code": "TC-034",
+      "title": "Đã đăng nhập mở địa chỉ không có thật: hiện Danh sách việc, không có trang không tìm thấy",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ giữ nguyên `/khong-ton-tai-xyz`",
+          "passed": true,
+          "note": "địa chỉ: /khong-ton-tai-xyz",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không có trang `không tìm thấy`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-034-dia-chi-khong-co-that-20261119-094213.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 2.6
+    },
+    {
+      "case_id": "dang-nhap/tc-026",
+      "code": "TC-026",
+      "title": "Chưa đăng nhập mở /integrations hoặc địa chỉ không có thật: form đăng nhập, giữ địa chỉ, không thông báo",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "/integrations: hiện form Đăng nhập (bước 2)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/integrations: thanh địa chỉ giữ nguyên (bước 2)",
+          "passed": true,
+          "note": "địa chỉ: /integrations",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/integrations: không có thông báo `cần đăng nhập` hay trang `không tìm thấy` (bước 2)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/khong-ton-tai-xyz: hiện form Đăng nhập (bước 2 (địa chỉ không có thật))",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/khong-ton-tai-xyz: thanh địa chỉ giữ nguyên (bước 2 (địa chỉ không có thật))",
+          "passed": true,
+          "note": "địa chỉ: /khong-ton-tai-xyz",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "/khong-ton-tai-xyz: không có thông báo `cần đăng nhập` hay trang `không tìm thấy` (bước 2 (địa chỉ không có thật))",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-026-integrations-20261119-094214.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 1.8
+    },
+    {
+      "case_id": "dang-nhap/tc-041",
+      "code": "TC-041",
+      "title": "Form đăng nhập không có Workspace, quên mật khẩu, đăng ký, ghi nhớ đăng nhập",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: form chỉ có 2 ô nhập (Mã nhân viên, Mật khẩu)",
+          "passed": true,
+          "note": "số ô nhập: 2",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: form có nút `Đăng nhập`",
+          "passed": true,
+          "note": "nút trong form: ['Đăng nhập']",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 3: không có Workspace, quên mật khẩu, đăng ký, ghi nhớ đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 3: không có ô tích chọn nào",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-041-form-dang-nhap-20261119-094216.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 0.9
+    },
+    {
+      "case_id": "dang-nhap/tc-003",
+      "code": "TC-003",
+      "title": "Chưa đăng nhập mở link hồ sơ: form giữ link, đăng nhập đúng mở thẳng hồ sơ",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ vẫn là link hồ sơ",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: mở thẳng hồ sơ HL-000019",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: không về Danh sách việc (địa chỉ vẫn là link hồ sơ)",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-link-ho-so-chua-dang-nhap-20261119-094217.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-sau-dang-nhap-20261119-094221.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 5.3
+    },
+    {
+      "case_id": "dang-nhap/tc-038",
+      "code": "TC-038",
+      "title": "Chọn English, tải lại, đăng nhập rồi đăng xuất: vẫn đúng ngôn ngữ đã chọn",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 4: form vẫn bằng English (`Employee ID *`, `Password *`, `Sign in`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: vào Danh sách việc (thanh điều hướng có `Sign out`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 9: về form đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 9: form vẫn bằng English",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-038-sau-tai-lai-english-20261119-094224.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-038-sau-dang-xuat-english-20261119-094228.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 7.2
+    },
+    {
+      "case_id": "dang-nhap/tc-039",
+      "code": "TC-039",
+      "title": "Bấm English: vai trò đổi thành Banker, số tiền hiện kiểu English",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 5: thanh điều hướng hiện vai trò `Chuyên viên khách hàng`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: thanh điều hướng hiện vai trò `Banker`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Home loans | Worklist | P100001 · Banker · DEFAULT | Tiếng Việt | English | Sign out",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: không còn `Chuyên viên khách hàng`",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Chuyên viên khách hàng"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 7: đã bấm English nhưng thanh điều hướng vẫn hiện `Chuyên viên khách hàng`."
+        },
+        {
+          "kind": "minor",
+          "title": "Bước 8: số tiền hiện kiểu English (dấu phẩy ngăn hàng nghìn), không có kiểu dấu chấm",
+          "passed": true,
+          "note": "kiểu English: ['3,200,000,000', '3,200,000,000', '2,000,000,000']; kiểu dấu chấm: []",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-039-english-20261119-094235.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 6.4
+    },
+    {
+      "case_id": "dang-nhap/tc-023",
+      "code": "TC-023",
+      "title": "Đăng xuất: về form đăng nhập, địa chỉ /, ngôn ngữ đã chọn giữ nguyên",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: về form đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 3: thanh địa chỉ là `/`",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 3: form bằng English (`Employee ID`, `Password`, nút `Sign in`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Bước 3: ngôn ngữ lưu vẫn là English (localStorage bl.locale)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-023-sau-dang-xuat-20261119-094240.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 4.8
+    },
+    {
+      "case_id": "dang-nhap/tc-024",
+      "code": "TC-024",
+      "title": "Đăng xuất ở trang hồ sơ rồi bấm Back: chỉ hiện form đăng nhập, không lộ dữ liệu hồ sơ",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện hồ sơ HL-000019",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 4: về form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 4: thanh địa chỉ là `/`",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: thanh địa chỉ quay về link hồ sơ",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: chỉ hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: dữ liệu hồ sơ không hiện ra (không thấy HL-000019)",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "HL-000019"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 6: sau khi đăng xuất bấm Back, trang vẫn hiện dữ liệu hồ sơ HL-000019."
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-024-sau-back-20261119-094249.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 9.9
+    },
+    {
+      "case_id": "dang-nhap/tc-025",
+      "code": "TC-025",
+      "title": "Hai tab: đăng xuất ở tab 2, tab 1 thao tác thì chuyển về form đăng nhập",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: tab 2 về form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Bước 4: tab 1 chưa tự thay đổi, vẫn hiện Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: tab 1 chuyển sang form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: không hiện thông báo nào (không có `Vui lòng đăng nhập.`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Vui lòng đăng nhập"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 6: tab 1 hiện thông báo `Vui lòng đăng nhập.`, đáng ra không có thông báo."
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-025-tab-1-sau-thao-tac-20261119-094257.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 8.0
+    }
+  ]
+}

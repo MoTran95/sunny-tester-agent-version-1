@@ -1,0 +1,178 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BUG-008 [Đăng nhập] Tài khoản bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất, đăng nhập đúng không đưa số lần sai về 0</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"><style>
+/* Màu lấy mẫu từ ảnh thương hiệu (đỏ #C24E3A, vàng #E8A53C, xanh #2E7D32, nâu #3A2E26); nền và thẻ hạ độ sáng cho đỡ chói.
+   Chế độ tối theo hệ điều hành, có nút đổi tay (lưu trong trình duyệt). */
+:root{color-scheme:light;--bg:#E8DFD0;--card:#F2EDE5;--text:#3A2E26;--body:#463B34;--muted:#6F6154;--line:#D1C9BB;--coral:#C24E3A;--amber:#D9902A;--amberbg:#F6E6C3;--amberfg:#8A5A0E;--warnline:#E6CC93;--green:#2E7D32;--greenbg:#E1EDE3;--greenline:#BBD6C2;--pinkbg:#F8E4DE;--pinkline:#E0B0A4;--graybg:#DCD4C6;--grayfg:#5F5246}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}:root:not([data-theme=light]) .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}
+:root[data-theme=dark] .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 "Hanken Grotesk","Instrument Sans","Segoe UI",system-ui,sans-serif;padding:40px 16px 56px}
+main{max-width:1100px;margin:0 auto}
+.brand{text-align:center;margin:0 0 14px}.brand img{height:68px;width:auto}
+.eyebrow{text-align:center;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin:0 0 10px}
+h1{font:700 40px/1.15 Fraunces,Georgia,"Times New Roman",serif;color:var(--text);text-align:center;margin:0 0 8px}
+h1 em{font-style:italic;color:var(--coral)}
+h2{font:700 22px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:36px 0 12px}
+.sub{text-align:center;color:var(--muted);margin:0 0 26px;font-size:14px}
+code{background:var(--graybg);padding:1px 6px;border-radius:5px;font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:8px 24px;margin:0}
+dl.meta dt{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dl.meta dd{margin:0}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+a{color:var(--coral);text-decoration-color:var(--pinkline);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--coral)}
+.badge{display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap;border:1px solid transparent}
+.ok{background:var(--greenbg);color:var(--green);border-color:var(--greenline)}
+.warn{background:var(--amberbg);color:var(--amberfg);border-color:var(--warnline)}
+.bad{background:var(--pinkbg);color:var(--coral);border-color:var(--pinkline)}
+.gray{background:var(--graybg);color:var(--grayfg);border-color:var(--line)}
+.num{text-align:center}.nw{white-space:nowrap}
+.small{font-size:13px;color:var(--muted)}
+ul.ev{margin:0;padding-left:16px}
+.note{font:400 18px/1.6 Fraunces,Georgia,serif;color:var(--text);text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;margin:36px 0 0}
+main.rong{max-width:1840px}
+.thumb.kiem{border-color:#1B8F3A}.cap-ok{color:var(--green);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.vid{display:block;margin-top:6px;max-width:250px;border-radius:8px;background:#000}
+.kl h3{font:700 16px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:18px 0 6px}.kl p{margin:6px 0}.kl ul{margin:6px 0;padding-left:22px}.kl li{margin:5px 0}.kl-dau{font-size:17px;color:var(--text);font-weight:500}.kl-bang{min-width:0;width:100%}.kl-bang td{font-size:14.5px}
+.lon table{min-width:1280px;border-collapse:separate;border-spacing:0}.lon td:nth-child(2){min-width:230px}
+.khu-bang{position:relative}.lon{scrollbar-width:none;cursor:grab}.lon::-webkit-scrollbar{display:none}.lon.keo{cursor:grabbing;user-select:none}
+.thanh-keo{position:sticky;bottom:0;z-index:6;overflow-x:auto;overflow-y:hidden;height:18px;background:var(--bg);border:1px solid var(--line);border-radius:10px;margin-top:6px}
+.thanh-keo>div{height:1px}
+.lon th:nth-child(1),.lon td:nth-child(1){position:sticky;left:0;z-index:2;background:var(--card);width:76px;min-width:76px}
+.lon th:nth-child(2),.lon td:nth-child(2){position:sticky;left:76px;z-index:2;background:var(--card);box-shadow:3px 0 0 var(--line)}
+.lon th:nth-child(1),.lon th:nth-child(2){background:var(--bg);z-index:3}
+.goi-y{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.cap-loi{color:var(--coral);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.cot-nho{font-size:13.5px;line-height:1.5;min-width:170px}.cot-nho div+div{margin-top:4px}.cot-nho code{font-size:12px}
+.thuc-te .dung{color:var(--green)}.thuc-te .sai{color:var(--coral);font-weight:700}
+ul.ev li.loi{list-style:none;margin:8px 0 0 -16px}.thumb{display:block;margin-top:6px;max-width:210px;border:3px solid #E5252A;border-radius:8px}
+.theme{position:absolute;top:12px;right:12px;z-index:5;background:var(--card);color:var(--body);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:700 12px/1 inherit;font-family:inherit;letter-spacing:.06em;cursor:pointer}
+.theme:hover{border-color:var(--coral);color:var(--coral)}
+@media (max-width:600px){h1{font-size:30px}body{padding-top:28px}}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 22px}
+.btn{background:var(--card);color:var(--body);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:700 13px/1 inherit;font-family:inherit;cursor:pointer}
+.btn:hover{border-color:var(--coral);color:var(--coral)}
+.btn.chinh{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn.nho{padding:5px 12px;font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 22px}
+.chip{font-size:13px;color:var(--muted)}.chip b{color:var(--text)}
+section.muc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 22px;margin:0 0 14px}
+section.muc header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 6px}
+section.muc h2{margin:0;font-size:18px}
+section.muc p{margin:8px 0}section.muc ul,section.muc ol{margin:8px 0;padding-left:22px}section.muc li{margin:4px 0}
+blockquote{margin:0 0 20px;padding:10px 16px;border-left:4px solid var(--amber);background:var(--amberbg);color:var(--amberfg);border-radius:0 10px 10px 0}
+.gd{background:var(--amberbg);color:var(--amberfg);border:1px solid var(--warnline);border-radius:6px;padding:0 6px;font-size:14px}
+li.tick{list-style:none;margin-left:-22px}li.tick .o{display:inline-block;width:1.4em}
+.anh{display:block;margin:4px 0;max-width:250px;border:1px solid var(--line);border-radius:8px}
+.gal{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0 4px}.gal a{display:block}
+.anh.loi{border:3px solid #E5252A}
+.vid{display:block;max-width:420px;border-radius:8px;background:#000}
+.nhan-loi{display:inline-block;background:#E5252A;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;margin-right:6px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.hien{opacity:1}
+</style><script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('smoke-theme');if(t)r.setAttribute('data-theme',t)}catch(e){}document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('theme');function eff(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}function lab(){b.textContent=eff()==='dark'?'Chế độ sáng':'Chế độ tối'}lab();b.onclick=function(){var n=eff()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('smoke-theme',n)}catch(e){}lab()}})})();
+function sao(btn){var t=btn.getAttribute('data-copy');var done=function(){var z=document.getElementById('toast');z.textContent='Đã sao chép';z.classList.add('hien');setTimeout(function(){z.classList.remove('hien')},1400)};
+if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,function(){du(t,done)})}else{du(t,done)}}
+function du(t,done){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(a)}
+</script></head><body><button id="theme" class="theme" type="button">Chế độ tối</button><main><p class="eyebrow">Bug report · BUG-008</p><h1 style="font-size:30px">[Đăng nhập] Tài khoản bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất, đăng nhập đúng không đưa số lần sai về 0</h1><div class="chips"><span class="chip">Mức độ nghiêm trọng: <span class="badge gray">Nặng</span></span><span class="chip">Mức độ ưu tiên: <span class="badge warn">Trung bình</span></span><span class="chip">Tần suất: <b>Một lần: 1/1 lần chạy tự động của TC-014 ngày 2026-11-19 (khoảng 09:58), chưa tái hiện lại. Ngày 2026-11-17 từng thấy chặn ở lần thứ 11 sau chuỗi sai liên tiếp (9 lần mã 401 và 1 lần mã 400), nhưng khi đó không xen đăng nhập đúng nên không so sánh trực tiếp được</b></span></div><div class="bar"><button class="btn chinh" type="button" onclick="sao(this)" data-copy="[Đăng nhập] Tài khoản bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất, đăng nhập đúng không đưa số lần sai về 0">Sao chép tiêu đề</button><button class="btn" type="button" onclick="sao(this)" data-copy="# [Đăng nhập] Tài khoản bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất, đăng nhập đúng không đưa số lần sai về 0
+
+## Test case liên quan
+[Đăng nhập · TC-014](../test-case.md#tc-014) (chưa kết luận, bị chặn bởi bug này) và [Đăng nhập · TC-021](../test-case.md#tc-021) (bị chặn bởi bug này, chưa chạy). Yêu cầu của BA: [TL-06](../bang-soat-requirement.md#tl-06) (đăng nhập đúng xen giữa đưa số lần sai về 0), [TL-02](../bang-soat-requirement.md#tl-02) (10 lần sai liên tiếp mới bị chặn).
+
+## Môi trường
+- Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang `Banking Lite · Phiên bản 1.3.0`), địa chỉ `https://staging-banking-lite.vercel.app/`, giao diện Tiếng Việt
+- Trình duyệt: Chrome 157.0.8103.78 trên Windows 11
+- Số build: 1.3.0
+- Tài khoản: `P100001` (Chuyên viên khách hàng)
+
+## Điều kiện trước
+- Dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt
+- Tài khoản `P100001` đang hoạt động, không bị chặn
+- Trong cùng ngày đã có nhiều lần nhập sai của `P100001` (xem phần Các bước tái hiện); số lần sai của hệ thống lúc bắt đầu không biết chắc
+
+## Các bước tái hiện
+Chuỗi đã chạy ngày 2026-11-19 (từ khoảng 09:56 đến 09:58). Mỗi &quot;đăng nhập đúng&quot; là một lần đăng nhập bằng mật khẩu đúng của `P100001`; mỗi &quot;lần sai&quot; là một lần bấm `Đăng nhập` với dữ liệu sai:
+1. Đăng nhập đúng `P100001`; mở form đăng nhập mới; nhập `P100001` + mật khẩu sai `Sai@Matkhau1`, bấm `Đăng nhập` (lần sai 1, mã máy chủ 401). Lặp lại cùng kiểu (một lần đăng nhập đúng rồi một lần sai) cho các lần sai sau với `P100001`, mật khẩu sai là `Sai@Matkhau1`, hoặc mật khẩu đúng đổi hoa/thường một chữ, hoặc mật khẩu đúng thêm một dấu cách ở cuối; có lần dùng giao diện English; tổng cộng 7 lần sai có mã 401 của `P100001`, và 1 lần để trống ô Mật khẩu (mã 400).
+2. Xen vào đó là 5 lần sai không dùng mã `P100001`: mã `P999999`, ô mã trống, mã `X999999`, ô mã trống kèm ô mật khẩu trống, mã 210 ký tự.
+3. Sau đó: đăng nhập đúng `P100001` (lần đăng nhập đúng gần nhất).
+4. Mở form đăng nhập mới, nhập `P100001`. Lần lượt nhập mật khẩu sai `Sai@Matkhau1`, `Sai@Matkhau2`, `Sai@Matkhau3`, `Sai@Matkhau4`, `Sai@Matkhau5`; mỗi lần chọn hết ô Mật khẩu rồi gõ lại và bấm `Đăng nhập`.
+5. Nhìn khung lỗi sau từng lần.
+
+(Bước 3 đến 5 là TC-014 chạy tự động.)
+
+## Kết quả mong đợi
+Sau lần đăng nhập đúng gần nhất, số lần sai liên tiếp tính lại từ 0. Do đó 5 lần sai liên tiếp ở bước 4 đều báo `Mã nhân viên hoặc mật khẩu không đúng.`; chưa bị chặn (chỉ bị chặn từ lần sai liên tiếp thứ 10).
+
+## Kết quả thực tế
+Bốn lần sai đầu của bước 4 trả mã 401 và khung lỗi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.` (sai chữ này là BUG-002). Ở lần sai thứ 5 hệ thống trả mã 429 và khung lỗi ghi `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`; tức bị chặn khi mới có 5 lần sai kể từ lần đăng nhập đúng gần nhất. Cộng dồn các lần sai trong ngày thì `P100001` có 11 lần sai mã 401 (7 trước bước 3 và 4 ở bước 4) trước khi lần thứ 5 của bước 4 bị chặn. Sau khi hết 5 phút chặn, lúc 10:59 cùng ngày chạy lại với `P100001`: 3 lần sai mã 401 và 1 lần sai mã 400 (kèm 2 lần sai mã 400 của mã khác), không bị chặn lại; có vẻ bộ đếm đã về 0 sau khi hết chặn (chưa xác nhận).
+
+## Phạm vi ảnh hưởng
+- Tài khoản `P100001` bị chặn tạm 5 phút sau lần sai thứ 5 của bước 4. Đăng nhập đúng trong lúc bị chặn trước đó đã thấy vẫn thành công (ghi nhận ngày 2026-11-17, chưa kiểm lại ở lần này).
+- Ca [TC-014](../test-case.md#tc-014) (sai 9 lần, chưa bị chặn) và [TC-021](../test-case.md#tc-021) (sai 9 lần, đăng nhập đúng, sai tiếp thì không bị chặn) không chạy được cho tới khi biết rõ cách hệ thống đếm.
+
+## Ảnh hưởng nghiệp vụ
+Người dùng nhập sai vài lần xen kẽ với những lần đăng nhập đúng trong cùng ngày có thể bị chặn đăng nhập 5 phút dù mỗi lần chỉ sai ít. [Giả định: người dùng thật cũng gặp được tình huống này khi đăng nhập sai rải rác trong ngày]
+
+## Mức độ nghiêm trọng
+**Nặng.** Người dùng đúng có thể bị chặn đăng nhập tạm thời khi chưa sai đủ 10 lần liên tiếp, và hai ca test chặn không chạy được. Có cách đi vòng: chờ 5 phút. [Giả định: bị chặn chỉ kéo dài 5 phút, theo câu báo của hệ thống]
+
+## Mức độ ưu tiên đề xuất
+**Trung bình** — chặn việc test hai ca (TC-014, TC-021) và làm lại các ca nhập sai cần chờ 5 phút. (Đề xuất; team hoặc PO sẽ chốt.)
+
+## Tần suất
+Một lần: 1/1 lần chạy tự động của TC-014 ngày 2026-11-19 (khoảng 09:58), chưa tái hiện lại. Ngày 2026-11-17 từng thấy chặn ở lần thứ 11 sau chuỗi sai liên tiếp (9 lần mã 401 và 1 lần mã 400), nhưng khi đó không xen đăng nhập đúng nên không so sánh trực tiếp được.
+
+## Đính kèm cần có
+- [x] Ảnh đã tô đỏ chỗ báo bị chặn ở lần sai thứ 5, TC-014: `evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png`
+- [x] Kết quả lần chạy tự động của TC-014 (mã máy chủ từng lần: 401, 401, 401, 401, 429): `evidence/banking-lite/chay-test/result-20261119-095838.json`
+- [x] Kết quả 12 ca nhập sai chạy ngay trước đó (mỗi ca nhập sai một lần): `evidence/banking-lite/chay-test/result-20261119-095817.json`
+- [x] Kết quả TC-006 chạy trước đó: `evidence/banking-lite/chay-test/result-20261119-095652.json`
+
+## Câu hỏi còn mở
+**Cho BA:**
+- (Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-06 và TL-02.)
+
+**Cho Dev:**
+- Máy chủ đếm số lần đăng nhập sai theo cách nào? Cụ thể xin anh/chị cho mình biết: (1) bộ đếm tính theo tài khoản, theo địa chỉ máy hay theo toàn hệ thống; (2) lần đăng nhập đúng có đưa bộ đếm về 0 không; (3) lần để trống ô hoặc nhập sai định dạng (mã 400) có tính vào bộ đếm không; (4) có tính trong một khoảng thời gian nào không. Mình hỏi vì lần này `P100001` bị chặn khi mới có 5 lần sai sau lần đăng nhập đúng gần nhất, trong khi BA nói phải đủ 10 lần sai liên tiếp.
+
+## Thông tin đã gắn nhãn Giả định (cần kiểm lại)
+1. Người dùng thật cũng gặp được tình huống này khi đăng nhập sai rải rác trong ngày (mục Ảnh hưởng nghiệp vụ).
+2. Bị chặn chỉ kéo dài 5 phút, theo câu báo của hệ thống (mục Mức độ nghiêm trọng).
+">Sao chép cả bug (md)</button></div><section class="muc"><header><h2>Test case liên quan</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Test case liên quan
+Đăng nhập · TC-014 (../test-case.md#tc-014) (chưa kết luận, bị chặn bởi bug này) và Đăng nhập · TC-021 (../test-case.md#tc-021) (bị chặn bởi bug này, chưa chạy). Yêu cầu của BA: TL-06 (../bang-soat-requirement.md#tl-06) (đăng nhập đúng xen giữa đưa số lần sai về 0), TL-02 (../bang-soat-requirement.md#tl-02) (10 lần sai liên tiếp mới bị chặn).">Sao chép</button></header><p><a href="../test-case.md#tc-014">Đăng nhập · TC-014</a> (chưa kết luận, bị chặn bởi bug này) và <a href="../test-case.md#tc-021">Đăng nhập · TC-021</a> (bị chặn bởi bug này, chưa chạy). Yêu cầu của BA: <a href="../bang-soat-requirement.md#tl-06">TL-06</a> (đăng nhập đúng xen giữa đưa số lần sai về 0), <a href="../bang-soat-requirement.md#tl-02">TL-02</a> (10 lần sai liên tiếp mới bị chặn).</p></section><section class="muc"><header><h2>Môi trường</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Môi trường
+- Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang Banking Lite · Phiên bản 1.3.0), địa chỉ https://staging-banking-lite.vercel.app/, giao diện Tiếng Việt
+- Trình duyệt: Chrome 157.0.8103.78 trên Windows 11
+- Số build: 1.3.0
+- Tài khoản: P100001 (Chuyên viên khách hàng)">Sao chép</button></header><ul><li>Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang <code>Banking Lite · Phiên bản 1.3.0</code>), địa chỉ <code>https://staging-banking-lite.vercel.app/</code>, giao diện Tiếng Việt</li><li>Trình duyệt: Chrome 157.0.8103.78 trên Windows 11</li><li>Số build: 1.3.0</li><li>Tài khoản: <code>P100001</code> (Chuyên viên khách hàng)</li></ul></section><section class="muc"><header><h2>Điều kiện trước</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Điều kiện trước
+- Dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt
+- Tài khoản P100001 đang hoạt động, không bị chặn
+- Trong cùng ngày đã có nhiều lần nhập sai của P100001 (xem phần Các bước tái hiện); số lần sai của hệ thống lúc bắt đầu không biết chắc">Sao chép</button></header><ul><li>Dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt</li><li>Tài khoản <code>P100001</code> đang hoạt động, không bị chặn</li><li>Trong cùng ngày đã có nhiều lần nhập sai của <code>P100001</code> (xem phần Các bước tái hiện); số lần sai của hệ thống lúc bắt đầu không biết chắc</li></ul></section><section class="muc"><header><h2>Các bước tái hiện</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Các bước tái hiện
+Chuỗi đã chạy ngày 2026-11-19 (từ khoảng 09:56 đến 09:58). Mỗi &quot;đăng nhập đúng&quot; là một lần đăng nhập bằng mật khẩu đúng của P100001; mỗi &quot;lần sai&quot; là một lần bấm Đăng nhập với dữ liệu sai:
+1. Đăng nhập đúng P100001; mở form đăng nhập mới; nhập P100001 + mật khẩu sai Sai@Matkhau1, bấm Đăng nhập (lần sai 1, mã máy chủ 401). Lặp lại cùng kiểu (một lần đăng nhập đúng rồi một lần sai) cho các lần sai sau với P100001, mật khẩu sai là Sai@Matkhau1, hoặc mật khẩu đúng đổi hoa/thường một chữ, hoặc mật khẩu đúng thêm một dấu cách ở cuối; có lần dùng giao diện English; tổng cộng 7 lần sai có mã 401 của P100001, và 1 lần để trống ô Mật khẩu (mã 400).
+2. Xen vào đó là 5 lần sai không dùng mã P100001: mã P999999, ô mã trống, mã X999999, ô mã trống kèm ô mật khẩu trống, mã 210 ký tự.
+3. Sau đó: đăng nhập đúng P100001 (lần đăng nhập đúng gần nhất).
+4. Mở form đăng nhập mới, nhập P100001. Lần lượt nhập mật khẩu sai Sai@Matkhau1, Sai@Matkhau2, Sai@Matkhau3, Sai@Matkhau4, Sai@Matkhau5; mỗi lần chọn hết ô Mật khẩu rồi gõ lại và bấm Đăng nhập.
+5. Nhìn khung lỗi sau từng lần.
+(Bước 3 đến 5 là TC-014 chạy tự động.)">Sao chép</button></header><p>Chuỗi đã chạy ngày 2026-11-19 (từ khoảng 09:56 đến 09:58). Mỗi "đăng nhập đúng" là một lần đăng nhập bằng mật khẩu đúng của <code>P100001</code>; mỗi "lần sai" là một lần bấm <code>Đăng nhập</code> với dữ liệu sai:</p><ol><li>Đăng nhập đúng <code>P100001</code>; mở form đăng nhập mới; nhập <code>P100001</code> + mật khẩu sai <code>Sai@Matkhau1</code>, bấm <code>Đăng nhập</code> (lần sai 1, mã máy chủ 401). Lặp lại cùng kiểu (một lần đăng nhập đúng rồi một lần sai) cho các lần sai sau với <code>P100001</code>, mật khẩu sai là <code>Sai@Matkhau1</code>, hoặc mật khẩu đúng đổi hoa/thường một chữ, hoặc mật khẩu đúng thêm một dấu cách ở cuối; có lần dùng giao diện English; tổng cộng 7 lần sai có mã 401 của <code>P100001</code>, và 1 lần để trống ô Mật khẩu (mã 400).</li><li>Xen vào đó là 5 lần sai không dùng mã <code>P100001</code>: mã <code>P999999</code>, ô mã trống, mã <code>X999999</code>, ô mã trống kèm ô mật khẩu trống, mã 210 ký tự.</li><li>Sau đó: đăng nhập đúng <code>P100001</code> (lần đăng nhập đúng gần nhất).</li><li>Mở form đăng nhập mới, nhập <code>P100001</code>. Lần lượt nhập mật khẩu sai <code>Sai@Matkhau1</code>, <code>Sai@Matkhau2</code>, <code>Sai@Matkhau3</code>, <code>Sai@Matkhau4</code>, <code>Sai@Matkhau5</code>; mỗi lần chọn hết ô Mật khẩu rồi gõ lại và bấm <code>Đăng nhập</code>.</li><li>Nhìn khung lỗi sau từng lần.</li></ol><p>(Bước 3 đến 5 là TC-014 chạy tự động.)</p></section><section class="muc"><header><h2>Kết quả mong đợi</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Kết quả mong đợi
+Sau lần đăng nhập đúng gần nhất, số lần sai liên tiếp tính lại từ 0. Do đó 5 lần sai liên tiếp ở bước 4 đều báo Mã nhân viên hoặc mật khẩu không đúng.; chưa bị chặn (chỉ bị chặn từ lần sai liên tiếp thứ 10).">Sao chép</button></header><p>Sau lần đăng nhập đúng gần nhất, số lần sai liên tiếp tính lại từ 0. Do đó 5 lần sai liên tiếp ở bước 4 đều báo <code>Mã nhân viên hoặc mật khẩu không đúng.</code>; chưa bị chặn (chỉ bị chặn từ lần sai liên tiếp thứ 10).</p></section><section class="muc"><header><h2>Kết quả thực tế</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Kết quả thực tế
+Bốn lần sai đầu của bước 4 trả mã 401 và khung lỗi Mã không gian, mã nhân viên hoặc mật khẩu không đúng. (sai chữ này là BUG-002). Ở lần sai thứ 5 hệ thống trả mã 429 và khung lỗi ghi Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.; tức bị chặn khi mới có 5 lần sai kể từ lần đăng nhập đúng gần nhất. Cộng dồn các lần sai trong ngày thì P100001 có 11 lần sai mã 401 (7 trước bước 3 và 4 ở bước 4) trước khi lần thứ 5 của bước 4 bị chặn. Sau khi hết 5 phút chặn, lúc 10:59 cùng ngày chạy lại với P100001: 3 lần sai mã 401 và 1 lần sai mã 400 (kèm 2 lần sai mã 400 của mã khác), không bị chặn lại; có vẻ bộ đếm đã về 0 sau khi hết chặn (chưa xác nhận).">Sao chép</button></header><p>Bốn lần sai đầu của bước 4 trả mã 401 và khung lỗi <code>Mã không gian, mã nhân viên hoặc mật khẩu không đúng.</code> (sai chữ này là BUG-002). Ở lần sai thứ 5 hệ thống trả mã 429 và khung lỗi ghi <code>Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.</code>; tức bị chặn khi mới có 5 lần sai kể từ lần đăng nhập đúng gần nhất. Cộng dồn các lần sai trong ngày thì <code>P100001</code> có 11 lần sai mã 401 (7 trước bước 3 và 4 ở bước 4) trước khi lần thứ 5 của bước 4 bị chặn. Sau khi hết 5 phút chặn, lúc 10:59 cùng ngày chạy lại với <code>P100001</code>: 3 lần sai mã 401 và 1 lần sai mã 400 (kèm 2 lần sai mã 400 của mã khác), không bị chặn lại; có vẻ bộ đếm đã về 0 sau khi hết chặn (chưa xác nhận).</p></section><section class="muc"><header><h2>Phạm vi ảnh hưởng</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Phạm vi ảnh hưởng
+- Tài khoản P100001 bị chặn tạm 5 phút sau lần sai thứ 5 của bước 4. Đăng nhập đúng trong lúc bị chặn trước đó đã thấy vẫn thành công (ghi nhận ngày 2026-11-17, chưa kiểm lại ở lần này).
+- Ca TC-014 (../test-case.md#tc-014) (sai 9 lần, chưa bị chặn) và TC-021 (../test-case.md#tc-021) (sai 9 lần, đăng nhập đúng, sai tiếp thì không bị chặn) không chạy được cho tới khi biết rõ cách hệ thống đếm.">Sao chép</button></header><ul><li>Tài khoản <code>P100001</code> bị chặn tạm 5 phút sau lần sai thứ 5 của bước 4. Đăng nhập đúng trong lúc bị chặn trước đó đã thấy vẫn thành công (ghi nhận ngày 2026-11-17, chưa kiểm lại ở lần này).</li><li>Ca <a href="../test-case.md#tc-014">TC-014</a> (sai 9 lần, chưa bị chặn) và <a href="../test-case.md#tc-021">TC-021</a> (sai 9 lần, đăng nhập đúng, sai tiếp thì không bị chặn) không chạy được cho tới khi biết rõ cách hệ thống đếm.</li></ul></section><section class="muc"><header><h2>Ảnh hưởng nghiệp vụ</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Ảnh hưởng nghiệp vụ
+Người dùng nhập sai vài lần xen kẽ với những lần đăng nhập đúng trong cùng ngày có thể bị chặn đăng nhập 5 phút dù mỗi lần chỉ sai ít. [Giả định: người dùng thật cũng gặp được tình huống này khi đăng nhập sai rải rác trong ngày]">Sao chép</button></header><p>Người dùng nhập sai vài lần xen kẽ với những lần đăng nhập đúng trong cùng ngày có thể bị chặn đăng nhập 5 phút dù mỗi lần chỉ sai ít. <span class="gd">Giả định: người dùng thật cũng gặp được tình huống này khi đăng nhập sai rải rác trong ngày</span></p></section><section class="muc"><header><h2>Mức độ nghiêm trọng</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Mức độ nghiêm trọng
+Nặng. Người dùng đúng có thể bị chặn đăng nhập tạm thời khi chưa sai đủ 10 lần liên tiếp, và hai ca test chặn không chạy được. Có cách đi vòng: chờ 5 phút. [Giả định: bị chặn chỉ kéo dài 5 phút, theo câu báo của hệ thống]">Sao chép</button></header><p><strong>Nặng.</strong> Người dùng đúng có thể bị chặn đăng nhập tạm thời khi chưa sai đủ 10 lần liên tiếp, và hai ca test chặn không chạy được. Có cách đi vòng: chờ 5 phút. <span class="gd">Giả định: bị chặn chỉ kéo dài 5 phút, theo câu báo của hệ thống</span></p></section><section class="muc"><header><h2>Mức độ ưu tiên đề xuất</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Mức độ ưu tiên đề xuất
+Trung bình — chặn việc test hai ca (TC-014, TC-021) và làm lại các ca nhập sai cần chờ 5 phút. (Đề xuất; team hoặc PO sẽ chốt.)">Sao chép</button></header><p><strong>Trung bình</strong> — chặn việc test hai ca (TC-014, TC-021) và làm lại các ca nhập sai cần chờ 5 phút. (Đề xuất; team hoặc PO sẽ chốt.)</p></section><section class="muc"><header><h2>Tần suất</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Tần suất
+Một lần: 1/1 lần chạy tự động của TC-014 ngày 2026-11-19 (khoảng 09:58), chưa tái hiện lại. Ngày 2026-11-17 từng thấy chặn ở lần thứ 11 sau chuỗi sai liên tiếp (9 lần mã 401 và 1 lần mã 400), nhưng khi đó không xen đăng nhập đúng nên không so sánh trực tiếp được.">Sao chép</button></header><p>Một lần: 1/1 lần chạy tự động của TC-014 ngày 2026-11-19 (khoảng 09:58), chưa tái hiện lại. Ngày 2026-11-17 từng thấy chặn ở lần thứ 11 sau chuỗi sai liên tiếp (9 lần mã 401 và 1 lần mã 400), nhưng khi đó không xen đăng nhập đúng nên không so sánh trực tiếp được.</p></section><section class="muc"><header><h2>Đính kèm cần có</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Đính kèm cần có
+- Ảnh đã tô đỏ chỗ báo bị chặn ở lần sai thứ 5, TC-014: evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png
+- Kết quả lần chạy tự động của TC-014 (mã máy chủ từng lần: 401, 401, 401, 401, 429): evidence/banking-lite/chay-test/result-20261119-095838.json
+- Kết quả 12 ca nhập sai chạy ngay trước đó (mỗi ca nhập sai một lần): evidence/banking-lite/chay-test/result-20261119-095817.json
+- Kết quả TC-006 chạy trước đó: evidence/banking-lite/chay-test/result-20261119-095652.json">Sao chép</button></header><ul><li class="tick"><span class="o">☑</span>Ảnh đã tô đỏ chỗ báo bị chặn ở lần sai thứ 5, TC-014: <code>evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png" alt="dang-nhap-tc-014-loi-20261119-095838.png"></a></div></li><li class="tick"><span class="o">☑</span>Kết quả lần chạy tự động của TC-014 (mã máy chủ từng lần: 401, 401, 401, 401, 429): <code>evidence/banking-lite/chay-test/result-20261119-095838.json</code></li><li class="tick"><span class="o">☑</span>Kết quả 12 ca nhập sai chạy ngay trước đó (mỗi ca nhập sai một lần): <code>evidence/banking-lite/chay-test/result-20261119-095817.json</code></li><li class="tick"><span class="o">☑</span>Kết quả TC-006 chạy trước đó: <code>evidence/banking-lite/chay-test/result-20261119-095652.json</code></li></ul></section><section class="muc"><header><h2>Câu hỏi còn mở</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Câu hỏi còn mở
+Cho BA:
+- (Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-06 và TL-02.)
+Cho Dev:
+- Máy chủ đếm số lần đăng nhập sai theo cách nào? Cụ thể xin anh/chị cho mình biết: (1) bộ đếm tính theo tài khoản, theo địa chỉ máy hay theo toàn hệ thống; (2) lần đăng nhập đúng có đưa bộ đếm về 0 không; (3) lần để trống ô hoặc nhập sai định dạng (mã 400) có tính vào bộ đếm không; (4) có tính trong một khoảng thời gian nào không. Mình hỏi vì lần này P100001 bị chặn khi mới có 5 lần sai sau lần đăng nhập đúng gần nhất, trong khi BA nói phải đủ 10 lần sai liên tiếp.">Sao chép</button></header><p><strong>Cho BA:</strong></p><ul><li>(Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-06 và TL-02.)</li></ul><p><strong>Cho Dev:</strong></p><ul><li>Máy chủ đếm số lần đăng nhập sai theo cách nào? Cụ thể xin anh/chị cho mình biết: (1) bộ đếm tính theo tài khoản, theo địa chỉ máy hay theo toàn hệ thống; (2) lần đăng nhập đúng có đưa bộ đếm về 0 không; (3) lần để trống ô hoặc nhập sai định dạng (mã 400) có tính vào bộ đếm không; (4) có tính trong một khoảng thời gian nào không. Mình hỏi vì lần này <code>P100001</code> bị chặn khi mới có 5 lần sai sau lần đăng nhập đúng gần nhất, trong khi BA nói phải đủ 10 lần sai liên tiếp.</li></ul></section><section class="muc"><header><h2>Thông tin đã gắn nhãn Giả định (cần kiểm lại)</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Thông tin đã gắn nhãn Giả định (cần kiểm lại)
+1. Người dùng thật cũng gặp được tình huống này khi đăng nhập sai rải rác trong ngày (mục Ảnh hưởng nghiệp vụ).
+2. Bị chặn chỉ kéo dài 5 phút, theo câu báo của hệ thống (mục Mức độ nghiêm trọng).">Sao chép</button></header><ol><li>Người dùng thật cũng gặp được tình huống này khi đăng nhập sai rải rác trong ngày (mục Ảnh hưởng nghiệp vụ).</li><li>Bị chặn chỉ kéo dài 5 phút, theo câu báo của hệ thống (mục Mức độ nghiêm trọng).</li></ol></section><div id="toast" class="toast"></div></main></body></html>

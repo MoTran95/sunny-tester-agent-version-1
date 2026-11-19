@@ -6,7 +6,7 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 |---|---|---|
 | ★ `user/working-preferences.md` | mọi việc | quy tắc cốt lõi: tiếng Việt, hỏi không đoán, mật khẩu, tối đa 3 lần, commit khi nhờ |
 | ★ `project/overview.md` | mọi việc | repo là gì, danh sách dự án |
-| `user/document-preferences.md` | viết báo cáo/SRS/bảng soát/checklist | cách người dùng muốn tài liệu |
+| `user/document-preferences.md` | viết báo cáo/SRS/bảng soát/checklist/bug | cách người dùng muốn tài liệu |
 | `user/connectors-and-plugins.md` | cần connector/plugin; chậm | Notion/Docs tắt; tắt plugin từ repo không được (đã đo) |
 | `conventions/nhieu-du-an.md` | máy mới, đổi/tạo dự án | chọn dự án, không lẫn kiến thức |
 | `conventions/memory-writing-rules.md` | trước khi ghi/sửa memory | khuôn viết cho AI, độ dài |
@@ -14,6 +14,7 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `project/skills.md` | dùng/sửa skill | 6 skill, script, trạng thái đã thử |
 | `project/srs-process.md` | làm SRS; hỏi vì sao khuôn thế | quyết định khuôn/ID, bẫy |
 | `project/truy-vet-requirement.md` | requirement đổi; sửa checklist/TC; sửa smoke | `truy-vet.py`, `truy-vet-smoke.py`, neo TC, lịch sử, bẫy |
+| `project/tu-dong-hoa-test.md` | viết/chạy script test case; thư viện `test_automation`; thêm dự án | quyết định Playwright, cấu trúc, bẫy, bảng kết quả smoke (`smoke-ket-qua.md/.html`), trạng thái |
 | `project/session-speed.md` | than chậm/tốn token; sửa skill/khuôn | số đo, đã làm, rủi ro |
 | `project/git-remote.md` | commit/push | remote, `.env` loại trừ |
 | `project/architecture.md` | thêm thư mục, đổi quyền, máy mới | cấu trúc, script |

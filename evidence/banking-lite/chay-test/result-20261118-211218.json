@@ -1,0 +1,56 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-18 21:12:18",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-005",
+      "code": "TC-005",
+      "title": "Form đăng nhập đủ ô nhập, nút và phiên bản ở chân trang",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Có ô `Mã nhân viên *` (bước 2)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Có ô `Mật khẩu *` (bước 2)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Có nút `Đăng nhập` (bước 4)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Chân trang ghi `Banking Lite · Phiên bản 1.3.0` (bước 5)",
+          "passed": true,
+          "note": "thấy: 1.3.0"
+        },
+        {
+          "kind": "minor",
+          "title": "Có dòng gợi ý `Chữ P và 6 chữ số, ví dụ P100001.` (bước 3)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Chữ gõ trong ô Mật khẩu hiện dạng chấm (bước 7)",
+          "passed": true,
+          "note": "kiểu ô: password"
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-005-form-dang-nhap-20261118-211218.png"
+      ],
+      "seconds": 3.8
+    }
+  ]
+}

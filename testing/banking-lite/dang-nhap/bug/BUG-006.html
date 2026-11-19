@@ -1,0 +1,168 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BUG-006 [Đăng nhập] Nhập mã nhân viên 210 ký tự hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_big (employeeId)</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"><style>
+/* Màu lấy mẫu từ ảnh thương hiệu (đỏ #C24E3A, vàng #E8A53C, xanh #2E7D32, nâu #3A2E26); nền và thẻ hạ độ sáng cho đỡ chói.
+   Chế độ tối theo hệ điều hành, có nút đổi tay (lưu trong trình duyệt). */
+:root{color-scheme:light;--bg:#E8DFD0;--card:#F2EDE5;--text:#3A2E26;--body:#463B34;--muted:#6F6154;--line:#D1C9BB;--coral:#C24E3A;--amber:#D9902A;--amberbg:#F6E6C3;--amberfg:#8A5A0E;--warnline:#E6CC93;--green:#2E7D32;--greenbg:#E1EDE3;--greenline:#BBD6C2;--pinkbg:#F8E4DE;--pinkline:#E0B0A4;--graybg:#DCD4C6;--grayfg:#5F5246}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}:root:not([data-theme=light]) .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#251F1A;--card:#2E2721;--text:#F1E6D4;--body:#DCCFBE;--muted:#A89A8B;--line:#44392F;--coral:#EE8F7C;--amber:#E8A53C;--amberbg:#3A2F18;--amberfg:#EDBB62;--warnline:#5E4A22;--green:#86D08F;--greenbg:#1F3228;--greenline:#2F5A3E;--pinkbg:#3B2420;--pinkline:#6B3A32;--graybg:#38302A;--grayfg:#B8AA9A}
+:root[data-theme=dark] .brand img{background:#E8DFD0;border-radius:14px;padding:6px 14px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 "Hanken Grotesk","Instrument Sans","Segoe UI",system-ui,sans-serif;padding:40px 16px 56px}
+main{max-width:1100px;margin:0 auto}
+.brand{text-align:center;margin:0 0 14px}.brand img{height:68px;width:auto}
+.eyebrow{text-align:center;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin:0 0 10px}
+h1{font:700 40px/1.15 Fraunces,Georgia,"Times New Roman",serif;color:var(--text);text-align:center;margin:0 0 8px}
+h1 em{font-style:italic;color:var(--coral)}
+h2{font:700 22px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:36px 0 12px}
+.sub{text-align:center;color:var(--muted);margin:0 0 26px;font-size:14px}
+code{background:var(--graybg);padding:1px 6px;border-radius:5px;font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+dl.meta{display:grid;grid-template-columns:max-content 1fr;gap:8px 24px;margin:0}
+dl.meta dt{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dl.meta dd{margin:0}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+a{color:var(--coral);text-decoration-color:var(--pinkline);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--coral)}
+.badge{display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap;border:1px solid transparent}
+.ok{background:var(--greenbg);color:var(--green);border-color:var(--greenline)}
+.warn{background:var(--amberbg);color:var(--amberfg);border-color:var(--warnline)}
+.bad{background:var(--pinkbg);color:var(--coral);border-color:var(--pinkline)}
+.gray{background:var(--graybg);color:var(--grayfg);border-color:var(--line)}
+.num{text-align:center}.nw{white-space:nowrap}
+.small{font-size:13px;color:var(--muted)}
+ul.ev{margin:0;padding-left:16px}
+.note{font:400 18px/1.6 Fraunces,Georgia,serif;color:var(--text);text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;margin:36px 0 0}
+main.rong{max-width:1840px}
+.thumb.kiem{border-color:#1B8F3A}.cap-ok{color:var(--green);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.vid{display:block;margin-top:6px;max-width:250px;border-radius:8px;background:#000}
+.kl h3{font:700 16px/1.3 Fraunces,Georgia,serif;color:var(--text);margin:18px 0 6px}.kl p{margin:6px 0}.kl ul{margin:6px 0;padding-left:22px}.kl li{margin:5px 0}.kl-dau{font-size:17px;color:var(--text);font-weight:500}.kl-bang{min-width:0;width:100%}.kl-bang td{font-size:14.5px}
+.lon table{min-width:1280px;border-collapse:separate;border-spacing:0}.lon td:nth-child(2){min-width:230px}
+.khu-bang{position:relative}.lon{scrollbar-width:none;cursor:grab}.lon::-webkit-scrollbar{display:none}.lon.keo{cursor:grabbing;user-select:none}
+.thanh-keo{position:sticky;bottom:0;z-index:6;overflow-x:auto;overflow-y:hidden;height:18px;background:var(--bg);border:1px solid var(--line);border-radius:10px;margin-top:6px}
+.thanh-keo>div{height:1px}
+.lon th:nth-child(1),.lon td:nth-child(1){position:sticky;left:0;z-index:2;background:var(--card);width:76px;min-width:76px}
+.lon th:nth-child(2),.lon td:nth-child(2){position:sticky;left:76px;z-index:2;background:var(--card);box-shadow:3px 0 0 var(--line)}
+.lon th:nth-child(1),.lon th:nth-child(2){background:var(--bg);z-index:3}
+.goi-y{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.cap-loi{color:var(--coral);font-size:13px;font-weight:700;line-height:1.45;margin:6px 0 2px;max-width:230px}.cot-nho{font-size:13.5px;line-height:1.5;min-width:170px}.cot-nho div+div{margin-top:4px}.cot-nho code{font-size:12px}
+.thuc-te .dung{color:var(--green)}.thuc-te .sai{color:var(--coral);font-weight:700}
+ul.ev li.loi{list-style:none;margin:8px 0 0 -16px}.thumb{display:block;margin-top:6px;max-width:210px;border:3px solid #E5252A;border-radius:8px}
+.theme{position:absolute;top:12px;right:12px;z-index:5;background:var(--card);color:var(--body);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:700 12px/1 inherit;font-family:inherit;letter-spacing:.06em;cursor:pointer}
+.theme:hover{border-color:var(--coral);color:var(--coral)}
+@media (max-width:600px){h1{font-size:30px}body{padding-top:28px}}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 22px}
+.btn{background:var(--card);color:var(--body);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:700 13px/1 inherit;font-family:inherit;cursor:pointer}
+.btn:hover{border-color:var(--coral);color:var(--coral)}
+.btn.chinh{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn.nho{padding:5px 12px;font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 22px}
+.chip{font-size:13px;color:var(--muted)}.chip b{color:var(--text)}
+section.muc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 22px;margin:0 0 14px}
+section.muc header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 6px}
+section.muc h2{margin:0;font-size:18px}
+section.muc p{margin:8px 0}section.muc ul,section.muc ol{margin:8px 0;padding-left:22px}section.muc li{margin:4px 0}
+blockquote{margin:0 0 20px;padding:10px 16px;border-left:4px solid var(--amber);background:var(--amberbg);color:var(--amberfg);border-radius:0 10px 10px 0}
+.gd{background:var(--amberbg);color:var(--amberfg);border:1px solid var(--warnline);border-radius:6px;padding:0 6px;font-size:14px}
+li.tick{list-style:none;margin-left:-22px}li.tick .o{display:inline-block;width:1.4em}
+.anh{display:block;margin:4px 0;max-width:250px;border:1px solid var(--line);border-radius:8px}
+.gal{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0 4px}.gal a{display:block}
+.anh.loi{border:3px solid #E5252A}
+.vid{display:block;max-width:420px;border-radius:8px;background:#000}
+.nhan-loi{display:inline-block;background:#E5252A;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;margin-right:6px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.hien{opacity:1}
+</style><script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('smoke-theme');if(t)r.setAttribute('data-theme',t)}catch(e){}document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('theme');function eff(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}function lab(){b.textContent=eff()==='dark'?'Chế độ sáng':'Chế độ tối'}lab();b.onclick=function(){var n=eff()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('smoke-theme',n)}catch(e){}lab()}})})();
+function sao(btn){var t=btn.getAttribute('data-copy');var done=function(){var z=document.getElementById('toast');z.textContent='Đã sao chép';z.classList.add('hien');setTimeout(function(){z.classList.remove('hien')},1400)};
+if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,function(){du(t,done)})}else{du(t,done)}}
+function du(t,done){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(a)}
+</script></head><body><button id="theme" class="theme" type="button">Chế độ tối</button><main><p class="eyebrow">Bug report · BUG-006</p><h1 style="font-size:30px">[Đăng nhập] Nhập mã nhân viên 210 ký tự hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_big (employeeId)</h1><div class="chips"><span class="chip">Mức độ nghiêm trọng: <span class="badge gray">Rất nhỏ</span></span><span class="chip">Mức độ ưu tiên: <span class="badge gray">Thấp</span></span><span class="chip">Tần suất: <b>Luôn xảy ra: 1/1 lần chạy tự động ngày 2026-11-19 (khoảng 09:57); chưa chạy lại lần hai</b></span></div><div class="bar"><button class="btn chinh" type="button" onclick="sao(this)" data-copy="[Đăng nhập] Nhập mã nhân viên 210 ký tự hiện Một số giá trị không hợp lệ. và dòng mã kỹ thuật validation.too_big (employeeId)">Sao chép tiêu đề</button><button class="btn" type="button" onclick="sao(this)" data-copy="# [Đăng nhập] Nhập mã nhân viên 210 ký tự hiện `Một số giá trị không hợp lệ.` và dòng mã kỹ thuật `validation.too_big (employeeId)`
+
+## Test case liên quan
+[Đăng nhập · TC-040](../test-case.md#tc-040) (không đạt). Yêu cầu của BA: [TL-03](../bang-soat-requirement.md#tl-03), [TL-04](../bang-soat-requirement.md#tl-04). Có thể chung nguyên nhân với [BUG-004](BUG-004.md) và [BUG-005](BUG-005.md), cần hỏi Dev.
+
+## Môi trường
+- Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang `Banking Lite · Phiên bản 1.3.0`), địa chỉ `https://staging-banking-lite.vercel.app/`, giao diện Tiếng Việt
+- Trình duyệt: Chrome 157.0.8103.78 trên Windows 11
+- Số build: 1.3.0
+- Tài khoản: `P100001` (Chuyên viên khách hàng)
+
+## Điều kiện trước
+- Dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt
+- Hệ thống không đang chặn đăng nhập
+
+## Các bước tái hiện
+1. Mở `https://staging-banking-lite.vercel.app/` (chưa đăng nhập).
+2. Ở ô `Mã nhân viên *` nhập chữ `P` rồi 209 chữ số `1` liên tiếp (tổng 210 ký tự).
+3. Ở ô `Mật khẩu *` nhập `Sai@Matkhau1`.
+4. Bấm nút `Đăng nhập`.
+5. Nhìn khung lỗi màu đỏ.
+
+(Các bước này là bước 1 đến 5 của TC-040.)
+
+## Kết quả mong đợi
+Khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; không hiện câu `Một số giá trị không hợp lệ.` và không hiện dòng `validation.too_big (employeeId)`.
+
+## Kết quả thực tế
+Ở bước 5, khung lỗi đỏ hiện hai dòng: dòng đầu `Một số giá trị không hợp lệ.`, bên dưới là một mục `validation.too_big (employeeId)`. Câu `Mã nhân viên hoặc mật khẩu không đúng.` không hiện. Người dùng vẫn ở màn hình đăng nhập.
+
+## Phạm vi ảnh hưởng
+Không có: chỉ một chỗ (mã nhân viên dài 210 ký tự). Chưa thử độ dài khác nên chưa biết từ bao nhiêu ký tự thì hiện câu này.
+
+## Ảnh hưởng nghiệp vụ
+Người dùng gõ nhầm mã nhân viên rất dài thấy dòng mã kỹ thuật chưa dịch thay vì câu báo thông thường. Trường hợp này hiếm. Đăng nhập và nhập lại không bị cản. [Giả định: người dùng thật hầu như không gõ mã dài như vậy]
+
+## Mức độ nghiêm trọng
+**Rất nhỏ.** Tình huống hiếm, chỉ là chữ hiển thị sai, không có thao tác nào bị chặn.
+
+## Mức độ ưu tiên đề xuất
+**Thấp** — không chặn việc test nào khác. (Đề xuất; team hoặc PO sẽ chốt.)
+
+## Tần suất
+Luôn xảy ra: 1/1 lần chạy tự động ngày 2026-11-19 (khoảng 09:57); chưa chạy lại lần hai.
+
+## Đính kèm cần có
+- [x] Ảnh đã tô đỏ chỗ lỗi, TC-040: `evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-095753-loi-khung.png`
+- [x] Kết quả lần chạy tự động: `evidence/banking-lite/chay-test/result-20261119-095817.json`
+- [x] Video quay lại các bước, TC-040: `evidence/banking-lite/chay-test/video/dang-nhap-tc-040-20261119-105922.webm`
+
+## Câu hỏi còn mở
+**Cho BA:**
+- (Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-03 và TL-04.)
+
+**Cho Dev:**
+- Xem câu hỏi ở BUG-004: ba trường hợp (trống mật khẩu, trống cả hai ô, mã dài) có chung một đoạn kiểm tra dữ liệu ở máy chủ không? Nếu có, mình gộp ba bug thành một.
+
+## Thông tin đã gắn nhãn Giả định (cần kiểm lại)
+1. Người dùng thật hầu như không gõ mã dài như vậy (mục Ảnh hưởng nghiệp vụ).
+">Sao chép cả bug (md)</button></div><section class="muc"><header><h2>Test case liên quan</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Test case liên quan
+Đăng nhập · TC-040 (../test-case.md#tc-040) (không đạt). Yêu cầu của BA: TL-03 (../bang-soat-requirement.md#tl-03), TL-04 (../bang-soat-requirement.md#tl-04). Có thể chung nguyên nhân với BUG-004 (BUG-004.md) và BUG-005 (BUG-005.md), cần hỏi Dev.">Sao chép</button></header><p><a href="../test-case.md#tc-040">Đăng nhập · TC-040</a> (không đạt). Yêu cầu của BA: <a href="../bang-soat-requirement.md#tl-03">TL-03</a>, <a href="../bang-soat-requirement.md#tl-04">TL-04</a>. Có thể chung nguyên nhân với <a href="BUG-004.md">BUG-004</a> và <a href="BUG-005.md">BUG-005</a>, cần hỏi Dev.</p></section><section class="muc"><header><h2>Môi trường</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Môi trường
+- Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang Banking Lite · Phiên bản 1.3.0), địa chỉ https://staging-banking-lite.vercel.app/, giao diện Tiếng Việt
+- Trình duyệt: Chrome 157.0.8103.78 trên Windows 11
+- Số build: 1.3.0
+- Tài khoản: P100001 (Chuyên viên khách hàng)">Sao chép</button></header><ul><li>Hệ thống: Banking Lite bản 1.3.0 (đọc ở chân trang <code>Banking Lite · Phiên bản 1.3.0</code>), địa chỉ <code>https://staging-banking-lite.vercel.app/</code>, giao diện Tiếng Việt</li><li>Trình duyệt: Chrome 157.0.8103.78 trên Windows 11</li><li>Số build: 1.3.0</li><li>Tài khoản: <code>P100001</code> (Chuyên viên khách hàng)</li></ul></section><section class="muc"><header><h2>Điều kiện trước</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Điều kiện trước
+- Dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt
+- Hệ thống không đang chặn đăng nhập">Sao chép</button></header><ul><li>Dùng trình duyệt vào được hệ thống, chưa đăng nhập, giao diện Tiếng Việt</li><li>Hệ thống không đang chặn đăng nhập</li></ul></section><section class="muc"><header><h2>Các bước tái hiện</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Các bước tái hiện
+1. Mở https://staging-banking-lite.vercel.app/ (chưa đăng nhập).
+2. Ở ô Mã nhân viên * nhập chữ P rồi 209 chữ số 1 liên tiếp (tổng 210 ký tự).
+3. Ở ô Mật khẩu * nhập Sai@Matkhau1.
+4. Bấm nút Đăng nhập.
+5. Nhìn khung lỗi màu đỏ.
+(Các bước này là bước 1 đến 5 của TC-040.)">Sao chép</button></header><ol><li>Mở <code>https://staging-banking-lite.vercel.app/</code> (chưa đăng nhập).</li><li>Ở ô <code>Mã nhân viên *</code> nhập chữ <code>P</code> rồi 209 chữ số <code>1</code> liên tiếp (tổng 210 ký tự).</li><li>Ở ô <code>Mật khẩu *</code> nhập <code>Sai@Matkhau1</code>.</li><li>Bấm nút <code>Đăng nhập</code>.</li><li>Nhìn khung lỗi màu đỏ.</li></ol><p>(Các bước này là bước 1 đến 5 của TC-040.)</p></section><section class="muc"><header><h2>Kết quả mong đợi</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Kết quả mong đợi
+Khung lỗi đỏ ghi đúng câu Mã nhân viên hoặc mật khẩu không đúng.; không hiện câu Một số giá trị không hợp lệ. và không hiện dòng validation.too_big (employeeId).">Sao chép</button></header><p>Khung lỗi đỏ ghi đúng câu <code>Mã nhân viên hoặc mật khẩu không đúng.</code>; không hiện câu <code>Một số giá trị không hợp lệ.</code> và không hiện dòng <code>validation.too_big (employeeId)</code>.</p></section><section class="muc"><header><h2>Kết quả thực tế</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Kết quả thực tế
+Ở bước 5, khung lỗi đỏ hiện hai dòng: dòng đầu Một số giá trị không hợp lệ., bên dưới là một mục validation.too_big (employeeId). Câu Mã nhân viên hoặc mật khẩu không đúng. không hiện. Người dùng vẫn ở màn hình đăng nhập.">Sao chép</button></header><p>Ở bước 5, khung lỗi đỏ hiện hai dòng: dòng đầu <code>Một số giá trị không hợp lệ.</code>, bên dưới là một mục <code>validation.too_big (employeeId)</code>. Câu <code>Mã nhân viên hoặc mật khẩu không đúng.</code> không hiện. Người dùng vẫn ở màn hình đăng nhập.</p></section><section class="muc"><header><h2>Phạm vi ảnh hưởng</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Phạm vi ảnh hưởng
+Không có: chỉ một chỗ (mã nhân viên dài 210 ký tự). Chưa thử độ dài khác nên chưa biết từ bao nhiêu ký tự thì hiện câu này.">Sao chép</button></header><p>Không có: chỉ một chỗ (mã nhân viên dài 210 ký tự). Chưa thử độ dài khác nên chưa biết từ bao nhiêu ký tự thì hiện câu này.</p></section><section class="muc"><header><h2>Ảnh hưởng nghiệp vụ</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Ảnh hưởng nghiệp vụ
+Người dùng gõ nhầm mã nhân viên rất dài thấy dòng mã kỹ thuật chưa dịch thay vì câu báo thông thường. Trường hợp này hiếm. Đăng nhập và nhập lại không bị cản. [Giả định: người dùng thật hầu như không gõ mã dài như vậy]">Sao chép</button></header><p>Người dùng gõ nhầm mã nhân viên rất dài thấy dòng mã kỹ thuật chưa dịch thay vì câu báo thông thường. Trường hợp này hiếm. Đăng nhập và nhập lại không bị cản. <span class="gd">Giả định: người dùng thật hầu như không gõ mã dài như vậy</span></p></section><section class="muc"><header><h2>Mức độ nghiêm trọng</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Mức độ nghiêm trọng
+Rất nhỏ. Tình huống hiếm, chỉ là chữ hiển thị sai, không có thao tác nào bị chặn.">Sao chép</button></header><p><strong>Rất nhỏ.</strong> Tình huống hiếm, chỉ là chữ hiển thị sai, không có thao tác nào bị chặn.</p></section><section class="muc"><header><h2>Mức độ ưu tiên đề xuất</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Mức độ ưu tiên đề xuất
+Thấp — không chặn việc test nào khác. (Đề xuất; team hoặc PO sẽ chốt.)">Sao chép</button></header><p><strong>Thấp</strong> — không chặn việc test nào khác. (Đề xuất; team hoặc PO sẽ chốt.)</p></section><section class="muc"><header><h2>Tần suất</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Tần suất
+Luôn xảy ra: 1/1 lần chạy tự động ngày 2026-11-19 (khoảng 09:57); chưa chạy lại lần hai.">Sao chép</button></header><p>Luôn xảy ra: 1/1 lần chạy tự động ngày 2026-11-19 (khoảng 09:57); chưa chạy lại lần hai.</p></section><section class="muc"><header><h2>Đính kèm cần có</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Đính kèm cần có
+- Ảnh đã tô đỏ chỗ lỗi, TC-040: evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-095753-loi-khung.png
+- Kết quả lần chạy tự động: evidence/banking-lite/chay-test/result-20261119-095817.json
+- Video quay lại các bước, TC-040: evidence/banking-lite/chay-test/video/dang-nhap-tc-040-20261119-105922.webm">Sao chép</button></header><ul><li class="tick"><span class="o">☑</span>Ảnh đã tô đỏ chỗ lỗi, TC-040: <code>evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-095753-loi-khung.png</code><div class="gal"><a href="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-095753-loi-khung.png" target="_blank" rel="noopener"><span class=nhan-loi>Tô đỏ chỗ lỗi</span><img class="anh loi" src="../../../../evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-095753-loi-khung.png" alt="dang-nhap-tc-040-sau-nhap-sai-20261119-095753-loi-khung.png"></a></div></li><li class="tick"><span class="o">☑</span>Kết quả lần chạy tự động: <code>evidence/banking-lite/chay-test/result-20261119-095817.json</code></li><li class="tick"><span class="o">☑</span>Video quay lại các bước, TC-040: <code>evidence/banking-lite/chay-test/video/dang-nhap-tc-040-20261119-105922.webm</code><div class="gal"><div><video class="vid" controls preload="metadata" src="../../../../evidence/banking-lite/chay-test/video/dang-nhap-tc-040-20261119-105922.webm"></video><div class="small">Video: dang-nhap-tc-040-20261119-105922.webm</div></div></div></li></ul></section><section class="muc"><header><h2>Câu hỏi còn mở</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Câu hỏi còn mở
+Cho BA:
+- (Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-03 và TL-04.)
+Cho Dev:
+- Xem câu hỏi ở BUG-004: ba trường hợp (trống mật khẩu, trống cả hai ô, mã dài) có chung một đoạn kiểm tra dữ liệu ở máy chủ không? Nếu có, mình gộp ba bug thành một.">Sao chép</button></header><p><strong>Cho BA:</strong></p><ul><li>(Không có: kết quả mong đợi đã có yêu cầu của BA ở TL-03 và TL-04.)</li></ul><p><strong>Cho Dev:</strong></p><ul><li>Xem câu hỏi ở BUG-004: ba trường hợp (trống mật khẩu, trống cả hai ô, mã dài) có chung một đoạn kiểm tra dữ liệu ở máy chủ không? Nếu có, mình gộp ba bug thành một.</li></ul></section><section class="muc"><header><h2>Thông tin đã gắn nhãn Giả định (cần kiểm lại)</h2><button class="btn nho" type="button" onclick="sao(this)" data-copy="Thông tin đã gắn nhãn Giả định (cần kiểm lại)
+1. Người dùng thật hầu như không gõ mã dài như vậy (mục Ảnh hưởng nghiệp vụ).">Sao chép</button></header><ol><li>Người dùng thật hầu như không gõ mã dài như vậy (mục Ảnh hưởng nghiệp vụ).</li></ol></section><div id="toast" class="toast"></div></main></body></html>

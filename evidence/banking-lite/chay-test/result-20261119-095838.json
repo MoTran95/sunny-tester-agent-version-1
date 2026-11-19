@@ -1,0 +1,46 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 09:58:38",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-014",
+      "code": "TC-014",
+      "title": "Sai liên tiếp 9 lần: lần thứ 9 vẫn báo câu chung, chưa bị chặn",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: Bước 3-11: sau mỗi lần sai (1 đến 9), khung lỗi ghi `Mã nhân viên hoặc mật khẩu không đúng.`; Bước 12: sau lần sai thứ 9 chưa bị chặn (không hiện `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 3-11: sau mỗi lần sai (1 đến 9), khung lỗi ghi `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "mã máy chủ từng lần: [401, 401, 401, 401, 429]; lần có câu đúng: []",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 12: sau lần sai thứ 9 chưa bị chặn (không hiện `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`)",
+          "passed": false,
+          "note": "bị chặn ở lần thứ 5",
+          "mark_text": [
+            "Đăng nhập sai quá nhiều lần"
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 7: sau lần sai thứ 5, hệ thống đã chặn (hiện `Đăng nhập sai quá nhiều lần`), đáng ra chỉ chặn từ lần thứ 10."
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-014-sau-lan-sai-thu-5-20261119-095838.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-014-loi-20261119-095838.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-014-loi-20261119-095838.png": "Lỗi ở bước 7: sau lần sai thứ 5, hệ thống đã chặn (hiện `Đăng nhập sai quá nhiều lần`), đáng ra chỉ chặn từ lần thứ 10."
+      },
+      "seconds": 13.8
+    }
+  ]
+}

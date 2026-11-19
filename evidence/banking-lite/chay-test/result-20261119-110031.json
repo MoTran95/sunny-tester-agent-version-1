@@ -1,0 +1,316 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 11:00:31",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-032",
+      "code": "TC-032",
+      "title": "Tải lại trang khi đã đăng nhập: vẫn đăng nhập, không phải nhập lại",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: vẫn ở Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-032-sau-tai-lai-20261119-110001.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-032-kiem-20261119-110001.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 3.8
+    },
+    {
+      "case_id": "dang-nhap/tc-033",
+      "code": "TC-033",
+      "title": "Đã đăng nhập mở /login: hiện Danh sách việc, địa chỉ vẫn là /login",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ vẫn là `/login`",
+          "passed": true,
+          "note": "địa chỉ: /login",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-033-mo-login-20261119-110004.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-033-kiem-20261119-110004.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 2.7
+    },
+    {
+      "case_id": "dang-nhap/tc-034",
+      "code": "TC-034",
+      "title": "Đã đăng nhập mở địa chỉ không có thật: hiện Danh sách việc, không có trang không tìm thấy",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ giữ nguyên `/khong-ton-tai-xyz`",
+          "passed": true,
+          "note": "địa chỉ: /khong-ton-tai-xyz",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không có trang `không tìm thấy`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-034-dia-chi-khong-co-that-20261119-110007.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-034-kiem-20261119-110007.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 3.3
+    },
+    {
+      "case_id": "dang-nhap/tc-003",
+      "code": "TC-003",
+      "title": "Chưa đăng nhập mở link hồ sơ: form giữ link, đăng nhập đúng mở thẳng hồ sơ",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: thanh địa chỉ vẫn là link hồ sơ",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: mở thẳng hồ sơ HL-000019",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "HL-000019"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: không về Danh sách việc (địa chỉ vẫn là link hồ sơ)",
+          "passed": true,
+          "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-link-ho-so-chua-dang-nhap-20261119-110008.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-sau-dang-nhap-20261119-110012.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-003-kiem-20261119-110012.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 4.8
+    },
+    {
+      "case_id": "dang-nhap/tc-027",
+      "code": "TC-027",
+      "title": "Mã chữ thường p100001 + mật khẩu đúng: đăng nhập được",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+          "passed": true,
+          "note": "mã trả về: 200",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "P100001"
+          ],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-027-sau-dang-nhap-20261119-110019.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-027-kiem-20261119-110019.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 7.6
+    },
+    {
+      "case_id": "dang-nhap/tc-031",
+      "code": "TC-031",
+      "title": "Nhấn Enter ở ô Mật khẩu và ở ô Mã nhân viên: form được gửi như bấm Đăng nhập",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "P100001"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: về form `Đăng nhập`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 10: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [
+            "Danh sách việc"
+          ],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 10: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [
+            "P100001"
+          ],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-031-sau-dang-nhap-20261119-110027.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-031-sau-dang-nhap-20261119-110031.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-031-kiem-20261119-110031.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "videos": [],
+      "seconds": 11.6
+    }
+  ]
+}

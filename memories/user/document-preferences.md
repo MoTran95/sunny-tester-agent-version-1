@@ -31,3 +31,4 @@ Bản đầu quá cô đọng ("thiếu (Dữ liệu)", "KN-02", "M01", "DSR" kh
 
 ## Câu hỏi BA
 Xưng hô, từ đã chốt, khuôn: `conventions/ba-question-wording.md` (bài học "câu chữ máy móc như dịch tiếng Anh").
+- **Bug report (người dùng chỉnh BUG-001, 2026-11-18):** tiêu đề chỉ mô tả lỗi, không thêm lý do/ngữ cảnh (không "dù BA đã chốt…"); gọi "thanh điều hướng" (không "thanh điều hướng"); dòng Trình duyệt chỉ ghi tên + số bản (+ hệ điều hành), không ghi Playwright/chế độ ẩn, không gắn Giả định; Kết quả mong đợi không chèn ngoặc nguồn (nguồn ở mục Test case liên quan); mức độ nghiêm trọng/ưu tiên ghi tiếng Việt (Nghiêm trọng/Lớn/Nhỏ/Rất nhỏ; Cao/Trung bình/Thấp), không ghi Severity/Priority; câu hỏi cho Dev viết đủ ngữ nghĩa (điều đã thấy, điều chưa biết, vì sao hỏi, sẽ làm gì tùy câu trả lời). Đã ghi vào skill `tao-bug-report` và mẫu.

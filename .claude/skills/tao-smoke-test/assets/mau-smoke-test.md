@@ -46,7 +46,7 @@ Chạy theo thứ tự bảng. **Case nào Không đạt thì dừng ngay, trả
 
 ## Lượt chạy
 
-Mỗi lần chạy smoke cho một build ghi một dòng: `python -X utf8 scripts/truy-vet-smoke.py ghi-luot <dự-án> --build "<số bản ở chân trang>" --ket-qua "1=Đạt,2=Không đạt" [--ghi-chu "…"]` (số là cột # của bảng; case không nêu coi là Chưa chạy; script tự tính nhận hay trả build). Cách chạy: skill `tao-smoke-test`, mục "Chạy smoke".
+Mỗi lần chạy smoke cho một build ghi một dòng: `python -X utf8 scripts/truy-vet-smoke.py ghi-luot <dự-án> --build "<số bản ở chân trang>" --status "1=Đạt,2=Không đạt" [--note "…"]` (số là cột # của bảng; case không nêu coi là Chưa chạy; script tự tính nhận hay trả build). Cách chạy: skill `tao-smoke-test`, mục "Chạy smoke".
 
 <!-- LUOT-CHAY:BAT-DAU (tự sinh bởi scripts/truy-vet-smoke.py ghi-luot, không sửa tay) -->
 <!-- LUOT-CHAY:KET-THUC -->

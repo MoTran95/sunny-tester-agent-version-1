@@ -1,0 +1,743 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 09:58:17",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-007",
+      "code": "TC-007",
+      "title": "Mã không tồn tại: cùng câu chung như sai mật khẩu",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-007-sau-nhap-sai-20261119-095705.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-007-loi-20261119-095705.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-007-loi-20261119-095705.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+      },
+      "seconds": 7.5
+    },
+    {
+      "case_id": "dang-nhap/tc-008",
+      "code": "TC-008",
+      "title": "Trống ô Mã nhân viên: câu chung",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-008-sau-nhap-sai-20261119-095711.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-008-loi-20261119-095711.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-008-loi-20261119-095711.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+      },
+      "seconds": 6.2
+    },
+    {
+      "case_id": "dang-nhap/tc-009",
+      "code": "TC-009",
+      "title": "Trống ô Mật khẩu: câu chung, không câu kỹ thuật",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Một số giá trị không hợp lệ.",
+          "mark_text": [
+            "Một số giá trị không hợp lệ."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": false,
+          "note": "thấy: Một số giá trị không hợp lệ, validation.",
+          "mark_text": [
+            "Một số giá trị không hợp lệ",
+            "validation."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-009-sau-nhap-sai-20261119-095717.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-009-loi-20261119-095717.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-009-loi-20261119-095717.png": "Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+      },
+      "seconds": 6.0
+    },
+    {
+      "case_id": "dang-nhap/tc-010",
+      "code": "TC-010",
+      "title": "Trống cả hai ô: câu chung",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 4: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 4: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 4: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Một số giá trị không hợp lệ.",
+          "mark_text": [
+            "Một số giá trị không hợp lệ."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 4: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": false,
+          "note": "thấy: Một số giá trị không hợp lệ, validation.",
+          "mark_text": [
+            "Một số giá trị không hợp lệ",
+            "validation."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+        },
+        {
+          "kind": "main",
+          "title": "bước 4: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 4: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-010-sau-nhap-sai-20261119-095722.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-010-loi-20261119-095723.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-010-loi-20261119-095723.png": "Lỗi ở bước 4: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 4: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+      },
+      "seconds": 5.3
+    },
+    {
+      "case_id": "dang-nhap/tc-011",
+      "code": "TC-011",
+      "title": "Sau khi báo lỗi: ô Mật khẩu trống, ô Mã nhân viên giữ chữ",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: Bước 5: hiện khung lỗi đỏ `Mã nhân viên hoặc mật khẩu không đúng.`; Bước 7: ô `Mật khẩu *` trống, không còn chấm hay ký tự nào",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 5: hiện khung lỗi đỏ `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: ô `Mã nhân viên *` còn nguyên `P100001`",
+          "passed": true,
+          "note": "ô đang chứa 7 ký tự",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: ô `Mật khẩu *` trống, không còn chấm hay ký tự nào",
+          "passed": false,
+          "note": "ô Mật khẩu còn 12 ký tự",
+          "mark_text": [],
+          "account": "",
+          "error_note": "Lỗi ở bước 7: sau khi báo lỗi, ô Mật khẩu vẫn còn 12 ký tự (chữ đã gõ không bị xóa)."
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-011-sau-nhap-sai-20261119-095729.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 6.1
+    },
+    {
+      "case_id": "dang-nhap/tc-012",
+      "code": "TC-012",
+      "title": "Mật khẩu đổi hoa/thường một chữ: không đăng nhập, câu chung",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-012-sau-nhap-sai-20261119-095735.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-012-loi-20261119-095735.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-012-loi-20261119-095735.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+      },
+      "seconds": 6.4
+    },
+    {
+      "case_id": "dang-nhap/tc-013",
+      "code": "TC-013",
+      "title": "Mật khẩu thừa dấu cách cuối: không đăng nhập, câu chung",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-013-sau-nhap-sai-20261119-095742.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-013-loi-20261119-095742.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-013-loi-20261119-095742.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+      },
+      "seconds": 6.7
+    },
+    {
+      "case_id": "dang-nhap/tc-030",
+      "code": "TC-030",
+      "title": "Mã sai dạng X999999: câu chung, không câu sai định dạng",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-030-sau-nhap-sai-20261119-095748.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-030-loi-20261119-095748.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-030-loi-20261119-095748.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+      },
+      "seconds": 6.4
+    },
+    {
+      "case_id": "dang-nhap/tc-040",
+      "code": "TC-040",
+      "title": "Mã 210 ký tự: câu chung, không câu kỹ thuật",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Một số giá trị không hợp lệ.",
+          "mark_text": [
+            "Một số giá trị không hợp lệ."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": false,
+          "note": "thấy: Một số giá trị không hợp lệ, validation.",
+          "mark_text": [
+            "Một số giá trị không hợp lệ",
+            "validation."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-040-sau-nhap-sai-20261119-095753.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-040-loi-20261119-095754.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-040-loi-20261119-095754.png": "Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+      },
+      "seconds": 5.2
+    },
+    {
+      "case_id": "dang-nhap/tc-004",
+      "code": "TC-004",
+      "title": "Nhập sai một lần rồi sửa lại cho đúng: vào Danh sách việc",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 4-5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 4-5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 4-5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4-5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 4-5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 4-5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 4-5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 4-5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 8: lần nhập đúng được máy chủ nhận (200)",
+          "passed": true,
+          "note": "mã trả về: 200",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 9: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 9: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-004-sau-nhap-sai-20261119-095800.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-004-sau-dang-nhap-20261119-095803.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 9.0
+    },
+    {
+      "case_id": "dang-nhap/tc-035",
+      "code": "TC-035",
+      "title": "Đang có khung lỗi, đổi sang English giữa chừng: nhãn, ô mã và câu lỗi đổi đúng",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: Bước 5: khung lỗi đỏ ghi `Mã nhân viên hoặc mật khẩu không đúng.`; Bước 7: khung lỗi vẫn hiện, ghi `Employee ID or password is incorrect.`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 5: khung lỗi đỏ ghi `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: nhãn đổi ngay sang English (`Employee ID *`, `Password *`, nút `Sign in`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: ô Mã nhân viên còn `P100001`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: khung lỗi vẫn hiện, ghi `Employee ID or password is incorrect.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Workspace, employee ID or password is incorrect.",
+          "mark_text": [
+            "Workspace, employee ID or password is incorrect."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 7: sau khi bấm English, khung lỗi ghi `Workspace, employee ID or password is incorrect.`, đáng ra `Employee ID or password is incorrect.`."
+        },
+        {
+          "kind": "main",
+          "title": "Bước 7: không có dòng `validation…`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-035-sau-doi-english-20261119-095810.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-035-loi-20261119-095810.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-035-loi-20261119-095810.png": "Lỗi ở bước 7: sau khi bấm English, khung lỗi ghi `Workspace, employee ID or password is incorrect.`, đáng ra `Employee ID or password is incorrect.`."
+      },
+      "seconds": 7.4
+    },
+    {
+      "case_id": "dang-nhap/tc-036",
+      "code": "TC-036",
+      "title": "Bản English sai mật khẩu: câu lỗi bằng English",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 6: khung lỗi đỏ ghi đúng câu `Employee ID or password is incorrect.`; bước 6: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 6: khung lỗi đỏ ghi đúng câu `Employee ID or password is incorrect.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Workspace, employee ID or password is incorrect.",
+          "mark_text": [
+            "Workspace, employee ID or password is incorrect."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 6: khung lỗi ghi `Workspace, employee ID or password is incorrect.`, đáng ra phải ghi `Employee ID or password is incorrect.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 6: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 6: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Workspace, employee ID or password is incorrect."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 6: câu lỗi còn nhắc mã không gian: `Workspace, employee ID or password is incorrect.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 6: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-036-sau-nhap-sai-20261119-095817.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-036-loi-20261119-095817.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-036-loi-20261119-095817.png": "Lỗi ở bước 6: khung lỗi ghi `Workspace, employee ID or password is incorrect.`, đáng ra phải ghi `Employee ID or password is incorrect.`. Lỗi ở bước 6: câu lỗi còn nhắc mã không gian: `Workspace, employee ID or password is incorrect.`."
+      },
+      "seconds": 7.0
+    }
+  ]
+}

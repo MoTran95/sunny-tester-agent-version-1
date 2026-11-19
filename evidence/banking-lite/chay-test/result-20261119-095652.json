@@ -1,0 +1,257 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 09:56:52",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-027",
+      "code": "TC-027",
+      "title": "Mã chữ thường p100001 + mật khẩu đúng: đăng nhập được",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+          "passed": true,
+          "note": "mã trả về: 200",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-027-sau-dang-nhap-20261119-095620.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 10.7
+    },
+    {
+      "case_id": "dang-nhap/tc-028",
+      "code": "TC-028",
+      "title": "Mã thừa dấu cách ở đầu + mật khẩu đúng: đăng nhập được",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+          "passed": true,
+          "note": "mã trả về: 200",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-028-sau-dang-nhap-20261119-095627.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 6.9
+    },
+    {
+      "case_id": "dang-nhap/tc-029",
+      "code": "TC-029",
+      "title": "Mã thừa dấu cách ở cuối + mật khẩu đúng: đăng nhập được",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+          "passed": true,
+          "note": "mã trả về: 200",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-029-sau-dang-nhap-20261119-095634.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 7.3
+    },
+    {
+      "case_id": "dang-nhap/tc-031",
+      "code": "TC-031",
+      "title": "Nhấn Enter ở ô Mật khẩu và ở ô Mã nhân viên: form được gửi như bấm Đăng nhập",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 6: về form `Đăng nhập`",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 10: đăng nhập thành công, vào Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 10: thanh trên cùng hiện `P100001`",
+          "passed": true,
+          "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-031-sau-dang-nhap-20261119-095642.png",
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-031-sau-dang-nhap-20261119-095645.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 10.8
+    },
+    {
+      "case_id": "dang-nhap/tc-006",
+      "code": "TC-006",
+      "title": "Mã có thật + sai mật khẩu: không đăng nhập, câu chung",
+      "smoke_number": "",
+      "verdict": "Không đạt",
+      "reason": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+          "passed": false,
+          "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng.",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "passed": false,
+          "note": "",
+          "mark_text": [
+            "Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+          ],
+          "account": "",
+          "error_note": "Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+        },
+        {
+          "kind": "main",
+          "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+          "passed": true,
+          "note": "địa chỉ: /",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-006-sau-nhap-sai-20261119-095651.png"
+      ],
+      "error_images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-006-loi-20261119-095651.png"
+      ],
+      "error_image_captions": {
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-006-loi-20261119-095651.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+      },
+      "seconds": 6.2
+    }
+  ]
+}

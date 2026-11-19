@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Lần chạy gần nhất | 2026-11-18 20:44:13 (+07:00) (chỉ kiểm, chưa đổi mốc) |
+| Lần chạy gần nhất | 2026-11-19 09:37:27 (+07:00) (chốt mốc mới) |
 | Requirement | srs/banking-lite/khuyen-nghi-ltv-dsr.md (cập nhật 2026-11-17); bảng soát (cập nhật ?), câu trả lời đến TL-02 |
 | Test case (đã gồm checklist) | [test-case.md](test-case.md) |
-| Mốc đã chốt | 2026-11-18 19:04:01 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
+| Mốc đã chốt | 2026-11-19 09:37:27 (+07:00) (khi đó: SRS 2026-11-17, bảng soát ?, TL đến TL-02) |
 
 ## 1. Tóm tắt
 - Mã requirement: 61 trong SRS, 2 câu trả lời (TL). Test case: 38.
@@ -230,44 +230,44 @@ Gom từ bảng soát (mục 5, 6) để mỗi mã SRS có chỗ ghi điều BA 
 ## 6. Từ test case tới requirement
 | Mã | Tình huống | Ưu tiên | Mã requirement dùng | Trạng thái | Tạo | Sửa lần cuối | Tự động hóa |
 |---|---|---|---|---|---|---|---|
-| TC-001 | Không hiển thị khuyến nghị mà báo cần nhập đủ thông tin khi chưa nhập thu nhập | Cao | M01 (Thông báo chưa đủ thông tin), R10 (Công thức DSR và thặng dư), S01-AC01 (Chưa nhập thu nhập) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-002 | Hiển thị khuyến nghị Phê duyệt khi nhập lương 100 triệu và đạt mọi quy tắc | Cao | M02 (Không có lý do), M03 (Dòng xem trước), S01-AC02 (Đạt mọi quy tắc), S03-AC01 (DSR và thặng dư cơ bản) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-003 | Vẫn hiển thị Phê duyệt khi DSR đúng bằng mức 50% | Cao | R02 (DSR), S01-AC05 (DSR đúng 50%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-004 | Hiển thị Chuyển cấp trên khi DSR vượt 50% một chút (50,38%) | Cao | M06 (DSR trên 50%), R02 (DSR), S01-AC03 (DSR trên 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-005 | Hiển thị Chuyển cấp trên khi DSR chỉ hơn 50% rất ít (50,0006%) | Cao | R02 (DSR), S01-AC07 (DSR sát 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-006 | Hiển thị Từ chối khi DSR chỉ hơn 70% rất ít (70,0000003%) | Cao | R02 (DSR), S01-AC06 (DSR đúng 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-007 | Hiển thị Từ chối kèm lý do khi DSR vượt 70% (70,35%) | Cao | M05 (DSR vượt tối đa), R02 (DSR), S01-AC04 (DSR trên 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-008 | Vẫn hiển thị Phê duyệt khi thặng dư hằng tháng đúng bằng mức tối thiểu 3.000.000 | Cao | M02 (Không có lý do), R03 (Thặng dư tối thiểu), S01-AC08 (Thặng dư đúng 3 triệu) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-009 | Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng so với mức tối thiểu (2.999.999) | Cao | M07 (Thặng dư thấp), R03 (Thặng dư tối thiểu), S01-AC09 (Thặng dư thiếu 1 đồng) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-010 | Hiển thị Từ chối và liệt kê đủ ba lý do khi hồ sơ vi phạm cả LTV, DSR và thặng dư | Cao | M04 (LTV vượt tối đa), M05 (DSR vượt tối đa), M07 (Thặng dư thấp), S01-AC10 (Nhiều lý do cùng lúc), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-011 | Hiển thị Phê duyệt khi LTV của hồ sơ Mua nhà đúng bằng mức tối đa 80% | Cao | R01 (LTV tối đa), S02-AC01 (LTV đúng 80%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-012 | Hiển thị Từ chối khi LTV chỉ hơn 80% rất ít (80,0025%) | Cao | R01 (LTV tối đa), S02-AC02 (LTV sát 80%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-013 | Hiển thị Từ chối khi LTV là 80,01% | Cao | R01 (LTV tối đa), S02-AC03 (LTV 80,01%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-014 | Hiển thị Từ chối kèm lý do LTV vượt mức khi LTV là 81% | Cao | M04 (LTV vượt tối đa), S02-AC04 (LTV 81%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-015 | Hiển thị Từ chối khi giá trị khai báo 3 tỷ làm LTV lên 106,67% | Cao | R05 (LTV theo giá khai báo), S02-AC05 (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-016 | Hiển thị Từ chối theo mức tối đa 70% khi hồ sơ Xây/sửa nhà có LTV 76,20% | Cao | M04 (LTV vượt tối đa), R01 (LTV tối đa), S02-AC07 (Xây/sửa nhà), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-017 | Hiển thị Từ chối khi hồ sơ Xây/sửa nhà có LTV chỉ hơn 70% một chút (70,01%) | Cao | R01 (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-018 | Chỉ tính 70% thu nhập cho thuê vào thu nhập khi nhập cả lương và thu nhập cho thuê | Cao | R06 (Thu nhập cho thuê), S03-AC02 (Thu nhập cho thuê 70%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-019 | Cộng khoản nợ hiện có vào DSR khi nhập nợ hiện có hằng tháng | Cao | R10 (Công thức DSR và thặng dư), S03-AC03 (Nợ hiện có) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-020 | Vẫn đạt (API trả APPROVE) khi thời hạn 34 năm khiến người vay 70 tuổi lúc đáo hạn | Cao | R04 (Tuổi lúc đáo hạn), S04-AC02 (Tuổi 70 vẫn đạt) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-021 | Bị từ chối (API trả DECLINE) khi thời hạn 35 năm khiến người vay 71 tuổi lúc đáo hạn | Cao | M08 (Quá tuổi), R04 (Tuổi lúc đáo hạn), S04-AC03 (Tuổi 71 bị từ chối) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-022 | Cập nhật khuyến nghị ở đầu trang hồ sơ sau vài giây khi nhập lương rồi bấm Lưu | Cao | M11 (Đã lưu), S05-AC01 (Đầu trang sau khi lưu) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-023 | Hiển thị Chuyển cấp trên khi DSR 54,40% (nằm giữa 50% và 70%) | Trung bình | R02 (DSR), S01-AC03 (DSR trên 50%) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-024 | Hiển thị Phê duyệt khi giá trị khai báo 5 tỷ cho LTV 64,00% | Trung bình | R05 (LTV theo giá khai báo), S02-AC05 (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-025 | Không bị loại vì LTV khi hồ sơ Xây/sửa nhà có LTV đúng bằng mức tối đa 70% | Trung bình | R01 (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-026 | Lãi suất thẩm định là 10,05% (xem ở API) khi LTV là 64% | Trung bình | R09 (Lãi suất thẩm định), S02-AC06 (Lãi suất theo LTV) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-027 | Dùng số chi phí đã nhập khi chi phí nhập cao hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC04 (Chi phí nhập cao) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-028 | Tính chi phí mặc định 4.500.000 khi để trống chi phí và số người phụ thuộc | Trung bình | R07 (Chi phí được tính), S03-AC05 (Chi phí để trống) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-029 | Nâng chi phí lên 8.500.000 khi có 2 người phụ thuộc mà chi phí nhập thấp hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC06 (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-030 | Giữ chi phí đã nhập khi có 2 người phụ thuộc và chi phí nhập cao hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC06 (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-031 | Khoản trả mới giảm còn 34.133.333 khi đổi thời hạn vay từ 20 lên 40 năm | Trung bình | R08 (Khoản trả mới), S03-AC07 (Thời hạn vay), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-032 | Khoản trả mới là 30.986.775 khi đổi phương thức trả nợ sang Niên kim | Trung bình | R08 (Khoản trả mới), S03-AC08 (Phương thức trả nợ) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-033 | Khoản trả mới là 31.504.846 khi Niên kim có thêm ân hạn 12 tháng | Trung bình | R08 (Khoản trả mới), S03-AC09 (Ân hạn), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-034 | Lãi suất thẩm định đổi thành 9,55% khi chọn sản phẩm cố định 36 tháng | Trung bình | R09 (Lãi suất thẩm định), S03-AC10 (Sản phẩm) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-035 | Khuyến nghị ở đầu trang về “—” khi bấm Lưu lúc mọi ô tài chính để trống | Trung bình | M11 (Đã lưu), S05-AC03 (Lưu khi trống) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-036 | Khung thẩm định đổi sang tiếng Anh khi chọn giao diện English | Trung bình | M06 (DSR trên 50%), M12 (Nhãn khuyến nghị), S06-AC01 (Giao diện English), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-037 | Ô lương bị để trống khi gõ chữ “abc” vào ô lương | Thấp | R11 (Ô nhập tiền), S05-AC04 (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
-| TC-038 | Dấu trừ bị bỏ và ô lương giữ 5000000 khi gõ “-5000000” vào ô lương | Thấp | R11 (Ô nhập tiền), S05-AC04 (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-18 | Chưa có |
+| TC-001 | Không hiển thị khuyến nghị mà báo cần nhập đủ thông tin khi chưa nhập thu nhập | Cao | M01 (Thông báo chưa đủ thông tin), R10 (Công thức DSR và thặng dư), S01-AC01 (Chưa nhập thu nhập) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-002 | Hiển thị khuyến nghị Phê duyệt khi nhập lương 100 triệu và đạt mọi quy tắc | Cao | M02 (Không có lý do), M03 (Dòng xem trước), S01-AC02 (Đạt mọi quy tắc), S03-AC01 (DSR và thặng dư cơ bản) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-002.py |
+| TC-003 | Vẫn hiển thị Phê duyệt khi DSR đúng bằng mức 50% | Cao | R02 (DSR), S01-AC05 (DSR đúng 50%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-004 | Hiển thị Chuyển cấp trên khi DSR vượt 50% một chút (50,38%) | Cao | M06 (DSR trên 50%), R02 (DSR), S01-AC03 (DSR trên 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-005 | Hiển thị Chuyển cấp trên khi DSR chỉ hơn 50% rất ít (50,0006%) | Cao | R02 (DSR), S01-AC07 (DSR sát 50%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-006 | Hiển thị Từ chối khi DSR chỉ hơn 70% rất ít (70,0000003%) | Cao | R02 (DSR), S01-AC06 (DSR đúng 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-007 | Hiển thị Từ chối kèm lý do khi DSR vượt 70% (70,35%) | Cao | M05 (DSR vượt tối đa), R02 (DSR), S01-AC04 (DSR trên 70%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-008 | Vẫn hiển thị Phê duyệt khi thặng dư hằng tháng đúng bằng mức tối thiểu 3.000.000 | Cao | M02 (Không có lý do), R03 (Thặng dư tối thiểu), S01-AC08 (Thặng dư đúng 3 triệu) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-009 | Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng so với mức tối thiểu (2.999.999) | Cao | M07 (Thặng dư thấp), R03 (Thặng dư tối thiểu), S01-AC09 (Thặng dư thiếu 1 đồng) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-009.py |
+| TC-010 | Hiển thị Từ chối và liệt kê đủ ba lý do khi hồ sơ vi phạm cả LTV, DSR và thặng dư | Cao | M04 (LTV vượt tối đa), M05 (DSR vượt tối đa), M07 (Thặng dư thấp), S01-AC10 (Nhiều lý do cùng lúc), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-011 | Hiển thị Phê duyệt khi LTV của hồ sơ Mua nhà đúng bằng mức tối đa 80% | Cao | R01 (LTV tối đa), S02-AC01 (LTV đúng 80%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-012 | Hiển thị Từ chối khi LTV chỉ hơn 80% rất ít (80,0025%) | Cao | R01 (LTV tối đa), S02-AC02 (LTV sát 80%), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-013 | Hiển thị Từ chối khi LTV là 80,01% | Cao | R01 (LTV tối đa), S02-AC03 (LTV 80,01%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-014 | Hiển thị Từ chối kèm lý do LTV vượt mức khi LTV là 81% | Cao | M04 (LTV vượt tối đa), S02-AC04 (LTV 81%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-015 | Hiển thị Từ chối khi giá trị khai báo 3 tỷ làm LTV lên 106,67% | Cao | R05 (LTV theo giá khai báo), S02-AC05 (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-016 | Hiển thị Từ chối theo mức tối đa 70% khi hồ sơ Xây/sửa nhà có LTV 76,20% | Cao | M04 (LTV vượt tối đa), R01 (LTV tối đa), S02-AC07 (Xây/sửa nhà), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-017 | Hiển thị Từ chối khi hồ sơ Xây/sửa nhà có LTV chỉ hơn 70% một chút (70,01%) | Cao | R01 (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-018 | Chỉ tính 70% thu nhập cho thuê vào thu nhập khi nhập cả lương và thu nhập cho thuê | Cao | R06 (Thu nhập cho thuê), S03-AC02 (Thu nhập cho thuê 70%) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-019 | Cộng khoản nợ hiện có vào DSR khi nhập nợ hiện có hằng tháng | Cao | R10 (Công thức DSR và thặng dư), S03-AC03 (Nợ hiện có) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-020 | Vẫn đạt (API trả APPROVE) khi thời hạn 34 năm khiến người vay 70 tuổi lúc đáo hạn | Cao | R04 (Tuổi lúc đáo hạn), S04-AC02 (Tuổi 70 vẫn đạt) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-021 | Bị từ chối (API trả DECLINE) khi thời hạn 35 năm khiến người vay 71 tuổi lúc đáo hạn | Cao | M08 (Quá tuổi), R04 (Tuổi lúc đáo hạn), S04-AC03 (Tuổi 71 bị từ chối) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-022 | Cập nhật khuyến nghị ở đầu trang hồ sơ sau vài giây khi nhập lương rồi bấm Lưu | Cao | M11 (Đã lưu), S05-AC01 (Đầu trang sau khi lưu) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-022.py |
+| TC-023 | Hiển thị Chuyển cấp trên khi DSR 54,40% (nằm giữa 50% và 70%) | Trung bình | R02 (DSR), S01-AC03 (DSR trên 50%) | Còn đúng | 2026-11-18 | 2026-11-19 | Có: testing/banking-lite/khuyen-nghi-ltv-dsr/auto/tc-023.py |
+| TC-024 | Hiển thị Phê duyệt khi giá trị khai báo 5 tỷ cho LTV 64,00% | Trung bình | R05 (LTV theo giá khai báo), S02-AC05 (LTV theo giá khai báo) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-025 | Không bị loại vì LTV khi hồ sơ Xây/sửa nhà có LTV đúng bằng mức tối đa 70% | Trung bình | R01 (LTV tối đa) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-026 | Lãi suất thẩm định là 10,05% (xem ở API) khi LTV là 64% | Trung bình | R09 (Lãi suất thẩm định), S02-AC06 (Lãi suất theo LTV) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-027 | Dùng số chi phí đã nhập khi chi phí nhập cao hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC04 (Chi phí nhập cao) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-028 | Tính chi phí mặc định 4.500.000 khi để trống chi phí và số người phụ thuộc | Trung bình | R07 (Chi phí được tính), S03-AC05 (Chi phí để trống) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-029 | Nâng chi phí lên 8.500.000 khi có 2 người phụ thuộc mà chi phí nhập thấp hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC06 (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-030 | Giữ chi phí đã nhập khi có 2 người phụ thuộc và chi phí nhập cao hơn mức tối thiểu | Trung bình | R07 (Chi phí được tính), S03-AC06 (Người phụ thuộc) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-031 | Khoản trả mới giảm còn 34.133.333 khi đổi thời hạn vay từ 20 lên 40 năm | Trung bình | R08 (Khoản trả mới), S03-AC07 (Thời hạn vay), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-032 | Khoản trả mới là 30.986.775 khi đổi phương thức trả nợ sang Niên kim | Trung bình | R08 (Khoản trả mới), S03-AC08 (Phương thức trả nợ) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-033 | Khoản trả mới là 31.504.846 khi Niên kim có thêm ân hạn 12 tháng | Trung bình | R08 (Khoản trả mới), S03-AC09 (Ân hạn), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-034 | Lãi suất thẩm định đổi thành 9,55% khi chọn sản phẩm cố định 36 tháng | Trung bình | R09 (Lãi suất thẩm định), S03-AC10 (Sản phẩm) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-035 | Khuyến nghị ở đầu trang về “—” khi bấm Lưu lúc mọi ô tài chính để trống | Trung bình | M11 (Đã lưu), S05-AC03 (Lưu khi trống) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-036 | Khung thẩm định đổi sang tiếng Anh khi chọn giao diện English | Trung bình | M06 (DSR trên 50%), M12 (Nhãn khuyến nghị), S06-AC01 (Giao diện English), TL-02 (Làm tròn LTV và DSR đến **2 chữ số thập…) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-037 | Ô lương bị để trống khi gõ chữ “abc” vào ô lương | Thấp | R11 (Ô nhập tiền), S05-AC04 (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
+| TC-038 | Dấu trừ bị bỏ và ô lương giữ 5000000 khi gõ “-5000000” vào ô lương | Thấp | R11 (Ô nhập tiền), S05-AC04 (Ô tiền chỉ nhận chữ số) | Còn đúng | 2026-11-18 | 2026-11-19 | Chưa có |
 
 ## 7. Lịch sử thay đổi
 Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc bấm chốt (kèm múi giờ), không phải giờ BA trả lời hay giờ requirement đổi; mốc cũ chỉ có ngày thì ghi "không rõ giờ". **Commit gốc** là commit đang đứng lúc chốt ("+ sửa chưa commit" nghĩa là còn thay đổi chưa commit); muốn xem từng chữ đã đổi, dùng git. **Ngày BA trả lời** chỉ ghi khi biết.
@@ -286,3 +286,4 @@ Ghi mỗi lần chạy `chot`. **Thời điểm chốt** là giờ máy lúc b�
 | 2026-11-18 18:51:05 (+07:00) | `736f701` + sửa chưa commit | — | checklist, test-case | Điều kiện trước chỉ ghi dữ kiện cần cho từng ca (bỏ đăng nhập, bỏ mục hồ sơ nền ở đầu file); bỏ chữ tự nhập mật khẩu ở bước 1 | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |
 | 2026-11-18 18:59:51 (+07:00) | `0534aba` + sửa chưa commit | — | checklist, test-case | Viết lại cột Nguồn thành câu thường + link tới dòng SRS (neo thêm vào SRS, truy-vet.py bỏ thẻ neo khi băm); mã và nội dung requirement không đổi | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |
 | 2026-11-18 19:04:01 (+07:00) | `a042890` + sửa chưa commit | — | checklist, test-case | Thêm điều kiện người vay Tester Mot cho ca tuổi lúc đáo hạn và tài sản chưa định giá cho các ca LTV; đối chiếu số liệu bằng script, khớp hết | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-011, TC-012, TC-013, TC-014, TC-016, TC-017, TC-020, TC-021, TC-025; bỏ 0 |
+| 2026-11-19 09:37:27 (+07:00) | `85176fc` + sửa chưa commit | — | checklist, test-case | Đổi địa chỉ test sang https://staging-banking-lite.vercel.app (địa chỉ cũ đã bị gỡ), không đổi nội dung test | SRS 2026-11-17; bảng soát ?; TL đến TL-02 | — | mới 0; sửa TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038; bỏ 0 |

@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+"""Self-test for scripts/test_automation: runs the whole flow against a fake local app (fake accounts, temp project).
+
+    python -X utf8 scripts/selftest/run_selftest.py
+
+Checks: config loading, login + saved sessions, runner verdicts (pass / pass with minor fail / fail / no verdict),
+red-box error screenshot with caption, session invalidation, run recording, report page and bug page.
+Run it after any change to scripts/test_automation. Exit code 0 = all checks passed.
+"""
+import json
+import shutil
+import sys
+import tempfile
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+sys.path.insert(0, str(HERE))
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+import fake_server  # noqa: E402
+from playwright.sync_api import sync_playwright  # noqa: E402
+
+from test_automation import bug_page, config, docs_pages, context as context_module, failure_counter, report, results, runner, session  # noqa: E402
+
+FAILED = []
+
+
+def check(name, condition, detail=""):
+    print(f"  [{'OK' if condition else 'FAIL'}] {name}" + (f" — {detail}" if detail and not condition else ""))
+    if not condition:
+        FAILED.append(name)
+
+
+CASES = {
+    "tc-001": ('{"code": "TC-001", "title": "login ok but shows DEFAULT", "accounts": ["P1"]}', """
+    ctx.goto("/"); ctx.wait_text("Danh sách việc")
+    ctx.check_main("Có Danh sách việc", "Danh sách việc" in ctx.page_text())
+    ctx.check_minor("Không có chữ DEFAULT", "DEFAULT" not in ctx.page_text(), mark_text="DEFAULT",
+                    error_note="Lỗi ở bước 2: thanh điều hướng hiện chữ DEFAULT, đáng ra không có.")
+"""),
+    "tc-002": ('{"code": "TC-002", "title": "script error", "accounts": ["P1"]}', """
+    ctx.goto("/"); ctx.wait_text("Danh sách việc")
+    ctx.page.locator("#does-not-exist").click(timeout=1000)
+"""),
+    "tc-003": ('{"code": "TC-003", "title": "missing test data", "accounts": ["P1"]}', """
+    ctx.test_data("missing_key")
+"""),
+    "tc-004": ('{"code": "TC-004", "title": "wait timeout", "accounts": []}', """
+    ctx.goto("/"); ctx.wait_text("never appears", timeout_ms=1500)
+"""),
+    "tc-005": ('{"code": "TC-005", "title": "public login form", "accounts": []}', """
+    ctx.goto("/"); ctx.wait_text("Đăng nhập")
+    ctx.check_main("Có ô mật khẩu", ctx.page.locator("input[type=password]").count() == 1)
+    ctx.check_main("Có chữ Đăng nhập (khung xanh)", True, mark_text="Đăng nhập")
+"""),
+    "tc-006": ('{"code": "TC-006", "title": "main check fails", "accounts": ["P1"]}', """
+    ctx.goto("/"); ctx.wait_text("Danh sách việc")
+    ctx.check_main("Điều không đúng", False)
+"""),
+    "tc-007": ('{"code": "TC-007", "title": "logout invalidates session", "accounts": ["P2"], "invalidates_sessions": ["P2"]}', """
+    ctx.goto("/"); ctx.wait_text("Danh sách việc")
+    ctx.page.get_by_role("button", name="Đăng xuất").click()
+    ctx.check_main("Về form đăng nhập", ctx.poll_until(lambda: ctx.page.locator("input[type=password]").count() > 0, seconds=8))
+"""),
+    "tc-008": ('{"code": "TC-008", "title": "sign in from the form with ctx.sign_in", "accounts": []}', """
+    ctx.goto("/"); ctx.sign_in("P1")
+    ctx.wait_text("Danh sách việc")
+    ctx.check_main("Vào Danh sách việc sau khi sign_in", "Danh sách việc" in ctx.page_text())
+"""),
+    "tc-009": ('{"code": "TC-009", "title": "wrong then correct submit", "accounts": [], "ready_account": "P1", "wrong_attempts": 1}', """
+    ctx.goto("/"); ctx.wait_text("Đăng nhập")
+    status = ctx.submit_login("P1", "wrong-pass", expect_success=False)
+    ctx.check_main("Sai mật khẩu trả 401", status == 401, str(status))
+    ctx.page.wait_for_timeout(500)
+    status = ctx.submit_login("P1", password_of="P1", expect_success=True)
+    ctx.check_main("Đúng mật khẩu trả 200", status == 200, str(status))
+    ctx.check_main("Đăng nhập đúng không đưa bộ đếm về 0", __import__("test_automation.failure_counter", fromlist=["x"]).read(ctx.cfg)["consecutive_failures"] == 1)
+"""),
+    "tc-010": ('{"code": "TC-010", "title": "cap refuses the 10th wrong attempt", "accounts": [], "ready_account": "P1", "wrong_attempts": 12}', """
+    ctx.goto("/"); ctx.wait_text("Đăng nhập")
+    for i in range(12):
+        ctx.submit_login("P1", f"wrong-{i}", expect_success=False)
+        ctx.page.wait_for_timeout(200)
+"""),
+}
+
+
+def build_project(root, base_url):
+    project = root / "testing" / "demo"
+    (project / "feature" / "auto").mkdir(parents=True)
+    (root / ".env").write_text(
+        f"FAKE_URL={base_url}\nFAKE_P1_USER=P1\nFAKE_P1_PASSWORD=fake-pass-1\nFAKE_P2_USER=P2\nFAKE_P2_PASSWORD=fake-pass-2\n", encoding="utf-8")
+    (project / "auto-config.json").write_text(json.dumps({
+        "env_prefix": "FAKE", "default_url": "http://127.0.0.1:1",
+        "login": {"id_labels": ["Mã nhân viên"], "button_labels": ["Đăng nhập"], "login_api": "/api/auth/sign-in",
+                  "session_check_api": "/api/me", "session_minutes": 10}}, ensure_ascii=False), encoding="utf-8")
+    (project / "auto-data.json").write_text(json.dumps({"version": "9.9.9"}), encoding="utf-8")
+    rows, test_case_rows = [], []
+    for i, (name, (info, body)) in enumerate(sorted(CASES.items()), start=1):
+        (project / "feature" / "auto" / f"{name}.py").write_text(f"CASE_INFO = {info}\n\n\ndef run(ctx):{body}", encoding="utf-8")
+        rows.append(f"| {i} | Smoke {name} | [Demo · {name.upper()}](feature/test-case.md#{name}) | Fixed | why | 1 min | yes |")
+        test_case_rows.append(f'| <a id="{name}"></a>{name.upper()} | Situation | High | pre | 1. Open page<br>2. Look | data | Expected for {name} | src | | Not run | me | None |')
+    (project / "smoke-test.md").write_text("| # | Smoke case | Source | Part | Why | Time | Auto |\n|---|---|---|---|---|---|---|\n" + "\n".join(rows) + "\n", encoding="utf-8")
+    (project / "feature" / "test-case.md").write_text(
+        "| Mã | Tình huống | Ưu tiên | Điều kiện trước | Các bước | Dữ liệu test | Kết quả mong đợi | Nguồn | Kết quả thực tế | Trạng thái | Người viết | Tự động hóa |\n"
+        "|---|---|---|---|---|---|---|---|---|---|---|---|\n" + "\n".join(test_case_rows) + "\n", encoding="utf-8")
+    bug_dir = project / "feature" / "bug"
+    bug_dir.mkdir()
+    (bug_dir / "BUG-001.md").write_text(
+        "# [Demo] Chữ DEFAULT vẫn hiện\n\n## Môi trường\n- Trình duyệt: Chrome\n\n## Mức độ nghiêm trọng\n**Rất nhỏ.** Chữ thừa. [Giả định: không gây nhầm]\n\n"
+        "## Mức độ ưu tiên đề xuất\n**Thấp** — không chặn.\n\n## Thông tin đã gắn nhãn Giả định (cần kiểm lại)\n1. Không gây nhầm.\n", encoding="utf-8")
+    return project
+
+
+def main():
+    server, base_url = fake_server.start()
+    root = Path(tempfile.mkdtemp(prefix="selftest-"))
+    config.ROOT = root
+    try:
+        project = build_project(root, base_url)
+        print("1. Config")
+        cfg = config.load("demo")
+        check("load config", cfg.url == base_url and cfg.env_prefix == "FAKE")
+        check("list accounts from .env", cfg.available_accounts() == ["P1", "P2"], str(cfg.available_accounts()))
+
+        print("2. Login and saved sessions")
+        with sync_playwright() as p:
+            for account in ("P1", "P2"):
+                exit_code, _, _ = session.login(p, cfg, account, headless=True)
+                check(f"login {account}", exit_code == 0 and session.session_file(cfg, account).exists())
+
+        print("3. Runner")
+        argv = ["--project", "demo"]
+        for name in sorted(CASES):
+            argv += ["--case-id", f"feature/{name}"]
+        exit_code = runner.main(argv)
+        check("runner exit code is 'no verdict' (4) because some cases cannot conclude... but a fail exists", exit_code in (results.EXIT_FAIL, results.EXIT_NO_VERDICT))
+        result_files = sorted(cfg.screenshots_dir.glob("result-*.json"))
+        check("result json written", len(result_files) == 1)
+        data = json.loads(result_files[-1].read_text(encoding="utf-8"))
+        by_case = {r["case_id"].split("/")[-1]: r for r in data["results"]}
+        expected = {"tc-001": results.PASS_MINOR_FAIL, "tc-002": results.NO_VERDICT, "tc-003": results.NO_VERDICT, "tc-004": results.NO_VERDICT,
+                    "tc-005": results.PASS, "tc-006": results.FAIL, "tc-007": results.PASS, "tc-008": results.PASS,
+                    "tc-009": results.PASS, "tc-010": results.NO_VERDICT}
+        for name, verdict in expected.items():
+            check(f"verdict {name} = {verdict}", by_case[name]["verdict"] == verdict, by_case[name]["verdict"])
+        check("tc-003 says test data is missing", "missing_key" in by_case["tc-003"]["reason"])
+        check("tc-004 says wait timed out", "quá" in by_case["tc-004"]["reason"])
+        t1 = by_case["tc-001"]
+        check("tc-001 has a red-box screenshot with caption", len(t1["error_images"]) == 1 and "bước 2" in next(iter(t1["error_image_captions"].values()), ""))
+        check("red-box image file exists", (root / t1["error_images"][0]).exists())
+        check("tc-007 removed the invalidated session file", not session.session_file(cfg, "P2").exists())
+        check("tc-005 has a green/red check image (-kiem)", any("-kiem" in a for a in by_case["tc-005"]["images"]), str(by_case["tc-005"]["images"]))
+        ffmpeg_ok = not context_module.Context._warned_no_ffmpeg   # thư viện tự ghi nhận khi thiếu ffmpeg của Playwright
+        if ffmpeg_ok:
+            check("tc-001 (minor fail) keeps its video", len(by_case["tc-001"]["videos"]) == 1 and (root / by_case["tc-001"]["videos"][0]).exists(), str(by_case["tc-001"]["videos"]))
+        else:
+            print("  [SKIP] video check: ffmpeg of Playwright is not installed")
+        check("tc-005 (pass) has no kept video", by_case["tc-005"]["videos"] == [])
+        check("tc-010 stopped at the cap of 9 consecutive failures", "trần 9" in by_case["tc-010"]["reason"], by_case["tc-010"]["reason"])
+        check("counter file says 9", failure_counter.read(cfg)["consecutive_failures"] == 9, str(failure_counter.read(cfg)))
+        check("tc-001 still has its session file", session.session_file(cfg, "P1").exists())
+
+        print("4. Session check before running")
+        exit_code = runner.main(["--project", "demo", "--case-id", "feature/tc-007"])
+        check("expired/missing session stops the run (exit 3)", exit_code == results.EXIT_SESSION, str(exit_code))
+
+        print("5. Run record, report page, bug page")
+        run_record = report.add_run(cfg, "smoke", "9.9.9", data["results"], sources=[str(result_files[-1].relative_to(root))],
+                                    status_override={"1": "Đạt kèm lỗi đã biết"}, bug={"1": ["BUG-001"]})
+        check("run with a failed case is recorded as reject build", run_record["verdict"] == report.REJECT_BUILD, run_record["verdict"])
+        check("run number and history", run_record["number"] == 1 and len(report.read_results_data(cfg, "smoke")["runs"]) == 1)
+        md = (project / "smoke-ket-qua.md").read_text(encoding="utf-8")
+        page = (project / "smoke-ket-qua.html").read_text(encoding="utf-8")
+        check("report md has the 3 expected columns", "| Các bước |" in md and "Kết quả mong đợi" in md and "Kết quả thực tế" not in md)
+        check("report html shows the red-box caption", "Lỗi ở bước 2: thanh điều hướng hiện chữ DEFAULT" in page)
+        check("report html has drag/scroll helper", "scrollLeft" in page)
+        check("report links the bug page", "BUG-001.html" in page)
+        feature_run = report.add_run(cfg, "feature", "9.9.9", data["results"], status_override={"6": "Bị chặn"}, bug={"1": ["BUG-001"]}, blocked_by={"6": ["BUG-001"]})
+        feature_page = (project / "feature" / "ket-qua-test-case.html").read_text(encoding="utf-8")
+        check("feature page lists every test case of the feature", feature_page.count("<tr><td class=\"nw\">TC-") >= 10, str(feature_page.count("<tr><td class=\"nw\">TC-")))
+        check("feature page shows blocked-by link and bug table", "Bị chặn bởi" in feature_page and "Bug đã mở" in feature_page)
+        check("feature run verdict is 'not all run' (blocked and no-verdict cases remain)", feature_run["verdict"] == report.NOT_ALL_RUN, feature_run["verdict"])
+        bug_html = project / "feature" / "bug" / "BUG-001.html"
+        check("bug page built", bug_html.exists() and "Sao chép" in bug_html.read_text(encoding="utf-8"))
+        print("6. Docs pages (markdown to HTML)")
+        sample = Path(root / "docs-sample")
+        sample.mkdir()
+        other = sample / "other.md"
+        other.write_text("# Other", encoding="utf-8")
+        md = chr(10).join([
+            "# Title", "", "<!-- hidden", "comment -->", "",
+            "Text with **bold**, `code <b>`, [link](other.md#x) and [web](https://example.com/a).", "",
+            '<a id="tc-001"></a>', "",
+            "| A | B | C | D | E | F |", "|---|---|---|---|---|---|",
+            '| <a id="r1"></a>1 | Đạt | x' + chr(92) + '|y | Không đạt | | z<br>w |', "",
+            "- one", "  - nested", "- two", "", "1. first", "2. second", "", "> note"])
+        body, title, heads = docs_pages.render_markdown(md, sample / "a.md", {other.resolve()})
+        check("docs: title found", title == "Title", title)
+        check("docs: md link to a converted file becomes .html", 'href="other.html#x"' in body, body[:300])
+        check("docs: web link kept, inline code escaped", 'href="https://example.com/a"' in body and "<code>code &lt;b&gt;</code>" in body)
+        check("docs: comment hidden, anchor kept", "hidden" not in body and '<a id="tc-001"></a>' in body)
+        check("docs: wide table (6 cols) with status badges and escaped pipe", 'class="wrap lon"' in body and 'class="badge ok">Đạt' in body and 'class="badge bad">Không đạt' in body and "x|y" in body)
+        check("docs: nested list and ordered list", "<ul><li>one<ul><li>nested</li></ul></li><li>two</li></ul>" in body and "<ol><li>first</li>" in body)
+    finally:
+        server.shutdown()
+        shutil.rmtree(root, ignore_errors=True)
+    print("\nRESULT:", "ALL OK" if not FAILED else f"{len(FAILED)} FAILED: {FAILED}")
+    return 1 if FAILED else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

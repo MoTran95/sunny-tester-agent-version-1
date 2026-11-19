@@ -14,6 +14,9 @@
 | `scripts/tao-du-an.py` | Tạo thư mục dự án mới |
 | `scripts/truy-vet.py` | Truy vết requirement ↔ TC (`kiem`/`chot`); cần `testing/<dự-án>/<tính-năng>/truy-vet-cau-hinh.json` |
 | `scripts/truy-vet-smoke.py` | Truy vết `testing/<dự-án>/smoke-test.md` ↔ TC gốc + requirement (`kiem`/`chot`); dùng hàm của `truy-vet.py` |
+| `scripts/selftest/` | Bài kiểm tự động thư viện chạy test (máy chủ giả localhost): `python -X utf8 scripts/selftest/run_selftest.py`, chạy sau mọi lần sửa `test_automation` |
+| `scripts/build_docs.py`, `scripts/test_automation/docs_pages.py` | Đổi md (SRS, bảng soát, câu hỏi BA, checklist, test case, truy vết, nhật ký khám phá, hướng dẫn chạy test) sang HTML cạnh file md + trang tổng `testing/<dự-án>/index.html` (thẻ từng tính năng: link tài liệu, tiến độ test case, bug, lượt chạy). 0 token, không dùng AI. Chạy sau khi sửa md; `--check` báo trang cũ. Selftest có kiểm bộ đổi md |
+| `scripts/auto_login.py`, `scripts/run_tests.py`, `scripts/test_automation/` | Chạy test case tự động bằng Playwright cho mọi dự án (`testing/<dự-án>/auto-config.json`, script ca ở `<tính-năng>/auto/`). Đăng nhập do **người dùng tự chạy**; phiên ở `.phien-dang-nhap/` (gitignore). Chi tiết: `project/tu-dong-hoa-test.md`, hướng dẫn `docs/chay-test-tu-dong.md` |
 | `.du-an-hien-tai`, `.env` / `.env.example` | Dự án đang làm; tài khoản test (không commit) / mẫu khóa |
 
 Bẫy Windows: chạy Python kèm `-X utf8`; heredoc Git Bash làm méo `\\` trong regex → viết script ra file rồi chạy.

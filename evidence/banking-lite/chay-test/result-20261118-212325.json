@@ -1,0 +1,170 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-18 21:23:25",
+  "results": [
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-002",
+      "code": "TC-002",
+      "title": "Hiển thị khuyến nghị Phê duyệt khi nhập lương 100 triệu",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Khung Thẩm định đổi ngay khi nhập, không cần Lưu (bước 5)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Nhãn `Phê duyệt`",
+          "passed": true,
+          "note": "thấy: Phê duyệt"
+        },
+        {
+          "kind": "main",
+          "title": "DSR `40,80%`",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Thặng dư `54.700.000 VND`",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Lý do `Đáp ứng mọi quy tắc tín dụng.`",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Dòng nhỏ `Xem trước: thẩm định chính thức chạy khi gửi, có dữ liệu CIC.`",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Khoản trả mới `40.800.000 VND`",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Thu nhập được tính `100.000.000 VND`",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "minor",
+          "title": "Chi phí được tính `4.500.000 VND`",
+          "passed": true,
+          "note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-002-khung-tham-dinh-20261118-212251.png"
+      ],
+      "seconds": 7.4
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-023",
+      "code": "TC-023",
+      "title": "Hiển thị Chuyển cấp trên khi DSR 54,40% (lương 75 triệu)",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "DSR `54,40%` (bước 5)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Nhãn `Chuyển cấp trên` (bước 5)",
+          "passed": true,
+          "note": "thấy: Chuyển cấp trên"
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-023-khung-tham-dinh-20261118-212301.png"
+      ],
+      "seconds": 10.3
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-009",
+      "code": "TC-009",
+      "title": "Hiển thị Từ chối kèm lý do khi thặng dư thiếu 1 đồng (2.999.999)",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Thặng dư `2.999.999 VND` (bước 6)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Nhãn `Từ chối` (bước 6)",
+          "passed": true,
+          "note": "thấy: Từ chối"
+        },
+        {
+          "kind": "main",
+          "title": "Lý do `Từ chối: Thặng dư hằng tháng 2.999.999 VND thấp hơn 3.000.000 VND.`",
+          "passed": true,
+          "note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-009-khung-tham-dinh-20261118-212309.png"
+      ],
+      "seconds": 7.6
+    },
+    {
+      "case_id": "khuyen-nghi-ltv-dsr/tc-022",
+      "code": "TC-022",
+      "title": "Cập nhật khuyến nghị ở đầu trang sau vài giây khi nhập lương rồi bấm Lưu",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Hiện thông báo `Đã lưu.` (bước 5)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Sau vài giây ô Khuyến nghị đầu trang thành `Phê duyệt` (bước 6)",
+          "passed": true,
+          "note": "thấy: Phê duyệt"
+        },
+        {
+          "kind": "main",
+          "title": "Bước `Tài chính` ghi `Đã xong` (bước 7)",
+          "passed": true,
+          "note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Tải lại trang, ô `Lương hằng tháng` vẫn `100000000` (bước 8)",
+          "passed": true,
+          "note": "thấy: 100000000"
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\khuyen-nghi-ltv-dsr-tc-022-sau-khi-luu-20261118-212324.png"
+      ],
+      "seconds": 15.5
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "project": "banking-lite",
+  "timestamp": "2026-11-19 09:43:09",
+  "results": [
+    {
+      "case_id": "dang-nhap/tc-032",
+      "code": "TC-032",
+      "title": "Tải lại trang khi đã đăng nhập: vẫn đăng nhập, không phải nhập lại",
+      "smoke_number": "",
+      "verdict": "Đạt",
+      "reason": "",
+      "checks": [
+        {
+          "kind": "main",
+          "title": "Bước 2: vẫn ở Danh sách việc",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        },
+        {
+          "kind": "main",
+          "title": "Bước 2: không hiện form Đăng nhập",
+          "passed": true,
+          "note": "",
+          "mark_text": [],
+          "account": "",
+          "error_note": ""
+        }
+      ],
+      "images": [
+        "evidence\\banking-lite\\chay-test\\dang-nhap-tc-032-sau-tai-lai-20261119-094309.png"
+      ],
+      "error_images": [],
+      "error_image_captions": {},
+      "seconds": 3.8
+    }
+  ]
+}

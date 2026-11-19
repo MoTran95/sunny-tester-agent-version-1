@@ -4,7 +4,7 @@
 
 ## Hệ thống
 
-- “Banking Lite — Vay mua nhà”: https://banking-lite.vercel.app/ , phiên bản 1.3.0 (ghi ở chân trang), giao diện Tiếng Việt / English.
+- “Banking Lite — Vay mua nhà”: https://staging-banking-lite.vercel.app/ , phiên bản 1.3.0 (ghi ở chân trang), giao diện Tiếng Việt / English.
 - Xử lý **hồ sơ vay mua nhà**, mã `HL-xxxxxx`. Đăng nhập bằng **Mã nhân viên** (chữ P + 6 chữ số) + **Mật khẩu**.
 - **Không tự gõ mật khẩu**: người dùng tự đăng nhập từng tài khoản trong cửa sổ trình duyệt. Mật khẩu test nằm ở `.env` ở gốc repo (đã `.gitignore`) — không chép vào báo cáo/bộ nhớ/chat.
 - Tích hợp bên thứ ba đã thấy: VNeID, CIC, Cổng SMS (thật hay mô phỏng ❓ — xem M-06 trong báo cáo v2).

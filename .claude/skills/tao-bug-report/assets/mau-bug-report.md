@@ -1,4 +1,4 @@
-# [Đặt lịch hẹn] Nút Xác nhận vẫn bật khi chưa chọn giờ, cho tạo lịch hẹn không có giờ
+# [Đặt lịch hẹn] Nút Xác nhận vẫn bật khi chưa chọn giờ
 
 > Ví dụ trung lập để minh họa hình dạng. Dữ liệu và hệ thống trong ví dụ là bịa, không dùng làm nội dung thật. Kết quả mong đợi bên dưới có nguồn, nên đây là lỗi đã rõ; nếu không có nguồn thì đổi thành `Chưa xác định` + câu hỏi cho BA và ghi ngay dưới tiêu đề "Nghi lỗi, chờ BA chốt".
 
@@ -22,7 +22,7 @@ TC-014 (Nút Xác nhận bị tắt khi chưa chọn giờ hẹn). Không có te
 4. Quan sát nút "Xác nhận" và bấm vào nút đó.
 
 ## Kết quả mong đợi
-Nút "Xác nhận" bị tắt (mờ, không bấm được) cho đến khi chọn giờ hẹn (theo TC-014, bước 4; theo requirement: "Nút Xác nhận chỉ được bật khi đã chọn đủ ngày và giờ").
+Nút "Xác nhận" bị tắt (mờ, không bấm được) cho đến khi chọn giờ hẹn.
 
 ## Kết quả thực tế
 Ở bước 4, nút "Xác nhận" sáng bình thường và bấm được. Sau khi bấm, hệ thống hiện thông báo "Đặt lịch thành công" và trong danh sách lịch hẹn có thêm một dòng ngày 20/12/2026 với cột "Giờ" để trống. [Giả định: dòng mới nằm ở trạng thái "Chờ xác nhận" như các lịch hẹn khác, vì ghi chú không nói trạng thái]
@@ -37,18 +37,18 @@ Không có: chỉ một chỗ.
 ## Ảnh hưởng nghiệp vụ
 Người dùng tạo được lịch hẹn không có giờ, nên nhân viên không biết khung giờ phục vụ. [Giả định: lịch không có giờ không thể được xếp nhân viên, vì ghi chú không nêu cách hệ thống xử lý lịch này]
 
-## Severity
-**Major.** Chức năng chính (đặt lịch) cho phép lưu dữ liệu không đầy đủ, người dùng thấy "Đặt lịch thành công" nhưng lịch không dùng được. Còn cách đi vòng: người dùng sửa lại lịch rồi chọn giờ [Giả định: có chức năng sửa lịch hẹn đã tạo].
+## Mức độ nghiêm trọng
+**Lớn.** Chức năng chính (đặt lịch) cho phép lưu dữ liệu không đầy đủ, người dùng thấy "Đặt lịch thành công" nhưng lịch không dùng được. Còn cách đi vòng: người dùng sửa lại lịch rồi chọn giờ [Giả định: có chức năng sửa lịch hẹn đã tạo].
 
-## Priority đề xuất
+## Mức độ ưu tiên đề xuất
 **Cao** — lịch không có giờ dễ lọt vào dữ liệu thật. (Đề xuất; team hoặc PO sẽ chốt.)
 
 ## Tần suất
 Luôn xảy ra (3/3 lần thử).
 
 ## Đính kèm cần có
-- [ ] Ảnh chụp màn hình bước 3: ô "Giờ hẹn" chưa chọn, nút "Xác nhận" sáng — `Cần bổ sung`
-- [ ] Ảnh chụp thông báo "Đặt lịch thành công" và dòng lịch hẹn không có giờ — `evidence/<dự-án>/bug/BUG-001-thanh-cong.png`
+- [ ] Ảnh màn hình bước 3: ô "Giờ hẹn" chưa chọn, nút "Xác nhận" sáng; cần bản tô đỏ nút "Xác nhận" (lỗi ở bước 3) — `Cần bổ sung`
+- [ ] Ảnh thông báo "Đặt lịch thành công" và dòng lịch hẹn không có giờ: ảnh gốc `evidence/<dự-án>/bug/BUG-001-thanh-cong.png`; ảnh đã tô đỏ chỗ dòng lịch hẹn không có giờ (lỗi ở bước 4 của các bước tái hiện): `evidence/<dự-án>/bug/BUG-001-thanh-cong-loi.png`
 - [ ] Bản ghi dữ liệu: dòng lịch hẹn vừa tạo (mã lịch hẹn, cột giờ trống) — `Cần bổ sung`
 - [ ] Log / phản hồi mạng của lần bấm Xác nhận — `Cần bổ sung`
 - [ ] Video thao tác 4 bước — không bắt buộc
@@ -58,9 +58,9 @@ Luôn xảy ra (3/3 lần thử).
 - (Không có)
 
 **Cho Dev**:
-- Lỗi nút Xác nhận ở "Đặt lịch hẹn" có chung nguyên nhân với nút Lưu ở "Đổi lịch hẹn" (BUG-002) không? Hai bug đang để riêng cho tới khi có câu trả lời.
+- Mình thấy hai lỗi giống nhau: nút "Xác nhận" ở màn hình "Đặt lịch hẹn" (bug này) và nút "Lưu" ở màn hình "Đổi lịch hẹn" (BUG-002) đều vẫn bật khi chưa chọn giờ. Anh/chị cho mình hỏi: hai nút này có dùng chung một đoạn xử lý không, tức là một nguyên nhân và sửa một chỗ là hết cả hai? Nếu đúng thì mình gộp thành một bug; nếu hai chỗ riêng thì mình giữ hai bug như hiện tại.
 
 ## Thông tin đã gắn nhãn Giả định (cần kiểm lại)
 1. Dòng lịch hẹn mới nằm ở trạng thái "Chờ xác nhận" (mục Kết quả thực tế).
 2. Lịch không có giờ không thể được xếp nhân viên (mục Ảnh hưởng nghiệp vụ).
-3. Có chức năng sửa lịch hẹn đã tạo (mục Severity).
+3. Có chức năng sửa lịch hẹn đã tạo (mục Mức độ nghiêm trọng).

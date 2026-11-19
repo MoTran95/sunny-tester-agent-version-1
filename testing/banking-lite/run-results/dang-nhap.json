@@ -1,0 +1,1609 @@
+{
+  "project": "banking-lite",
+  "suite": "dang-nhap",
+  "runs": [
+    {
+      "number": 1,
+      "build": "1.3.0",
+      "timestamp": "2026-11-19 11:00:31",
+      "run_by": "Sunny Tran",
+      "run_method": "Tự động (Playwright)",
+      "verdict": "Có case không đạt",
+      "note": "Chạy tự động bằng Playwright trên môi trường thử staging (https://staging-banking-lite.vercel.app/), bản 1.3.0, ngày 2026-11-19. Mỗi case chạy ít nhất một lần (7 case có bug chạy lại lần hai để quay video và chụp ảnh tô đỏ). 31 trong 43 case đã có kết quả; 12 case chưa có kết quả, lý do ở mục Kết luận và rủi ro bên dưới.",
+      "sources": [
+        "evidence/banking-lite/chay-test/result-20261119-093957.json",
+        "evidence/banking-lite/chay-test/result-20261119-094258.json",
+        "evidence/banking-lite/chay-test/result-20261119-094309.json",
+        "evidence/banking-lite/chay-test/result-20261119-095652.json",
+        "evidence/banking-lite/chay-test/result-20261119-095817.json",
+        "evidence/banking-lite/chay-test/result-20261119-095838.json",
+        "evidence/banking-lite/chay-test/result-20261119-105948.json",
+        "evidence/banking-lite/chay-test/result-20261119-110031.json"
+      ],
+      "results": {
+        "1": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-001-danh-sach-viec-20261119-105907.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-001-loi-20261119-105907.png": "Lỗi ở bước 5 (nhìn thanh điều hướng sau khi đăng nhập): thanh điều hướng hiện chữ DEFAULT sau mã và vai trò, đáng ra không có chữ này."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-001-p100001-20261119-105907.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-001",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-001.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý phụ: Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Vào Danh sách việc (bước 4)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Thanh điều hướng hiện mã P100001 (bước 5)",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "Thanh điều hướng hiện vai trò Chuyên viên khách hàng (bước 5)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Không có chữ DEFAULT trên thanh điều hướng (bước 5, TL-07)",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Không có thông báo đăng nhập thành công (bước 4)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "2": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-002-p200001-danh-sach-viec-20261119-093952.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-002-p300001-danh-sach-viec-20261119-093957.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "P200001: vào Danh sách việc (bước 4)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "P200001: thanh điều hướng hiện mã P200001 (bước 5)",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P200001 · Chuyên viên định giá · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "P200001: thanh điều hướng hiện vai trò Chuyên viên định giá (bước 5)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "P200001: bấm Đăng xuất về form Đăng nhập (bước 6)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "P300001: vào Danh sách việc (bước 9)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "P300001: thanh điều hướng hiện mã P300001 (bước 10)",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | Tích hợp | P300001 · Chuyên viên thẩm định tín dụng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "P300001: thanh điều hướng hiện vai trò Chuyên viên thẩm định tín dụng (bước 10)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "3": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-003-link-ho-so-chua-dang-nhap-20261119-110008.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-003-sau-dang-nhap-20261119-110012.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-003-kiem-20261119-110012.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: hiện form Đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: thanh địa chỉ vẫn là link hồ sơ",
+              "passed": true,
+              "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: mở thẳng hồ sơ HL-000019",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: không về Danh sách việc (địa chỉ vẫn là link hồ sơ)",
+              "passed": true,
+              "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d"
+            }
+          ]
+        },
+        "4": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-004-sau-nhap-sai-20261119-095800.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-004-sau-dang-nhap-20261119-095803.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 4-5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 4-5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 4-5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 4-5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 4-5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 4-5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 8: lần nhập đúng được máy chủ nhận (200)",
+              "passed": true,
+              "note": "mã trả về: 200"
+            },
+            {
+              "kind": "main",
+              "title": "bước 9: đăng nhập thành công, vào Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 9: thanh trên cùng hiện `P100001`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            }
+          ]
+        },
+        "5": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-005-form-dang-nhap-20261119-093926.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Có ô `Mã nhân viên *` (bước 2)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Có ô `Mật khẩu *` (bước 2)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Có nút `Đăng nhập` (bước 4)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Chân trang ghi `Banking Lite · Phiên bản 1.3.0` (bước 5)",
+              "passed": true,
+              "note": "thấy: 1.3.0"
+            },
+            {
+              "kind": "minor",
+              "title": "Có dòng gợi ý `Chữ P và 6 chữ số, ví dụ P100001.` (bước 3)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Chữ gõ trong ô Mật khẩu hiện dạng chấm (bước 7)",
+              "passed": true,
+              "note": "kiểu ô: password"
+            }
+          ]
+        },
+        "6": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-006-sau-nhap-sai-20261119-105933.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-006-loi-20261119-105934.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-006-loi-20261119-105934.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-006-20261119-105934.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "7": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-007-sau-nhap-sai-20261119-095705.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-007-loi-20261119-095705.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-007-loi-20261119-095705.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+          },
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "8": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-008-sau-nhap-sai-20261119-095711.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-008-loi-20261119-095711.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-008-loi-20261119-095711.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+          },
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "9": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-009-sau-nhap-sai-20261119-105926.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-009-loi-20261119-105927.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-009-loi-20261119-105927.png": "Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-009-20261119-105927.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-004",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-004.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Một số giá trị không hợp lệ."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": false,
+              "note": "thấy: Một số giá trị không hợp lệ, validation."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "10": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-010-sau-nhap-sai-20261119-105912.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-010-loi-20261119-105914.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-010-loi-20261119-105914.png": "Lỗi ở bước 4: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 4: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-010-20261119-105914.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-005",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-005.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 4: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 4: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 4: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Một số giá trị không hợp lệ."
+            },
+            {
+              "kind": "main",
+              "title": "bước 4: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": false,
+              "note": "thấy: Một số giá trị không hợp lệ, validation."
+            },
+            {
+              "kind": "main",
+              "title": "bước 4: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 4: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "11": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-011-sau-nhap-sai-20261119-105940.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-011-sau-nhap-sai-20261119-095729-loi.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-011-sau-nhap-sai-20261119-095729-loi.png": "Lỗi ở bước 7: sau khi báo lỗi, ô Mật khẩu vẫn còn 12 ký tự (các chấm), đáng ra phải trống."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-011-20261119-105940.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            },
+            {
+              "code": "BUG-007",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-007.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: Bước 5: hiện khung lỗi đỏ `Mã nhân viên hoặc mật khẩu không đúng.`; Bước 7: ô `Mật khẩu *` trống, không còn chấm hay ký tự nào",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 5: hiện khung lỗi đỏ `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: ô `Mã nhân viên *` còn nguyên `P100001`",
+              "passed": true,
+              "note": "ô đang chứa 7 ký tự"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: ô `Mật khẩu *` trống, không còn chấm hay ký tự nào",
+              "passed": false,
+              "note": "ô Mật khẩu còn 12 ký tự"
+            }
+          ]
+        },
+        "12": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-012-sau-nhap-sai-20261119-095735.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-012-loi-20261119-095735.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-012-loi-20261119-095735.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+          },
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "13": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-013-sau-nhap-sai-20261119-095742.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-013-loi-20261119-095742.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-013-loi-20261119-095742.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+          },
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "14": {
+          "status": "Bị chặn",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-014-sau-lan-sai-thu-5-20261119-095838.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-014-loi-20261119-095838.png": "Lỗi ở bước 7: sau lần sai thứ 5, hệ thống đã chặn (hiện `Đăng nhập sai quá nhiều lần`), đáng ra chỉ chặn từ lần thứ 10."
+          },
+          "video": [],
+          "bug": [],
+          "blocked_by": [
+            {
+              "code": "BUG-008",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-008.md"
+            }
+          ],
+          "note": "Sai ý chính: Bước 3-11: sau mỗi lần sai (1 đến 9), khung lỗi ghi `Mã nhân viên hoặc mật khẩu không đúng.`; Bước 12: sau lần sai thứ 9 chưa bị chặn (không hiện `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`)",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 3-11: sau mỗi lần sai (1 đến 9), khung lỗi ghi `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "mã máy chủ từng lần: [401, 401, 401, 401, 429]; lần có câu đúng: []"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 12: sau lần sai thứ 9 chưa bị chặn (không hiện `Đăng nhập sai quá nhiều lần. Thử lại sau 5 phút.`)",
+              "passed": false,
+              "note": "bị chặn ở lần thứ 5"
+            }
+          ]
+        },
+        "15": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "16": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "17": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "18": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "19": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "20": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "21": {
+          "status": "Bị chặn",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [
+            {
+              "code": "BUG-008",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-008.md"
+            }
+          ],
+          "note": "",
+          "actual": []
+        },
+        "22": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "23": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-023-sau-dang-xuat-20261119-094240.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: về form đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 3: thanh địa chỉ là `/`",
+              "passed": true,
+              "note": "địa chỉ: /"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 3: form bằng English (`Employee ID`, `Password`, nút `Sign in`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Bước 3: ngôn ngữ lưu vẫn là English (localStorage bl.locale)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "24": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-024-sau-back-20261119-094249.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: hiện hồ sơ HL-000019",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 4: về form Đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 4: thanh địa chỉ là `/`",
+              "passed": true,
+              "note": "địa chỉ: /"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: thanh địa chỉ quay về link hồ sơ",
+              "passed": true,
+              "note": "địa chỉ: /applications/db5f18e6-7a49-4d61-b307-0a485c8ab20d"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: chỉ hiện form Đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: dữ liệu hồ sơ không hiện ra (không thấy HL-000019)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "25": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-025-tab-1-sau-thao-tac-20261119-094257.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: tab 2 về form Đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Bước 4: tab 1 chưa tự thay đổi, vẫn hiện Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: tab 1 chuyển sang form Đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: không hiện thông báo nào (không có `Vui lòng đăng nhập.`)",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "26": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-026-integrations-20261119-094214.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "/integrations: hiện form Đăng nhập (bước 2)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "/integrations: thanh địa chỉ giữ nguyên (bước 2)",
+              "passed": true,
+              "note": "địa chỉ: /integrations"
+            },
+            {
+              "kind": "main",
+              "title": "/integrations: không có thông báo `cần đăng nhập` hay trang `không tìm thấy` (bước 2)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "/khong-ton-tai-xyz: hiện form Đăng nhập (bước 2 (địa chỉ không có thật))",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "/khong-ton-tai-xyz: thanh địa chỉ giữ nguyên (bước 2 (địa chỉ không có thật))",
+              "passed": true,
+              "note": "địa chỉ: /khong-ton-tai-xyz"
+            },
+            {
+              "kind": "main",
+              "title": "/khong-ton-tai-xyz: không có thông báo `cần đăng nhập` hay trang `không tìm thấy` (bước 2 (địa chỉ không có thật))",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "27": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-027-sau-dang-nhap-20261119-110019.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-027-kiem-20261119-110019.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+              "passed": true,
+              "note": "mã trả về: 200"
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: thanh trên cùng hiện `P100001`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            }
+          ]
+        },
+        "28": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-028-sau-dang-nhap-20261119-095627.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+              "passed": true,
+              "note": "mã trả về: 200"
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: thanh trên cùng hiện `P100001`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            }
+          ]
+        },
+        "29": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-029-sau-dang-nhap-20261119-095634.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 4: máy chủ nhận đăng nhập (200)",
+              "passed": true,
+              "note": "mã trả về: 200"
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: thanh trên cùng hiện `P100001`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            }
+          ]
+        },
+        "30": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-030-sau-nhap-sai-20261119-095748.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-030-loi-20261119-095748.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-030-loi-20261119-095748.png": "Lỗi ở bước 5: khung lỗi ghi `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: câu lỗi còn nhắc mã không gian: `Mã không gian, mã nhân viên hoặc mật khẩu không đúng.`."
+          },
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Mã không gian, mã nhân viên hoặc mật khẩu không đúng."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "31": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-031-sau-dang-nhap-20261119-110027.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-031-sau-dang-nhap-20261119-110031.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-031-kiem-20261119-110031.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: đăng nhập thành công, vào Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: thanh trên cùng hiện `P100001`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 6: về form `Đăng nhập`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 10: đăng nhập thành công, vào Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 10: thanh trên cùng hiện `P100001`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Vay mua nhà | Danh sách việc | P100001 · Chuyên viên khách hàng · DEFAULT | Tiếng Việt | English | Đăng xuất"
+            }
+          ]
+        },
+        "32": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-032-sau-tai-lai-20261119-110001.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-032-kiem-20261119-110001.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: vẫn ở Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: không hiện form Đăng nhập",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "33": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-033-mo-login-20261119-110004.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-033-kiem-20261119-110004.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: hiện Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: không hiện form Đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: thanh địa chỉ vẫn là `/login`",
+              "passed": true,
+              "note": "địa chỉ: /login"
+            }
+          ]
+        },
+        "34": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-034-dia-chi-khong-co-that-20261119-110007.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-034-kiem-20261119-110007.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: hiện Danh sách việc",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: thanh địa chỉ giữ nguyên `/khong-ton-tai-xyz`",
+              "passed": true,
+              "note": "địa chỉ: /khong-ton-tai-xyz"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: không có trang `không tìm thấy`",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "35": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-035-sau-doi-english-20261119-095810.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-035-loi-20261119-095810.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-035-loi-20261119-095810.png": "Lỗi ở bước 7: sau khi bấm English, khung lỗi ghi `Workspace, employee ID or password is incorrect.`, đáng ra `Employee ID or password is incorrect.`."
+          },
+          "video": [],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: Bước 5: khung lỗi đỏ ghi `Mã nhân viên hoặc mật khẩu không đúng.`; Bước 7: khung lỗi vẫn hiện, ghi `Employee ID or password is incorrect.`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 5: khung lỗi đỏ ghi `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: nhãn đổi ngay sang English (`Employee ID *`, `Password *`, nút `Sign in`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: ô Mã nhân viên còn `P100001`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: khung lỗi vẫn hiện, ghi `Employee ID or password is incorrect.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Workspace, employee ID or password is incorrect."
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: không có dòng `validation…`",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "36": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-036-sau-nhap-sai-20261119-105948.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-036-loi-20261119-105948.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-036-loi-20261119-105948.png": "Lỗi ở bước 6: khung lỗi ghi `Workspace, employee ID or password is incorrect.`, đáng ra phải ghi `Employee ID or password is incorrect.`. Lỗi ở bước 6: câu lỗi còn nhắc mã không gian: `Workspace, employee ID or password is incorrect.`."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-036-20261119-105948.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-002",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-002.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 6: khung lỗi đỏ ghi đúng câu `Employee ID or password is incorrect.`; bước 6: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 6: khung lỗi đỏ ghi đúng câu `Employee ID or password is incorrect.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Workspace, employee ID or password is incorrect."
+            },
+            {
+              "kind": "main",
+              "title": "bước 6: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 6: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": false,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 6: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "37": {
+          "status": "Bỏ qua",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "38": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-038-sau-tai-lai-english-20261119-094224.png",
+            "evidence/banking-lite/chay-test/dang-nhap-tc-038-sau-dang-xuat-english-20261119-094228.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 4: form vẫn bằng English (`Employee ID *`, `Password *`, `Sign in`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: vào Danh sách việc (thanh điều hướng có `Sign out`)",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 9: về form đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 9: form vẫn bằng English",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "39": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-039-english-20261119-094235.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 5: thanh điều hướng hiện vai trò `Chuyên viên khách hàng`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: thanh điều hướng hiện vai trò `Banker`",
+              "passed": true,
+              "note": "thanh điều hướng: Banking Lite Home loans | Worklist | P100001 · Banker · DEFAULT | Tiếng Việt | English | Sign out"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 7: không còn `Chuyên viên khách hàng`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "minor",
+              "title": "Bước 8: số tiền hiện kiểu English (dấu phẩy ngăn hàng nghìn), không có kiểu dấu chấm",
+              "passed": true,
+              "note": "kiểu English: ['3,200,000,000', '3,200,000,000', '2,000,000,000']; kiểu dấu chấm: []"
+            }
+          ]
+        },
+        "40": {
+          "status": "Không đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-040-sau-nhap-sai-20261119-105921.png"
+          ],
+          "evidence_error": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-040-loi-20261119-105921.png"
+          ],
+          "evidence_error_captions": {
+            "evidence/banking-lite/chay-test/dang-nhap-tc-040-loi-20261119-105921.png": "Lỗi ở bước 5: khung lỗi ghi `Một số giá trị không hợp lệ.`, đáng ra phải ghi `Mã nhân viên hoặc mật khẩu không đúng.`. Lỗi ở bước 5: trang hiện `Một số giá trị không hợp lệ`, đáng ra chỉ có câu chung."
+          },
+          "video": [
+            "evidence/banking-lite/chay-test/video/dang-nhap-tc-040-20261119-105922.webm"
+          ],
+          "bug": [
+            {
+              "code": "BUG-006",
+              "path": "testing/banking-lite/dang-nhap/bug/BUG-006.md"
+            }
+          ],
+          "blocked_by": [],
+          "note": "Sai ý chính: bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`; bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "bước 5: khung lỗi đỏ ghi đúng câu `Mã nhân viên hoặc mật khẩu không đúng.`",
+              "passed": false,
+              "note": "khung lỗi đang ghi: Một số giá trị không hợp lệ."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: không hiện câu hay mã kỹ thuật (`Một số giá trị không hợp lệ.`, `validation…`)",
+              "passed": false,
+              "note": "thấy: Một số giá trị không hợp lệ, validation."
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: câu lỗi không có cụm `Mã không gian`/`Workspace`",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "bước 5: vẫn ở màn hình đăng nhập, thanh địa chỉ không đổi",
+              "passed": true,
+              "note": "địa chỉ: /"
+            }
+          ]
+        },
+        "41": {
+          "status": "Đạt",
+          "evidence": [
+            "evidence/banking-lite/chay-test/dang-nhap-tc-041-form-dang-nhap-20261119-094216.png"
+          ],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": [
+            {
+              "kind": "main",
+              "title": "Bước 2: form chỉ có 2 ô nhập (Mã nhân viên, Mật khẩu)",
+              "passed": true,
+              "note": "số ô nhập: 2"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 2: form có nút `Đăng nhập`",
+              "passed": true,
+              "note": "nút trong form: ['Đăng nhập']"
+            },
+            {
+              "kind": "main",
+              "title": "Bước 3: không có Workspace, quên mật khẩu, đăng ký, ghi nhớ đăng nhập",
+              "passed": true,
+              "note": ""
+            },
+            {
+              "kind": "main",
+              "title": "Bước 3: không có ô tích chọn nào",
+              "passed": true,
+              "note": ""
+            }
+          ]
+        },
+        "42": {
+          "status": "Chưa chạy",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        },
+        "43": {
+          "status": "Chưa chạy",
+          "evidence": [],
+          "evidence_error": [],
+          "evidence_error_captions": {},
+          "video": [],
+          "bug": [],
+          "blocked_by": [],
+          "note": "",
+          "actual": []
+        }
+      },
+      "conclusion": {
+        "headline": "Chưa thể kết luận đạt cho tính năng Đăng nhập ở bản 1.3.0. Các luồng chính (đăng nhập đúng, đăng xuất, mở link, tải lại trang, đổi ngôn ngữ) chạy đúng và không có lỗi nào làm người dùng không đăng nhập được. Nhưng còn 7 bug đang mở (5 bug mức Rất nhỏ, 1 bug mức Nhỏ, 1 bug mức Nặng) và 12 trong 43 case chưa có kết quả, trong đó có phần cách hệ thống chặn đăng nhập sau nhiều lần sai.",
+        "passed": [
+          "Đăng nhập đúng cả 3 tài khoản với đúng vai trò (TC-002) và form đăng nhập đủ ô, đủ nút, có số bản (TC-005).",
+          "Mã nhân viên viết chữ thường, thừa dấu cách ở đầu hoặc ở cuối vẫn đăng nhập được (TC-027, TC-028, TC-029); nhấn Enter ở ô Mật khẩu hoặc ô Mã nhân viên gửi được form (TC-031).",
+          "Đăng xuất về form đăng nhập, bấm Back sau khi đăng xuất không lộ dữ liệu hồ sơ, đăng xuất ở tab này thì tab kia về form khi thao tác (TC-023, TC-024, TC-025).",
+          "Mở link hồ sơ hoặc địa chỉ bất kỳ khi chưa đăng nhập thì hiện form và giữ địa chỉ, đăng nhập đúng thì vào thẳng link đó; khi đã đăng nhập, tải lại, mở /login hoặc địa chỉ không có thật đều về Danh sách việc (TC-003, TC-026, TC-032, TC-033, TC-034).",
+          "Ngôn ngữ đã chọn được giữ qua lần tải lại và lần đăng xuất; bản English đổi đúng vai trò và số tiền (TC-038, TC-039); form không có ô thừa như Workspace, quên mật khẩu, đăng ký (TC-041)."
+        ],
+        "not_tested": [
+          {
+            "cases": "TC-014, TC-021",
+            "status": "Bị chặn",
+            "reason": "Cần bộ đếm số lần sai của hệ thống đếm đúng như BA quy định. Lần chạy TC-014 cho thấy tài khoản P100001 bị chặn sau 5 lần sai kể từ lần đăng nhập đúng gần nhất (BUG-008). Chạy tiếp lúc này có thể chặn tài khoản thêm 5 phút mỗi lần và kết quả không đáng tin."
+          },
+          {
+            "cases": "TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-022, TC-037",
+            "status": "Bỏ qua",
+            "reason": "Chính các bước của những ca này làm hệ thống chặn đăng nhập (lần sai thứ 10, nhập khi đang bị chặn, chờ hết chặn, bản English bị chặn, chặn theo từng tài khoản). Không chạy tự động để tránh chặn tài khoản test; người kiểm thử tự làm bằng tay khi cần."
+          },
+          {
+            "cases": "TC-042, TC-043",
+            "status": "Chưa chạy",
+            "reason": "Kiểm thời hạn phiên 10 phút (còn đăng nhập sau 9 phút, hết hạn sau 10 phút 30 giây). Chưa có script vì BA chưa trả lời câu B15: 10 phút tính từ lúc đăng nhập hay từ lần thao tác cuối, và màn hình hiện gì khi hết hạn."
+          }
+        ],
+        "risks": [
+          {
+            "title": "Người dùng thật có thể bị chặn đăng nhập sớm hơn quy định",
+            "detail": "BA quy định chỉ chặn sau 10 lần sai liên tiếp và đăng nhập đúng đưa số lần sai về 0. Thực tế P100001 bị chặn 5 phút khi mới sai 5 lần kể từ lần đăng nhập đúng gần nhất. Nếu người dùng thật đăng nhập sai rải rác trong ngày thì có thể bị chặn nhầm. Chưa biết hệ thống đếm theo tài khoản, theo máy hay toàn hệ thống (BUG-008, đã có câu hỏi cho Dev)."
+          },
+          {
+            "title": "Cơ chế chặn đăng nhập chưa được kiểm trọn vẹn",
+            "detail": "10 ca về chặn đăng nhập chưa có kết quả. Chưa biết lần sai thứ 10 có bị chặn đúng lúc không, khi đang bị chặn mà nhập đúng thì có bị từ chối như BA yêu cầu không (ngày 2026-11-17 từng thấy hệ thống vẫn cho vào), và hết 5 phút có tự mở lại không."
+          },
+          {
+            "title": "Thời hạn phiên 10 phút chưa kiểm",
+            "detail": "Nếu phiên hết sớm hơn 10 phút, người dùng bị đưa về form đăng nhập giữa lúc đang làm hồ sơ và có thể mất dữ liệu chưa lưu; nếu phiên sống lâu hơn 10 phút thì phiên còn mở lâu hơn quy định. Cả hai trường hợp đều chưa được kiểm."
+          },
+          {
+            "title": "Mật khẩu vẫn còn trong ô sau khi báo sai",
+            "detail": "Sau mỗi lần nhập sai, ô Mật khẩu vẫn giữ nguyên các chấm (BUG-007). Nếu nhiều người dùng chung một máy thì người sau thấy ô còn chữ của người trước. Chưa kiểm xem chữ này có đọc ra được không."
+          },
+          {
+            "title": "Độ tin cậy của kết quả",
+            "detail": "Mỗi ca chỉ chạy tự động một đến hai lần, trên trình duyệt Chrome, ở môi trường thử staging. Chưa chạy lặp để loại trừ lỗi chập chờn, chưa thử trình duyệt hoặc thiết bị khác. Sau khi Dev sửa bug, cần chạy lại các ca liên quan."
+          }
+        ],
+        "suggestion": "Thứ tự nên làm: (1) Dev trả lời 4 câu về cách đếm lần sai ở BUG-008 và sửa; (2) đặt lại bộ đếm rồi chạy TC-014 và TC-021; (3) người kiểm thử tự làm 8 ca bị bỏ qua; (4) xin BA trả lời câu B15 để viết TC-042, TC-043; (5) chạy lại cả bộ sau khi Dev sửa 7 bug. Về nhận hay trả bản 1.3.0 cho tính năng này: đây là quyết định của người kiểm thử và PO; căn cứ chính là không có lỗi nào chặn việc đăng nhập bình thường, nhưng có 1 bug mức Nặng và 12 case chưa có kết quả."
+      }
+    }
+  ]
+}
