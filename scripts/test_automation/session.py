@@ -94,6 +94,33 @@ def login_once(page, cfg, username, password):
     return False, f"mã trả về bất thường {status_code}"
 
 
+def manual_login(p, cfg, account, wait_minutes=5):
+    """Mở cửa sổ trình duyệt để NGƯỜI TEST tự đăng nhập (SSO, mã xác nhận, captcha…), chờ tới khi `session_check_api` trả 200
+    rồi lưu phiên. Thư viện không gõ gì, không đọc mật khẩu, chỉ gửi yêu cầu GET kiểm phiên. Trả mã thoát 0 hoặc 1."""
+    account = account.upper()
+    cfg.sessions_dir.mkdir(parents=True, exist_ok=True)
+    browser = launch_browser(p, headless=False)
+    context = browser.new_context(no_viewport=True)
+    try:
+        page = context.new_page()
+        page.goto(cfg.url + "/", wait_until="domcontentloaded")
+        print(f"Cửa sổ trình duyệt đã mở. Hãy tự đăng nhập tài khoản {account} (kể cả mã xác nhận). Mình chỉ chờ tối đa {wait_minutes} phút, không gõ gì.")
+        deadline = time.time() + wait_minutes * 60
+        while time.time() < deadline:
+            try:
+                if is_session_valid(cfg, context):
+                    context.storage_state(path=str(session_file(cfg, account)))
+                    print(f"Đã lưu phiên của {account}. Chạy test ngay (phiên chỉ sống khoảng {cfg.session_minutes} phút).")
+                    return 0
+            except Exception:  # noqa: BLE001
+                pass   # trang đang chuyển hướng giữa các bước đăng nhập: thử lại
+            page.wait_for_timeout(2000)
+        print("Hết thời gian chờ mà chưa thấy đăng nhập xong; chưa lưu phiên.")
+        return 1
+    finally:
+        browser.close()
+
+
 def login(p, cfg, account, headless=True, reuse=False, keep_open=False):
     """Đăng nhập một tài khoản, lưu phiên. Trả về (mã thoát, trinh_duyet|None, context|None).
 

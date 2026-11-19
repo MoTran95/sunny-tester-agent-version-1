@@ -7,7 +7,7 @@ description: Đọc soát một requirement (file SRS/tài liệu yêu cầu/tic
 
 Làm **một việc**: đọc requirement trước khi viết test, tìm mọi chỗ chưa đủ căn cứ để biết kết quả đúng, rồi biến thành (1) **bảng soát** để tester tự kiểm tra và (2) **file câu hỏi** để mang đi hỏi BA. Xong thì **dừng**, chờ BA trả lời. Checklist và test case là việc của skill khác, sau khi BA trả lời.
 
-Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong sách *Nền Tảng Tester Thời AI* (Phần 1) cộng các bài học từ lần làm thật trên feature Khuyến nghị LTV/DSR (mã `RECO`). Mẫu đã chạy thật (dự án Banking Lite, chỉ mở khi đang làm dự án đó): `testing/banking-lite/khuyen-nghi-ltv-dsr/`.
+Ngôn ngữ: **tiếng Việt**. Nền: cách làm "Tách, Xoay, Lọc" trong sách *Nền Tảng Tester Thời AI* (Phần 1) cộng các bài học từ những lần làm thật với người dùng (ghi ở `references/`). Khuôn: `assets/`.
 
 ## Quy tắc không được phá (và vì sao)
 

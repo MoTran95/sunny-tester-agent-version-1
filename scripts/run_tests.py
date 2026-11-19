@@ -10,7 +10,11 @@ Mã thoát: 0 đạt hết, 1 có ca Không đạt, 2 sai cấu hình, 3 phiên 
 """
 import sys
 
-from test_automation.runner import main
+import _venv
+
+_venv.ensure_playwright()  # chưa có Playwright thì tự chạy lại bằng venv của repo
+
+from test_automation.runner import main  # noqa: E402
 
 if __name__ == "__main__":
     sys.exit(main())

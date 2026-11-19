@@ -10,14 +10,13 @@ Mật khẩu chỉ nằm trong file `.env` trên máy bạn. Script test case **
 
 ## Cài một lần
 
-Cần Python 3 và Chrome hoặc Edge trên máy (không phải tải thêm trình duyệt).
+Cần Python 3.10 trở lên và Chrome hoặc Edge trên máy (không phải tải thêm trình duyệt). Cài thư viện bằng một lệnh, từ thư mục repo (tạo `.venv` trong repo, cần mạng; Mac gõ `python3`):
 
 ```powershell
-python -m venv C:\Users\Admin\.venvs\playwright
+python scripts/cai-dat-may-moi.py
 ```
-```powershell
-C:\Users\Admin\.venvs\playwright\Scripts\pip install -r scripts\requirements-tu-dong.txt
-```
+
+Không cần nhớ đường dẫn venv: lệnh `python -X utf8 scripts/run_tests.py …` bên dưới tự chạy lại bằng `.venv` khi Python hệ thống chưa có Playwright. Chi tiết máy mới: `docs/cai-dat-may-moi.md`.
 
 Tài khoản test để trong `.env` ở gốc repo (file này không commit), theo mẫu:
 
@@ -31,24 +30,24 @@ Tài khoản test để trong `.env` ở gốc repo (file này không commit), t
 
 ## Chạy hằng ngày
 
-Thay `C:\Users\Admin\.venvs\playwright\Scripts\python.exe` bằng đường dẫn Python đã cài ở trên. Dưới đây viết gọn là `python`.
+Các lệnh dưới đây gõ `python` (Python hệ thống); phần cần Playwright tự dùng `.venv` như đã nói ở trên.
 
 **Bước 1. Đăng nhập, lưu phiên** (phiên chỉ sống khoảng 10 phút với Banking Lite, nên chạy bước 2 ngay sau đó):
 
 ```powershell
-python -X utf8 scripts\auto_login.py P100001 P200001 P300001 --headless
+python -X utf8 scripts/auto_login.py P100001 P200001 P300001 --headless
 ```
 
 **Bước 2. Chạy test:**
 
 ```powershell
-python -X utf8 scripts\run_tests.py --smoke
+python -X utf8 scripts/run_tests.py --smoke
 ```
 ```powershell
-python -X utf8 scripts\run_tests.py --case-id dang-nhap/tc-001
+python -X utf8 scripts/run_tests.py --case-id dang-nhap/tc-001
 ```
 ```powershell
-python -X utf8 scripts\run_tests.py --feature dang-nhap
+python -X utf8 scripts/run_tests.py --feature dang-nhap
 ```
 
 Thêm `--project <slug>` nếu không muốn dùng dự án trong `.du-an-hien-tai`. Thêm `--headed` để xem cửa sổ trình duyệt khi gỡ lỗi.
@@ -58,7 +57,7 @@ Thêm `--project <slug>` nếu không muốn dùng dự án trong `.du-an-hien-t
 Chạy cả bộ smoke và ghi luôn thành một lượt (số bản lấy ở chân trang, đổi `version` trong `auto-data.json` khi build mới):
 
 ```powershell
-python -X utf8 scripts\run_tests.py --smoke --record-run --build 1.3.0
+python -X utf8 scripts/run_tests.py --smoke --record-run --build 1.3.0
 ```
 
 Lệnh này ghi thêm một lượt vào `testing/<dự-án>/run-results/smoke.json`, rồi tự sinh lại hai file:
@@ -68,10 +67,10 @@ Lệnh này ghi thêm một lượt vào `testing/<dự-án>/run-results/smoke.j
 Hai file này **tự sinh, không sửa tay**. Muốn ghi kết quả từ các lần chạy riêng lẻ (ví dụ chạy nhiều đợt) hoặc gắn mã bug:
 
 ```powershell
-python -X utf8 scripts\build_report.py add-run --build 1.3.0 --results-files evidence\banking-lite\chay-test\result-A.json evidence\banking-lite\chay-test\result-B.json --status "2=Đạt kèm lỗi đã biết" --bug "2=BUG-001"
+python -X utf8 scripts/build_report.py add-run --build 1.3.0 --results-files evidence/banking-lite/chay-test/result-A.json evidence/banking-lite/chay-test/result-B.json --status "2=Đạt kèm lỗi đã biết" --bug "2=BUG-001"
 ```
 
-Chỉ sinh lại md và HTML từ dữ liệu đã có: `python -X utf8 scripts\build_report.py build`.
+Chỉ sinh lại md và HTML từ dữ liệu đã có: `python -X utf8 scripts/build_report.py build`.
 
 "Số lần chạy" của mỗi case là số lượt có kết luận Đạt hoặc Không đạt (đếm từ lịch sử). Lượt "Không kết luận" hoặc "Chưa chạy" không tính. Kết luận của lượt: **Nhận build** khi mọi case có kết luận Đạt (kể cả kèm lỗi đã biết), **Trả build** khi có ca Không đạt, **Chưa đủ kết luận** khi còn ca chưa chạy được.
 
@@ -90,7 +89,7 @@ Ca có ý kiểm tra sai mà đã khai `mark_text` sẽ có thêm một ảnh t�
 Ảnh đã chụp từ trước, tô thủ công theo tọa độ (điểm ảnh, góc trên-trái rồi dưới-phải của chữ):
 
 ```powershell
-python -X utf8 scripts\mark_error.py evidence\banking-lite\chay-test\ten-anh.png --box 1067,14,1122,30
+python -X utf8 scripts/mark_error.py evidence/banking-lite/chay-test/ten-anh.png --box 1067,14,1122,30
 ```
 
 Rồi đưa ảnh tô đỏ vào bảng kết quả khi ghi lượt: `--error-images "2=evidence/.../ten-anh-loi.png"` và câu mô tả lỗi `--error-captions "2=Lỗi ở bước 5: ..."` (số là cột # của bảng smoke).
@@ -100,7 +99,7 @@ Rồi đưa ảnh tô đỏ vào bảng kết quả khi ghi lượt: `--error-im
 Mỗi `BUG-nnn.md` có trang `BUG-nnn.html` cạnh nó (tự sinh khi chạy `build_report.py build`, hoặc riêng: `build_report.py bug-pages`):
 
 ```powershell
-python -X utf8 scripts\build_report.py bug-pages
+python -X utf8 scripts/build_report.py bug-pages
 ```
 
 Trang chia mỗi mục thành một thẻ có nút **Sao chép** (chép chữ thường của mục đó để dán vào Jira, chat...). Ở đầu trang có "Sao chép tiêu đề" và "Sao chép cả bug (md)". Ảnh bằng chứng hiện thành ảnh nhỏ, ảnh tô đỏ có viền đỏ; chữ `[Giả định: …]` được tô vàng. Cột Bug trong bảng kết quả smoke link thẳng tới trang này. Nút Sao chép cần trang mở bằng trình duyệt thường (Chrome, Edge); nếu trình duyệt chặn clipboard thì trang tự dùng cách dự phòng.
@@ -162,7 +161,7 @@ Nhiều script cùng tính năng dùng chung hàm thì để một file `<tính-
 **Viết selector cho trang chưa biết:** dùng `scripts/inspect_page.py`, in cây vai trò + tên của trang bằng phiên đã lưu (không cần mật khẩu):
 
 ```powershell
-python -X utf8 scripts\inspect_page.py /applications/<id>/financials --account P100001 --wait-text "Lương hằng tháng"
+python -X utf8 scripts/inspect_page.py /applications/<id>/financials --account P100001 --wait-text "Lương hằng tháng"
 ```
 
 (Trong Git Bash, đường dẫn bắt đầu bằng `/` bị đổi thành đường dẫn Windows; chạy trong PowerShell hoặc đặt `MSYS_NO_PATHCONV=1`.)
@@ -178,33 +177,37 @@ Quy tắc viết:
 Ca cần hồ sơ có sẵn trạng thái (ví dụ hồ sơ nháp đúng khoản vay) lấy id từ `auto-data.json`. Với Banking Lite có script tạo sẵn các hồ sơ đó (**tạo dữ liệu thật** trên hệ thống đang test, chỉ chạy khi bạn đồng ý):
 
 ```powershell
-python -X utf8 testing\banking-lite\auto\create_draft_application.py --count 2
+python -X utf8 testing/banking-lite\auto\create_draft_application.py --count 2
 ```
 
 Ca bấm Lưu dùng hết hồ sơ (như TC-022). Muốn chạy lại thì tạo hồ sơ mới: thêm `--tc-022-only --overwrite`.
 
 ## Thêm dự án mới
 
-Tạo `testing/<dự-án>/auto-config.json`:
+Tạo dự án bằng `python -X utf8 scripts/tao-du-an.py <slug> "<Tên>" <địa chỉ>`: lệnh này đã tạo sẵn ba file khuôn trong `testing/<dự-án>/` và khối khóa mẫu trong `.env.example`. Việc còn lại là **điền các chỗ `<…>`** trong `auto-config.json` (chưa điền thì thư viện từ chối chạy và nói rõ khóa nào còn thiếu):
 
 ```json
 {
-  "tien_to_env": "TEN_DU_AN",
-  "url_mac_dinh": "https://...",
-  "dang_nhap": {
-    "nhan_ma": ["Mã nhân viên", "Employee ID"],
-    "nhan_nut": ["Đăng nhập", "Sign in"],
-    "api_dang_nhap": "/api/auth/sign-in",
-    "api_kiem_phien": "/api/me",
-    "phien_phut": 10
+  "env_prefix": "TEN_DU_AN",
+  "default_url": "https://staging...",
+  "login": {
+    "id_labels": ["Mã nhân viên", "Employee ID"],
+    "button_labels": ["Đăng nhập", "Sign in"],
+    "login_api": "/api/auth/sign-in",
+    "session_check_api": "/api/me",
+    "session_minutes": 10,
+    "max_consecutive_failures": "<số lần sai tối đa: lấy từ requirement hoặc hỏi người test, điền số>",
+    "block_minutes": "<số phút bị chặn: lấy từ requirement hoặc hỏi người test, điền số>"
   }
 }
 ```
 
-- `nhan_ma`, `nhan_nut`: chữ trên ô mã đăng nhập và nút đăng nhập (liệt kê cả bản tiếng Anh nếu hệ thống đổi ngôn ngữ).
-- `api_dang_nhap`: đường dẫn yêu cầu đăng nhập, để script biết đăng nhập đã xong chưa.
-- `api_kiem_phien`: đường dẫn trả 200 khi còn đăng nhập, trả khác 200 khi hết phiên.
-- `phien_phut`: thời hạn phiên (chỉ để nhắc).
+- `id_labels`, `button_labels`: chữ trên ô mã đăng nhập và nút đăng nhập (liệt kê cả bản tiếng Anh nếu hệ thống đổi ngôn ngữ). Lấy từ hệ thống thật bằng `scripts/inspect_page.py`.
+- `login_api`: đường dẫn yêu cầu đăng nhập, để script biết đăng nhập đã xong chưa.
+- `session_check_api`: đường dẫn trả 200 khi còn đăng nhập, trả khác 200 khi hết phiên.
+- `session_minutes`: thời hạn phiên (chỉ để nhắc). `max_consecutive_failures`: trần nhập sai của bộ đếm; `block_minutes`: thời gian bị chặn. **Hai số này không có mặc định**: lấy từ requirement hoặc hỏi người kiểm thử; chưa khai thì ca cố ý nhập sai bị từ chối (Không kết luận).
+- Hệ thống đăng nhập bằng SSO, mã xác nhận hay captcha: đặt `"mode": "manual"` trong `login` (chỉ cần `session_check_api` và `session_minutes`, không cần nhãn ô, nút, API đăng nhập). Người test tự đăng nhập trong cửa sổ trình duyệt bằng `python -X utf8 scripts/auto_login.py <mã> --manual`; script chỉ chờ rồi lưu phiên, không gõ gì và không đọc mật khẩu. Ca tự động dùng phiên đã lưu.
+- `auto-data.json`: số bản ở chân trang (`version`) và id dữ liệu test. `ten-tinh-nang.json`: tên hiển thị tiếng Việt của từng tính năng, ví dụ `{"dang-nhap": "Đăng nhập"}`; tính năng chưa khai thì trang hiện tên thư mục.
 
 Hệ thống đăng nhập khác kiểu (đăng nhập qua trang ngoài, mã xác nhận, nhiều ô) thì cần mở rộng thư viện `scripts/test_automation/phien.py` trước.
 
@@ -222,10 +225,10 @@ Hệ thống đăng nhập khác kiểu (đăng nhập qua trang ngoài, mã xá
 | `evidence/<dự-án>/chay-test/` | Kết quả và ảnh mỗi lần chạy |
 | `.phien-dang-nhap/<dự-án>/` | Phiên đã lưu (không commit) |
 
-## Ca có nhập sai (bộ đếm trần 9)
+## Ca có nhập sai (bộ đếm theo trần của dự án)
 - Khai trong `CASE_INFO`: `"ready_account": "P100001"` (đăng nhập đúng một lần đầu ca để chắc tài khoản dùng được) và `"wrong_attempts": <số lần cố ý sai>`.
 - Gửi form bằng `ctx.submit_login(mã, mật khẩu giả, expect_success=False)`; mật khẩu đúng lấy bằng `password_of="P100001"` (thư viện đọc `.env`), kèm `variant="swap_letter_case"` hoặc `"trailing_space"`.
-- Thư viện đếm số lần sai trong `.phien-dang-nhap/<dự-án>/failure-counter.json`, **cộng dồn** (đăng nhập đúng không đưa về 0), từ chối vượt trần 9 hoặc khi đang bị chặn (ca thành Không kết luận). Đã chờ hết chặn hoặc chắc hệ thống đã về 0: `python -X utf8 scripts/run_tests.py --reset-failure-counter`.
+- Thư viện đếm số lần sai trong `.phien-dang-nhap/<dự-án>/failure-counter.json`, **cộng dồn** (đăng nhập đúng không đưa về 0), từ chối vượt trần đã khai hoặc khi đang bị chặn (ca thành Không kết luận). Đã chờ hết chặn hoặc chắc hệ thống đã về 0: `python -X utf8 scripts/run_tests.py --reset-failure-counter`.
 
 ## Trang kết quả cho cả bộ test case của một tính năng
 - Sinh lại: `python -X utf8 scripts/build_report.py build --suite dang-nhap`. Ghi lượt mới: `add-run --suite dang-nhap --build 1.3.0 --results-files <các file result-*.json theo thời gian> --status "14=Bị chặn" --blocked-by "14=BUG-008" --bug "4=BUG-002"` (số là số của mã test case).

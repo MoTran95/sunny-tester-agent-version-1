@@ -18,6 +18,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _venv  # noqa: E402
+
+_venv.ensure_playwright()  # chưa có Playwright thì tự chạy lại bằng venv của repo
 from test_automation import config, session  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -30,13 +33,17 @@ def main():
     ap.add_argument("--project", help="slug dự án (mặc định đọc .du-an-hien-tai)")
     ap.add_argument("--headless", action="store_true", help="chạy ẩn, lưu phiên rồi thoát")
     ap.add_argument("--reuse", action="store_true", help="dùng lại phiên đã lưu nếu còn hạn")
+    ap.add_argument("--manual", action="store_true", help="tự đăng nhập tay trong cửa sổ trình duyệt (SSO, mã xác nhận, captcha), script chỉ chờ rồi lưu phiên; không đọc mật khẩu")
+    ap.add_argument("--wait-minutes", type=int, default=5, help="với --manual: chờ tối đa bấy nhiêu phút (chỉ là thời gian chờ, không phải ngưỡng an toàn)")
     args = ap.parse_args()
 
     try:
         cfg = config.load(args.project)
+        print(cfg.banner())
         available = cfg.available_accounts()
         account_codes = [m.strip().upper() for m in args.accounts]
-        missing = [m for m in account_codes if m not in available]
+        args.manual = args.manual or cfg.login_mode == "manual"
+        missing = [] if args.manual else [m for m in account_codes if m not in available]
         if missing:
             print(f"Không có tài khoản {', '.join(missing)} trong .env. Hiện có: {', '.join(available) or '(chưa có)'}")
             return 2
@@ -57,6 +64,11 @@ def main():
 
     pairs = 0
     with sync_playwright() as p:
+        if args.manual:
+            for account in account_codes:
+                if session.manual_login(p, cfg, account, wait_minutes=args.wait_minutes) != 0:
+                    return 1
+            return 0
         for account in account_codes:
             exit_code, browser, context = session.login(p, cfg, account, headless=args.headless, reuse=args.reuse, keep_open=keep_open)
             if exit_code != 0:

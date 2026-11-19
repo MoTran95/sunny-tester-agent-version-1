@@ -1,24 +1,26 @@
 # CLAUDE.md — build-sunny-agent-version-1
 
-Đọc ĐẦU TIÊN mọi phiên. Trao đổi với người dùng bằng **tiếng Việt**.
+Đọc ĐẦU TIÊN mọi phiên. Trao đổi với người dùng bằng **tiếng Việt**. Chạy được trên Windows và Mac: lệnh trong repo viết `python`, máy không có `python` (thường là Mac) thì gõ `python3`; đường dẫn viết gạch xuôi `/`.
 
 ## Quy trình bắt buộc với MỌI yêu cầu
 
 0. **Dự án đang làm** (repo nhiều dự án, mỗi dự án là một hệ thống đang test): đọc `.du-an-hien-tai` ở gốc repo (một dòng slug, không commit, mỗi máy một file).
    - **Chưa có file (máy mới):** hỏi dự án nào **trước mọi việc khác**, **riêng câu này** (không gộp câu khác, không đưa tài liệu/feature của dự án nào làm lựa chọn khi chưa chọn dự án); liệt kê dự án trong `memories/project/overview.md` + "dự án mới". Ghi slug vào file. Dự án mới: `memories/conventions/nhieu-du-an.md` (`scripts/tao-du-an.py`).
    - **Có file:** dùng luôn; người dùng nhắc dự án khác → hỏi xác nhận đổi rồi ghi lại.
-   - **Không dùng kiến thức dự án khác** (nghiệp vụ, tài khoản, dữ liệu test, từ ngữ, thông báo): chỉ đọc `memories/modules/<slug>/`, `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/` của dự án hiện tại.
+   - **Không dùng kiến thức dự án khác** (nghiệp vụ, tài khoản, dữ liệu test, từ ngữ, thông báo, **con số ngưỡng**): chỉ đọc `memories/modules/<slug>/`, `srs/<slug>/`, `testing/<slug>/`, `evidence/<slug>/` của dự án hiện tại. Skill và script dùng chung không chứa thông tin dự án nào; `scripts/kiem-tra-lan-du-an.py` (nằm trong `kiem-tra-bo-nho.py`) bắt chỗ lẫn.
 1. Đọc `CLAUDE.md` (file này).
 2. Đọc `memories/MEMORY.md` — **bảng** `File | Khi | Chứa` cho AI. Chỉ 2 file ★ luôn đọc (`user/working-preferences.md`, `project/overview.md`).
 3. Mở **chỉ các file có cột "Khi" khớp việc** (phần chung + dự án hiện tại); không bỏ sót file bản đồ chỉ là liên quan, không đọc tràn lan. Dùng skill: đọc theo bảng "Đọc gì cho từng việc" trong `SKILL.md`.
 4. Làm việc. 5. Cập nhật memory trước khi kết thúc lượt, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py`. Nếu lượt này sửa file md của `srs/`, `testing/` hoặc `evidence/`: chạy thêm `python -X utf8 scripts/build_docs.py --all` (sinh lại mọi trang HTML: tài liệu, kết quả chạy, bug, trang tổng). `kiem-tra-bo-nho.py` báo lỗi nếu còn trang cũ; hook pre-commit (`.githooks`, bật bằng `git config core.hooksPath .githooks`) tự sinh lại trước mỗi commit.
 
-Bản đồ mâu thuẫn code → tin code, sửa memory. Máy mới / "kiểm tra máy mới": `docs/cai-dat-may-moi.md`, `python -X utf8 scripts/kiem-tra-may-moi.py`. Phiên than nặng: nạp sẵn ~74 nghìn token, phần plugin tài khoản chỉ ~3–6%, không tắt được từ repo (`memories/project/session-speed.md`, `memories/user/connectors-and-plugins.md`).
+Bản đồ mâu thuẫn code → tin code, sửa memory. Máy mới / "kiểm tra máy mới": `docs/cai-dat-may-moi.md` (Windows và Mac), `python -X utf8 scripts/kiem-tra-may-moi.py`. `kiem-tra-bo-nho.py` còn kiểm: không lẫn thông tin giữa dự án, không mật khẩu `.env` lọt vào file, bug đúng khuôn. Phiên than nặng: nạp sẵn ~74 nghìn token, phần plugin tài khoản chỉ ~3–6%, không tắt được từ repo (`memories/project/session-speed.md`, `memories/user/connectors-and-plugins.md`).
 
 ## Giảm token khi đọc file (MarkItDown)
-Word, PowerPoint, HTML, PDF chữ hoặc nhiều file → đổi sang Markdown trước: `C:\Users\Admin\.venvs\markitdown\Scripts\python.exe -m markitdown <file> -o <thư-mục-tạm>\<tên>.md` (ra thư mục tạm, chỉ file/URL đã biết nguồn). Không dùng cho `.txt`/`.md`, Excel lớn (pandas), PDF scan/nhiều hình, việc sửa file giữ định dạng. Máy khác: `memories/project/cong-cu-markitdown.md`.
+Word, PowerPoint, HTML, PDF chữ hoặc nhiều file → đổi sang Markdown trước: `python -X utf8 scripts/doi-sang-markdown.py <file> -o <thư-mục-tạm>/<tên>.md` (ra thư mục tạm, chỉ file/URL đã biết nguồn). Không dùng cho `.txt`/`.md`, Excel lớn (pandas), PDF scan/nhiều hình, việc sửa file giữ định dạng. Máy khác: `memories/project/cong-cu-markitdown.md`.
 
 ## Memory (`memories/`) chỉ cho AI đọc
 - Viết **ngắn, bảng/gạch đầu dòng**; một file một chủ đề; chỉ điều **không suy ra nhanh từ code/SRS** (lý do, ràng buộc, quyết định, bẫy, sở thích người dùng). Không chép lại code hay nội dung đã có ở `srs/`, `testing/`, `evidence/`.
 - Tài liệu cho **người đọc** (`srs/`, `testing/`, `evidence/`, `docs/`, báo cáo HTML) vẫn viết đầy đủ, đọc là hiểu.
 - Thêm/đổi tên/xóa file memory → sửa bảng trong `MEMORY.md` cùng lượt. Chi tiết: `memories/conventions/memory-writing-rules.md`.
+- **Ghi ngay điều người dùng dặn, trong cùng lượt**: mọi quy tắc, chỉnh sửa hay quyết định người dùng đưa ra trong chat phải vào đúng chỗ: quy tắc chung → skill hoặc `memories/user|conventions`; riêng một dự án → `memories/modules/<slug>/`. Điều chỉ nằm trong chat sẽ mất khi sang máy khác hoặc phiên khác. Sở thích/hiểu biết riêng của máy (thư mục `.claude` ngoài repo) không đi theo repo.
+- **Không tự đặt con số cho ngưỡng an toàn** (số lần nhập sai, thời gian chặn, thời gian chờ…): lấy từ requirement của dự án hoặc hỏi người test, rồi ghi ở file của dự án (`testing/<slug>/auto-config.json`, `memories/modules/<slug>/`).

@@ -7,7 +7,7 @@ description: Khám phá một website/web app bằng thao tác thật rồi vi�
 
 Biến một lượt khám phá **thật** trên website thành một file SRS **truy được nguồn**: người mới đọc là hiểu, và sau này test case gắn thẳng vào từng ID. SRS ở đây ghi **hành vi quan sát được**, chưa phải yêu cầu nghiệp vụ chính thức.
 
-Ngôn ngữ: **tiếng Việt**, câu đầy đủ, dễ hiểu. Mẫu đã chạy thật (dự án Banking Lite, chỉ mở khi đang làm dự án đó): `srs/banking-lite/dang-nhap.md` (nhật ký + ảnh ở `evidence/banking-lite/features/dang-nhap/`).
+Ngôn ngữ: **tiếng Việt**, câu đầy đủ, dễ hiểu. Khuôn: `assets/`.
 
 ## Quy tắc không được phá (và vì sao)
 

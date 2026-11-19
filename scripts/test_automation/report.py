@@ -76,11 +76,15 @@ def read_table(cfg, suite):
     return read_smoke_table(cfg) if suite == "smoke" else read_feature_table(cfg, suite)
 
 
-FEATURE_NAMES = {"dang-nhap": "Đăng nhập", "khuyen-nghi-ltv-dsr": "Khuyến nghị LTV/DSR", "gui-tham-dinh": "Gửi thẩm định"}
+def feature_names(project):
+    """Tên hiển thị tiếng Việt của các tính năng, theo từng dự án: `testing/<dự-án>/ten-tinh-nang.json`
+    (`{"dang-nhap": "Đăng nhập", …}`). Tính năng chưa khai thì hiện đúng tên thư mục."""
+    f = config.ROOT / "testing" / project / "ten-tinh-nang.json"
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
 
 
-def suite_title(suite):
-    return SUITE_NAMES.get(suite) or f"Test case {FEATURE_NAMES.get(suite, suite)}"
+def suite_title(suite, project=None):
+    return SUITE_NAMES.get(suite) or f"Test case {feature_names(project).get(suite, suite) if project else suite}"
 
 
 def case_label(suite):
@@ -161,6 +165,9 @@ def add_run(cfg, suite, build, case_results, run_by="Sunny Tran", run_method="T�
         for code in entries:
             results[number]["blocked_by"].append({"code": code, "path": _find_bug_file(cfg, code)})
 
+    problems = validate_conclusion(suite, table, results, conclusion)
+    if problems:
+        raise ConclusionError("Không ghi lượt vì kết luận chưa đạt:" + NL_JOIN + NL_JOIN.join("- " + x for x in problems))
     statuses = [v["status"] for v in results.values()]
     if suite == "smoke":
         verdict = REJECT_BUILD if FAIL in statuses else ACCEPT_BUILD if all(s in HAS_VERDICT for s in statuses) else INCOMPLETE
@@ -200,6 +207,70 @@ def _updated_md(run):
 def _updated_html(run, e):
     text = _updated_text(run)
     return [("Cập nhật lần cuối", e(text))] if text else []
+
+
+NL_JOIN = chr(10)
+
+
+class ConclusionError(ValueError):
+    """Kết luận và rủi ro chưa đạt yêu cầu: không ghi lượt."""
+
+
+# Cụm chung chung bị cấm trong kết luận (người kiểm thử cần số liệu cụ thể để đánh giá).
+VAGUE_PATTERNS = [r"một số (lỗi|case|ca|bug|chỗ)", r"một vài", r"\bvài (lỗi|case|ca|bug|chỗ)", r"nhiều (lỗi|case|ca|bug|chỗ)", r"v\.v", r"\betc\b", r"và các (lỗi|ca|case) khác"]
+
+
+def validate_conclusion(suite, table, results, conclusion):
+    """Kiểm kết luận và rủi ro theo quy tắc đã chốt (xem skill chay-test-tu-dong, references/quy-tac-da-chot.md mục 5). Trả danh sách lỗi."""
+    problems = []
+    if not conclusion:
+        if suite != "smoke":
+            problems.append("thiếu kết luận và rủi ro (--conclusion-file): bắt buộc cho lượt theo tính năng")
+        return problems
+    for key, kind in (("headline", str), ("passed", list), ("not_tested", list), ("risks", list), ("suggestion", str)):
+        if not isinstance(conclusion.get(key), kind):
+            problems.append(f"thiếu hoặc sai kiểu khóa `{key}` ({kind.__name__})")
+    if problems:
+        return problems
+    if len(conclusion["headline"].strip()) < 30:
+        problems.append("`headline` quá ngắn: viết một câu đầy đủ nói được nhận hay trả và vì sao")
+    if len(conclusion["suggestion"].strip()) < 20:
+        problems.append("`suggestion` quá ngắn")
+    texts = [("headline", conclusion["headline"]), ("suggestion", conclusion["suggestion"])]
+    texts += [(f"passed[{i}]", str(x)) for i, x in enumerate(conclusion["passed"])]
+    for i, item in enumerate(conclusion["not_tested"]):
+        if not all(str(item.get(k, "")).strip() for k in ("cases", "status", "reason")):
+            problems.append(f"not_tested[{i}] thiếu `cases`, `status` hoặc `reason`")
+            continue
+        if len(str(item["reason"]).strip()) < 20:
+            problems.append(f"not_tested[{i}].reason quá ngắn: nói rõ vì sao chưa có kết quả")
+        texts.append((f"not_tested[{i}].reason", str(item["reason"])))
+    for i, risk in enumerate(conclusion["risks"]):
+        if not str(risk.get("title", "")).strip() or len(str(risk.get("detail", "")).strip()) < 30:
+            problems.append(f"risks[{i}] cần `title` và `detail` (nói chuyện gì xảy ra với người dùng, đã hay chưa kiểm)")
+            continue
+        texts += [(f"risks[{i}].title", str(risk["title"])), (f"risks[{i}].detail", str(risk["detail"]))]
+    for where, text in texts:
+        for pattern in VAGUE_PATTERNS:
+            m = re.search(pattern, text, re.I)
+            if m:
+                problems.append(f"{where} có cụm chung chung `{m.group(0)}`: thay bằng số liệu cụ thể")
+                break
+    # mọi ca chưa có kết quả phải được nêu đúng trạng thái trong not_tested
+    listed = {}
+    for item in conclusion["not_tested"]:
+        for code in re.findall(r"[A-Za-z]+-\d+", str(item.get("cases", ""))):
+            listed[code.upper()] = str(item.get("status", "")).strip()
+    for b in table:
+        status = results[b["number"]]["status"]
+        if status in HAS_VERDICT:
+            continue
+        code = str(b.get("id", "")).upper()
+        if code and code not in listed:
+            problems.append(f"{code} đang `{status}` nhưng không được nêu trong `not_tested` (liệt kê từng mã, không viết khoảng)")
+        elif code and listed[code] != status:
+            problems.append(f"{code} đang `{status}` nhưng `not_tested` ghi `{listed[code]}`")
+    return problems
 
 
 def read_test_case(cfg, feature, tc):
@@ -294,7 +365,7 @@ def _bug_cell_html(cfg, suite, v):
 
 # ---------- Markdown ----------
 def build_md(cfg, suite, data, table):
-    title = suite_title(suite)
+    title = suite_title(suite, cfg.project)
     d = ["# Kết quả chạy " + title.lower() + f" — {cfg.project}", "",
          "> File tự sinh từ `testing/%s/run-results/%s.json` bằng `scripts/build_report.py` — đừng sửa tay, chạy lại là ghi đè. Bản dễ xem: `%s`." % (cfg.project, suite, page_files(cfg, suite)[1].name), ""]
     if not data["runs"]:
@@ -444,7 +515,7 @@ def _bug_summary_html(cfg, suite, run_record, table):
 
 def build_html(cfg, suite, data, table):
     e = html.escape
-    title = suite_title(suite)
+    title = suite_title(suite, cfg.project)
     p = [f'<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
          f"<title>Kết quả {e(title)} {e(cfg.project)}</title>"
          + theme_mod.font_head(page_dir(cfg, suite)) +

@@ -17,7 +17,7 @@ Mục tiêu: **khám phá đủ để SRS không phải "bỏ ngõ"**. Chỉ b�
 - **Không đọc thân yêu cầu POST đăng nhập** (chứa mật khẩu). Không in/ghi giá trị cookie, token.
 - Điền ô bằng `form_input` theo `ref` (ổn định hơn gõ từng phím). Phần tử ngoài màn hình: cuộn rồi mới đọc, hoặc `find`.
 - Trang tải chậm ("Đang tải…" 3–5 giây): luôn chờ rồi mới đọc/chụp.
-- **Sau khi bấm `Lưu`, chờ ít nhất 8 giây rồi mới đọc kết quả.** Phần phụ thuộc kết quả lưu (ví dụ ô `Khuyến nghị` ở đầu trang) cập nhật chậm; đọc sớm sẽ thấy giá trị cũ và ghi nhầm vào nhật ký. Con số 8 giây đo trên Banking Lite (mỗi lần lưu mất khoảng 8 giây); hệ thống khác thì đo lại lần đầu rồi ghi vào bộ nhớ module.
+- **Sau khi bấm `Lưu`, chờ cho tới khi giá trị phụ thuộc đã cập nhật (đo thời gian lưu ở lần đầu) rồi mới đọc kết quả.** Phần phụ thuộc kết quả lưu (ví dụ ô tổng kết ở đầu trang) cập nhật chậm; đọc sớm sẽ thấy giá trị cũ và ghi nhầm vào nhật ký. Không có số giây mặc định: đo thời gian lưu thật trên hệ thống đang test lần đầu rồi ghi vào bộ nhớ module của dự án đó.
 - Hai tab: `preview_start` với `url` mở tab thứ hai dùng chung phiên; nhớ `tabs_close` khi xong.
 - Nút **Back**: `navigate` với `url: "back"`.
 - Khung xem trước bị ẩn → dùng `mcp__ccd_view__show_pane` (`preview`) để bật lại; người dùng không thấy gì nếu ẩn.

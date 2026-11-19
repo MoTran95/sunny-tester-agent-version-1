@@ -135,6 +135,8 @@ class Context:
 
         Script ca không thấy mật khẩu. Đăng nhập đúng đưa bộ đếm sai về 0; đăng nhập sai chỉ xảy ra khi `.env` sai.
         """
+        if self.cfg.login_mode == "manual":
+            raise PreconditionNotMet("Dự án đăng nhập tay (login.mode = manual): người test chạy auto_login.py --manual trước, ca dùng phiên đã lưu (khai accounts)")
         username, password = self.cfg.get_credentials(account)
         ok, description = session.login_once(self.page_for(page_key), self.cfg, username, password)
         if not ok:
@@ -144,9 +146,11 @@ class Context:
         """Mở đầu ca có nhập sai: đăng nhập ĐÚNG một lần trên trang riêng (rồi đóng) để chắc tài khoản dùng được và chưa bị chặn.
         KHÔNG đưa bộ đếm sai về 0 (quan sát 2026-11-19). Bị chặn theo ghi nhận hoặc đăng nhập không được → không kết luận ca.
         Runner tự gọi khi CASE_INFO có `ready_account`."""
-        wait = failure_counter.seconds_blocked(self.cfg)
-        if wait:
-            raise PreconditionNotMet(f"Hệ thống đang chặn đăng nhập theo ghi nhận trước đó, còn khoảng {wait} giây: chờ rồi chạy lại")
+        if self._failure_budget and self.cfg.max_consecutive_failures is None:
+            raise PreconditionNotMet("Ca có nhập sai nhưng " + failure_counter.NO_CAP)
+        blocked = failure_counter.block_message(self.cfg)
+        if blocked:
+            raise PreconditionNotMet(blocked[0].upper() + blocked[1:] + ": chờ rồi chạy lại")
         username, password = self.cfg.get_credentials(account)
         context = self._browser.new_context()
         try:

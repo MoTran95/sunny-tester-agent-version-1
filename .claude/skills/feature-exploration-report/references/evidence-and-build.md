@@ -20,7 +20,7 @@ Trong `<figure class="shot" style="--W:<rộng gốc>;--H:<cao gốc>">` (px c�
 ```
 
 - Toạ độ `x,y` = góc trên trái, `w,h` = kích thước, **đơn vị px ảnh gốc**. Đo bằng cách mở ảnh và đọc vị trí phần tử; đừng đoán.
-- Đặt khung **ôm sát đúng ô được nói tới**, không phủ sang ô bên cạnh (lỗi từng gặp: khung “LTV” nằm trên ô “Số tiền vay”). Mỗi số trong legend phải khớp một khung.
+- Đặt khung **ôm sát đúng ô được nói tới**, không phủ sang ô bên cạnh (lỗi từng gặp: khung ghi nhãn của ô này nằm đè lên ô bên cạnh). Mỗi số trong legend phải khớp một khung.
 - Script tự: nới khung vài px (viền vẽ bằng `outline`, không che chữ), **chọn vị trí số thứ tự** ít đè chữ nhất (đo độ “rối” của ảnh gốc), tránh đè khung/số khác, thu nhỏ độ nới khi hai khung chạm nhau. Không cần (và không nên) tự đặt vị trí số.
 - Nhiều khung cùng một số được (vd thanh trên + menu); số đánh theo thứ tự đọc.
 

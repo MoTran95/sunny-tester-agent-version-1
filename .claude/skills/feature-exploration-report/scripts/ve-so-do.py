@@ -2,7 +2,7 @@
 
 Vì sao có script này: trước đây mỗi lần làm báo cáo, sơ đồ được vẽ tay từ đầu nên màu, cỡ chữ,
 bố cục khác nhau giữa các máy/các phiên. Giờ chỉ cần viết nội dung (JSON), script lo hình dáng.
-Mẫu gốc: ba sơ đồ trong báo cáo v2 của Banking Lite (tổng quan, tuần tự, trạng thái) — đã người dùng chốt.
+Mẫu gốc: ba loại sơ đồ (tổng quan, tuần tự, trạng thái) trong `assets/so-do-mau/` — đã người dùng chốt.
 
 Ba loại ("loai" trong JSON):
   tong-quan  : vai trò bên trái → hệ thống ở giữa → hệ thống bên thứ ba bên phải, mũi tên đánh số.

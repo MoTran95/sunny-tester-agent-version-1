@@ -89,7 +89,7 @@ def main():
                                           conclusion=json.loads(Path(args.conclusion_file).read_text(encoding='utf-8')) if args.conclusion_file else None)
             print(f"Đã ghi lượt {run_record['number']} (build {run_record['build']}): {run_record['verdict']}")
             md_file, html_file = report.page_files(cfg, args.suite)
-    except config.ConfigError as error:
+    except (config.ConfigError, report.ConclusionError) as error:
         print(error)
         return 2
     print(f"Đã sinh: {md_file.relative_to(config.ROOT)} và {html_file.relative_to(config.ROOT)}")

@@ -83,4 +83,4 @@ File dài lưu trong repo; chat chỉ **tóm tắt + link** (bảng case ngắn,
 | Hiểu một case | `truy-vet.py tra` (không mở cả `test-case.md`) |
 | Chạy smoke trên hệ thống | `references/chay-smoke.md`; `kiem` in "Lượt chạy gần nhất" nên không cần đọc cả `smoke-test.md` |
 | Dự án chưa có truy vết | `memories/project/truy-vet-requirement.md` |
-| Ví dụ đã làm | `testing/banking-lite/smoke-test.md` (chỉ khi dự án hiện tại là banking-lite) |
+| Khuôn | `assets/` |

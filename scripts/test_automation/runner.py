@@ -138,6 +138,7 @@ def main(argv=None):
 
     try:
         cfg = config.load(args.project)
+        print(cfg.banner())
         if args.smoke:
             entries = read_smoke_table(cfg)
         elif args.feature:
@@ -181,7 +182,7 @@ def main(argv=None):
             print("Phiên chưa dùng được, chưa chạy ca nào:")
             for account, state in bad_sessions.items():
                 print(f"  {account}: {'chưa có phiên đã lưu' if state == 'missing' else 'đã hết hạn'}")
-            print("Đăng nhập lại: python -X utf8 scripts\\auto_login.py " + " ".join(bad_sessions) + " --headless")
+            print("Đăng nhập lại: python -X utf8 scripts/auto_login.py " + " ".join(bad_sessions) + (" --manual" if cfg.login_mode == "manual" else " --headless"))
             print(f"(phiên chỉ sống khoảng {cfg.session_minutes} phút, chạy test ngay sau khi đăng nhập)")
             browser.close()
             return results.EXIT_SESSION

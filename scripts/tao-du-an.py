@@ -5,11 +5,14 @@ Chạy từ gốc repo:
     python -X utf8 scripts/tao-du-an.py <slug> "<Tên dự án>" [<URL>]
 
 Tạo:  memories/modules/<slug>/overview.md, srs/<slug>/, testing/<slug>/, evidence/<slug>/ (kèm .gitkeep),
-      thêm dòng vào bảng dự án trong memories/project/overview.md và mục trong memories/MEMORY.md, ghi slug vào .du-an-hien-tai.
+      testing/<slug>/auto-config.json, auto-data.json, ten-tinh-nang.json (khuôn cho bộ chạy test tự động, còn chỗ `<…>` phải điền),
+      khối khóa mẫu trong .env.example, thêm dòng vào bảng dự án trong memories/project/overview.md và mục trong memories/MEMORY.md,
+      ghi slug vào .du-an-hien-tai.
 Không ghi đè file đã có. Không đụng tới thư mục của dự án khác.
 """
 import datetime
 import io
+import json
 import os
 import re
 import sys
@@ -36,6 +39,42 @@ def main():
         if not os.listdir(p):
             io.open(keep, "w", encoding="utf-8").close()
         print("thư mục:", os.path.relpath(p, ROOT))
+
+    test_dir = os.path.join(ROOT, "testing", slug)
+    prefix = env_prefix.rstrip("_")
+    auto_files = {
+        "auto-config.json": {
+            "env_prefix": prefix,
+            "default_url": url or "<địa chỉ hệ thống đang test, phải có nhãn môi trường thử như staging, dev, test>",
+            "login": {
+                "id_labels": ["<nhãn ô tên đăng nhập, ví dụ Mã nhân viên>"],
+                "button_labels": ["<nhãn nút đăng nhập, ví dụ Đăng nhập>"],
+                "login_api": "</đường dẫn API đăng nhập, lấy bằng scripts/inspect_page.py>",
+                "session_check_api": "</đường dẫn API kiểm phiên, ví dụ /api/me>",
+                "session_minutes": "<số phút phiên sống, điền số>",
+                "max_consecutive_failures": None,
+                "block_minutes": None,
+            },
+        },
+        "auto-data.json": {"version": "", "ghi_chu": "version: số bản ở chân trang cần test, đổi khi có build mới. Thêm id dữ liệu test của dự án vào đây."},
+        "ten-tinh-nang.json": {},
+    }
+    for name, content in auto_files.items():
+        target = os.path.join(test_dir, name)
+        if os.path.exists(target):
+            print("đã có, giữ nguyên:", os.path.relpath(target, ROOT))
+            continue
+        io.open(target, "w", encoding="utf-8", newline="\n").write(json.dumps(content, ensure_ascii=False, indent=2) + "\n")
+        print("tạo:", os.path.relpath(target, ROOT))
+
+    env_example = os.path.join(ROOT, ".env.example")
+    if os.path.exists(env_example):
+        mau = io.open(env_example, encoding="utf-8").read()
+        if f"{prefix}_URL" not in mau:
+            khoi = f"# Dự án {slug}\n{prefix}_URL=\n{prefix}_<MÃ TÀI KHOẢN>_USER=\n{prefix}_<MÃ TÀI KHOẢN>_PASSWORD=\n"
+            mau = mau.rstrip("\n") + "\n\n" + khoi
+            io.open(env_example, "w", encoding="utf-8", newline="\n").write(mau)
+            print("thêm khối khóa mẫu vào .env.example")
 
     mem_dir = os.path.join(ROOT, "memories", "modules", slug)
     os.makedirs(mem_dir, exist_ok=True)
@@ -66,6 +105,16 @@ _Điền khi có._
 """)
         print("tạo:", os.path.relpath(ov, ROOT))
 
+    tn = os.path.join(mem_dir, "tu-ngu-cau-hoi-ba.md")
+    if not os.path.exists(tn):
+        noi_dung = (
+            f"# {ten} — từ đã chốt cho câu hỏi BA\n"
+            f"Đọc khi: viết câu hỏi BA cho {ten} (quy ước chung: `conventions/ba-question-wording.md`). "
+            "**Bảng trống**: chỉ ghi từ người dùng hoặc BA của dự án này đã chốt; KHÔNG lấy từ dự án khác.\n\n"
+            "| Khái niệm | Dùng | Tránh |\n|---|---|---|\n")
+        io.open(tn, "w", encoding="utf-8", newline="\n").write(noi_dung)
+        print("tạo:", os.path.relpath(tn, ROOT))
+
     pov = os.path.join(ROOT, "memories", "project", "overview.md")
     text = io.open(pov, encoding="utf-8").read()
     if f"| `{slug}` |" not in text:
@@ -83,6 +132,7 @@ _Điền khi có._
             f"\n\n## Dự án `{slug}` (chỉ khi `.du-an-hien-tai` = {slug})\n"
             "| File | Khi | Chứa |\n|---|---|---|\n"
             f"| `modules/{slug}/overview.md` | đầu tiên | hệ thống, tài khoản, thư mục |\n"
+            f"| `modules/{slug}/tu-ngu-cau-hoi-ba.md` | viết câu hỏi BA | từ đã chốt với BA của dự án này |\n"
         )
         io.open(mmp, "w", encoding="utf-8", newline="\n").write(mm)
         print("thêm mục dự án vào memories/MEMORY.md")
@@ -90,6 +140,7 @@ _Điền khi có._
     io.open(os.path.join(ROOT, ".du-an-hien-tai"), "w", encoding="utf-8", newline="\n").write(slug + "\n")
     print("dự án hiện tại trên máy này:", slug)
     print(f"\nViệc còn lại: người dùng tự thêm tài khoản vào .env với tiền tố {env_prefix}")
+    print(f"Điền các chỗ <…> trong testing/{slug}/auto-config.json (nhãn ô, API: dùng scripts/inspect_page.py) trước khi chạy test tự động.")
     return 0
 
 

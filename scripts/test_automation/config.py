@@ -12,6 +12,9 @@ ROOT = Path(__file__).resolve().parents[2]  # gốc repo; các hàm bên dưới
 
 REQUIRED_KEYS = ["env_prefix", "default_url", "login"]
 REQUIRED_LOGIN_KEYS = ["id_labels", "button_labels", "login_api", "session_check_api", "session_minutes"]
+# Đăng nhập tay (`login.mode = "manual"`: SSO, mã xác nhận, captcha): người test tự đăng nhập trong cửa sổ trình duyệt,
+# thư viện chỉ chờ rồi lưu phiên; không cần nhãn ô, nút, API đăng nhập và không đọc mật khẩu.
+REQUIRED_LOGIN_KEYS_MANUAL = ["session_check_api", "session_minutes"]
 
 
 class ConfigError(Exception):
@@ -47,12 +50,25 @@ class Config:
         self.env_prefix = data["env_prefix"]
         self.url = (env.get(f"{self.env_prefix}_URL") or data["default_url"]).rstrip("/")
         login_cfg = data["login"]
-        self.id_labels = login_cfg["id_labels"]
-        self.button_labels = login_cfg["button_labels"]
-        self.login_api = login_cfg["login_api"]
+        self.login_mode = login_cfg.get("mode", "form")
+        self.id_labels = login_cfg.get("id_labels", [])
+        self.button_labels = login_cfg.get("button_labels", [])
+        self.login_api = login_cfg.get("login_api", "")
         self.session_check_api = login_cfg["session_check_api"]
         self.session_minutes = login_cfg["session_minutes"]
-        self.max_consecutive_failures = login_cfg.get("max_consecutive_failures", 9)
+        # Không có mặc định: do requirement hoặc người kiểm thử quyết (xem failure_counter.py). None = chưa khai.
+        self.max_consecutive_failures = login_cfg.get("max_consecutive_failures")
+        self.block_minutes = login_cfg.get("block_minutes")
+
+    def banner(self):
+        """Dòng đầu mỗi lần chạy: dự án và địa chỉ đang dùng (để không chạy nhầm dự án); cảnh báo nếu khác dự án hiện tại của máy."""
+        line = f"Dự án: {self.project} · địa chỉ: {self.url}"
+        marker = ROOT / ".du-an-hien-tai"
+        if marker.exists():
+            current = marker.read_text(encoding="utf-8").strip()
+            if current and current != self.project:
+                line += f"\n  LƯU Ý: dự án hiện tại của máy này là `{current}`, đang chạy cho `{self.project}` (do --project). Chắc đúng dự án chứ?"
+        return line
 
     @property
     def project_dir(self):
@@ -100,7 +116,25 @@ def load(project=None):
     data = json.loads(f.read_text(encoding="utf-8"))
     missing = [k for k in REQUIRED_KEYS if k not in data]
     if not missing:
-        missing = [f"dang_nhap.{k}" for k in REQUIRED_LOGIN_KEYS if k not in data["login"]]
+        manual = data["login"].get("mode") == "manual"
+        missing = [f"login.{k}" for k in (REQUIRED_LOGIN_KEYS_MANUAL if manual else REQUIRED_LOGIN_KEYS) if k not in data["login"]]
     if missing:
         raise ConfigError(f"{f.relative_to(ROOT)} thiếu khóa: {', '.join(missing)}")
+    placeholders = _placeholder_keys(data)
+    if placeholders:
+        raise ConfigError(f"{f.relative_to(ROOT)} còn chỗ chưa điền (dạng <…>): {', '.join(placeholders)}")
     return Config(project, data, read_env())
+
+
+def _placeholder_keys(value, path=""):
+    """Khóa nào trong file cấu hình còn giá trị mẫu `<…>` do scripts/tao-du-an.py tạo ra."""
+    found = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            found += _placeholder_keys(child, f"{path}.{key}" if path else str(key))
+    elif isinstance(value, list):
+        for i, child in enumerate(value):
+            found += _placeholder_keys(child, f"{path}[{i}]")
+    elif isinstance(value, str) and "<" in value and ">" in value:
+        found.append(path)
+    return found

@@ -8,9 +8,9 @@ Số bước trong tiêu đề ý kiểm trùng số bước của test case đ�
 CASE_INFO = {
     "code": "TC-xxx",
     "title": "<tình huống>",
-    "accounts": ["P100001"],          # tài khoản dùng phiên đã lưu; [] nếu ca chưa đăng nhập
-    # "invalidates_sessions": ["P100001"],   # ca làm mất phiên máy chủ (đăng xuất) → runner xóa file phiên đó
-    # "ready_account": "P100001", "wrong_attempts": 1,   # ca có cố ý nhập sai: tối đa bao nhiêu lần (trần 9 cộng dồn)
+    "accounts": ["<MÃ_TÀI_KHOẢN>"],          # tài khoản dùng phiên đã lưu; [] nếu ca chưa đăng nhập
+    # "invalidates_sessions": ["<MÃ_TÀI_KHOẢN>"],   # ca làm mất phiên máy chủ (đăng xuất) → runner xóa file phiên đó
+    # "ready_account": "<MÃ_TÀI_KHOẢN>", "wrong_attempts": 1,   # ca có cố ý nhập sai: tối đa bao nhiêu lần (trần do dự án khai trong auto-config.json, cộng dồn)
 }
 
 

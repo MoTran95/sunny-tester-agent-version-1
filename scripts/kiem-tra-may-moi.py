@@ -148,6 +148,79 @@ if os.path.isdir(fonts_dir) and any(f.endswith(".woff2") for f in os.listdir(fon
 else:
     warn("chưa có file font cục bộ: trang lấy font từ Google Fonts (cần mạng)", "xem docs/thuong-hieu/README.md")
 
+print("5c. Chạy test tự động (Playwright) và đọc Office/PDF")
+HOME_VENVS = os.path.join(os.path.expanduser("~"), ".venvs")
+
+
+def venv_python(*parts):
+    """Python của một venv nếu có (Windows: Scripts/python.exe; máy khác: bin/python)."""
+    for rel in (("Scripts", "python.exe"), ("bin", "python")):
+        candidate = os.path.join(*parts, *rel)
+        if os.path.exists(candidate):
+            return candidate
+    return None
+
+
+def tu_hien_thi(path):
+    return os.path.relpath(path, ROOT) if path.startswith(ROOT) else path
+
+
+def tim_goi(ten_goi, thu_muc_venv):
+    """(python, thông tin) của venv đầu tiên import được gói, hoặc (None, None)."""
+    for base in thu_muc_venv:
+        py = venv_python(*base)
+        if not py:
+            continue
+        code, out = run([py, "-c", f"import importlib.metadata as m; print(m.version('{ten_goi}'))"])
+        if code == 0:
+            return py, out.strip().splitlines()[-1]
+    return None, None
+
+
+CAI = ("python" if sys.platform == "win32" else "python3") + " scripts/cai-dat-may-moi.py"
+py_pw, ver_pw = tim_goi("playwright", [(ROOT, ".venv"), (HOME_VENVS, "playwright")])
+if py_pw:
+    ok(f"Playwright {ver_pw} trong {tu_hien_thi(py_pw)} (script tự chạy lại bằng venv này)")
+else:
+    miss("chưa có venv chứa Playwright (.venv trong repo)", CAI)
+py_md, ver_md = tim_goi("markitdown", [(ROOT, ".venv"), (HOME_VENVS, "markitdown"), (HOME_VENVS, "playwright")])
+if py_md:
+    ok(f"MarkItDown {ver_md} trong {tu_hien_thi(py_md)} (đọc Word/PowerPoint/PDF/Excel thành Markdown)")
+else:
+    warn("chưa có MarkItDown (chỉ cần khi đọc file Office/PDF)", CAI)
+if py_pw:
+    code, out = run([py_pw, "-c",
+                     "import glob, os, sys; "
+                     "home = os.path.expanduser('~'); "
+                     "default = (os.path.join(os.environ.get('LOCALAPPDATA', home), 'ms-playwright') if sys.platform == 'win32' "
+                     "else os.path.join(home, 'Library', 'Caches', 'ms-playwright') if sys.platform == 'darwin' "
+                     "else os.path.join(home, '.cache', 'ms-playwright')); "
+                     "base = os.environ.get('PLAYWRIGHT_BROWSERS_PATH') or default; "
+                     "sys.exit(0 if glob.glob(os.path.join(base, 'ffmpeg-*')) else 1)"])
+    if code == 0:
+        ok("ffmpeg của Playwright (quay video ca lỗi)")
+    else:
+        warn("chưa có ffmpeg của Playwright: vẫn chạy test, chỉ không quay video ca lỗi",
+             "python -m playwright install ffmpeg bằng venv (~1,6 MiB, cần mạng, hỏi người dùng trước)")
+browser_files = [os.path.join(base, *rel) for base in (os.environ.get("ProgramFiles"), os.environ.get("ProgramFiles(x86)"), os.environ.get("LOCALAPPDATA")) if base
+                 for rel in (("Google", "Chrome", "Application", "chrome.exe"), ("Microsoft", "Edge", "Application", "msedge.exe"))]
+browser_files += ["/Applications/Google Chrome.app", "/Applications/Microsoft Edge.app", os.path.join(os.path.expanduser("~"), "Applications", "Google Chrome.app")]
+if any(os.path.exists(f) for f in browser_files) or any(shutil.which(n) for n in ("google-chrome", "google-chrome-stable", "chromium", "microsoft-edge")):
+    ok("có trình duyệt Chrome hoặc Edge (Playwright dùng lại, không tải thêm)")
+else:
+    warn("không thấy Chrome hoặc Edge", "cài Chrome, hoặc python -m playwright install chromium bằng venv (~150 MB, hỏi người dùng trước)")
+if sys.platform != "win32":
+    hook = os.path.join(ROOT, ".githooks", "pre-commit")
+    if os.path.exists(hook) and not os.access(hook, os.X_OK):
+        miss("hook .githooks/pre-commit chưa có quyền chạy (macOS/Linux bỏ qua hook không có quyền này)", "chmod +x .githooks/pre-commit (hoặc chạy lại scripts/cai-dat-may-moi.py)")
+if sys.platform == "win32":
+    code, out = run(["git", "config", "--get", "core.longpaths"])
+    if out.strip() == "true":
+        ok("git cho phép đường dẫn dài (core.longpaths)")
+    else:
+        warn("git chưa bật core.longpaths: clone vào thư mục sâu có thể lỗi Filename too long",
+             "git config --global core.longpaths true (đặt TRƯỚC khi clone ở máy mới)")
+
 print("6. Chạy thử script của skill")
 checks = [
     ("check-srs.py trên SRS Đăng nhập",
@@ -159,6 +232,9 @@ checks = [
       "--cau-hoi", "testing/banking-lite/dang-nhap/cau-hoi-cho-ba.md"]),
 ]
 for label, args in checks:
+    if not os.path.exists(os.path.join(ROOT, "srs", "banking-lite", "dang-nhap.md")):
+        ok("bỏ qua chạy thử trên dự án mẫu Banking Lite (repo không còn dự án này)")
+        break
     code, out = run(args)
     last = [l for l in out.strip().splitlines() if l.strip()][-1:] or [""]
     ok(f"{label}: {last[0]}") if code == 0 else miss(f"{label} chạy lỗi: {last[0][:120]}", "xem lỗi ở trên, thường do thiếu Python/Pillow")

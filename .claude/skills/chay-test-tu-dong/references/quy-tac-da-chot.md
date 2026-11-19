@@ -4,14 +4,14 @@ Mỗi dòng là điều người dùng đã xác nhận hoặc bài học đã t
 
 ## 1. Chọn ca và an toàn hệ thống
 - Chỉ **bỏ qua ca mà chính bước làm gây chặn hệ thống** (lần sai thứ 10, nhập khi đang bị chặn, chờ hết chặn…), để tester tự làm: trạng thái `Bỏ qua`, cột Tự động hóa `Không tự động được: <lý do>`. Ca **chạm sát ngưỡng nhưng kết quả mong đợi là KHÔNG chặn** vẫn làm.
-- **Trần nhập sai 9 lần, tính cộng dồn** (đăng nhập đúng xen giữa KHÔNG đưa về 0: đã quan sát khác quy định BA). Bộ đếm `failure_counter` từ chối vượt trần hoặc khi đang chặn; về 0 khi hết thời gian chặn hoặc `run_tests.py --reset-failure-counter` (chỉ khi chắc hệ thống đã về 0). Ca có nhập sai khai `ready_account` và `wrong_attempts`; xếp ca ít sai trước; gặp mã 429 thì dừng ngay, ghi `Không kết luận` (không phải Không đạt).
+- **Số lần nhập sai cho phép KHÔNG có mặc định.** Trần (`login.max_consecutive_failures`) và thời gian chặn (`login.block_minutes`) do requirement của dự án quy định hoặc **hỏi người kiểm thử**, rồi ghi vào `auto-config.json` của dự án; chưa khai thì thư viện từ chối mọi lần cố ý nhập sai (ca thành `Không kết luận`). Đếm **cộng dồn** (đăng nhập đúng xen giữa KHÔNG đưa về 0: cách thận trọng, vì từng thấy hệ thống không reset khác quy định). Bộ đếm `failure_counter` từ chối vượt trần hoặc khi đang chặn; về 0 khi hết thời gian chặn hoặc `run_tests.py --reset-failure-counter` (chỉ khi chắc hệ thống đã về 0). Ca có nhập sai khai `ready_account` và `wrong_attempts`; xếp ca ít sai trước; gặp mã 429 thì dừng ngay, ghi `Không kết luận` (không phải Không đạt).
 - Tạo dữ liệu thật (hồ sơ nháp…) chỉ khi người dùng cho phép rõ; công cụ chặn nếu chưa hỏi. Mỗi ca bấm Lưu dùng hết một hồ sơ: ghi `auto-data.json`.
 - Tải file (ffmpeg, font) cần người dùng đồng ý, nêu tên file, nguồn, dung lượng.
 
 ## 2. Đăng nhập và mật khẩu
 - Chỉ nhập tài khoản test của dự án vào địa chỉ **do người dùng nêu và có nhãn môi trường thử** (staging, dev, test, qa, sandbox, preview). Địa chỉ khác → không nhập, nhờ người dùng tự chạy `auto_login.py`.
 - Mật khẩu chỉ nằm trong `.env`; chỉ thư viện đọc. Script ca, kết quả, ảnh, bug, chat **không bao giờ** chứa mật khẩu; mật khẩu sai dùng chữ giả (`Sai@Matkhau1`). `ctx.sign_in(tài khoản)` và `ctx.submit_login(..., password_of=…, variant=…)` để script không thấy mật khẩu.
-- Phiên sống ngắn (Banking Lite 10 phút): runner kiểm phiên đầu lượt (thoát mã 3 nếu hết). Đăng xuất làm mất phiên phía máy chủ → khai `invalidates_sessions` hoặc dùng `ctx.sign_in` riêng cho ca đó (mỗi lần đăng nhập là phiên riêng).
+- Phiên sống ngắn (thời hạn khai ở `session_minutes` của dự án): runner kiểm phiên đầu lượt (thoát mã 3 nếu hết). Đăng xuất làm mất phiên phía máy chủ → khai `invalidates_sessions` hoặc dùng `ctx.sign_in` riêng cho ca đó (mỗi lần đăng nhập là phiên riêng).
 
 ## 3. Kết luận từng ca
 - Giá trị: `Đạt`, `Đạt kèm ý phụ sai`, `Không đạt`, `Không kết luận`, `Chưa có script`. `Đạt kèm lỗi đã biết` chỉ ở smoke và chỉ cho ý được miễn trong tiêu chí trả build.
@@ -29,6 +29,8 @@ Mỗi dòng là điều người dùng đã xác nhận hoặc bài học đã t
 - Ca không test được vì bug khác: `--status "N=Bị chặn" --blocked-by "N=BUG-nnn"`; ca bỏ qua: `--status "N=Bỏ qua"`.
 - **Kết luận và rủi ro** (`--conclusion-file` JSON: `headline`, `passed[]`, `not_tested[{cases,status,reason}]`, `risks[{title,detail}]`, `suggestion`) bắt buộc cho lượt theo tính năng. Viết để người test **đánh giá được**: số liệu cụ thể; mỗi rủi ro nói **chuyện gì xảy ra với người dùng** và đã/chưa kiểm; ca chưa có kết quả nói rõ vì sao; đề xuất ghi là đề xuất, quyết nhận/trả build là của người test hoặc PO. Cấm câu chung chung ("còn một số lỗi") và viết tắt khó hiểu. Ghi chú lượt viết câu đầy đủ (môi trường, bản, ngày, số ca đã/chưa có kết quả).
 - Lượt tổng theo tính năng: `Đạt toàn bộ` / `Có case không đạt` / `Chưa chạy hết`; smoke: `Nhận build` / `Trả build` / `Chưa đủ kết luận`.
+
+Lượt theo tính năng chỉ được ghi khi `add-run` kiểm đạt (code, không phải lời nhắc): có đủ khóa kết luận, không có cụm chung chung (một số lỗi, nhiều case…), mọi ca chưa có kết quả được liệt kê từng mã với đúng trạng thái, lý do và rủi ro đủ dài để người test đánh giá. Chạy `python -X utf8 scripts/kiem-tra-ro-mat-khau.py` để chắc không có mật khẩu lọt vào file.
 
 ## 6. Bug từ lượt chạy
 - Mỗi nguyên nhân một bug. **Chỉ gộp khi người dùng hoặc Dev xác nhận cùng chỗ sửa** (ví dụ câu báo lỗi tiếng Việt và English cùng sửa một chỗ → một bug). Mã `BUG-nnn` không dùng lại số đã bỏ.

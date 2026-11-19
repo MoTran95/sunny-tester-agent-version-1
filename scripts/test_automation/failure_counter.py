@@ -1,21 +1,25 @@
-"""Bộ đếm số lần đăng nhập sai liên tiếp, để không bao giờ chạm ngưỡng chặn của hệ thống đang test.
+"""Bộ đếm số lần đăng nhập sai liên tiếp, để không chạm ngưỡng chặn của hệ thống đang test.
 
-Quy tắc (người dùng chốt trần 9 lần ngày 2026-11-19, memories/project/tu-dong-hoa-test.md):
-- Trần 9 lần sai TỔNG CỘNG kể từ lần bộ đếm về 0. Đăng nhập đúng KHÔNG đưa bộ đếm về 0: ngày 2026-11-19 trên staging,
-  đăng nhập đúng xen giữa các ca mà P100001 vẫn bị chặn ở lần sai thứ 11 cộng dồn (khác TL-06 của BA).
-- Bộ đếm chỉ về 0 khi hết thời gian chặn sau một lần 429 (giả định theo TL-09, chưa kiểm) hoặc người dùng đặt lại bằng tay
-  (`python -X utf8 scripts/run_tests.py --reset-failure-counter`).
-- Trước mỗi lần cố ý nhập sai, thư viện hỏi bộ đếm; vượt trần thì từ chối (ca thành "Không kết luận").
-- Hệ thống trả 429 (đang chặn) thì ghi mốc hết chặn; các ca nhập sai dừng tới mốc đó.
+KHÔNG có con số mặc định. Trần nhập sai (`login.max_consecutive_failures`) và thời gian chặn (`login.block_minutes`)
+do requirement của dự án quy định, hoặc người kiểm thử cho biết; ghi vào `testing/<dự-án>/auto-config.json`.
+Chưa khai thì thư viện TỪ CHỐI mọi lần cố ý nhập sai (ca thành "Không kết luận" kèm lý do), không tự đoán.
 
-Bộ đếm chỉ đếm những gì thư viện này gửi; lần nhập tay của người khác không thấy được.
+Quy tắc đếm (thận trọng, vì chỉ tin điều đã quan sát):
+- Cộng dồn tổng số lần sai kể từ lần bộ đếm về 0. Đăng nhập đúng KHÔNG đưa bộ đếm về 0 (Banking Lite 2026-11-19 đã thấy
+  hệ thống không reset khi đăng nhập đúng, khác quy định BA; đếm cộng dồn luôn dừng sớm hơn, nên an toàn hơn).
+- Bộ đếm về 0 khi hết thời gian chặn sau một lần 429 (cần `block_minutes`), hoặc người test đặt lại bằng tay
+  (`python -X utf8 scripts/run_tests.py --reset-failure-counter`, chỉ khi chắc hệ thống đã về 0).
+- Hệ thống trả 429 mà chưa khai `block_minutes`: không biết chặn bao lâu, dừng mọi lần nhập sai tới khi người test đặt lại.
+- Trước mỗi lần cố ý nhập sai, thư viện hỏi bộ đếm; vượt trần thì từ chối.
+
+Bộ đếm chỉ đếm những gì thư viện này gửi trên máy này; lần nhập tay của người khác hoặc máy khác không thấy được.
 Tệp: `.phien-dang-nhap/<dự-án>/failure-counter.json` (đã .gitignore).
 """
 import json
 import time
 
-DEFAULT_MAX = 9
-DEFAULT_BLOCK_MINUTES = 5
+UNKNOWN_BLOCK = "Hệ thống đã chặn đăng nhập nhưng chưa khai `login.block_minutes`: hỏi người kiểm thử hoặc xem requirement bao lâu, rồi đặt lại bộ đếm bằng --reset-failure-counter khi chắc đã hết chặn"
+NO_CAP = "chưa khai trần nhập sai `login.max_consecutive_failures` trong auto-config.json: lấy từ requirement hoặc hỏi người kiểm thử, không tự đặt số"
 
 
 def _file(cfg):
@@ -28,7 +32,7 @@ def read(cfg):
     except (OSError, ValueError):
         return {"consecutive_failures": 0, "blocked_until": 0}
     if state.get("blocked_until", 0) and time.time() >= state["blocked_until"]:
-        state = {"consecutive_failures": 0, "blocked_until": 0}   # hết chặn: coi như đếm lại từ 0 (giả định theo TL-09)
+        state = {"consecutive_failures": 0, "blocked_until": 0}   # hết chặn: coi như đếm lại từ 0 (theo quy định thời gian chặn của dự án)
         _write(cfg, state)
     return state
 
@@ -48,15 +52,29 @@ def seconds_blocked(cfg):
     return max(0, int(read(cfg).get("blocked_until", 0) - time.time()))
 
 
-def refusal_reason(cfg):
-    """None nếu được phép cố ý nhập sai thêm một lần; ngược lại câu giải thích vì sao từ chối."""
+def block_message(cfg):
+    """None nếu không đang chặn; ngược lại câu giải thích (kể cả khi chặn mà chưa biết bao lâu)."""
     state = read(cfg)
+    if state.get("blocked_unknown"):
+        return UNKNOWN_BLOCK
     wait = seconds_blocked(cfg)
     if wait:
         return f"hệ thống đang chặn đăng nhập theo ghi nhận trước đó, còn khoảng {wait} giây"
+    return None
+
+
+def refusal_reason(cfg):
+    """None nếu được phép cố ý nhập sai thêm một lần; ngược lại câu giải thích vì sao từ chối."""
     maximum = cfg.max_consecutive_failures
+    if maximum is None:
+        return NO_CAP
+    blocked = block_message(cfg)
+    if blocked:
+        return blocked
+    state = read(cfg)
     if state.get("consecutive_failures", 0) + 1 > maximum:
-        return f"đã {state['consecutive_failures']} lần sai, thêm một lần nữa vượt trần {maximum} (đăng nhập đúng không đưa bộ đếm về 0; chờ hệ thống hết chặn hoặc đặt lại bằng tay nếu chắc chắn)"
+        return (f"đã {state['consecutive_failures']} lần sai, thêm một lần nữa vượt trần {maximum} "
+                "(đăng nhập đúng không đưa bộ đếm về 0; chờ hệ thống hết chặn hoặc đặt lại bằng tay nếu chắc chắn)")
     return None
 
 
@@ -66,8 +84,12 @@ def record(cfg, status):
     if status in (400, 401):
         state["consecutive_failures"] = state.get("consecutive_failures", 0) + 1
     elif status == 429:
-        state["consecutive_failures"] = cfg.max_consecutive_failures
-        state["blocked_until"] = time.time() + DEFAULT_BLOCK_MINUTES * 60
+        if cfg.max_consecutive_failures is not None:
+            state["consecutive_failures"] = cfg.max_consecutive_failures
+        if cfg.block_minutes:
+            state["blocked_until"] = time.time() + cfg.block_minutes * 60
+        else:
+            state["blocked_unknown"] = True
     else:
         return
     _write(cfg, state)

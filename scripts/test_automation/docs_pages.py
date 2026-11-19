@@ -461,7 +461,7 @@ def render_index(project, exists):
     tdir = cfg.project_dir
     e = html.escape
     features = [d for d in sorted(tdir.iterdir()) if d.is_dir() and (d / "test-case.md").exists()]
-    names = report_mod.FEATURE_NAMES
+    names = report_mod.feature_names(project)
     version = cfg.test_data.get("version", "")
     cards, total_tc, total_bug, total_ran, total_fail = [], 0, 0, 0, 0
     for d in features:
@@ -522,7 +522,9 @@ def render_index(project, exists):
 def render_all(project):
     """Sinh (chưa ghi) mọi trang của dự án → ({đường dẫn: nội dung}, [file md bị bỏ qua vì có HTML làm tay trùng tên])."""
     sources = collect_sources(project)
-    converted = {s.resolve() for s in sources}
+    # Link tới md của MỌI dự án đều đổi sang html (không chỉ dự án đang xét): trang dùng chung (docs/, testing/*.md) được sinh
+    # trong lượt của từng dự án, nếu mỗi lượt đổi link một kiểu thì trang đổi theo dự án hiện tại và --check báo cũ mãi.
+    converted = {s.resolve() for p in projects() for s in collect_sources(p)} | {s.resolve() for s in sources}
     codes = build_code_index(project)
     pages, skipped, outs = {}, [], []
     for s in sources:

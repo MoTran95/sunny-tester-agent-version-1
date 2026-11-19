@@ -1,0 +1,17 @@
+# Banking Lite — chạy test tự động (trạng thái và quyết định riêng)
+Đọc khi: chạy/sửa test tự động của Banking Lite, hoặc cần biết trạng thái các lượt. Quy tắc dùng chung nằm ở skill `chay-test-tu-dong` và `project/tu-dong-hoa-test.md`; **số liệu riêng dự án này chỉ nằm ở đây**.
+
+## Quyết định của người dùng cho dự án này (2026-11-19)
+- Địa chỉ test `https://staging-banking-lite.vercel.app/` (người dùng nêu; địa chỉ cũ `banking-lite.vercel.app` đã gỡ, báo `DEPLOYMENT_NOT_FOUND`). Có nhãn staging nên Claude được nhập tài khoản test qua script đọc `.env`.
+- Trần nhập sai **9 lần** (cộng dồn) và thời gian chặn **5 phút**: người dùng chốt riêng cho dự án này, đã ghi vào `testing/banking-lite/auto-config.json` (`max_consecutive_failures`, `block_minutes`). Dự án khác KHÔNG kế thừa các số này.
+- Bỏ qua (người dùng tự làm) mọi ca mà bước làm có thể chặn hệ thống: LOGIN TC-015…020, 022, 037. `auto_login.py` đã chạy trên staging, 3 tài khoản thành công.
+- Bẫy riêng: Bộ đếm nhập sai: giả định "đăng nhập đúng đưa về 0" (TL-06 của BA) SAI, P100001 bị chặn 5 phút ở TC-014 (lần sai thứ 5 của ca, cộng dồn 11 lần 401 trong ngày; hết chặn thì có vẻ về 0). BUG-008.
+
+## Banking Lite (cập nhật 2026-11-19)
+- Địa chỉ test `https://staging-banking-lite.vercel.app/` (địa chỉ cũ đã gỡ; staging dùng chung dữ liệu: hồ sơ nháp cũ còn). Bản 1.3.0.
+- Smoke (7 ca, lượt 2 trên staging): 5 Đạt, TC-001 Đạt kèm lỗi đã biết (`DEFAULT`, BUG-001), TC-022 RECO Không kết luận vì hồ sơ nháp riêng của ca đã dùng hết (cần hồ sơ mới: hỏi người dùng, `testing/banking-lite/auto/create_draft_application.py --tc-022-only --overwrite`).
+- Đăng nhập 43 ca: đã chạy 31 (17 Đạt, 14 Không đạt); TC-014 và TC-021 Bị chặn bởi BUG-008; bỏ qua TC-015…020, 022, 037; TC-042, 043 đã có script (2026-11-19) nhưng **người dùng cho biết code chưa làm phần thời hạn phiên** (chưa có hết hạn 10 phút): TC-042 Đạt (chưa ghi lượt), TC-043 thấy vẫn đăng nhập sau ~633 giây là hợp lý vì chưa làm; chưa ghi lượt, chưa tạo bug, **không hỏi Dev rút thời hạn** nữa. Người dùng chốt 'Bỏ qua kèm lý do': đã ghi vào `test-case.md` và sửa tại chỗ dữ liệu lượt 1 `run-results/dang-nhap.json` (người dùng đồng ý, ngoại lệ 'chỉ thêm lượt' vì ghi lượt mới sẽ tăng sai 'Số lần chạy'); trang `ket-qua-test-case.*` đã sinh lại; người dùng thấy giờ lượt cũ (11:00) lệch giờ hiện tại nên thêm khóa tùy chọn `updated_at`/`updated_note` trong dữ liệu lượt, `report.py` hiện dòng 'Cập nhật lần cuối' (giữ nguyên giờ chạy thật). Bẫy: sau F5 phải chờ hết 'Đang tải…' mới kết luận. Bug: BUG-001 (`DEFAULT`), BUG-002 (câu báo sai còn `Mã không gian`/`Workspace`, gộp VN+EN), 004, 005, 006 (câu kỹ thuật khi trống/mã dài), 007 (ô Mật khẩu giữ chữ), 008 (bộ đếm). BUG-003 đã gộp vào 002. Mã bug của công cụ team do người dùng điền.
+- RECO: 4 script (TC-002, 009, 022, 023) đã Đạt ở lượt đầu; `reco_common.py` tìm khung `Thẩm định` theo chữ.
+- Trang tổng `testing/banking-lite/index.html`; hai tính năng `dang-nhap`, `khuyen-nghi-ltv-dsr`; `gui-tham-dinh` chỉ có khám phá.
+- Chồng chéo chưa gộp: `truy-vet-smoke.py ghi-luot` (mục "Lượt chạy" trong smoke-test.md) vs `smoke-ket-qua.*` (bản chính).
+- `feature-exploration-report` đã thống nhất giao diện với thương hiệu (2026-11-19): bảng màu kem/nâu/đỏ san hô, font Hanken Grotesk + Fraunces nhúng đã cắt, logo hero, dùng `brand.json`; chưa có chế độ tối (sơ đồ SVG nền trắng cố định); báo cáo `v2` build ở `--thumb-q 41` để còn dưới 512 KiB.

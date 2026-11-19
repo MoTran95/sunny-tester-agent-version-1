@@ -11,7 +11,7 @@
 ## Đọc trước 1 phút
 <Hai ba câu nói tính năng làm gì, cho ai. Giải thích thuật ngữ theo lời của tài liệu gốc trong một bảng nhỏ. Liệt kê các mức/quy tắc hệ thống đang dùng nếu có, ghi rõ "mình quan sát được, chưa có tài liệu chính thức".>
 
-**Quy ước từ ngữ trong file này:** <lấy từ `memories/conventions/ba-question-wording.md`, ví dụ "mức tối đa", "hết hạn vay"; chữ đang hiện trên màn hình để trong dấu ngoặc kép>.
+**Quy ước từ ngữ trong file này:** <lấy từ `memories/conventions/ba-question-wording.md`, ví dụ "mức tối đa", "ngày hết hạn"; chữ đang hiện trên màn hình để trong dấu ngoặc kép>.
 
 ---
 

@@ -16,6 +16,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 sys.path.insert(0, str(HERE))
+import _venv  # noqa: E402
+
+_venv.ensure_playwright()  # chưa có Playwright thì tự chạy lại bằng venv của repo
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -95,7 +98,8 @@ def build_project(root, base_url):
     (project / "auto-config.json").write_text(json.dumps({
         "env_prefix": "FAKE", "default_url": "http://127.0.0.1:1",
         "login": {"id_labels": ["Mã nhân viên"], "button_labels": ["Đăng nhập"], "login_api": "/api/auth/sign-in",
-                  "session_check_api": "/api/me", "session_minutes": 10}}, ensure_ascii=False), encoding="utf-8")
+                  "session_check_api": "/api/me", "session_minutes": 10,
+                  "max_consecutive_failures": 9, "block_minutes": 5}}, ensure_ascii=False), encoding="utf-8")
     (project / "auto-data.json").write_text(json.dumps({"version": "9.9.9"}), encoding="utf-8")
     rows, test_case_rows = [], []
     for i, (name, (info, body)) in enumerate(sorted(CASES.items()), start=1):
@@ -178,7 +182,26 @@ def main():
         check("report html shows the red-box caption", "Lỗi ở bước 2: thanh điều hướng hiện chữ DEFAULT" in page)
         check("report html has drag/scroll helper", "scrollLeft" in page)
         check("report links the bug page", "BUG-001.html" in page)
-        feature_run = report.add_run(cfg, "feature", "9.9.9", data["results"], status_override={"6": "Bị chặn"}, bug={"1": ["BUG-001"]}, blocked_by={"6": ["BUG-001"]})
+        try:
+            report.add_run(cfg, "feature", "9.9.9", data["results"], status_override={"6": "Bị chặn"}, bug={"1": ["BUG-001"]}, blocked_by={"6": ["BUG-001"]})
+            refused = False
+        except report.ConclusionError:
+            refused = True
+        check("a feature run without a conclusion is not recorded", refused and not (project / "run-results" / "feature.json").exists())
+        feature_table = report.read_table(cfg, "feature")
+        feature_status = {}
+        for kq in data["results"]:
+            feature_status[kq["case_id"].partition("/")[2].upper()] = "Chưa chạy" if kq["verdict"] == results.NO_SCRIPT else kq["verdict"]
+        feature_status[[b["id"] for b in feature_table if b["number"] == "6"][0]] = "Bị chặn"
+        pending = [(b["id"], feature_status.get(b["id"], "Chưa chạy")) for b in feature_table if feature_status.get(b["id"], "Chưa chạy") not in report.HAS_VERDICT]
+        feature_conclusion = {
+            "headline": "Chưa thể nhận bản 9.9.9: có ca Không đạt và có ca chưa có kết quả, nêu từng ca bên dưới.",
+            "passed": ["Các ca Đạt chạy trọn, đã kiểm trên giao diện giả của bài tự kiểm."],
+            "not_tested": [{"cases": code, "status": status, "reason": "Ca này chưa có kết luận trong bài tự kiểm vì script lỗi, quá hạn hoặc bị chặn."} for code, status in pending],
+            "risks": [{"title": "Kết quả chỉ trên giao diện giả", "detail": "Đây là bài tự kiểm thư viện, không phản ánh hệ thống thật; không dùng để quyết nhận hay trả bản."}],
+            "suggestion": "Đề xuất chỉ dùng bài này để kiểm thư viện; quyết nhận hay trả bản là việc của người kiểm thử.",
+        }
+        feature_run = report.add_run(cfg, "feature", "9.9.9", data["results"], status_override={"6": "Bị chặn"}, bug={"1": ["BUG-001"]}, blocked_by={"6": ["BUG-001"]}, conclusion=feature_conclusion)
         feature_page = (project / "feature" / "ket-qua-test-case.html").read_text(encoding="utf-8")
         check("feature page lists every test case of the feature", feature_page.count("<tr><td class=\"nw\">TC-") >= 10, str(feature_page.count("<tr><td class=\"nw\">TC-")))
         check("feature page shows blocked-by link and bug table", "Bị chặn bởi" in feature_page and "Bug đã mở" in feature_page)
@@ -237,6 +260,52 @@ def main():
         (project / "brand.json").write_text("not json", encoding="utf-8")
         check("a broken brand file falls back safely", theme.brand_html("demo") != "")
         (project / "brand.json").unlink()
+        print("9. New project and other machines")
+        (project / "ten-tinh-nang.json").write_text('{"feature": "Tính năng mẫu"}', encoding="utf-8")
+        check("feature display names come from the project's own file",
+              report.feature_names("demo") == {"feature": "Tính năng mẫu"} and report.suite_title("feature", "demo") == "Test case Tính năng mẫu")
+        check("a feature that is not listed shows its folder name", report.suite_title("khac", "demo") == "Test case khac")
+        stub = {"env_prefix": "X", "default_url": "<địa chỉ>", "login": {"id_labels": ["<nhãn>"], "session_minutes": "<số>", "login_api": "/api/ok"}}
+        check("config placeholders are found by key", config._placeholder_keys(stub) == ["default_url", "login.id_labels[0]", "login.session_minutes"],
+              str(config._placeholder_keys(stub)))
+        no_cap = config.Config("demo", {"env_prefix": "X", "default_url": "http://x", "login": {
+            "id_labels": ["a"], "button_labels": ["b"], "login_api": "/a", "session_check_api": "/b", "session_minutes": 1}}, {})
+        check("no cap in the config: deliberate wrong input is refused, no default number",
+              no_cap.max_consecutive_failures is None and failure_counter.refusal_reason(no_cap) == failure_counter.NO_CAP)
+        fake_table = [{"number": "1", "id": "TC-001"}, {"number": "2", "id": "TC-002"}, {"number": "3", "id": "TC-003"}]
+        fake_results = {"1": {"status": "Đạt"}, "2": {"status": "Bỏ qua"}, "3": {"status": "Chưa chạy"}}
+        good = {"headline": "Chưa thể nhận bản này: 1 trong 3 case đã Đạt, 2 case chưa có kết quả như nêu bên dưới.",
+                "passed": ["TC-001 đăng nhập đúng vào được Danh sách việc"],
+                "not_tested": [{"cases": "TC-002", "status": "Bỏ qua", "reason": "Bước làm của ca này làm hệ thống chặn đăng nhập, người kiểm thử tự làm."},
+                               {"cases": "TC-003", "status": "Chưa chạy", "reason": "Chưa có script vì chưa rõ màn hình hiện lúc hết hạn phiên."}],
+                "risks": [{"title": "Phiên hết hạn chưa kiểm", "detail": "Người dùng để yên lâu có thể bị đưa về form đăng nhập giữa lúc làm việc; chưa kiểm."}],
+                "suggestion": "Đề xuất chạy lại TC-003 khi có câu trả lời của BA; nhận hay trả bản do người kiểm thử quyết."}
+        check("a complete conclusion passes the validator", report.validate_conclusion("feature", fake_table, fake_results, good) == [],
+              str(report.validate_conclusion("feature", fake_table, fake_results, good)))
+        check("a feature run without a conclusion is refused", len(report.validate_conclusion("feature", fake_table, fake_results, None)) == 1)
+        vague = dict(good, headline="Chưa thể nhận bản này vì còn một số lỗi và nhiều case chưa chạy xong.")
+        check("vague wording is refused", any("chung chung" in x for x in report.validate_conclusion("feature", fake_table, fake_results, vague)))
+        missing = dict(good, not_tested=good["not_tested"][:1])
+        check("a case without a result must be listed", any("TC-003" in x for x in report.validate_conclusion("feature", fake_table, fake_results, missing)))
+        wrong = dict(good, not_tested=[dict(good["not_tested"][0], status="Chưa chạy"), good["not_tested"][1]])
+        check("the listed status must match the real status", any("TC-002" in x for x in report.validate_conclusion("feature", fake_table, fake_results, wrong)))
+        check("smoke may be recorded without a conclusion", report.validate_conclusion("smoke", fake_table, fake_results, None) == [])
+        manual_dir = root / "testing" / "demo-manual"
+        manual_dir.mkdir(parents=True)
+        (manual_dir / "auto-config.json").write_text(json.dumps({"env_prefix": "M", "default_url": "http://127.0.0.1:1",
+                                                                  "login": {"mode": "manual", "session_check_api": "/api/me", "session_minutes": 10}}), encoding="utf-8")
+        manual_cfg = config.load("demo-manual")
+        check("manual-login project needs only the session check, no form labels", manual_cfg.login_mode == "manual" and manual_cfg.id_labels == [])
+        (manual_dir / "auto-config.json").write_text(json.dumps({"env_prefix": "M", "default_url": "http://127.0.0.1:1", "login": {"mode": "manual"}}), encoding="utf-8")
+        try:
+            config.load("demo-manual")
+            missing_keys = False
+        except config.ConfigError as error:
+            missing_keys = "session_check_api" in str(error)
+        check("manual-login config still requires the session check keys", missing_keys)
+        check("run banner names project and address", "demo" in config.load("demo").banner() and "127.0.0.1" in config.load("demo").banner())
+        video_html = bug_page._images_in_line("- Video: evidence/demo/chay-test/video/khong-co-tren-may-nay.webm", str(project))
+        check("bug page embeds a video even when the file is not on this machine", "<video" in video_html, video_html[:80])
     finally:
         server.shutdown()
         shutil.rmtree(root, ignore_errors=True)

@@ -51,8 +51,8 @@
 
 | Mã | Tình huống (người dùng làm gì) | Requirement cho biết gì, hoặc chỗ chưa rõ | Trạng thái | Câu hỏi gửi BA | Trích nguyên văn |
 |---|---|---|---|---|---|
-| <MÃ-S01-AC01> | Ở hồ sơ nền, nhập lương 100.000.000 VND. | Nhãn là Phê duyệt. Mục Lý do ghi "Đáp ứng mọi quy tắc tín dụng." | ✅ Đã rõ | — | “<đoạn chép đúng nguyên văn từ requirement>” |
-| <MÃ-S01-AC02> | Ở hồ sơ nền, nhập lương 58.285.714 VND. | Requirement gọi đây là "DSR đúng 70,00%", nhưng tính lại ra hơn 70% một chút. | ❓ Số liệu không chính xác | **A1. <Tiêu đề, đúng chữ như ở file câu hỏi>** (🚨 Hỏi BA ngay) | “<đoạn chép đúng nguyên văn>” |
+| <MÃ-S01-AC01> | Ở đơn hàng nền 1.000.000 đ, nhập mã giảm 10%. | Dòng Giảm giá ghi 100.000 đ. Dòng Tổng thanh toán ghi 900.000 đ. | ✅ Đã rõ | — | “<đoạn chép đúng nguyên văn từ requirement>” |
+| <MÃ-S01-AC02> | Ở đơn hàng nền 333.400 đ, nhập mã giảm 15%. | Requirement ghi "giảm đúng 50.000 đ", nhưng tính lại ra 50.010 đ. | ❓ Số liệu không chính xác | **A1. <Tiêu đề, đúng chữ như ở file câu hỏi>** (🚨 Hỏi BA ngay) | “<đoạn chép đúng nguyên văn>” |
 
 Quy tắc cột câu hỏi: khuôn `**<số câu>. <tiêu đề>** (<nhóm>)`; nhóm là `🚨 Hỏi BA ngay` (phần A), `📋 Hỏi BA sau (gom lại)` (phần B) hoặc `🔍 Tự kiểm tra trên hệ thống trước` (phần C). Nhiều câu thì nối bằng `<br>`. **Không** chép lại Hỏi, Mình đang hiểu, Cần xem: script báo lỗi. Khi đã có câu trả lời, thêm ngay sau tiêu đề: `<br>**BA trả lời:** <nguyên văn> (TL-xx)`. Ghi chú riêng của dòng (nếu cần) để sau cùng. Đơn vị rõ một nửa thì có một dòng ✅ và các dòng ❓ cùng mã.
 

@@ -49,7 +49,7 @@ Dòng `*Mã cũ: …*` chỉ để tra chéo với mã trong bảng soát. Khôn
 ## 3. Từ ngữ
 - **Một từ cho một khái niệm** trong cả file. Lấy từ trong bảng "Từ đã chốt" của `ba-question-wording.md`. Từ mới thì hỏi người dùng rồi thêm vào bảng.
 - **Chữ đang hiện trên màn hình** (tên khung, tên ô, nhãn, câu thông báo) giữ nguyên trong dấu ngoặc kép.
-- Thuật ngữ của nghiệp vụ (LTV, DSR…) giải thích một lần ở đầu file, theo đúng lời của tài liệu gốc.
+- Thuật ngữ của nghiệp vụ (tên loại phí, tên trạng thái…) giải thích một lần ở đầu file, theo đúng lời của tài liệu gốc.
 - **Tránh** các từ dịch máy: "tiến hành", "nhằm", "đối với", "dựa trên", "thực hiện việc", "kết quả mong đợi" (nói "kết quả đúng" hoặc "phải ra"), "phạm vi" (nói "phần mình cần test"), "ngưỡng" lẫn "hạn mức" lẫn "mức tối đa".
 - **Tránh** danh từ hóa ("việc làm tròn", "sự hiển thị") khi có động từ ("làm tròn", "hiện").
 - **Tránh** câu bị động dài và câu nhiều vế lồng nhau.
@@ -57,18 +57,18 @@ Dòng `*Mã cũ: …*` chỉ để tra chéo với mã trong bảng soát. Khôn
 
 ## 4. Trước và sau (ví dụ thật)
 **Trước** (nghe như dịch máy):
-> Khi LTV hoặc DSR tính ra nhiều chữ số lẻ, hệ thống nên làm tròn thế nào, và nên so với hạn mức bằng số đã làm tròn hay số thật? Cách làm tròn này có áp dụng cả khi hiển thị trên màn hình không?
+> Khi tiền giảm tính ra nhiều chữ số lẻ, hệ thống nên làm tròn thế nào, và nên so với mức giảm tối đa bằng số đã làm tròn hay số thật? Cách làm tròn này có áp dụng cả khi hiển thị trên màn hình không?
 
 **Sau:**
-> Mình thử vay 3.200.100.000 trên tài sản khai báo 4.000.000.000. Số thật là 80,0025%. Màn hình ghi 80,00% và vẫn Phê duyệt, trong khi mức tối đa là 80%. Nếu làm tròn lên thì ra 80,01%, tức là vượt, phải Từ chối.
+> Mình thử mã giảm 15% cho đơn 333.400 đ. Số thật là 50.010 đ, vượt mức giảm tối đa 50.000 đ. Màn hình ghi "Giảm 50.010 đ" và vẫn cho dùng mã. Nếu làm tròn xuống đến nghìn đồng thì ra 50.000 đ, vừa đủ.
 > **Hỏi:** Anh/chị cho mình hỏi: hệ thống nên làm tròn kiểu nào, và có làm tròn cả số hiển thị không?
-> **Mình đang hiểu:** Mình tạm chọn làm tròn lên, lấy 2 số sau dấu phẩy, cho cả số hiển thị và khi so với mức tối đa. Hệ thống hiện đang làm tròn gần nhất.
+> **Mình đang hiểu:** Mình tạm chọn làm tròn xuống đến nghìn đồng, cho cả số hiển thị và khi so với mức tối đa. Hệ thống hiện đang không làm tròn.
 
 **Trước:**
-> Khi thời hạn vay làm người vay quá 70 tuổi lúc hết hạn, khuyến nghị trên màn hình phải hiển thị thế nào?
+> Khi mã giảm hết hạn đúng lúc khách đang thanh toán, màn hình phải hiển thị thế nào?
 
 **Sau:**
-> Mình thử người vay sinh 15/5/1990, vay 40 năm, tức hết hạn lúc 76 tuổi, quá mức tối đa 70. Dữ liệu hệ thống trả về là Từ chối. Nhưng màn hình không hiện Từ chối: khung Thẩm định để trống, lại hiện dòng "Nhập đủ thông tin…" dù mình đã nhập đủ.
+> Mình thử mã SALE10 có hạn đến 31/12, rồi để giỏ hàng mở qua 0 giờ ngày 1/1 và bấm Thanh toán. Dữ liệu hệ thống trả về là "mã hết hạn". Nhưng màn hình không báo gì: vẫn hiện số tiền đã giảm, lại hiện dòng "Đang xử lý…" mãi.
 > **Hỏi:** Anh/chị cho mình hỏi: trường hợp này màn hình phải hiện gì ạ?
 
 ## 5. Bảng soát lấy câu hỏi từ đây

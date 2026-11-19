@@ -20,13 +20,13 @@ Biến ghi chú lỗi thô (hoặc một test case Không đạt) thành bug rep
 1. **Không thêm thông tin không có trong ghi chú.** Chỗ bắt buộc phải tự thêm thì gắn **`[Giả định: …]`** ngay tại chỗ. *AI hay điền cho trọn bộ rồi Dev đi tìm một điều kiện chưa từng có.* Điều lấy từ test case/requirement không phải giả định nhưng ghi nguồn ở mục Test case liên quan.
 2. **Kết quả mong đợi chỉ lấy từ requirement hoặc test case** (chép câu chữ, không chèn ngoặc nguồn). Nguồn không nói điều đáng ra phải xảy ra thì **không tự đặt**: `Chưa xác định` + **một câu hỏi cho BA** ở "Câu hỏi còn mở" (khuôn: `memories/conventions/ba-question-wording.md`); khi đó là **nghi lỗi, chờ BA chốt**, nói rõ ở đầu file.
 3. **Chỉ gộp nhiều chỗ vào một bug khi ghi chú nói rõ chung một nguyên nhân, hoặc Dev hoặc người kiểm thử xác nhận cùng chỗ sửa** (ví dụ câu báo lỗi tiếng Việt và English cùng sửa một chỗ → một bug, ghi cả hai ở Phạm vi ảnh hưởng và Đính kèm). Chưa chắc thì **tách bug riêng** (một file mỗi bug), mỗi bug ghi "có thể chung nguyên nhân với BUG-0xx, cần hỏi Dev" và đưa câu hỏi vào "Câu hỏi còn mở". Nhiều lỗi khác nhau → nhiều bug. `BUG-nnn` không dùng lại số đã bỏ.
-4. **Thiếu bước tái hiện hoặc môi trường thì hỏi, tối đa 3 câu, rồi dừng chờ.** Môi trường đủ = nơi chạy + trình duyệt/thiết bị + số build; chỉ lấy cái người dùng đã nói trong lượt này hoặc mình vừa quan sát, **không đoán từ memory** (số build do người dùng hoặc giao diện cho biết). Câu hỏi nêu rõ thiếu gì kèm ví dụ cách trả lời. Chưa đủ thì không viết bản "tạm".
+4. **Thiếu bước tái hiện hoặc môi trường thì hỏi, tối đa 3 câu, rồi dừng chờ** (mỗi câu đủ ngữ cảnh, kèm lựa chọn nếu có; không hỏi lại điều đã có trong ghi chú, test case hay chat: `memories/user/working-preferences.md`). Môi trường đủ = nơi chạy + trình duyệt/thiết bị + số build; chỉ lấy cái người dùng đã nói trong lượt này hoặc mình vừa quan sát, **không đoán từ memory** (số build do người dùng hoặc giao diện cho biết). Câu hỏi nêu rõ thiếu gì kèm ví dụ cách trả lời. Chưa đủ thì không viết bản "tạm".
 5. **Kết quả thực tế phải cụ thể**: màn hình nào, thao tác nào, thấy chính xác gì (nguyên văn thông báo, mã lỗi, giá trị sai và đúng, nút mờ, trang trắng…). **Cấm** câu chung chung: "không hoạt động", "bị lỗi", "sai", "lỗi hệ thống", "không như mong đợi". Ghi chú quá chung thì hỏi (tính vào 3 câu của quy tắc 4); hết lượt hỏi thì ghi `CẦN BỔ SUNG: <thiếu gì>`.
 6. **Không đoán nguyên nhân gốc, không đề xuất cách sửa.** Ghi chú nêu nguyên nhân thì chép lại kèm "theo ghi chú của người dùng".
 7. **Mức độ nghiêm trọng dựa trên ảnh hưởng** (ai bị, việc gì không làm được hoặc ra sai, có cách đi vòng không); **mức độ ưu tiên chỉ là đề xuất** ("team hoặc PO sẽ chốt"). Thang và cách viết: `references/thang-muc-do.md`.
 8. **Tần suất chỉ ghi điều đã thử**: `Luôn xảy ra` (N/N lần), `Thỉnh thoảng (x/y lần thử)`, `Một lần`. Mới thử một lần và bị: `1/1 lần thử, chưa thử lại`. Không nêu số lần: `Chưa rõ`.
 9. **Chỉ lỗi chức năng**; không tự thêm nhận xét bảo mật, hiệu năng, thẩm mỹ khi ghi chú không nói tới.
-10. **Không ghi mật khẩu, mã thông báo, dữ liệu cá nhân thật**; tài khoản test chỉ ghi mã (`P100001`). Ảnh/log nhạy cảm thì nhắc người dùng che trước khi gửi.
+10. **Không ghi mật khẩu, mã thông báo, dữ liệu cá nhân thật**; tài khoản test chỉ ghi mã tài khoản (không ghi mật khẩu). Ảnh/log nhạy cảm thì nhắc người dùng che trước khi gửi.
 11. **Đính kèm chỉ liệt kê cái có thật hoặc cái cần có** (chưa có → `Cần bổ sung`; không viết "xem ảnh đính kèm" khi chưa có ảnh). **Ảnh lỗi phải kèm bản tô đỏ** (giữ ảnh gốc, thêm `-loi`), mỗi dòng ghi **lỗi ở bước nào**; có video thì đính. Chi tiết: `references/bang-chung-va-trang-html.md`.
 12. **Kết quả dài thì lưu file**, chat chỉ tóm tắt và link; riêng danh sách Giả định và câu hỏi còn mở in trong chat (người dùng duyệt ngay).
 13. **Văn phong theo người dùng đã chỉnh**: tiêu đề chỉ mô tả lỗi, Trình duyệt chỉ tên + số bản, Kết quả mong đợi không ngoặc nguồn, mức độ bằng tiếng Việt, câu hỏi cho Dev đủ nghĩa → `references/van-phong.md` (đọc trước khi viết).
@@ -56,6 +56,8 @@ Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`): luôn đọ
 8. **Trả lời** ngắn: link trang HTML và md; tiêu đề; mức độ nghiêm trọng + ưu tiên đề xuất; **danh sách Giả định** (in nguyên); **câu hỏi còn mở** cho BA/Dev; đính kèm còn thiếu. Nói rõ **chưa tái hiện lại** (chỉ viết theo ghi chú). Test case Không đạt: **hỏi có điền `Kết quả thực tế` và `Trạng thái` = Không đạt vào dòng test case không**, không tự sửa. Bug từ smoke/lượt chạy: hỏi có dựng lại lượt để nối bug vào bảng kết quả không. Commit chỉ khi người dùng nhờ.
 
 ## Tự kiểm trước khi trả lời
+Chạy trước: `python -X utf8 .claude/skills/tao-bug-report/scripts/kiem-tra-bug.py <file bug>` (kiểm khuôn, mức độ tiếng Việt, tần suất, câu chung chung, đếm nhãn Giả định, ảnh có thật, không có mật khẩu); sửa hết lỗi rồi mới làm danh sách dưới (script không thay việc đọc lại).
+
 - [ ] **Kết quả thực tế** không có câu chung chung (hỏi "Dev đọc câu này có thấy màn hình lúc đó không?").
 - [ ] Mọi thông tin tự thêm có nhãn `[Giả định: …]` và xuất hiện đủ trong danh sách Giả định cuối file (đếm hai bên bằng nhau).
 - [ ] Kết quả mong đợi có nguồn; không có thì `Chưa xác định` + câu hỏi BA.
@@ -67,7 +69,8 @@ Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`): luôn đọ
 - [ ] Trang HTML đã dựng lại sau lần sửa md cuối; bug từ smoke/lượt chạy đã được hỏi để nối vào bảng kết quả.
 
 ## Tệp trong skill
+- `scripts/kiem-tra-bug.py` — kiểm tự động một hoặc mọi bug của dự án (`--du-an`).
 - `assets/mau-bug-report.md` — hình dạng file bug (ví dụ trung lập, đủ nhãn Giả định, câu hỏi BA/Dev, phạm vi ảnh hưởng, ảnh tô đỏ kèm lỗi ở bước nào).
 - `references/` — `van-phong.md`, `thang-muc-do.md`, `bang-chung-va-trang-html.md`.
 - Công cụ dùng chung của repo: `scripts/build_docs.py`, `scripts/build_report.py` (`add-run`, `bug-pages`), `scripts/mark_error.py`, `scripts/test_automation/bug_page.py`, `docs/chay-test-tu-dong.md`.
-- Bug mẫu đã làm xong theo đúng ý người dùng: `testing/banking-lite/dang-nhap/bug/BUG-001.md`, `BUG-002.md`.
+- Khuôn bug: `assets/`; văn phong: `references/van-phong.md`.

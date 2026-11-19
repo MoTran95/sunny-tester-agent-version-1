@@ -11,4 +11,4 @@
 | SRS | `srs/banking-lite/` (`dang-nhap.md` = `LOGIN`, `khuyen-nghi-ltv-dsr.md` = `RECO`) |
 | Phân tích/checklist/test case | `testing/banking-lite/` |
 | Bằng chứng, báo cáo HTML | `evidence/banking-lite/` |
-| Ngữ cảnh riêng của skill báo cáo | `.claude/skills/feature-exploration-report/references/banking-lite-context.md` |
+| Ngữ cảnh khi làm báo cáo khám phá | `memories/modules/banking-lite/bao-cao-kham-pha-ngu-canh.md` |

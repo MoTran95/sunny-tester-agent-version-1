@@ -14,7 +14,7 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `project/skills.md` | dùng/sửa skill | 7 skill (có `chay-test-tu-dong`), script, trạng thái đã thử |
 | `project/srs-process.md` | làm SRS; hỏi vì sao khuôn thế | quyết định khuôn/ID, bẫy |
 | `project/truy-vet-requirement.md` | requirement đổi; sửa checklist/TC; sửa smoke | `truy-vet.py`, `truy-vet-smoke.py`, neo TC, lịch sử, bẫy |
-| `project/tu-dong-hoa-test.md` | sửa thư viện `test_automation`, thêm dự án, trạng thái Banking Lite | cấu trúc, bẫy, trạng thái; quy tắc chốt ở skill `chay-test-tu-dong` |
+| `project/tu-dong-hoa-test.md` | sửa thư viện `test_automation`, thêm dự án | cấu trúc, bẫy chung; quy tắc chốt ở skill `chay-test-tu-dong`; trạng thái từng dự án ở `modules/<slug>/tu-dong-hoa.md` |
 | `project/session-speed.md` | than chậm/tốn token; sửa skill/khuôn | số đo, đã làm, rủi ro |
 | `project/git-remote.md` | commit/push | remote, `.env` loại trừ |
 | `project/architecture.md` | thêm thư mục, đổi quyền, máy mới | cấu trúc, script |
@@ -34,5 +34,7 @@ Chỉ 2 file **LUÔN ĐỌC** (★). Còn lại mở khi việc khớp cột "Kh
 | `modules/banking-lite/feature-khuyen-nghi-ltv-dsr.md` | `RECO` | luật, TL-02, chỗ SRS lệch |
 | `modules/banking-lite/feature-gui-tham-dinh.md` | nút Gửi thẩm định | điều kiện bật/tắt |
 | `modules/banking-lite/report-v2-html.md` | sửa báo cáo v2 | build, khoanh nút, bẫy |
+| `modules/banking-lite/bao-cao-kham-pha-ngu-canh.md` | làm/sửa báo cáo khám phá | tài khoản, bản đồ feature, độ phủ khám phá |
+| `modules/banking-lite/tu-dong-hoa.md` | chạy test tự động Banking Lite | địa chỉ, trần nhập sai 9 và chặn 5 phút (riêng dự án), trạng thái các lượt |
 
 Sản phẩm cho người đọc (không phải memory): `testing/chien-luoc-phan-tich-requirement.md` (sách Sunny; đọc khi nhắc "sách"); `testing/banking-lite/<feature>/` gồm `bang-soat-requirement.md`, `cau-hoi-cho-ba.md`, `checklist.md`, `test-case.md`, `truy-vet.md` (`dang-nhap` = LOGIN, `khuyen-nghi-ltv-dsr` = RECO: có `test-case.md` gộp 38 TC, không có `checklist.md`, thêm `phan-tich-requirement.md` cũ). `testing/banking-lite/smoke-test.md` = bộ smoke 7 case chọn từ LOGIN+RECO, **một file duy nhất** (mục tiêu ~15 phút, không cứng; chưa release note nên chưa có phần "Theo build"; case LOGIN-TC-001 còn `DEFAULT`: đã chốt ghi "Đạt kèm lỗi đã biết", không dừng build). Đọc trước khi làm checklist/test case feature đó.

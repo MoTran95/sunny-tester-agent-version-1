@@ -12,6 +12,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _venv  # noqa: E402
+
+_venv.ensure_playwright()  # chưa có Playwright thì tự chạy lại bằng venv của repo
 from test_automation import config, session  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -42,7 +45,7 @@ def main():
         if args.accounts:
             f = session.session_file(cfg, args.accounts)
             if not f.exists():
-                print(f"Chưa có phiên đã lưu của {args.accounts}. Chạy scripts\\auto_login.py {args.accounts} --headless")
+                print(f"Chưa có phiên đã lưu của {args.accounts}. Chạy scripts/auto_login.py {args.accounts} --headless")
                 return 3
             options["storage_state"] = str(f)
         context = browser.new_context(**options)

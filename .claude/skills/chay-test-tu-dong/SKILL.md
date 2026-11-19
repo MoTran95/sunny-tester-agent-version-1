@@ -43,8 +43,9 @@ Sau `CLAUDE.md` và `memories/MEMORY.md` (đọc `.du-an-hien-tai`); chỉ file 
 8. **Sinh lại và kiểm:** `python -X utf8 scripts/build_docs.py --all`, rồi `python -X utf8 scripts/kiem-tra-bo-nho.py` (báo lỗi nếu còn trang cũ). Báo người dùng link trang HTML (không chỉ md).
 
 ## Tự kiểm trước khi trả lời
+Máy kiểm sẵn (chạy `python -X utf8 scripts/kiem-tra-bo-nho.py`): trang HTML khớp nguồn, không lẫn thông tin giữa dự án và skill, không mật khẩu lọt vào file, bug đúng khuôn; `add-run` từ chối kết luận thiếu hoặc chung chung. Phần dưới là điều máy không kiểm được.
 - [ ] Không ca nào kết luận khi script lỗi/quá hạn; ca không kết luận được nêu rõ lý do.
-- [ ] Không có mật khẩu trong script, kết quả, ảnh, bug hay chat; không nhập sai quá bộ đếm (trần 9, cộng dồn).
+- [ ] Không có mật khẩu trong script, kết quả, ảnh, bug hay chat; không nhập sai quá bộ đếm (trần do requirement hoặc người test chốt, không tự đặt số; cộng dồn).
 - [ ] Bug đủ ảnh tô đỏ + video (nếu có), tách đúng nguyên nhân; ca bị chặn có link bug gây chặn.
 - [ ] Kết luận trang kết quả có đủ: kết luận một câu, đã kiểm và đạt, chưa có kết quả và vì sao, rủi ro cho người dùng, đề xuất; câu chữ đầy đủ, không viết tắt khó hiểu.
 - [ ] `build_docs.py --all --check` báo khớp; selftest `ALL OK` nếu có sửa thư viện.

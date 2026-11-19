@@ -20,8 +20,9 @@ MEM = os.path.join(ROOT, "memories")
 # (file trong memories/, cụm phải còn trong file đó, ý nghĩa)
 CỐT_LOI = [
     ("user/working-preferences.md", "tiếng Việt", "giao tiếp tiếng Việt"),
+    ("user/working-preferences.md", "Không hỏi lại điều đã có câu trả lời", "cách đặt câu hỏi: đủ ngữ cảnh, có lựa chọn, không hỏi lại"),
     ("user/working-preferences.md", "Không gõ mật khẩu", "không gõ mật khẩu"),
-    ("user/working-preferences.md", "tối đa **3 lần**", "tối đa 3 lần với thao tác gây khóa"),
+    ("user/working-preferences.md", "không tự đặt con số", "số lần nhập sai do requirement hoặc người test chốt, không tự đặt"),
     ("user/working-preferences.md", "Commit/push chỉ khi người dùng nhờ", "commit khi được nhờ"),
     ("user/working-preferences.md", "hỏi, không suy diễn", "hỏi không suy diễn"),
     ("user/working-preferences.md", "đọc là hiểu", "tài liệu đọc là hiểu"),
@@ -29,7 +30,7 @@ CỐT_LOI = [
     ("conventions/nhieu-du-an.md", "hỏi riêng câu này", "hỏi riêng câu dự án trên máy mới"),
     ("conventions/nhieu-du-an.md", "Không lẫn kiến thức", "không lẫn dự án"),
     ("conventions/ba-question-wording.md", "anh/chị", "xưng hô với BA"),
-    ("pitfalls/dont-trigger-lockouts.md", "3 lần", "bài học khóa đăng nhập"),
+    ("pitfalls/dont-trigger-lockouts.md", "không tự đặt số", "bài học khóa đăng nhập"),
     ("decisions/decision-log.md", "Open Sans", "quyết định font báo cáo"),
     ("user/document-preferences.md", "suy luận tiếp", "requirement rõ thì suy luận, chưa rõ thì hỏi"),
     ("project/srs-process.md", "không làm trước", "không làm bước chưa được yêu cầu"),
@@ -94,6 +95,19 @@ def main():
     if r.returncode != 0:
         chi_tiet = " | ".join(x.strip() for x in (r.stdout or r.stderr).strip().splitlines())[:500]
         loi.append("trang HTML cũ hơn file md hoặc dữ liệu. Chạy: python -X utf8 scripts/build_docs.py --all (" + chi_tiet + ")")
+    # thông tin dự án không được lẫn sang skill dùng chung hoặc sang dự án khác
+    r2 = subprocess.run([sys.executable, "-X", "utf8", os.path.join(ROOT, "scripts", "kiem-tra-lan-du-an.py")], capture_output=True, text=True, encoding="utf-8")
+    if r2.returncode != 0:
+        loi.append("thông tin dự án bị lẫn: " + " | ".join(x.strip() for x in r2.stdout.strip().splitlines())[:600])
+    # không có mật khẩu của .env trong file văn bản; bug của dự án hiện tại đúng quy tắc skill tao-bug-report
+    r3 = subprocess.run([sys.executable, "-X", "utf8", os.path.join(ROOT, "scripts", "kiem-tra-ro-mat-khau.py")], capture_output=True, text=True, encoding="utf-8")
+    if r3.returncode != 0:
+        loi.append("mật khẩu lọt vào file: " + " | ".join(x.strip() for x in r3.stdout.strip().splitlines())[:600])
+    bug_script = os.path.join(ROOT, ".claude", "skills", "tao-bug-report", "scripts", "kiem-tra-bug.py")
+    if os.path.exists(bug_script):
+        r4 = subprocess.run([sys.executable, "-X", "utf8", bug_script, "--du-an"], capture_output=True, text=True, encoding="utf-8")
+        if r4.returncode != 0:
+            loi.append("bug chưa đúng quy tắc: " + " | ".join(x.strip() for x in r4.stdout.strip().splitlines() if "đạt" not in x)[:600])
     print(f"Tổng memories: {tong:.1f} KB · phần luôn đọc (CLAUDE.md + bản đồ + 2 file ★): {luon_kb:.1f} KB")
     if loi:
         print(f"\n{len(loi)} LỖI:")

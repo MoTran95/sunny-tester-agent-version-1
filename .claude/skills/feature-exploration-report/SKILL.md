@@ -5,7 +5,7 @@ description: Khám phá một feature/hệ thống bằng thao tác thật rồi
 
 # Báo cáo khám phá feature (HTML)
 
-Biến một lượt khám phá thật trên hệ thống thành **một file HTML tự chứa**, mở được ngay trong khung xem trước của app. Mẫu tham chiếu đã chạy thật (dự án Banking Lite, chỉ mở khi đang làm dự án đó): `evidence/banking-lite/bao-cao-kham-pha-v2.html` (nguồn: `evidence/banking-lite/_src/`).
+Biến một lượt khám phá thật trên hệ thống thành **một file HTML tự chứa**, mở được ngay trong khung xem trước của app. Khuôn: `assets/report-template.src.html`; sơ đồ mẫu: `assets/so-do-mau/`.
 
 Ngôn ngữ: **tiếng Việt**, dùng đúng thuật ngữ IT, dễ hiểu (xem `references/report-structure.md` mục "Thuật ngữ").
 
@@ -24,8 +24,8 @@ Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview
 
 | Việc | Đọc | Không cần đọc |
 |---|---|---|
-| Khám phá + làm báo cáo mới | `references/report-structure.md`, `references/evidence-and-build.md`, `references/so-do.md`, `assets/report-template.src.html`, `assets/so-do-mau/*.json`, `memories/user/document-preferences.md`, `memories/pitfalls/dont-trigger-lockouts.md`. Nếu là Banking Lite: thêm `references/banking-lite-context.md`, `memories/modules/banking-lite/exploration-findings.md` và bộ nhớ của feature nếu có | File HTML đã build (~500 KB, đọc vô ích); ảnh cũ trong `evidence/` trừ khi dùng lại; `scripts/*.py`, `assets/giao-dien-chuan.css`, `assets/fonts/` (chỉ chạy/được chèn tự động) |
-| Sửa báo cáo có sẵn | Phần cần sửa trong file `*.src.html` (tìm bằng Grep) hoặc file JSON sơ đồ trong `_src/so-do/`, `references/evidence-and-build.md` (mục build, soát), `references/so-do.md` nếu sửa sơ đồ. Banking Lite: thêm `memories/modules/banking-lite/report-v2-html.md` | File HTML đã build; cả file nguồn nếu chỉ sửa một mục |
+| Khám phá + làm báo cáo mới | `references/report-structure.md`, `references/evidence-and-build.md`, `references/so-do.md`, `assets/report-template.src.html`, `assets/so-do-mau/*.json`, `memories/user/document-preferences.md`, `memories/pitfalls/dont-trigger-lockouts.md`. Thêm các file khám phá của dự án hiện tại trong `memories/modules/<slug>/` (xem bảng của `memories/MEMORY.md`) và bộ nhớ của feature nếu có | File HTML đã build (~500 KB, đọc vô ích); ảnh cũ trong `evidence/` trừ khi dùng lại; `scripts/*.py`, `assets/giao-dien-chuan.css`, `assets/fonts/` (chỉ chạy/được chèn tự động) |
+| Sửa báo cáo có sẵn | Phần cần sửa trong file `*.src.html` (tìm bằng Grep) hoặc file JSON sơ đồ trong `_src/so-do/`, `references/evidence-and-build.md` (mục build, soát), `references/so-do.md` nếu sửa sơ đồ. Nếu dự án đã có ghi chú về báo cáo: thêm file đó trong `memories/modules/<slug>/` (xem bảng của `memories/MEMORY.md`) | File HTML đã build; cả file nguồn nếu chỉ sửa một mục |
 | Sửa chính skill này | `memories/project/skills.md`, file cần sửa | Báo cáo và ảnh |
 
 Ảnh: chỉ mở những ảnh cần khoanh nút hoặc cần kiểm, không mở hàng loạt (một phiên trước mở 41 ảnh trước khi viết dòng đầu tiên).
@@ -33,7 +33,7 @@ Luôn đọc: `memories/user/working-preferences.md`, `memories/project/overview
 ## Quy trình
 
 0. **Đọc đúng những file cần cho việc này** (bảng "Đọc gì cho từng việc" ngay dưới), sau `CLAUDE.md` và `memories/MEMORY.md`. Không đọc thêm cho chắc.
-1. **Chốt phạm vi** (hỏi nếu thiếu): tên feature, URL hệ thống/phiên bản, danh sách tài khoản + vai trò đã biết, được phép tạo dữ liệu test không, tích hợp bên ngoài (SMS/email/…) là thật hay mô phỏng. **Nếu là feature của Banking Lite** (https://banking-lite.vercel.app/): đọc `references/banking-lite-context.md` — có sẵn tài khoản, bản đồ feature, điều đã/chưa khám phá; chỉ khám phá thêm phần còn thiếu, phần đã có thì tham chiếu báo cáo v2. **Dự án khác: không đọc file đó**, mọi thông tin về hệ thống phải lấy từ khám phá thật của dự án này.
+1. **Chốt phạm vi** (hỏi nếu thiếu): tên feature, URL hệ thống/phiên bản, danh sách tài khoản + vai trò đã biết, được phép tạo dữ liệu test không, tích hợp bên ngoài (SMS/email/…) là thật hay mô phỏng. **Ngữ cảnh hệ thống** (tài khoản, bản đồ feature, điều đã/chưa khám phá) đọc ở `memories/modules/<slug>/` của dự án hiện tại; chỉ khám phá thêm phần còn thiếu. **Không đọc ngữ cảnh của dự án khác**, mọi thông tin về hệ thống phải lấy từ khám phá thật của dự án này.
 2. **Khám phá thật** — chỉ khi feature **chưa có** nhật ký/ảnh, hoặc người dùng nói rõ đã đổi/khám phá lại (quy tắc 7); đã có thì bỏ bước này và bước 5 chụp thêm, đi thẳng bước 3–4 từ nhật ký cũ. Cách làm, bằng trình duyệt (xem `references/evidence-and-build.md` mục "Chụp ảnh"). Với mỗi vai trò: màn hình đầu, từng nút, trường nhập, thông báo (chép **nguyên văn**), trạng thái chuyển. Chạy hết luồng chính rồi các nhánh (thành công, từ chối, trả lại/hoàn tác, nhập sai).
 3. **Ghi nhật ký gốc bằng Markdown** (`evidence/<hệ thống>/features/<feature>/bao-cao.md`) ngay trong lúc khám phá: bảng thao tác → kết quả → số ảnh. Đây là nguồn sự thật để dựng HTML. Giữ mục “Chưa thử” và “Câu hỏi cho team”.
 4. **Dựng nguồn HTML** từ `assets/report-template.src.html` → `evidence/<hệ thống>/features/<feature>/_src/<ten>.src.html`. Cấu trúc 7 mục và cách viết từng mục: `references/report-structure.md`. Giữ nguyên `<style id="giao-dien-chuan">` rỗng. **Sơ đồ:** chép `assets/so-do-mau/*.json` sang `_src/so-do/`, sửa nội dung (cách viết: `references/so-do.md`), xem thử bằng `scripts/ve-so-do.py`.
@@ -57,7 +57,7 @@ Mỗi lượt gọi mô hình đọc lại toàn bộ ngữ cảnh, nên một l
 ## Tệp trong skill
 
 - `references/report-structure.md` — 7 mục báo cáo, văn phong, bảng thuật ngữ IT, quy tắc sơ đồ.
-- `references/banking-lite-context.md` — ngữ cảnh hệ thống Banking Lite: tài khoản, bản đồ feature + độ phủ khám phá, cách làm báo cáo cho từng feature.
+- Ngữ cảnh riêng của từng hệ thống (tài khoản, bản đồ feature, độ phủ khám phá) **không nằm trong skill**: ở `memories/modules/<slug>/` của dự án hiện tại.
 - `references/evidence-and-build.md` — chụp ảnh, đặt tên, khoanh nút, build, soát, các bẫy đã gặp.
 - `references/so-do.md` — giao diện chuẩn, cách viết JSON cho ba kiểu sơ đồ (tổng quan, tuần tự, trạng thái), bảng màu.
 - `assets/report-template.src.html` — khung HTML nguồn (thanh tab, mẫu step/flow/điểm mơ hồ, chỗ đặt sơ đồ).

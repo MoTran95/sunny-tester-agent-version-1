@@ -77,11 +77,13 @@ def _images_in_line(line, bug_dir):
     for m in re.finditer(r"`?((?:evidence|docs)/[^\s`]+?\.(?:png|webm))`?", line):
         from_root = m.group(1)
         f = config.ROOT / from_root
-        if not f.exists():
-            continue
         rel = os.path.relpath(f, bug_dir).replace("\\", "/")
         if from_root.endswith(".webm"):
+            # Video nằm trong `evidence/**/video/` (gitignore, chỉ có ở máy đã chạy test): vẫn nhúng dù file chưa có,
+            # để trang sinh ra giống hệt ở mọi máy (nếu chọn theo file có thật thì máy khác sinh lại sẽ mất khung video).
             out.append(f'<div><video class="vid" controls preload="metadata" src="{html.escape(rel)}"></video><div class="small">Video: {html.escape(Path(from_root).name)}</div></div>')
+            continue
+        if not f.exists():
             continue
         if "-kiem" in Path(from_root).name:
             out.append(f'<a href="{html.escape(rel)}" target="_blank" rel="noopener"><span class="nhan-loi" style="background:#1B8F3A">Ảnh kiểm tra</span>'

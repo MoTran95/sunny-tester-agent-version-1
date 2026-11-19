@@ -1,4 +1,5 @@
 # Nhiều dự án: chọn, tạo mới, không lẫn kiến thức
+Cách bắt lẫn (2026-11-19): `scripts/kiem-tra-lan-du-an.py` (chạy trong `kiem-tra-bo-nho.py`) dò dấu hiệu từng dự án trong skill dùng chung và trong thư mục của dự án khác; skill không được chứa tên dự án, tài khoản, địa chỉ hay con số của dự án nào. Từ ngữ BA riêng: `modules/<slug>/tu-ngu-cau-hoi-ba.md` (tạo sẵn rỗng khi tạo dự án).
 Đọc khi: máy mới, đổi dự án, tạo dự án. Người dùng chọn (2026-11-18): hỏi **một lần mỗi máy**; thư mục **theo cấu trúc hiện có**.
 
 ## Dự án hiện tại
